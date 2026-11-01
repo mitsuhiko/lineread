@@ -224,8 +224,16 @@ pub unsafe fn line_step() -> bool {
         // the command was aborted (rl_abort and friends)
         crate::dispatch::rl_last_func.set(None);
         crate::dispatch::reset_command_stack();
+        // (in callback mode an aborted command reached through a key
+        // sequence counts as a failure reported as EOF, see dispatch)
+        if is_state(RL_STATE_CALLBACK) && rl_editing_mode.get() == EMACS_MODE && crate::dispatch::rl_key_sequence_length.get() > 1 {
+            set_state(RL_STATE_EOF);
+            rl_eof_found.set(1);
+        }
     }
-    unset_state(RL_STATE_MULTIKEY);
+    // the argument was used up (its value stays visible until the next
+    // command starts)
+    unset_state(RL_STATE_MULTIKEY | RL_STATE_NUMERICARG);
     after_command();
     crate::signals::rl_check_signals();
     if rl_done.get() == 0 {

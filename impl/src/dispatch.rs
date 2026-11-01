@@ -139,7 +139,7 @@ pub unsafe fn call_command_as(f: rl_command_func_t, key: c_int, exec_key: c_int,
     let r = f(crate::numarg::count(), key);
     CMD_STACK.get_mut().pop();
     // (vi mode: vi.rs decides which failures count)
-    if r < 0
+    if r != 0
         && is_state(RL_STATE_CALLBACK)
         && crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE
         && crate::callback::suspensions().1 == susp.1
