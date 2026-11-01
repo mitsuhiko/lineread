@@ -30,6 +30,12 @@ pub fn after_command() {
     LAST_YANK.set(THIS_YANK.replace(false));
 }
 
+/// The next kill starts a new kill-ring entry even if the previous command
+/// killed text (vi commands never append to the previous kill).
+pub fn start_new_kill() {
+    LAST_KILL.set(false);
+}
+
 /// Add text to the kill ring: appended to (or, when `prepend`, put in
 /// front of) the last kill if the previous command killed too.
 pub fn add_kill(text: &[u8], prepend: bool) {
