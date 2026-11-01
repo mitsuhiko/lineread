@@ -243,6 +243,8 @@ pub unsafe extern "C" fn rl_get_previous_history(count: c_int, key: c_int) -> c_
     if history_offset.get() == history_length.get() {
         rl_maybe_save_line();
     }
+    let cur = history::entry_at(history_offset.get());
+    let edited = !cur.is_null() && (*cur).data != rl_undo_list.get() as histdata_t;
     rl_maybe_replace_line();
     let mut found: *mut HIST_ENTRY = null_mut();
     for _ in 0..count {
@@ -254,9 +256,9 @@ pub unsafe extern "C" fn rl_get_previous_history(count: c_int, key: c_int) -> c_
     }
     if found.is_null() {
         rl_ding();
-        // stay where we were; the edits went into the entry and the line
-        // has no undo list any more (observed)
-        if !history::current_history().is_null() {
+        // stay where we were; edits just stored into the entry leave the
+        // line without an undo list (observed)
+        if edited {
             rl_undo_list.set(null_mut());
         }
         return 0;
