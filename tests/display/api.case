@@ -1,0 +1,529 @@
+# Display-related API functions called from bound commands and hooks.
+tags: display api
+--- script
+readline "> "
+
+=== rl-message-and-clear
+tags: rl_message rl_clear_message
+--- script
+def m
+rl_message "hello message"
+snap
+rl_clear_message
+snap
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "> "
+--- keys
+abc\C-xm<snap>\r
+
+=== rl-message-persists-until-clear
+tags: rl_message
+--- script
+def m
+rl_message "status"
+end
+def c
+rl_clear_message
+end
+defun msg m
+defun clr c
+rl_bind_keyseq "\C-xm" msg
+rl_bind_keyseq "\C-xc" clr
+readline "> "
+--- keys
+abc\C-xm<snap>d<snap>\C-xc<snap>\r
+
+=== rl-message-with-save-restore-prompt
+tags: rl_message rl_save_prompt rl_restore_prompt
+--- script
+def m
+rl_save_prompt
+rl_message "searching: "
+dumpfull
+rl_restore_prompt
+rl_clear_message
+dumpfull
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "pr> "
+--- keys
+abc\C-xm<snap>\r
+
+=== rl-message-long-wraps
+tags: rl_message
+screen: 20x6
+--- script
+def m
+rl_message "this is a very long status message"
+snap
+rl_clear_message
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "> "
+--- keys
+abc\C-xm<snap>\r
+
+=== rl-message-multiline-prompt
+tags: rl_message
+--- script
+def m
+rl_save_prompt
+rl_message "msg> "
+snap
+rl_restore_prompt
+rl_clear_message
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "top\nbottom> "
+--- keys
+abc\C-xm<snap>\r
+
+=== rl-message-outside-readline
+tags: rl_message
+--- script
+rl_message "outside"
+get rl_display_prompt
+rl_clear_message
+
+=== rl-save-restore-prompt-state
+tags: rl_save_prompt rl_restore_prompt
+--- script
+def s
+rl_save_prompt
+get rl_prompt
+get rl_display_prompt
+rl_restore_prompt
+get rl_prompt
+end
+defun sv s
+rl_bind_keyseq "\C-xs" sv
+readline "pp> "
+--- keys
+\C-xs\r
+
+=== rl-on-new-line
+tags: rl_on_new_line
+--- script
+def n
+rl_crlf
+echo "output"
+rl_on_new_line
+rl_redisplay
+end
+defun nl n
+rl_bind_keyseq "\C-xn" nl
+readline "> "
+--- keys
+abc\C-xn<snap>d<snap>\r
+
+=== rl-on-new-line-after-printing
+tags: rl_on_new_line rl_crlf
+--- script
+def n
+rl_crlf
+capture echo x
+rl_on_new_line
+rl_redisplay
+end
+defun nl n
+rl_bind_keyseq "\C-xn" nl
+readline "> " 
+--- keys
+abc\C-xn<snap>\r
+
+=== rl-forced-update-display
+tags: rl_forced_update_display
+--- script
+def f
+rl_crlf
+rl_forced_update_display
+end
+defun fud f
+rl_bind_keyseq "\C-xf" fud
+readline "> "
+--- keys
+abc\C-b\C-xf<snap>x<snap>\r
+
+=== rl-redisplay-after-line-change
+tags: rl_redisplay
+--- script
+def r
+rl_replace_line "replaced text" 0
+set rl_point 3
+rl_redisplay
+snap
+end
+defun rep r
+rl_bind_keyseq "\C-xr" rep
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== rl-crlf
+tags: rl_crlf
+--- script
+def c
+rl_crlf
+end
+defun crlf c
+rl_bind_keyseq "\C-xc" crlf
+readline "> "
+--- keys
+abc\C-xc<snap>d<snap>\r
+
+=== rl-show-char
+tags: rl_show_char visible
+--- script
+def s
+rl_crlf
+rl_show_char "a"
+rl_show_char "\C-a"
+rl_show_char 127
+rl_show_char 233
+rl_show_char 9
+rl_crlf
+rl_on_new_line
+rl_redisplay
+end
+defun showc s
+rl_bind_keyseq "\C-xs" showc
+readline "> "
+--- keys
+\C-xs<snap>\r
+
+=== rl-character-len
+tags: rl_character_len
+--- script
+rl_initialize
+rl_character_len "a" 0
+rl_character_len "\C-a" 0
+rl_character_len 127 0
+rl_character_len 9 0
+rl_character_len 9 3
+rl_character_len 233 0
+rl_character_len 128 0
+
+=== rl-character-len-c-locale
+tags: rl_character_len
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+rl_initialize
+rl_character_len 233 0
+rl_character_len 128 0
+
+=== rl-clear-visible-line
+tags: rl_clear_visible_line
+--- script
+def c
+rl_clear_visible_line
+snap
+rl_forced_update_display
+end
+defun clr c
+rl_bind_keyseq "\C-xc" clr
+readline "> "
+--- keys
+abc\C-xc<snap>\r
+
+=== rl-clear-visible-line-wrapped
+tags: rl_clear_visible_line
+screen: 20x6
+--- script
+def c
+rl_clear_visible_line
+snap
+rl_forced_update_display
+end
+defun clr c
+rl_bind_keyseq "\C-xc" clr
+readline "> "
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-xc<snap>\r
+
+=== rl-reset-line-state
+tags: rl_reset_line_state
+--- script
+def r
+rl_crlf
+rl_reset_line_state
+rl_redisplay
+end
+defun rst r
+rl_bind_keyseq "\C-xr" rst
+readline "> "
+--- keys
+abc\C-xr<snap>\r
+
+=== rl-set-screen-size
+tags: rl_set_screen_size rl_get_screen_size
+--- script
+rl_initialize
+rl_get_screen_size
+rl_set_screen_size 10 40
+rl_get_screen_size
+readline "> "
+--- keys
+0123456789012345678901234567890123456789abc<snap>\r
+
+=== rl-set-screen-size-zero
+tags: rl_set_screen_size rl_get_screen_size
+--- script
+rl_initialize
+rl_set_screen_size 0 0
+rl_get_screen_size
+rl_set_screen_size -5 -5
+rl_get_screen_size
+
+=== rl-get-screen-size-default
+tags: rl_get_screen_size
+screen: 33x7
+--- script
+rl_initialize
+rl_get_screen_size
+
+=== rl-reset-screen-size
+tags: rl_reset_screen_size
+screen: 50x10
+--- script
+rl_initialize
+rl_set_screen_size 5 5
+rl_get_screen_size
+rl_reset_screen_size
+rl_get_screen_size
+
+=== rl-resize-terminal-api
+tags: rl_resize_terminal
+--- script
+def r
+rl_set_screen_size 24 20
+rl_resize_terminal
+rl_get_screen_size
+end
+defun rsz r
+rl_bind_keyseq "\C-xr" rsz
+readline "> "
+--- keys
+0123456789abcdefghijklmnop\C-xr<snap>\r
+
+=== resize-shrink-during-edit
+tags: resize SIGWINCH
+screen: 40x6
+keys: 0123456789abcdefghijklmnopqrstuvwxyz0123<snap><resize:20x6><snap>x<snap>\r
+
+=== resize-grow-during-edit
+tags: resize SIGWINCH
+screen: 20x6
+keys: 0123456789abcdefghijklmnopqrstuvwxyz<snap><resize:60x6><snap>\C-a<snap>\r
+
+=== resize-updates-screen-size
+tags: resize rl_get_screen_size
+screen: 40x10
+--- script
+readline "> "
+rl_get_screen_size
+--- keys
+abc<resize:30x8>\r
+
+=== resize-multiline-prompt
+tags: resize
+screen: 30x6
+--- script
+readline "first line\nsecond> "
+--- keys
+abcdefghijklmnopqrstuvwxyz<resize:15x6><snap>\r
+
+=== resize-catch-sigwinch-off
+tags: resize rl_catch_sigwinch
+screen: 40x10
+--- script
+set rl_catch_sigwinch 0
+readline "> "
+rl_get_screen_size
+--- keys
+abc<resize:30x8><snap>\r
+
+=== resize-in-callback
+tags: resize callback
+screen: 40x6
+--- script
+callback "> "
+rl_get_screen_size
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz<resize:20x6><snap>\r
+
+=== resize-prefer-env-winsize
+tags: resize rl_prefer_env_winsize
+screen: 40x10
+env: COLUMNS=25
+env: LINES=5
+--- script
+set rl_prefer_env_winsize 1
+rl_initialize
+rl_get_screen_size
+
+=== env-winsize-ignored-by-default
+tags: rl_prefer_env_winsize
+screen: 40x10
+env: COLUMNS=25
+env: LINES=5
+--- script
+rl_initialize
+rl_get_screen_size
+
+=== rl-change-environment
+tags: rl_change_environment
+screen: 44x11
+env: COLUMNS=1
+env: LINES=1
+--- script
+rl_initialize
+getenv COLUMNS
+getenv LINES
+
+=== rl-change-environment-off
+tags: rl_change_environment
+screen: 44x11
+env: COLUMNS=1
+env: LINES=1
+--- script
+set rl_change_environment 0
+rl_initialize
+getenv COLUMNS
+getenv LINES
+
+=== redisplay-function-hook
+tags: rl_redisplay_function
+--- script
+set rl_redisplay_function log
+readline "> "
+--- keys
+ab\r
+
+=== redisplay-function-custom
+tags: rl_redisplay_function
+--- script
+def rd
+echo redisplay
+end
+set rl_redisplay_function script:rd
+readline "> "
+--- keys
+a\r
+
+=== erase-empty-line
+tags: rl_erase_empty_line
+--- script
+set rl_erase_empty_line 1
+readline "> " 3
+--- keys
+one\r\rtwo\r
+
+=== bell-style-none
+tags: bell-style rl_ding
+--- inputrc
+set bell-style none
+--- keys
+\C-g<snap>x\r
+
+=== bell-style-audible
+tags: bell-style rl_ding
+--- inputrc
+set bell-style audible
+--- keys
+\C-g<snap>x\r
+
+=== bell-style-visible-flash
+tags: bell-style rl_ding
+--- inputrc
+set bell-style visible
+--- keys
+abc\C-g<snap>\r
+
+=== prefer-visible-bell
+tags: prefer-visible-bell rl_ding
+--- inputrc
+set prefer-visible-bell on
+--- keys
+abc\C-g<snap>\r
+
+=== rl-ding-api
+tags: rl_ding
+--- script
+def d
+rl_ding
+end
+defun dng d
+rl_bind_keyseq "\C-xd" dng
+readline "> "
+rl_ding
+--- keys
+\C-xd\r
+
+=== echo-control-characters-sigint
+tags: echo-control-characters signals
+--- keys
+abc\C-c<snap>\r
+
+=== echo-control-characters-off
+tags: echo-control-characters signals
+--- inputrc
+set echo-control-characters off
+--- keys
+abc\C-c<snap>\r
+
+=== rl-echo-signal-char-api
+tags: rl_echo_signal_char signals
+--- script
+def e
+rl_echo_signal_char 2
+rl_echo_signal_char 3
+rl_echo_signal_char 20
+end
+defun echosig e
+rl_bind_keyseq "\C-xe" echosig
+readline "> "
+--- keys
+ab\C-xe<snap>\r
+
+=== rl-variable-dumper-output
+tags: rl_variable_dumper
+--- script
+rl_initialize
+capture rl_variable_dumper 0
+
+=== clear-display-scrollback
+tags: clear-display
+--- script
+readline "> " 3
+--- keys
+a\rb\rc\M-\C-l<snap>\r
+
+=== display-after-crlf-output-interleaving
+tags: rl_crlf rl_on_new_line
+--- script
+def p
+rl_save_prompt
+rl_crlf
+rl_restore_prompt
+rl_on_new_line
+rl_redisplay
+end
+defun pr p
+rl_bind_keyseq "\C-xp" pr
+readline "> "
+--- keys
+abc\C-xp\C-xp<snap>\r
+
+=== redraw-current-line-after-wrap
+tags: redraw-current-line
+screen: 15x6
+--- inputrc
+"\C-xr": redraw-current-line
+--- keys
+0123456789abcdefghijk\C-xr<snap>\r

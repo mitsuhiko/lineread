@@ -1,0 +1,876 @@
+{
+  "wrap-insert-in-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "01XY23456789abcdefghijklmnopq"}
+    ],
+    "screen": [
+      "> 01XY23456789abcdef",
+      "ghijklmnopq"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 01XY23456789abcdef",
+          "ghijklmnopq"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "wrap-delete-in-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "01456789abcdefghijklmnopq"}
+    ],
+    "screen": [
+      "> 01456789abcdefghij",
+      "klmnopq"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 01456789abcdefghij",
+          "klmnopq"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "wrap-cursor-across-boundary": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopq"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmnopq"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopq"
+        ],
+        "cursor": [0, 19]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopq"
+        ],
+        "cursor": [1, 0]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopq"
+        ],
+        "cursor": [0, 19]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopq"
+        ],
+        "cursor": [0, 18]
+      }
+    ]
+  },
+  "wrap-three-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghij0123456789ABCDEFGHIJ0123456789"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ij0123456789ABCDEFGH",
+      "IJ0123456789"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ij0123456789ABCDEFGH",
+          "IJ0123456789"
+        ],
+        "cursor": [2, 12]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ij0123456789ABCDEFGH",
+          "IJ0123456789"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ij0123456789ABCDEFGH",
+          "IJ0123456789"
+        ],
+        "cursor": [1, 7]
+      }
+    ]
+  },
+  "wrap-shrink-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "> xy"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ij0123456789ABCDEFGH",
+          "IJ"
+        ],
+        "cursor": [2, 2]
+      },
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "> xy"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "wrap-kill-to-shorter": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghij0123456789ABCDEFGHIJ"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ij0123456789ABCDEFGH",
+      "IJ"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ij0123456789ABCDEFGH",
+          "IJ"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "wrap-exact-multiple": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "01234567890123456780123456789012345678"}
+    ],
+    "screen": [
+      "> 012345678901234567",
+      "80123456789012345678"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 012345678901234567"
+        ],
+        "cursor": [1, 0]
+      },
+      {
+        "screen": [
+          "> 012345678901234567",
+          "8"
+        ],
+        "cursor": [1, 1]
+      },
+      {
+        "screen": [
+          "> 012345678901234567",
+          "80123456789012345678"
+        ],
+        "cursor": [2, 0]
+      },
+      {
+        "screen": [
+          "> 012345678901234567",
+          "80123456789012345678",
+          "9"
+        ],
+        "cursor": [2, 1]
+      },
+      {
+        "screen": [
+          "> 012345678901234567",
+          "80123456789012345678"
+        ],
+        "cursor": [2, 0]
+      }
+    ]
+  },
+  "wrap-exact-boundary-cursor-move": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "012345678901234567"}
+    ],
+    "screen": [
+      "> 012345678901234567"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 012345678901234567"
+        ],
+        "cursor": [0, 19]
+      },
+      {
+        "screen": [
+          "> 012345678901234567"
+        ],
+        "cursor": [1, 0]
+      },
+      {
+        "screen": [
+          "> 012345678901234567"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "> 012345678901234567"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "wrap-replace-whole-line-via-history": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a much longer line",
+          " that wraps around"
+        ],
+        "cursor": [1, 18]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> a much longer line",
+          " that wraps around"
+        ],
+        "cursor": [1, 18]
+      },
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "wrap-long-line-scrolls-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "89abcdefgh",
+      "ijklmnopqr",
+      "stuvwxyz"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 01234567",
+          "89abcdefgh",
+          "ijklmnopqr",
+          "stuvwxyz"
+        ],
+        "cursor": [3, 8]
+      },
+      {
+        "screen": [
+          "> 01234567",
+          "89abcdefgh",
+          "ijklmnopqr",
+          "stuvwxyz"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "wrap-very-long-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"}
+    ],
+    "screen": [
+      "xxxxxxxxxxxxxxxxxxxx",
+      "xxxxxxxxxxxxxxxxxxxx",
+      "xxxxxxxxxxxxxxxxxxxx",
+      "xx"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xx"
+        ],
+        "cursor": [4, 2]
+      },
+      {
+        "screen": [
+          "> xxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xxxxxxxxxxxxxxxxxxxx",
+          "xx"
+        ],
+        "cursor": [4, 2]
+      }
+    ]
+  },
+  "wrap-insert-wide-at-boundary": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "1日234567日本"}
+    ],
+    "screen": [
+      "> 1日23456",
+      "7日本"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 1234567",
+          "日本"
+        ],
+        "cursor": [1, 4]
+      },
+      {
+        "screen": [
+          "> 1日23456",
+          "7日本"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "wrap-wide-char-exactly-at-edge": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "123456日本"}
+    ],
+    "screen": [
+      "> 123456日",
+      "本"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 123456日"
+        ],
+        "cursor": [1, 0]
+      },
+      {
+        "screen": [
+          "> 123456日",
+          "本"
+        ],
+        "cursor": [1, 2]
+      },
+      {
+        "screen": [
+          "> 123456日",
+          "本"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "wrap-combining-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "12345678éx"}
+    ],
+    "screen": [
+      "> 12345678",
+      "éx"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 12345678",
+          "éx"
+        ],
+        "cursor": [1, 2]
+      },
+      {
+        "screen": [
+          "> 12345678",
+          "éx"
+        ],
+        "cursor": [1, 1]
+      },
+      {
+        "screen": [
+          "> 12345678",
+          "éx"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "wrap-control-chars-display": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "123456\u0001\u0002\u0003"}
+    ],
+    "screen": [
+      "> 123456^A",
+      "^B^C"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 123456^A",
+          "^B^C"
+        ],
+        "cursor": [1, 4]
+      },
+      {
+        "screen": [
+          "> 123456^A",
+          "^B^C"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "visible-control-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a\u0001b\u007fc\u001b"}
+    ],
+    "screen": [
+      "> a^Ab^?c^["
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a^Ab^?c^["
+        ],
+        "cursor": [0, 11]
+      },
+      {
+        "screen": [
+          "> a^Ab^?c^["
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "visible-tab-expansion": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a\tb\tc"}
+    ],
+    "screen": [
+      "> a     b       c"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a     b       c"
+        ],
+        "cursor": [0, 17]
+      },
+      {
+        "screen": [
+          "> a     b       c"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "visible-tab-near-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcde\tx"}
+    ],
+    "screen": [
+      "> 0123456789abcde",
+      "    x"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcde",
+          "    x"
+        ],
+        "cursor": [1, 5]
+      }
+    ]
+  },
+  "visible-meta-chars-c-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udce9b", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9b"}
+    ],
+    "screen": [
+      "> a\\351b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a\\351b"
+        ],
+        "cursor": [0, 8]
+      }
+    ]
+  },
+  "visible-meta-chars-output-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udce9b", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9b"}
+    ],
+    "screen": [
+      "> a�b"
+    ],
+    "cursor": [1, 0]
+  },
+  "visible-invalid-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udcffb", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcffb"}
+    ],
+    "screen": [
+      "> a�b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a�b"
+        ],
+        "cursor": [0, 5]
+      },
+      {
+        "screen": [
+          "> a�b"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "horizontal-scroll-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "<pqrstuvwxyz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<pqrstuvwxyz"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdef>"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "<pqrstuvwxyz"
+        ],
+        "cursor": [0, 12]
+      }
+    ]
+  },
+  "horizontal-scroll-move-through": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "<bcdefghijklmnopqr>"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdef>"
+        ],
+        "cursor": [0, 17]
+      },
+      {
+        "screen": [
+          "<bcdefghijklmnopqr>"
+        ],
+        "cursor": [0, 15]
+      },
+      {
+        "screen": [
+          "<bcdefghijklmnopqr>"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "horizontal-scroll-short-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "horizontal-scroll-delete-shrinks": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "horizontal-scroll-long-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789"}
+    ],
+    "screen": [
+      "< 0123456789"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "< 0123456789"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "< 0123456789"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "horizontal-scroll-variable-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind horizontal-scroll-mode on", "ret": 0},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"},
+      {"op": "rl_variable_value horizontal-scroll-mode", "ret": "on"}
+    ],
+    "screen": [
+      "<pqrstuvwxyz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<pqrstuvwxyz"
+        ],
+        "cursor": [0, 12]
+      }
+    ]
+  },
+  "mark-modified-lines-star": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "entryx"}
+    ],
+    "screen": [
+      "*> entryx"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> entry"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "*> entryx"
+        ],
+        "cursor": [0, 9]
+      },
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "*> entryx"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "mark-modified-lines-wrapped": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xa long history entry that wraps"}
+    ],
+    "screen": [
+      "*> xa long history e",
+      "ntry that wraps"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "*> xa long history e",
+          "ntry that wraps"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "long-line-redraw-after-clear": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghij0123456789"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ij0123456789"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ij0123456789"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "accept-line-cursor-at-start-of-wrapped": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghij0123456789"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ij0123456789"
+    ],
+    "cursor": [2, 0]
+  },
+  "cursor-at-col-0-after-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "012345678901234567"}
+    ],
+    "screen": [
+      "> 012345678901234567"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 012345678901234567"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  }
+}

@@ -1,0 +1,199 @@
+# Line wrapping, long lines, cursor movement across wrap boundaries,
+# horizontal-scroll-mode, visible representation of control and meta
+# characters.
+tags: display
+screen: 20x8
+--- script
+readline "> "
+
+=== wrap-insert-in-middle
+tags: wrap
+keys: 0123456789abcdefghijklmnopq\C-a\C-f\C-fXY<snap>\r
+
+=== wrap-delete-in-middle
+tags: wrap
+keys: 0123456789abcdefghijklmnopq\C-a\C-f\C-f\C-d\C-d<snap>\r
+
+=== wrap-cursor-across-boundary
+tags: wrap
+keys: 0123456789abcdefghijklmnopq\C-a\M-1\M-7\C-f<snap>\C-f<snap>\C-b<snap>\C-b<snap>\r
+
+=== wrap-three-lines
+tags: wrap
+keys: 0123456789abcdefghij0123456789ABCDEFGHIJ0123456789<snap>\C-a<snap>\M-2\M-5\C-f<snap>\r
+
+=== wrap-shrink-line
+tags: wrap
+keys: 0123456789abcdefghij0123456789ABCDEFGHIJ<snap>\C-a\C-k<snap>xy<snap>\r
+
+=== wrap-kill-to-shorter
+tags: wrap
+keys: 0123456789abcdefghij0123456789ABCDEFGHIJ\C-a\M-f\C-k<snap>\r
+
+=== wrap-exact-multiple
+tags: wrap
+keys: 012345678901234567<snap>8<snap>0123456789012345678<snap>9<snap>\C-?<snap>\r
+
+=== wrap-exact-boundary-cursor-move
+tags: wrap
+keys: 012345678901234567\C-b<snap>\C-f<snap>\C-a<snap>\C-e<snap>\r
+
+=== wrap-replace-whole-line-via-history
+tags: wrap history
+--- script
+add_history "short"
+add_history "a much longer line that wraps around"
+readline "> "
+--- keys
+\C-p<snap>\C-p<snap>\C-p<snap>\C-n<snap>\C-n<snap>\r
+
+=== wrap-long-line-scrolls-screen
+tags: wrap
+screen: 10x4
+--- script
+readline "> " 2
+--- keys
+one\r0123456789abcdefghijklmnopqrstuvwxyz<snap>\C-a<snap>\r
+
+=== wrap-very-long-line
+tags: wrap
+screen: 20x5
+keys: \M-2\M-0\M-0x<snap>\C-a<snap>\C-e<snap>\r
+
+=== wrap-insert-wide-at-boundary
+tags: wrap utf8
+screen: 10x5
+keys: 1234567日本<snap>\C-a\C-f日<snap>\r
+
+=== wrap-wide-char-exactly-at-edge
+tags: wrap utf8
+screen: 10x5
+keys: 123456日<snap>本<snap>\C-b<snap>\r
+
+=== wrap-combining-chars
+tags: wrap utf8
+screen: 10x5
+keys: 12345678e\u{301}x<snap>\C-b<snap>\C-b<snap>\r
+
+=== wrap-control-chars-display
+tags: wrap visible
+screen: 10x5
+keys: 123456\C-v\C-a\C-v\C-b\C-v\C-c<snap>\C-a\C-f\C-f\C-f\C-f\C-f\C-f\C-f<snap>\r
+
+=== visible-control-chars
+tags: visible
+keys: a\C-v\C-ab\C-v\C-?c\C-v\e<snap>\C-b<snap>\r
+
+=== visible-tab-expansion
+tags: visible
+keys: a\C-v\tb\C-v\tc<snap>\C-b\C-b<snap>\r
+
+=== visible-tab-near-wrap
+tags: visible wrap
+keys: 0123456789abcde\C-v\tx<snap>\r
+
+=== visible-meta-chars-c-locale
+tags: visible meta
+env: LC_CTYPE=C
+env: LC_ALL=C
+--- inputrc
+set output-meta off
+set convert-meta off
+set input-meta on
+--- keys
+a\C-v\xe9b<snap><dump>\r
+
+=== visible-meta-chars-output-meta
+tags: visible meta
+env: LC_CTYPE=C
+env: LC_ALL=C
+--- inputrc
+set output-meta on
+set convert-meta off
+set input-meta on
+--- keys
+a\C-v\xe9b<dump>\r
+ignore: screen snaps
+
+=== visible-invalid-utf8
+tags: visible utf8
+keys: a\C-v\xffb<snap><dump>\C-b\C-b<snap>\r
+
+=== horizontal-scroll-basic
+tags: horizontal-scroll-mode
+--- inputrc
+set horizontal-scroll-mode on
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz<snap>\C-a<snap>\C-e<snap>\r
+
+=== horizontal-scroll-move-through
+tags: horizontal-scroll-mode
+--- inputrc
+set horizontal-scroll-mode on
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-a\M-1\M-5\C-f<snap>\M-1\M-0\C-f<snap>\M-1\M-0\C-b<snap>\r
+
+=== horizontal-scroll-short-line
+tags: horizontal-scroll-mode
+--- inputrc
+set horizontal-scroll-mode on
+--- keys
+abc<snap>\r
+
+=== horizontal-scroll-delete-shrinks
+tags: horizontal-scroll-mode
+--- inputrc
+set horizontal-scroll-mode on
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-k<snap>abc<snap>\r
+
+=== horizontal-scroll-long-prompt
+tags: horizontal-scroll-mode
+--- inputrc
+set horizontal-scroll-mode on
+--- script
+readline "a long prompt here> "
+--- keys
+0123456789<snap>\C-a<snap>\r
+
+
+=== horizontal-scroll-variable-api
+tags: horizontal-scroll-mode vars
+--- script
+rl_variable_bind horizontal-scroll-mode on
+readline "> "
+rl_variable_value horizontal-scroll-mode
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz<snap>\r
+
+=== mark-modified-lines-star
+tags: mark-modified-lines
+--- inputrc
+set mark-modified-lines on
+--- script
+add_history "entry"
+readline "> "
+--- keys
+\C-p<snap>x<snap>\C-n<snap>\C-p<snap>\r
+
+=== mark-modified-lines-wrapped
+tags: mark-modified-lines wrap
+--- inputrc
+set mark-modified-lines on
+--- script
+add_history "a long history entry that wraps"
+readline "> "
+--- keys
+\C-p\C-ax<snap>\r
+
+=== long-line-redraw-after-clear
+tags: wrap clear-screen
+keys: 0123456789abcdefghij0123456789\C-a\C-f\C-l<snap>\r
+
+=== accept-line-cursor-at-start-of-wrapped
+tags: wrap accept-line
+keys: 0123456789abcdefghij0123456789\C-a\r
+
+=== cursor-at-col-0-after-wrap
+tags: wrap
+keys: 012345678901234567<snap>\r
