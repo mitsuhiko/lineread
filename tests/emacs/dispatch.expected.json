@@ -1,0 +1,166 @@
+{
+  "long-key-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello", "point": 0, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "> hello"
+    ],
+    "cursor": [1, 0]
+  },
+  "shadowed-uppercase-meta-falls-back-to-lowercase": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 0, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "shadowed-prefix-sequence-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 6, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "shadowed-prefix-in-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 0, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "shadowed-two-level-prefix-in-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one"}
+    ],
+    "screen": [
+      "> one"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> one"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "failed-subsequence-backs-up": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "oneAz", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "oneAz"}
+    ],
+    "screen": [
+      "> oneAz"
+    ],
+    "cursor": [1, 0]
+  },
+  "do-lowercase-version-on-lowercase-key-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "eof-in-middle-of-key-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "meta-char-in-macro-definition": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 0, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "not-echoing-prints-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "plain> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-failed-subsequence-backs-up": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "oneAz", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "oneAz"}
+    ],
+    "screen": [
+      "> oneAz",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-shadowed-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 0, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-eof-in-key-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": null}
+    ],
+    "screen": [
+      "> abc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-three-level-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "oneC", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "oneC", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "oneC"}
+    ],
+    "screen": [
+      "> oneC",
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}
