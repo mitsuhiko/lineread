@@ -1,0 +1,185 @@
+# Application-facing variables with few cases elsewhere: version
+# variables, rl_gnu_readline_p, rl_dispatching, rl_instream, and the
+# terminal preparation / macro display hooks.
+tags: hooks vars
+
+=== version-variables
+tags: rl_library_version rl_readline_version rl_gnu_readline_p
+--- script
+get rl_library_version
+get rl_readline_version
+get rl_gnu_readline_p
+
+=== version-variables-after-init
+tags: rl_library_version rl_readline_version rl_gnu_readline_p
+--- script
+rl_initialize
+get rl_library_version
+get rl_readline_version
+get rl_gnu_readline_p
+
+=== version-variables-writable
+tags: rl_readline_version rl_gnu_readline_p
+--- script
+set rl_readline_version 0x0700
+set rl_gnu_readline_p 0
+get rl_readline_version
+get rl_gnu_readline_p
+readline "> "
+get rl_library_version
+--- keys
+ok\r
+
+=== version-in-inputrc-conditional
+tags: rl_readline_version rl_library_version inputrc
+--- inputrc
+$if version >= 8.3
+"\C-xv": "new"
+$else
+"\C-xv": "old"
+$endif
+$if version < 8
+"\C-xw": "ancient"
+$endif
+--- script
+get rl_library_version
+readline "> "
+--- keys
+\C-xv\C-xw\r
+
+=== dispatching-in-command
+tags: rl_dispatching
+--- script
+def d
+get rl_dispatching
+end
+defun disp d
+rl_bind_keyseq "\C-xd" disp
+get rl_dispatching
+readline "> "
+get rl_dispatching
+--- keys
+\C-xd\r
+
+=== dispatching-in-hook
+tags: rl_dispatching rl_startup_hook
+--- script
+def h
+get rl_dispatching
+end
+set rl_startup_hook script:h
+readline "> "
+--- keys
+x\r
+
+=== dispatching-invoke-outside
+tags: rl_dispatching
+--- script
+def d
+get rl_dispatching
+end
+defun disp d
+rl_initialize
+invoke disp
+get rl_dispatching
+
+=== dispatching-in-completion
+tags: rl_dispatching complete
+--- script
+def a
+get rl_dispatching
+return NULL
+end
+set rl_attempted_completion_function script:a
+readline "> "
+--- keys
+x\t\r
+
+=== instream-file-input
+tags: rl_instream
+--- file input.txt noeol
+from file
+--- script
+set rl_instream file:input.txt
+readline "> "
+readline "> "
+get rl_instream
+
+=== instream-file-multiple-lines
+tags: rl_instream
+--- file input.txt
+first line
+second\x
+third
+--- script
+set rl_instream file:input.txt
+readline "> " all
+
+=== instream-stdin-default
+tags: rl_instream
+--- script
+get rl_instream
+readline "> "
+get rl_instream
+set rl_instream stdin
+get rl_instream
+--- keys
+x\r
+
+=== deprep-term-function-script
+tags: rl_deprep_term_function
+--- script
+def d
+echo deprep
+rl_deprep_terminal
+end
+set rl_deprep_term_function script:d
+readline "> "
+readline "> "
+--- keys
+one\rtwo\r
+
+=== deprep-term-function-null
+tags: rl_deprep_term_function rl_prep_term_function
+--- script
+set rl_deprep_term_function NULL
+readline "> "
+get rl_readline_state
+set rl_deprep_term_function default
+rl_deprep_terminal
+--- keys
+abc\r
+
+=== deprep-term-function-on-signal
+tags: rl_deprep_term_function signals
+--- script
+set rl_deprep_term_function log
+readline "> "
+--- keys
+ab\C-cc\r
+
+=== macro-display-hook-readable-off
+tags: rl_macro_display_hook rl_macro_dumper
+--- script
+rl_macro_bind '\C-xz' 'zzz' emacs
+set rl_macro_display_hook log
+rl_macro_dumper 0
+
+=== macro-display-hook-via-bound-command
+tags: rl_macro_display_hook dump-macros
+--- inputrc
+"\C-xm": dump-macros
+"\C-xq": "quoted\"text"
+--- script
+set rl_macro_display_hook log
+readline "> "
+--- keys
+\C-xm\r
+
+=== macro-display-hook-nested-keymap
+tags: rl_macro_display_hook
+--- script
+rl_macro_bind '\C-x\C-ya' 'deep' emacs
+rl_macro_bind '\e[99~' 'csi' emacs
+set rl_macro_display_hook log
+rl_macro_dumper 1

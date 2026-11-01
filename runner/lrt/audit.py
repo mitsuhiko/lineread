@@ -217,6 +217,10 @@ def analyse(inv: dict, cases_runs: list) -> dict:
                 hc.add(name)
                 used_v.add(name)
         text = (case.script or "") + "\n" + (case.inputrc or "")
+        # readline dispatches do-lowercase-version without calling it, so
+        # the trace cannot see it: count upper-case meta keys / bindings
+        if re.search(r"\\M-[A-Z]", case.keys or "") or "do-lowercase-version" in text:
+            used_f.add("do-lowercase-version")
         for var, names in KEYMAP_VARS.items():
             if any(re.search(r"(?<![\w-])" + re.escape(n) + r"(?![\w-])", text) for n in names):
                 used_v.add(var)

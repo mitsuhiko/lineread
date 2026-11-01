@@ -1,0 +1,347 @@
+# Completion variables and hooks with few behavioural cases elsewhere.
+tags: complete vars
+--- file alpha.txt
+x
+--- file alpine.txt
+x
+--- dir subdir
+--- file subdir/inner.c
+x
+
+=== basic-word-break-characters-used-by-default
+tags: rl_basic_word_break_characters
+--- script
+set rl_basic_word_break_characters " ="
+set rl_completer_word_break_characters NULL
+def show
+args
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+cmd --opt=val:al\t\r
+
+=== basic-word-break-characters-default-value
+tags: rl_basic_word_break_characters rl_completer_word_break_characters
+--- script
+get rl_basic_word_break_characters
+get rl_completer_word_break_characters
+rl_initialize
+get rl_completer_word_break_characters
+
+=== basic-word-break-characters-semicolon
+tags: rl_basic_word_break_characters
+--- script
+set rl_basic_word_break_characters ";"
+complete_words alpha alpine
+set rl_completion_entry_function words
+readline "> "
+--- keys
+x y;al\t<dump>\r
+
+=== basic-quote-characters-default-and-effect
+tags: rl_basic_quote_characters rl_completer_quote_characters
+--- script
+get rl_basic_quote_characters
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+readline "> "
+--- keys
+cat 'my f\t<dump>\r
+
+=== basic-quote-characters-replaced
+tags: rl_basic_quote_characters
+--- script
+set rl_basic_quote_characters "|"
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "|"
+readline "> "
+--- keys
+cat |my f\t<dump>\r
+
+=== basic-quote-characters-empty
+tags: rl_basic_quote_characters
+--- script
+set rl_basic_quote_characters ""
+set rl_completer_quote_characters NULL
+readline "> "
+--- keys
+cat al\t<dump>\r
+
+=== completion-invoking-key-tab
+tags: rl_completion_invoking_key
+--- script
+def show
+get rl_completion_invoking_key
+get rl_completion_type
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+x\t\M-?\M-*\r
+
+=== completion-invoking-key-custom-binding
+tags: rl_completion_invoking_key
+--- inputrc
+"\C-o": complete
+"\C-xm": menu-complete
+--- script
+def show
+get rl_completion_invoking_key
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+x\C-o\C-xm\r
+
+=== completion-invoking-key-vi
+tags: rl_completion_invoking_key vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def show
+get rl_completion_invoking_key
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+x\t\e<pause>=*\r
+
+=== completion-suppress-quote-on
+tags: rl_completion_suppress_quote
+--- script
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+def q
+set rl_completion_suppress_quote 1
+return filename
+end
+set rl_attempted_completion_function script:q
+readline "> "
+--- keys
+cat "my\t<dump>\r
+
+=== completion-suppress-quote-off
+tags: rl_completion_suppress_quote
+--- script
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+def q
+get rl_completion_suppress_quote
+return filename
+end
+set rl_attempted_completion_function script:q
+readline "> "
+--- keys
+cat "my\t<dump>\r
+
+=== completion-suppress-quote-single
+tags: rl_completion_suppress_quote
+--- script
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+def q
+set rl_completion_suppress_quote 1
+return filename
+end
+set rl_attempted_completion_function script:q
+readline "> "
+--- keys
+cat 'alph\t<dump>\r
+
+=== full-quoting-desired-quotes-whole
+tags: rl_full_quoting_desired
+--- script
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+def fq
+set rl_full_quoting_desired 1
+return filename
+end
+set rl_attempted_completion_function script:fq
+readline "> "
+--- keys
+cat my\t<dump>\r
+
+=== full-quoting-desired-off-backslashes
+tags: rl_full_quoting_desired
+--- script
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+def fq
+set rl_full_quoting_desired 0
+return filename
+end
+set rl_attempted_completion_function script:fq
+readline "> "
+--- keys
+cat my\t<dump>\r
+
+=== full-quoting-desired-no-special-chars
+tags: rl_full_quoting_desired
+--- script
+file_write "my file.txt" "x"
+set rl_completer_quote_characters "'\""
+def fq
+set rl_full_quoting_desired 1
+return filename
+end
+set rl_attempted_completion_function script:fq
+readline "> "
+--- keys
+cat alph\t<dump>\r
+
+=== inhibit-completion-tab-self-inserts
+tags: rl_inhibit_completion
+--- script
+set rl_inhibit_completion 1
+readline "> "
+--- keys
+al\t<dump>\r
+
+=== inhibit-completion-toggled-in-command
+tags: rl_inhibit_completion
+--- script
+def off
+set rl_inhibit_completion 0
+end
+defun allow off
+rl_bind_keyseq "\C-xa" allow
+set rl_inhibit_completion 1
+readline "> "
+--- keys
+al\t\C-?\C-xa\t<dump>\r
+
+=== inhibit-completion-menu-and-list
+tags: rl_inhibit_completion
+--- inputrc
+"\C-n": menu-complete
+--- script
+set rl_inhibit_completion 1
+readline "> "
+--- keys
+al\C-n<dump>\M-?<dump>\r
+
+=== special-prefixes-dollar-word
+tags: rl_special_prefixes
+--- script
+set rl_special_prefixes "$"
+complete_words $HOME $HOSTNAME
+set rl_completion_entry_function words
+readline "> "
+--- keys
+echo $HOM\t<dump>\r
+
+=== special-prefixes-two-chars
+tags: rl_special_prefixes
+--- script
+set rl_special_prefixes "@%"
+def show
+args
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+x @us\t y %jo\t\r
+
+=== completion-rewrite-hook-display
+tags: rl_completion_rewrite_hook
+--- script
+def up
+args
+end
+set rl_completion_rewrite_hook script:up
+readline "> "
+--- keys
+cat al\t\t<snap>\r
+
+=== completion-rewrite-hook-in-readline
+tags: rl_completion_rewrite_hook
+--- script
+def up
+return "alpha.txt"
+end
+set rl_completion_rewrite_hook script:up
+readline "> "
+--- keys
+cat zz\t<dump>\r
+
+=== directory-rewrite-hook-log
+tags: rl_directory_rewrite_hook
+--- script
+set rl_directory_rewrite_hook log
+readline "> "
+--- keys
+cat subdir/in\t<dump>\r
+
+=== directory-rewrite-hook-gen
+tags: rl_directory_rewrite_hook
+--- script
+def rw
+args
+replace_arg "subdir"
+return 1
+end
+set rl_directory_rewrite_hook script:rw
+gen filename "nowhere/in" sort
+gen filename "subdir/" sort
+
+=== filename-rewrite-hook-readline
+tags: rl_filename_rewrite_hook
+--- script
+def rw
+return "UPPER"
+end
+set rl_filename_rewrite_hook script:rw
+readline "> "
+--- keys
+cat UP\t<dump>\r
+
+=== filename-rewrite-hook-matches-rewritten
+tags: rl_filename_rewrite_hook
+--- script
+def rw
+return "ALPHA"
+end
+set rl_filename_rewrite_hook script:rw
+gen filename "AL" sort
+gen filename "al" sort
+
+=== menu-completion-entry-function-words
+tags: rl_menu_completion_entry_function menu-complete
+--- inputrc
+"\C-n": menu-complete
+--- script
+complete_words red green grey
+set rl_menu_completion_entry_function words
+readline "> "
+--- keys
+g\C-n<dump>\C-n<dump>\t<dump>\r
+
+=== menu-completion-entry-function-vs-entry
+tags: rl_menu_completion_entry_function rl_completion_entry_function menu-complete
+--- inputrc
+"\C-n": menu-complete
+--- script
+complete_words gamma golf
+set rl_completion_entry_function words
+set rl_menu_completion_entry_function filename
+readline "> "
+--- keys
+al\C-n<dump>\C-u g\t<dump>\r
+
+=== menu-completion-entry-function-empty
+tags: rl_menu_completion_entry_function menu-complete
+--- inputrc
+"\C-n": menu-complete
+--- script
+set rl_menu_completion_entry_function empty
+readline "> "
+--- keys
+al\C-n<dump>\r

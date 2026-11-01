@@ -1,0 +1,222 @@
+# Signal-related API functions and variables with few cases elsewhere.
+tags: signals api
+
+=== check-signals-after-raise-in-command
+tags: rl_check_signals rl_pending_signal
+--- script
+def c
+raise INT
+rl_pending_signal
+rl_check_signals
+rl_pending_signal
+dump
+end
+defun chk c
+rl_bind_keyseq "\C-xc" chk
+readline "> "
+--- keys
+abc\C-xcd<dump>\r
+
+=== check-signals-nothing-pending
+tags: rl_check_signals
+--- script
+rl_initialize
+rl_check_signals
+rl_pending_signal
+
+=== check-signals-winch-pending
+tags: rl_check_signals SIGWINCH
+screen: 40x10
+--- script
+def c
+raise WINCH
+rl_pending_signal
+rl_check_signals
+rl_get_screen_size
+end
+defun chk c
+rl_bind_keyseq "\C-xc" chk
+readline "> "
+--- keys
+ab\C-xc\r
+
+=== pending-signal-quit-in-command
+tags: rl_pending_signal SIGQUIT
+--- script
+def c
+raise QUIT
+rl_pending_signal
+end
+defun chk c
+rl_bind_keyseq "\C-xc" chk
+readline "> "
+--- keys
+x\C-xc<dump>\r
+
+=== set-signals-reinstalls-after-clear
+tags: rl_set_signals rl_clear_signals
+--- script
+def c
+rl_clear_signals
+rl_set_signals
+end
+defun reinstall c
+rl_bind_keyseq "\C-xc" reinstall
+readline "> "
+--- keys
+ab\C-xc\C-c<dumpfull>\r
+
+=== set-signals-outside-readline
+tags: rl_set_signals rl_clear_signals
+--- script
+rl_set_signals
+raise INT
+rl_pending_signal
+rl_clear_signals
+raise INT
+
+=== clear-signals-catch-off
+tags: rl_clear_signals rl_catch_signals
+--- script
+set rl_catch_signals 0
+rl_set_signals
+rl_clear_signals
+readline "> "
+--- keys
+a\C-c<dump>\r
+
+=== echo-signal-char-each-signal
+tags: rl_echo_signal_char
+--- script
+def e
+rl_echo_signal_char 2
+rl_echo_signal_char 3
+rl_echo_signal_char 20
+rl_echo_signal_char 15
+end
+defun echosig e
+rl_bind_keyseq "\C-xe" echosig
+readline "> "
+--- keys
+x\C-xe<snap>\r
+
+=== echo-signal-char-echoctl-off
+tags: rl_echo_signal_char echo-control-characters
+--- inputrc
+set echo-control-characters off
+--- script
+def e
+rl_echo_signal_char 2
+end
+defun echosig e
+rl_bind_keyseq "\C-xe" echosig
+readline "> "
+--- keys
+x\C-xe<snap>\r
+
+=== echo-signal-char-outside
+tags: rl_echo_signal_char
+--- script
+rl_initialize
+rl_echo_signal_char 2
+rl_echo_signal_char 28
+
+=== reset-after-signal-restores-terminal
+tags: rl_cleanup_after_signal rl_reset_after_signal
+--- script
+def c
+rl_cleanup_after_signal
+get rl_readline_state
+rl_reset_after_signal
+get rl_readline_state
+end
+defun cyc c
+rl_bind_keyseq "\C-xc" cyc
+readline "> "
+--- keys
+ab\C-xccd\r
+
+=== reset-after-signal-twice
+tags: rl_reset_after_signal
+--- script
+def c
+rl_reset_after_signal
+rl_reset_after_signal
+get rl_readline_state
+end
+defun cyc c
+rl_bind_keyseq "\C-xc" cyc
+readline "> "
+--- keys
+ab\C-xcc\r
+
+=== reset-after-signal-callback
+tags: rl_reset_after_signal rl_cleanup_after_signal callback
+--- script
+def c
+rl_cleanup_after_signal
+rl_reset_after_signal
+end
+defun cyc c
+rl_bind_keyseq "\C-xc" cyc
+callback "> "
+--- keys
+ab\C-xcc\r
+
+=== clear-pending-input-cancels-execute-next
+tags: rl_clear_pending_input rl_execute_next
+--- script
+def c
+rl_execute_next "\C-a"
+rl_clear_pending_input
+get rl_pending_input
+end
+defun cl c
+rl_bind_keyseq "\C-xc" cl
+readline "> "
+--- keys
+abc\C-xcX<dump>\r
+
+=== clear-pending-input-keeps-stuffed
+tags: rl_clear_pending_input rl_stuff_char
+--- script
+def c
+rl_stuff_char "Z"
+rl_clear_pending_input
+end
+defun cl c
+rl_bind_keyseq "\C-xc" cl
+readline "> "
+--- keys
+ab\C-xc<pause><dump>\r
+
+=== clear-pending-input-state
+tags: rl_clear_pending_input
+--- script
+rl_initialize
+rl_execute_next "a"
+get rl_readline_state
+get rl_pending_input
+rl_clear_pending_input
+get rl_readline_state
+get rl_pending_input
+
+=== persistent-signal-handlers-callback
+tags: rl_persistent_signal_handlers callback
+--- script
+set rl_persistent_signal_handlers 1
+callback "> " 2
+--- keys
+a\rb\C-c<dump>c\r
+
+=== persistent-signal-handlers-between-lines
+tags: rl_persistent_signal_handlers
+--- script
+set rl_persistent_signal_handlers 1
+readline "> "
+raise INT
+get rl_readline_state
+rl_pending_signal
+readline "> "
+--- keys
+one\rtwo\r

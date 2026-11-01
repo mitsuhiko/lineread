@@ -1,0 +1,261 @@
+{
+  "check-signals-after-raise-in-command": {
+    "exit": 0,
+    "results": [
+      {"op": "defun chk c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" chk", "ret": 0},
+      {"op": "rl_pending_signal", "ret": 2},
+      {"op": "rl_pending_signal", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "signal", "sig": "INT"},
+      {"op": "dump", "line": "abcd", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcdC"
+    ],
+    "cursor": [1, 0]
+  },
+  "check-signals-nothing-pending": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_pending_signal", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "check-signals-winch-pending": {
+    "exit": 0,
+    "results": [
+      {"op": "defun chk c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" chk", "ret": 0},
+      {"op": "rl_pending_signal", "ret": 28},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 40},
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "pending-signal-quit-in-command": {
+    "exit": 0,
+    "results": [
+      {"op": "defun chk c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" chk", "ret": 0},
+      {"op": "rl_pending_signal", "ret": 3},
+      {"op": "signal", "sig": "QUIT"},
+      {"op": "dump", "line": "x", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x^\\"
+    ],
+    "cursor": [1, 0]
+  },
+  "set-signals-reinstalls-after-clear": {
+    "exit": 0,
+    "results": [
+      {"op": "defun reinstall c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" reinstall", "ret": 0},
+      {"op": "rl_clear_signals", "ret": 0},
+      {"op": "rl_set_signals", "ret": 0},
+      {"op": "signal", "sig": "INT"},
+      {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "reinstall", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab^C"
+    ],
+    "cursor": [1, 0]
+  },
+  "set-signals-outside-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_signals", "ret": 0},
+      {"op": "rl_pending_signal", "ret": 2},
+      {"op": "rl_clear_signals", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "clear-signals-catch-off": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_signals", "ret": 0},
+      {"op": "rl_clear_signals", "ret": 0},
+      {"op": "signal", "sig": "INT"},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "echo-signal-char-each-signal": {
+    "exit": 0,
+    "results": [
+      {"op": "defun echosig e", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xe\" echosig", "ret": 0},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x^C^\\"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x^C^\\"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "echo-signal-char-echoctl-off": {
+    "exit": 0,
+    "results": [
+      {"op": "defun echosig e", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xe\" echosig", "ret": 0},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "echo-signal-char-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "reset-after-signal-restores-terminal": {
+    "exit": 0,
+    "results": [
+      {"op": "defun cyc c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" cyc", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "DISPATCHING", "TTYCSAVED"]},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"]},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "reset-after-signal-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "defun cyc c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" cyc", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"]},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "reset-after-signal-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "defun cyc c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" cyc", "ret": 0},
+      {"op": "callback", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "clear-pending-input-cancels-execute-next": {
+    "exit": 0,
+    "results": [
+      {"op": "defun cl c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" cl", "ret": 0},
+      {"op": "rl_execute_next \"\\C-a\"", "ret": 0},
+      {"op": "rl_clear_pending_input", "ret": 0},
+      {"op": "get rl_pending_input", "ret": 0},
+      {"op": "dump", "line": "abcX", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcX"}
+    ],
+    "screen": [
+      "> abcX"
+    ],
+    "cursor": [1, 0]
+  },
+  "clear-pending-input-keeps-stuffed": {
+    "exit": 0,
+    "results": [
+      {"op": "defun cl c", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" cl", "ret": 0},
+      {"op": "rl_stuff_char \"Z\"", "ret": 1},
+      {"op": "rl_clear_pending_input", "ret": 0},
+      {"op": "dump", "line": "abZ", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abZ"}
+    ],
+    "screen": [
+      "> abZ"
+    ],
+    "cursor": [1, 0]
+  },
+  "clear-pending-input-state": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_execute_next \"a\"", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "INPUTPENDING"]},
+      {"op": "get rl_pending_input", "ret": 97},
+      {"op": "rl_clear_pending_input", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED"]},
+      {"op": "get rl_pending_input", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "persistent-signal-handlers-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "a"},
+      {"op": "signal", "sig": "INT"},
+      {"op": "dump", "line": "b", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "bc"}
+    ],
+    "screen": [
+      "> a",
+      "> bcC",
+      ">"
+    ],
+    "cursor": [2, 0]
+  },
+  "persistent-signal-handlers-between-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "TTYCSAVED", "DONE"]},
+      {"op": "rl_pending_signal", "ret": 0},
+      {"op": "signal", "sig": "INT"},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> one",
+      "> two"
+    ],
+    "cursor": [2, 0]
+  }
+}

@@ -898,6 +898,11 @@ static int wait_for_input(void) {
 
 static int drv_getc(FILE *f) {
   trace_dispatch();
+  if (f && fileno(f) != STDIN_FILENO) {
+    /* rl_instream is not the terminal (set rl_instream file:PATH): no
+       synchronisation needed, read it with the library's rl_getc */
+    return rl_getc(f);
+  }
   if (lib_getc) {
     /* option libgetc: report idleness, then let the library's rl_getc block
        in its own pselect/read (timeouts, EINTR handling).  Control commands
