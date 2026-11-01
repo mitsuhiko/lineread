@@ -1,0 +1,158 @@
+{
+  "read-init-file-explicit": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"my.inputrc\"", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"from my\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-missing-returns-errno": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"missing.inputrc\"", "ret": 2},
+      {"op": "rl_read_init_file \"\"", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"adir\"", "ret": 21}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-unreadable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"secret.inputrc\"", "ret": 13},
+      {"op": "rl_macro_dumper 1", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"~/sub/t.inputrc\"", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"tilde\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-null-uses-inputrc-env": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file NULL", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"from INPUTRC\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-null-uses-last-file": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"my.inputrc\"", "ret": 0},
+      {"op": "rl_macro_bind '\\C-xa' 'replaced' emacs", "ret": 0},
+      {"op": "rl_read_init_file NULL", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"from my\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-included-file-not-remembered": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"main.inputrc\"", "ret": 0},
+      {"op": "rl_macro_bind '\\C-xi' 'x' emacs", "ret": 0},
+      {"op": "rl_read_init_file NULL", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xi\": \"inc\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-home-inputrc": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file NULL", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xh\": \"from home\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-empty-inputrc-env": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file NULL", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xh\": \"from home\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "initialize-reads-home-inputrc": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "initialize-reads-only-once": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"first\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "re-read-init-file-bindable": {
+    "exit": 0,
+    "results": [
+      {"op": "defun change-file change \"\\C-t\"", "ret": 0},
+      {"op": "readline", "ret": "first second"}
+    ],
+    "screen": [
+      "> first second"
+    ],
+    "cursor": [1, 0]
+  },
+  "re-read-init-file-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_re_read_init_file 0 0", "ret": 0},
+      {"op": "rl_get_keymap", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "re-read-init-file-switches-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "defun change-file change \"\\C-t\"", "ret": 0},
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "re-read-keeps-existing-bindings": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_bind '\\C-xz' 'zz' emacs", "ret": 0},
+      {"op": "rl_re_read_init_file 0 0", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"b\"\n\"\\C-xz\": \"zz\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}
