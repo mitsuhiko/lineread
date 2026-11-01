@@ -269,11 +269,14 @@ pub fn usable_width() -> c_int {
 
 /// Width of the horizontally scrolled line (the last column is not used).
 pub fn hscroll_width() -> c_int {
-    let w = usable_width();
-    if AUTOWRAP.get() == Some(true) {
-        (w - 1).max(1)
-    } else {
-        w
+    usable_width()
+}
+
+/// After the init file was read: horizontal scrolling on a terminal with
+/// auto-margins does not use the last column.
+pub fn init_file_read() {
+    if crate::vars::horizontal_scroll_mode.get() != 0 && AUTOWRAP.get() == Some(true) {
+        SCREEN_WIDTH.set((SCREEN_WIDTH.get() - 1).max(1));
     }
 }
 

@@ -40,9 +40,27 @@ pub struct Screen {
     pub rows: Vec<Row>,
     pub cur_row: usize,
     pub cur_col: usize,
+    /// lowest row the cursor reached (rows more than a screen height above
+    /// it have scrolled off the terminal)
+    pub maxrow: usize,
 }
 
-pub static SCREEN: CVar<Screen> = CVar::new(Screen { rows: Vec::new(), cur_row: 0, cur_col: 0 });
+pub static SCREEN: CVar<Screen> = CVar::new(Screen { rows: Vec::new(), cur_row: 0, cur_col: 0, maxrow: 0 });
+
+fn screen_rows() -> usize {
+    terminal::screen_height().max(1) as usize
+}
+
+/// The first row still on the terminal.
+fn visible_top() -> usize {
+    let s = SCREEN.get_mut();
+    s.maxrow.max(s.cur_row).saturating_sub(screen_rows() - 1)
+}
+
+fn note_row() {
+    let s = SCREEN.get_mut();
+    s.maxrow = s.maxrow.max(s.cur_row);
+}
 
 /// The expanded prompt redisplay shows (set by rl_expand_prompt, i.e. by
 /// rl_set_prompt and rl_message); None: show rl_display_prompt.
@@ -351,7 +369,7 @@ static LAST_LMARGIN: CVar<usize> = CVar::new(0);
 /// One-line display: horizontal-scroll-mode, or a terminal that cannot
 /// move the cursor up.
 pub fn horizontal_mode() -> bool {
-    crate::vars::horizontal_scroll_mode.get() != 0 || terminal::cap("cuu1").is_none()
+    crate::vars::horizontal_scroll_mode.get() != 0 || terminal::cap("cuu1").is_none() || terminal::screen_height() <= 1
 }
 
 /// Lay out the prompt and line as a single row scrolled so the cursor is
@@ -447,6 +465,7 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
         }
         s.cur_row = row;
         s.cur_col = 0;
+        s.maxrow = s.maxrow.max(row);
     }
     if s.cur_col == col {
         return;
@@ -526,11 +545,33 @@ fn clear_eol() {
 }
 
 /// Bring the screen from `SCREEN.rows` to `new`, cursor at `cursor`.
+/// Only rows that fit on the terminal around the cursor are drawn; when
+/// the cursor moves above the first visible row the screen is cleared and
+/// drawn from the cursor's row.
 fn update(new: Vec<Row>, cursor: (usize, usize)) {
     let w = width();
+    let h = screen_rows();
+    let top = visible_top();
+    let wtop = if cursor.0 < top {
+        // the cursor's row scrolled off: clear and redraw from it
+        if !out_cap("clear") {
+            out_byte(b'\n');
+        }
+        let s = SCREEN.get_mut();
+        s.rows.clear();
+        s.cur_row = cursor.0;
+        s.cur_col = 0;
+        s.maxrow = cursor.0 + h - 1;
+        cursor.0
+    } else if cursor.0 >= top + h {
+        cursor.0 + 1 - h
+    } else {
+        top
+    };
+    let wend = wtop + h;
     let old = core::mem::take(&mut SCREEN.get_mut().rows);
-    let n = old.len().max(new.len());
-    for r in 0..n {
+    let n = old.len().max(new.len()).min(wend);
+    for r in wtop..n {
         let empty = Vec::new();
         let o = old.get(r).unwrap_or(&empty);
         let nr = new.get(r);
@@ -555,6 +596,7 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
                 s.cur_row = r;
                 s.cur_col = 0;
             }
+            note_row();
             clear_eol_n(row_width(o));
             continue;
         }
@@ -569,6 +611,7 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
                     out(&nrow[0].bytes);
                     s.cur_col = nrow[0].width as usize;
                 }
+                note_row();
             }
         }
         move_to(&new, r, col);
@@ -588,8 +631,15 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
             }
         }
     }
-    SCREEN.get_mut().rows = new;
-    let rows = core::mem::take(&mut SCREEN.get_mut().rows);
+    // remember what is displayed (rows outside the window as before)
+    let mut rows = new;
+    for r in 0..rows.len() {
+        if (r < wtop || r >= wend) && r < old.len() {
+            rows[r] = old[r].clone();
+        } else if (r < wtop || r >= wend) && r >= old.len() {
+            rows[r] = Vec::new();
+        }
+    }
     move_to(&rows, cursor.0, cursor.1);
     SCREEN.get_mut().rows = rows;
 }
@@ -626,6 +676,7 @@ pub unsafe extern "C" fn rl_on_new_line() -> c_int {
     s.rows.clear();
     s.cur_row = 0;
     s.cur_col = 0;
+    s.maxrow = 0;
     0
 }
 
@@ -640,6 +691,7 @@ pub unsafe extern "C" fn rl_on_new_line_with_prompt() -> c_int {
     s.rows = lay.rows;
     s.cur_row = r;
     s.cur_col = c;
+    s.maxrow = r;
     0
 }
 
@@ -665,6 +717,7 @@ pub fn clear_displayed() {
     }
     s.cur_row = 0;
     s.cur_col = 0;
+    s.maxrow = 0;
 }
 
 /// Forget what is on the screen: the next redisplay draws the prompt and
