@@ -1,0 +1,104 @@
+{
+  "input-available-hook-no-input-esc-alone": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "input-available-hook-reports-input": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "older", "point": 5, "end": 5, "mark": 5, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "older"}
+    ],
+    "screen": [
+      "> older"
+    ],
+    "cursor": [1, 0]
+  },
+  "input-available-hook-isearch-esc": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 4, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "input-available-hook-isearch-esc-no-input": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "fmake all", "point": 1, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "fmake all"}
+    ],
+    "screen": [
+      "> fmake all"
+    ],
+    "cursor": [1, 0]
+  },
+  "stuff-char-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_stuff_char \"a\"", "ret": 1},
+      {"op": "rl_stuff_char -1", "ret": 1},
+      {"op": "readline", "ret": null},
+      {"op": "get rl_pending_input", "ret": 0},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "character-search-invalid-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udcffb\udcffc", "point": 1, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcffb\udcffc"}
+    ],
+    "screen": [
+      "> a�b�c"
+    ],
+    "cursor": [1, 0]
+  },
+  "character-search-nul": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "character-search-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aébéc", "point": 4, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aébéc"}
+    ],
+    "screen": [
+      "> aébéc"
+    ],
+    "cursor": [1, 0]
+  },
+  "character-search-truncated-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aéb", "point": 0, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aéb"}
+    ],
+    "screen": [
+      "> aéb"
+    ],
+    "cursor": [1, 0]
+  }
+}

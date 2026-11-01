@@ -1,0 +1,86 @@
+# Input layer: rl_input_available_hook, rl_stuff_char edge cases and
+# reading multibyte characters for commands that take a character argument.
+tags: hooks input
+--- script
+readline "> "
+
+=== input-available-hook-no-input-esc-alone
+tags: rl_input_available_hook vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 500
+--- script
+def h
+return 0
+end
+add_history "older"
+set rl_input_available_hook script:h
+readline "> "
+--- keys
+abc\e[A<dump>\r
+
+=== input-available-hook-reports-input
+tags: rl_input_available_hook vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 500
+--- script
+def h
+return 1
+end
+add_history "older"
+set rl_input_available_hook script:h
+readline "> "
+--- keys
+abc\e[A<dump>\r
+
+=== input-available-hook-isearch-esc
+tags: rl_input_available_hook isearch
+--- script
+def h
+return 1
+end
+add_history "make all"
+set rl_input_available_hook script:h
+readline "> "
+--- keys
+\C-rmake\e<pause>f<dump>\r
+
+=== input-available-hook-isearch-esc-no-input
+tags: rl_input_available_hook isearch
+--- script
+def h
+return 0
+end
+add_history "make all"
+set rl_input_available_hook script:h
+readline "> "
+--- keys
+\C-rmake\e<pause>f<dump>\r
+
+=== stuff-char-eof
+tags: rl_stuff_char eof
+--- script
+rl_stuff_char "a"
+rl_stuff_char -1
+readline "> "
+get rl_pending_input
+readline "> "
+--- keys
+<pause>b\r
+
+=== character-search-invalid-byte
+tags: character-search utf8 invalid
+keys: a\xffb\xffc\C-a\C-]\xff<dump>\r
+
+=== character-search-nul
+tags: character-search
+keys: abc\C-a\C-]\C-@<dump>\r
+
+=== character-search-multibyte
+tags: character-search utf8
+keys: a\u{e9}b\u{e9}c\C-a\C-]\u{e9}\C-]\u{e9}<dump>\r
+
+=== character-search-truncated-multibyte
+tags: character-search utf8 invalid
+keys: a\u{e9}b\C-a\C-]\xc3x<dump>\r
