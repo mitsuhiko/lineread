@@ -1,0 +1,19 @@
+# rl_num_chars_to_read inserts a multibyte character byte by byte: the
+# reference writes each byte as it arrives and then has its cursor one
+# column per extra byte too far right (the next character overwrites).
+tags: utf8 rl_num_chars_to_read
+--- script
+set rl_num_chars_to_read 3
+readline "> "
+=== num-chars-e-acute-then-euro
+keys: a<pause>\u{e9}<pause>\u{20ac}<pause><snap>xyz\r
+=== num-chars-ascii-then-euro
+keys: a<pause>b<pause>\u{20ac}<pause><snap>xyz\r
+=== num-chars-three-e-acute
+keys: \u{e9}<pause>\u{e9}<pause>\u{e9}<pause><snap>xyz\r
+=== num-chars-e-acute-euro
+keys: \u{e9}<pause>\u{20ac}<pause><snap>xyz\r
+=== num-chars-e-acute-then-ascii
+keys: a<pause>\u{e9}<pause>b<pause><snap>xyz\r
+=== num-chars-two-ascii-then-e-acute
+keys: ab<pause>\u{e9}<pause><snap>xyz\r

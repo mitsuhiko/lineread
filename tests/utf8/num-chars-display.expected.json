@@ -1,0 +1,62 @@
+{
+  "num-chars-e-acute-then-euro": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "aé\udce2"}
+    ],
+    "screen": [
+      "> a�"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-ascii-then-euro": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab\udce2"}
+    ],
+    "screen": [
+      "> ab�"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-three-e-acute": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "éé\udcc3"}
+    ],
+    "screen": [
+      "> �"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-e-acute-euro": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "é\udce2\udc82"}
+    ],
+    "screen": [
+      "> �"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-e-acute-then-ascii": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "aéb"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-two-ascii-then-e-acute": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab\udcc3"}
+    ],
+    "screen": [
+      "> ab�"
+    ],
+    "cursor": [1, 0]
+  }
+}

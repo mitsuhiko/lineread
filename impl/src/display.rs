@@ -766,6 +766,35 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
             i += 1;
         }
         let col: usize = nrow[..i].iter().map(|c| c.width as usize).sum();
+        // a multibyte character whose first bytes are already displayed as
+        // separate (incomplete) bytes: the reference writes only the
+        // missing bytes and counts each written byte as a column, so its
+        // idea of the cursor ends up too far right
+        if i < nrow.len() && nrow[i].bytes.len() > 1 && nrow[i].width > 0 {
+            let mut k = i;
+            let mut have = Vec::new();
+            while k < o.len() && o[k].bytes.len() == 1 && o[k].bytes[0] >= 0x80 && have.len() < nrow[i].bytes.len() {
+                have.push(o[k].bytes[0]);
+                k += 1;
+            }
+            if !have.is_empty() && have.len() < nrow[i].bytes.len() && nrow[i].bytes.starts_with(&have) {
+                let shown: usize = o[i..k].iter().map(|c| c.width as usize).sum();
+                move_to(&new, r, col + shown);
+                let rest = &nrow[i].bytes[have.len()..];
+                out(rest);
+                SCREEN.get_mut().cur_col += rest.len();
+                // the rest of the row: written after the character
+                let mut buf = Vec::new();
+                let mut wsum = 0;
+                for c in &nrow[i + 1..] {
+                    buf.extend_from_slice(&c.bytes);
+                    wsum += c.width as usize;
+                }
+                out(&buf);
+                SCREEN.get_mut().cur_col += wsum;
+                continue;
+            }
+        }
         // common suffix: insert or delete characters instead of rewriting
         // the rest of the row (like the reference)
         let mut j = 0;
