@@ -260,7 +260,8 @@ def defined_symbols(libs: list[str]) -> set[str]:
     return syms
 
 
-def link_check(symbols: list[str], surface: dict, libs: list[str]) -> tuple[bool, str]:
+def link_check(symbols: list[str], surface: dict, libs: list[str],
+               extra: list[str] | None = None) -> tuple[bool, str]:
     lines = [PRELUDE, "void *volatile sink_;\nint main(void) {\n"]
     for s in symbols:
         lines.append(f"  sink_ = (void *)&{s};\n")
@@ -270,7 +271,8 @@ def link_check(symbols: list[str], surface: dict, libs: list[str]) -> tuple[bool
         with open(src, "w") as f:
             f.write("".join(lines))
         termlib = os.environ.get("TERMLIB", "-lncurses").split()
-        r = subprocess.run([CC, "-w", f"-I{OUR_INC}", "-o", os.path.join(td, "a.out"), src] + libs + termlib,
+        r = subprocess.run([CC, "-w", f"-I{OUR_INC}", "-o", os.path.join(td, "a.out"), src] + libs + termlib
+                           + (extra or []),
                            capture_output=True, text=True)
         return r.returncode == 0, r.stderr[-3000:]
 
@@ -369,7 +371,10 @@ def do_check(impl: str) -> list[dict]:
             # a symbol the reference does not define is not required
             item(f"symbol:{name}", (name in syms) or not in_ref, True, name in syms)
         needed = [n for n, in_ref in rec["symbols"].items() if in_ref]
-        ok, err = link_check(needed, rec["surface"], libs)
+        extra = ["-fsanitize=address,undefined"] if impl.endswith("asan") else []
+        if impl.startswith("rust") and sys.platform != "darwin":
+            extra += ["-lpthread", "-ldl", "-lm"]
+        ok, err = link_check(needed, rec["surface"], libs, extra)
         d = {"id": "link", "status": "pass" if ok else "fail"}
         if not ok:
             d["message"] = err

@@ -160,6 +160,13 @@ def main(argv=None) -> int:
         return 0
 
     driver = os.path.abspath(opts.driver) if opts.driver else driver_path(opts.impl)
+    if opts.impl == "cov" and not opts.driver:
+        covlib = subprocess.run(["make", "-s", "--no-print-directory", "IMPL=cov", "print-libs"], cwd=ROOT,
+                                capture_output=True, text=True).stdout.split()
+        if not covlib or not os.path.exists(covlib[0]):
+            print("error: coverage needs the reference source build ($LINEREAD_REF/build-cov, "
+                  "ref/build.sh); it is not available after the clean-room cut", file=sys.stderr)
+            return 2
     if not opts.driver and not opts.no_build:
         build(opts.impl)
     if not os.path.exists(driver):
