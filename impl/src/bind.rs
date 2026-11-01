@@ -221,17 +221,14 @@ pub unsafe fn generic_bind_raw(type_: c_char, keys: &[u8], data: KmData, map: Ke
         }
         return -1;
     }
-    let convert = crate::vars::convert_meta.get() != 0;
+    // (the bytes are bound as given: meta characters are not converted to
+    // ESC sequences here, unlike lookups)
     let mut map = map;
     let n = keys.len();
     // the path of (map, key) pairs leading to the final entry
     let mut path: Vec<(Keymap, usize)> = Vec::new();
     for (i, &kb) in keys.iter().enumerate() {
-        let mut k = kb as usize;
-        if k >= 128 && convert && (*entry(map, ESC)).type_ == ISKMAP {
-            map = (*entry(map, ESC)).function.map;
-            k &= 0x7f;
-        }
+        let k = kb as usize;
         let e = entry(map, k);
         if i + 1 < n {
             if (*e).type_ != ISKMAP {
@@ -357,7 +354,7 @@ pub unsafe extern "C" fn rl_add_defun(name: *const c_char, f: Option<rl_command_
 }
 
 /// The key sequence (raw bytes) `rl_bind_key` uses for a single key.
-fn single_key_seq(key: c_int) -> Vec<u8> {
+pub fn single_key_seq(key: c_int) -> Vec<u8> {
     let k = key as u8;
     if k >= 128 && meta_via_esc() && k != 128 {
         vec![ESC as u8, k & 0x7f]
@@ -737,10 +734,51 @@ pub unsafe extern "C" fn rl_macro_dumper(readable: c_int) {
 
 // ---------------------------------------------------------------- stubs
 
+/// Is `f` one of the numeric-argument commands?
+fn is_arg_command(f: Option<rl_command_func_t>) -> bool {
+    is_func(f, crate::numarg::rl_digit_argument) || is_func(f, crate::numarg::rl_universal_argument) || is_func(f, crate::vi::rl_vi_arg_digit)
+}
+
+/// Index of the first key after any leading numeric-argument keys, -1 when
+/// the whole sequence is a numeric argument.
 #[no_mangle]
-pub unsafe extern "C" fn rl_trim_arg_from_keyseq(_a0: *const c_char, _a1: usize, _a2: Keymap) -> c_int {
-    todo_stub!("rl_trim_arg_from_keyseq");
-    -1
+pub unsafe extern "C" fn rl_trim_arg_from_keyseq(seq: *const c_char, len: usize, map: Keymap) -> c_int {
+    if seq.is_null() {
+        return -1;
+    }
+    let keys = core::slice::from_raw_parts(seq as *const u8, len);
+    let top = if map.is_null() { current() } else { map };
+    let mut m = top;
+    let mut start = 0usize;
+    let mut in_arg = false;
+    let mut i = 0;
+    while i < keys.len() {
+        let k = keys[i];
+        if in_arg && m == top && (k.is_ascii_digit() || k == b'-') {
+            i += 1;
+            start = i;
+            continue;
+        }
+        let e = *entry(m, k as usize);
+        if e.type_ == ISKMAP {
+            m = e.function.map;
+            i += 1;
+            continue;
+        }
+        if e.type_ == ISFUNC && is_arg_command(e.function.func) {
+            in_arg = true;
+            m = top;
+            i += 1;
+            start = i;
+            continue;
+        }
+        return start as c_int;
+    }
+    if start >= keys.len() {
+        -1
+    } else {
+        start as c_int
+    }
 }
 
 #[no_mangle]

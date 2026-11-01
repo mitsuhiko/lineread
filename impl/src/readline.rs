@@ -82,9 +82,13 @@ unsafe fn initialize_everything() {
     crate::terminal::init_terminal(cstr_opt(crate::terminal::rl_terminal_name.get()));
     crate::funmap::rl_initialize_funmap();
     crate::vars::apply_locale_defaults();
-    crate::keymap::bind_default_keyseqs();
+    if crate::vars::bind_tty_special_chars.get() != 0 {
+        crate::tty::rl_tty_set_default_bindings(crate::keymap::current());
+    }
     crate::inputrc::read_startup_init_file();
+    // the edit mode decides the keymap, whatever `set keymap` said
     crate::keymap::rl_set_keymap_from_edit_mode();
+    crate::keymap::bind_default_keyseqs();
     if crate::complete::rl_completer_word_break_characters.get().is_null() {
         crate::complete::rl_completer_word_break_characters.set(crate::complete::rl_basic_word_break_characters.get());
     }

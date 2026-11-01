@@ -249,19 +249,19 @@ pub unsafe extern "C" fn rl_set_keymap_name(name: *const c_char, map: Keymap) ->
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_set_keymap_from_edit_mode() {
-    if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
-        CURRENT.set(emacs_std());
-    } else {
-        CURRENT.set(vi_insertion());
+    match crate::readline::rl_editing_mode.get() {
+        crate::readline::EMACS_MODE => CURRENT.set(emacs_std()),
+        crate::readline::VI_MODE => CURRENT.set(vi_insertion()),
+        _ => {}
     }
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_get_keymap_name_from_edit_mode() -> *mut c_char {
-    if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
-        name_cstr(b"emacs")
-    } else {
-        name_cstr(b"vi")
+    match crate::readline::rl_editing_mode.get() {
+        crate::readline::EMACS_MODE => name_cstr(b"emacs"),
+        crate::readline::VI_MODE => name_cstr(b"vi"),
+        _ => name_cstr(b"none"),
     }
 }
 

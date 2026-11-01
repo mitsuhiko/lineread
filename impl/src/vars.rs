@@ -64,7 +64,7 @@ pub static completion_prefix_display_length: CVar<c_int> = CVar::new(0);
 pub static emacs_mode_string: CVar<Option<Vec<u8>>> = CVar::new(None);
 pub static vi_cmd_mode_string: CVar<Option<Vec<u8>>> = CVar::new(None);
 pub static vi_ins_mode_string: CVar<Option<Vec<u8>>> = CVar::new(None);
-/// isearch-terminators as given (untranslated); None = default
+/// isearch-terminators (translated, real bytes); None = default
 pub static isearch_terminators: CVar<Option<Vec<u8>>> = CVar::new(None);
 pub static keyseq_timeout: CVar<c_int> = CVar::new(500);
 /// active-region colors; None until rl_initialize sets the defaults
@@ -162,6 +162,11 @@ fn find_string(name: &[u8]) -> Option<&'static CStr> {
     STRING_VARS.iter().copied().find(|v| v.to_bytes().eq_ignore_ascii_case(name))
 }
 
+/// Is `name` a boolean variable?
+pub fn is_bool_variable(name: &[u8]) -> bool {
+    find_bool(name).is_some()
+}
+
 /// Is `name` a known variable (case-insensitive)?
 pub fn is_variable(name: &[u8]) -> bool {
     find_bool(name).is_some() || find_string(name).is_some()
@@ -203,7 +208,22 @@ fn bool_changed(name: &[u8]) {
             meta_vars_touched.set(1);
         }
         b"show-mode-in-prompt" => crate::display::mode_string_changed(),
+        b"prefer-visible-bell" => {
+            bell_style.set(if prefer_visible_bell.get() != 0 { BELL_VISIBLE } else { BELL_AUDIBLE });
+        }
+        b"enable-bracketed-paste" => enable_active_region.set(enable_bracketed_paste.get()),
+        b"blink-matching-paren" => unsafe { bind_close_chars(blink_matching_paren.get() != 0) },
         _ => {}
+    }
+}
+
+/// blink-matching-paren binds the closing characters to insert-close.
+unsafe fn bind_close_chars(on: bool) {
+    let f: rl_command_func_t = if on { crate::commands::text::rl_insert_close } else { crate::commands::text::rl_insert };
+    for map in [crate::keymap::emacs_std(), crate::keymap::vi_insertion()] {
+        for c in [b')', b']', b'}'] {
+            *map.add(c as usize) = KEYMAP_ENTRY::func(f);
+        }
     }
 }
 
@@ -213,62 +233,58 @@ fn report(msg: &[u8]) {
     crate::inputrc::report_error(msg);
 }
 
-/// Set a valued variable.  Returns 0 or nonzero on a bad value.
-fn set_string_var(name: &CStr, value: &[u8]) -> c_int {
+/// Set a valued variable (`value` None: rl_variable_bind with NULL).
+/// Returns 0 or nonzero on a bad value.
+fn set_string_var(name: &CStr, value: Option<&[u8]>) -> c_int {
     use crate::keymap;
+    let tr = |v: &[u8]| crate::bind::translate_keyseq_bytes(v).0;
+    let v = value.unwrap_or(b"");
     match name.to_bytes() {
         b"bell-style" => {
-            let v = value.to_ascii_lowercase();
-            let s = match &v[..] {
+            let l = v.to_ascii_lowercase();
+            let s = match &l[..] {
                 b"none" | b"off" => BELL_NONE,
                 b"visible" => BELL_VISIBLE,
-                b"audible" | b"on" => BELL_AUDIBLE,
+                b"audible" | b"on" | b"" => BELL_AUDIBLE,
                 _ => return 1,
             };
             bell_style.set(s);
         }
-        b"comment-begin" => comment_begin.set(Some(crate::bind::translate_keyseq_bytes(value).0)),
-        b"completion-display-width" => completion_display_width.set(atoi(value)),
-        b"completion-prefix-display-length" => {
-            completion_prefix_display_length.set(atoi(value).max(0))
+        b"comment-begin" => {
+            if v.is_empty() {
+                return 1;
+            }
+            comment_begin.set(Some(v.to_vec()))
         }
-        b"completion-query-items" => {
-            crate::complete::rl_completion_query_items.set(if value.is_empty() {
-                100
-            } else {
-                atoi(value).max(0)
-            })
-        }
+        b"completion-display-width" => completion_display_width.set(if v.is_empty() { -1 } else { atoi(v) }),
+        b"completion-prefix-display-length" => completion_prefix_display_length.set(atoi(v).max(0)),
+        b"completion-query-items" => crate::complete::rl_completion_query_items.set(if v.is_empty() { 100 } else { atoi(v).max(0) }),
         b"editing-mode" => {
-            let v = value.to_ascii_lowercase();
-            if v.starts_with(b"vi") {
+            // only the first two / five characters are compared
+            if v.len() >= 2 && v[..2].eq_ignore_ascii_case(b"vi") {
                 crate::readline::set_editing_mode_vi();
-            } else if v.starts_with(b"emacs") {
+            } else if v.len() >= 5 && v[..5].eq_ignore_ascii_case(b"emacs") {
                 crate::readline::set_editing_mode_emacs();
             } else {
                 return 1;
             }
         }
         b"emacs-mode-string" => {
-            emacs_mode_string.set(Some(crate::bind::translate_keyseq_bytes(value).0));
+            emacs_mode_string.set(value.map(tr));
             crate::display::mode_string_changed();
         }
         b"vi-cmd-mode-string" => {
-            vi_cmd_mode_string.set(Some(crate::bind::translate_keyseq_bytes(value).0));
+            vi_cmd_mode_string.set(value.map(tr));
             crate::display::mode_string_changed();
         }
         b"vi-ins-mode-string" => {
-            vi_ins_mode_string.set(Some(crate::bind::translate_keyseq_bytes(value).0));
+            vi_ins_mode_string.set(value.map(tr));
             crate::display::mode_string_changed();
         }
-        b"active-region-start-color" => {
-            active_region_start_color.set(Some(crate::bind::translate_keyseq_bytes(value).0))
-        }
-        b"active-region-end-color" => {
-            active_region_end_color.set(Some(crate::bind::translate_keyseq_bytes(value).0))
-        }
+        b"active-region-start-color" => active_region_start_color.set(if v.is_empty() { None } else { Some(tr(v)) }),
+        b"active-region-end-color" => active_region_end_color.set(if v.is_empty() { None } else { Some(tr(v)) }),
         b"history-size" => {
-            let n = if value.is_empty() { 0 } else { atoi(value) };
+            let n = if v.is_empty() { 500 } else { atoi(v) };
             unsafe {
                 if n < 0 {
                     crate::history::unstifle_history();
@@ -277,15 +293,36 @@ fn set_string_var(name: &CStr, value: &[u8]) -> c_int {
                 }
             }
         }
-        b"isearch-terminators" => isearch_terminators.set(Some(value.to_vec())),
+        b"isearch-terminators" => {
+            let Some(v) = value else { return 1 };
+            // a quoted string, else the first word
+            let (beg, delim) = match v.first() {
+                Some(&q) if q == b'"' || q == b'\'' => (1, Some(q)),
+                _ => (0, None),
+            };
+            let mut e = beg;
+            while e < v.len() {
+                match delim {
+                    Some(d) if v[e] == d => break,
+                    None if v[e] == b' ' || v[e] == b'\t' => break,
+                    _ => {}
+                }
+                if v[e] == b'\\' && e + 1 < v.len() {
+                    e += 1;
+                }
+                e += 1;
+            }
+            let e = e.min(v.len());
+            isearch_terminators.set(Some(tr(&v[beg..e])));
+        }
         b"keymap" => {
-            let km = keymap::keymap_by_name(value);
+            let km = keymap::keymap_by_name(v);
             if km.is_null() {
                 return 1;
             }
             unsafe { keymap::rl_set_keymap(km) };
         }
-        b"keyseq-timeout" => keyseq_timeout.set(atoi(value).max(0)),
+        b"keyseq-timeout" => keyseq_timeout.set(atoi(v).max(0)),
         _ => return 1,
     }
     0
@@ -316,8 +353,8 @@ fn string_var_value(name: &CStr) -> Option<Vec<u8>> {
         b"emacs-mode-string" => out = emacs_mode_bytes(),
         b"vi-cmd-mode-string" => out = vi_cmd_mode_bytes(),
         b"vi-ins-mode-string" => out = vi_ins_mode_bytes(),
-        b"active-region-start-color" => return active_region_start_color.get_mut().clone(),
-        b"active-region-end-color" => return active_region_end_color.get_mut().clone(),
+        b"active-region-start-color" => return active_region_start_color.get_mut().as_deref().map(crate::bind::macro_value_text),
+        b"active-region-end-color" => return active_region_end_color.get_mut().as_deref().map(crate::bind::macro_value_text),
         b"history-size" => {
             let n = unsafe {
                 if crate::history::history_is_stifled() != 0 {
@@ -328,10 +365,13 @@ fn string_var_value(name: &CStr) -> Option<Vec<u8>> {
             };
             out.push_int(n as i64)
         }
-        b"isearch-terminators" => return isearch_terminators.get_mut().clone(),
+        b"isearch-terminators" => return isearch_terminators.get_mut().as_deref().map(crate::bind::macro_value_text),
         b"keymap" => {
             let name = crate::keymap::keymap_name(crate::keymap::current());
-            return name.map(|n| n.to_vec());
+            return Some(match name {
+                Some(n) => n.to_vec(),
+                None => unsafe { cstr(crate::keymap::rl_get_keymap_name_from_edit_mode()).to_vec() },
+            });
         }
         b"keyseq-timeout" => out.push_int(keyseq_timeout.get() as i64),
         _ => return None,
@@ -349,13 +389,12 @@ pub fn variable_bind(name: &[u8], value: Option<&[u8]>) -> c_int {
         return 0;
     }
     if let Some(n) = find_string(name) {
-        let val = value.unwrap_or(b"");
-        let r = set_string_var(n, val);
+        let r = set_string_var(n, value);
         if r != 0 {
             let mut m = Vec::new();
             m.extend_from_slice(n.to_bytes());
             m.push_str(": could not set value to `");
-            m.extend_from_slice(val);
+            m.extend_from_slice(value.unwrap_or(b"(null)"));
             m.push(b'\'');
             report(&m);
         }
@@ -405,10 +444,7 @@ pub unsafe extern "C" fn rl_variable_dumper(readable: c_int) {
         line(&mut buf, v.name.to_bytes(), val.as_bytes(), readable);
     }
     for n in STRING_VARS {
-        if let Some(mut val) = string_var_value(n) {
-            if n.to_bytes().ends_with(b"-color") {
-                val = crate::bind::macro_value_text(&val);
-            }
+        if let Some(val) = string_var_value(n) {
             line(&mut buf, n.to_bytes(), &val, readable);
         }
     }

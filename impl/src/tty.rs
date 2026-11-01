@@ -181,7 +181,8 @@ pub unsafe extern "C" fn rl_tty_set_default_bindings(map: Keymap) {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_tty_unset_default_bindings(map: Keymap) {
-    if map.is_null() {
+    // only after the terminal settings were saved
+    if map.is_null() || !is_state(RL_STATE_TTYCSAVED) {
         return;
     }
     let s = SPECIALS.get();
