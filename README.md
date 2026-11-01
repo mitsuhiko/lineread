@@ -14,6 +14,17 @@ cargo build --release --manifest-path impl/Cargo.toml
 
 This builds a static library and a dynamic library in `impl/target/release/`. The implementation exports the Readline, History, and tilde interfaces from one library. Recreated C declarations are in `include/readline/`. The implementation uses `terminfo` and a small C shim where the C ABI cannot be expressed directly in stable Rust.
 
+## Try it with an existing program
+
+The opt-in launcher builds the dynamic library and attempts to substitute lineread for dynamically linked Readline and History libraries in a child process:
+
+```sh
+./lineread -- /path/to/program arg1 arg2
+./lineread --trace -- /path/to/program  # print dynamic-loader diagnostics
+```
+
+It does not modify system libraries. On Linux it uses `LD_PRELOAD`; on macOS it uses a private `DYLD_LIBRARY_PATH` with common Readline and History library names. **A successful launch does not prove substitution:** inspect the trace to check which library actually provides the symbols. Static links, macOS SIP and hardened processes, Linux secure-execution mode, and some loader configurations can prevent substitution. The loader environment is also inherited by child processes. See [launcher details](docs/LAUNCHER.md) for limitations and verification.
+
 ## Test
 
 The runner needs Python 3, a C compiler, Rust, and ncurses. On its first run it creates a virtual environment and installs its Python dependency, `pyte`.
