@@ -262,6 +262,7 @@ pub unsafe extern "C" fn rl_insert_comment(_count: c_int, key: c_int) -> c_int {
     } else {
         buffer::insert(&cb);
     }
+    crate::display::redisplay();
     crate::readline::rl_newline(1, key)
 }
 
@@ -511,8 +512,7 @@ pub unsafe extern "C" fn rl_overwrite_mode(count: c_int, _key: c_int) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_insert_close(count: c_int, key: c_int) -> c_int {
-    // TODO(display): blink-matching-paren
-    rl_insert(count, key)
+    crate::display::insert_close(count, key, PAREN_BLINK_TIMEOUT.get())
 }
 
 #[no_mangle]
