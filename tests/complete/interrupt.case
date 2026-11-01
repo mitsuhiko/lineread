@@ -1,0 +1,73 @@
+# Completion corner cases: SIGINT while readline asks whether to display
+# all matches or waits at the --More-- pager, the ignore function removing
+# every match, possible-completions after a failed completion.
+tags: complete
+--- script
+complete_words w01 w02 w03 w04 w05 w06 w07 w08 w09 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 w20 w21 w22 w23 w24 w25 w26 w27 w28 w29 w30 w31 w32 w33 w34 w35 w36 w37 w38 w39 w40
+set rl_attempted_completion_function words
+readline "> "
+readline "> "
+
+=== sigint-at-display-all-query
+tags: SIGINT completion-query-items
+screen: 40x8
+--- inputrc
+set completion-query-items 10
+--- keys
+w\t\t<snap>\C-c<dumpfull>x\r
+
+=== sigint-at-more-pager
+tags: SIGINT page-completions
+screen: 40x6
+--- inputrc
+set completion-query-items 0
+--- keys
+w\M-?<snap>\C-c<dumpfull>y\r
+
+=== sigint-at-more-pager-signal-event-hook
+tags: SIGINT page-completions rl_signal_event_hook
+screen: 40x6
+--- inputrc
+set completion-query-items 0
+--- script
+complete_words w01 w02 w03 w04 w05 w06 w07 w08 w09 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 w20 w21 w22 w23 w24 w25 w26 w27 w28 w29 w30 w31 w32 w33 w34 w35 w36 w37 w38 w39 w40
+set rl_attempted_completion_function words
+set rl_signal_event_hook log
+readline "> "
+--- keys
+w\M-?\C-c<dump>z\r
+
+=== sigint-at-query-callback
+tags: SIGINT callback completion-query-items
+screen: 40x8
+--- inputrc
+set completion-query-items 10
+--- script
+complete_words w01 w02 w03 w04 w05 w06 w07 w08 w09 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 w20
+set rl_attempted_completion_function words
+callback "> " 2
+--- keys
+w\t\t\C-c<dump>q\r
+
+=== ignore-function-removes-all-filename-matches
+tags: rl_ignore_some_completions_function
+--- file foo.o
+--- file foo.a
+--- script
+ignore_words foo.o foo.a
+set rl_ignore_some_completions_function ignore_words
+readline "> "
+--- keys
+cat foo\t<dump>\M-?<snap>\r
+
+=== possible-completions-after-failed-completion-inserts-single
+tags: possible-completions
+--- script
+complete_words alpha
+def a
+return words
+end
+set rl_attempted_completion_function script:a
+readline "> "
+--- keys
+zz\t\C-?\C-?al\M-?<dump>\r

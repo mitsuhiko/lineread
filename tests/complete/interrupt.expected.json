@@ -1,0 +1,130 @@
+{
+  "sigint-at-display-all-query": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "dumpfull", "line": "w", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "COMPLETING", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "complete", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 9, "executing_keyseq": "\t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": null},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> w",
+      "Display all 40 possibilities? (y or n)^C",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> w",
+          "Display all 40 possibilities? (y or n)"
+        ],
+        "cursor": [1, 38]
+      }
+    ]
+  },
+  "sigint-at-more-pager": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "dumpfull", "line": "w", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "COMPLETING", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 63, "executing_keyseq": "\u001b?", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "w"},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "> w",
+      ">"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w01  w07  w13  w19  w25  w31  w37",
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "--More--"
+        ],
+        "cursor": [5, 8]
+      }
+    ]
+  },
+  "sigint-at-more-pager-signal-event-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_signal_event_hook"},
+      {"op": "signal", "sig": "INT"},
+      {"op": "dump", "line": "w", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "hook", "hook": "rl_signal_event_hook"},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "w02  w08  w14  w20  w26  w32  w38",
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "> w"
+    ],
+    "cursor": [5, 0]
+  },
+  "sigint-at-query-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "dump", "line": "w", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "wq"},
+      {"op": "callback", "ret": null}
+    ],
+    "screen": [
+      "> w",
+      "Display all 20 possibilities? (y or n)",
+      "w01  w04  w07  w10  w13  w16  w19",
+      "w02  w05  w08  w11  w14  w17  w20",
+      "w03  w06  w09  w12  w15  w18",
+      "> wq",
+      ">",
+      ">"
+    ],
+    "cursor": [7, 0]
+  },
+  "ignore-function-removes-all-filename-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cat foo. ", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cat foo. "}
+    ],
+    "screen": [
+      "> cat foo.",
+      "foo.",
+      "> cat foo."
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> cat foo.",
+          "foo.",
+          "> cat foo."
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "possible-completions-after-failed-completion-inserts-single": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "al", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "al"}
+    ],
+    "screen": [
+      "> al",
+      "alpha",
+      "> al"
+    ],
+    "cursor": [3, 0]
+  }
+}
