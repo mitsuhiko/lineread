@@ -47,20 +47,26 @@ fn remember_point() {
 /// Clear `data` of entries that point to the undo list `l` (it is being
 /// freed).
 pub fn forget_undo_list(l: *mut UNDO_LIST) {
-    if l.is_null() {
+    replace_undo_list(l, null_mut());
+}
+
+/// References (history entries, the saved line) to the undo list `old`
+/// now point to `new` (rl_do_undo releases the head of a shared list).
+pub fn replace_undo_list(old: *mut UNDO_LIST, new: *mut UNDO_LIST) {
+    if old.is_null() {
         return;
     }
     for i in 0..history_length.get() {
         let e = history::entry_at(i);
         unsafe {
-            if !e.is_null() && (*e).data == l as histdata_t {
-                (*e).data = null_mut();
+            if !e.is_null() && (*e).data == old as histdata_t {
+                (*e).data = new as histdata_t;
             }
         }
     }
     if let Some(s) = SAVED.get_mut() {
-        if s.undo == l {
-            s.undo = null_mut();
+        if s.undo == old {
+            s.undo = new;
         }
     }
 }
@@ -85,7 +91,9 @@ pub fn line_finished() {
             buffer::rl_point.set(pt);
         }
         if let Some(s) = SAVED.get_mut().take() {
-            crate::undo::free_list(s.undo);
+            if s.undo != rl_undo_list.get() {
+                crate::undo::free_list(s.undo);
+            }
         }
     }
 }
@@ -96,7 +104,8 @@ pub unsafe extern "C" fn rl_maybe_save_line() -> c_int {
         SAVED.set(Some(Saved {
             text: buffer::line().to_vec(),
             point: buffer::rl_point.get(),
-            undo: rl_undo_list.replace(null_mut()),
+            // the saved line shares the undo list (it stays active)
+            undo: rl_undo_list.get(),
         }));
     }
     0
@@ -106,7 +115,9 @@ pub unsafe extern "C" fn rl_maybe_save_line() -> c_int {
 pub unsafe extern "C" fn rl_maybe_unsave_line() -> c_int {
     if let Some(s) = SAVED.get_mut().take() {
         buffer::set_line(&s.text);
-        crate::undo::rl_free_undo_list();
+        if rl_undo_list.get() != s.undo {
+            crate::undo::rl_free_undo_list();
+        }
         rl_undo_list.set(s.undo);
         buffer::set_point(buffer::end());
         let _ = s.point;
