@@ -11,8 +11,7 @@
   "read-init-file-missing-returns-errno": {
     "exit": 0,
     "results": [
-      {"op": "rl_read_init_file \"missing.inputrc\"", "ret": 2},
-      {"op": "rl_read_init_file \"\"", "ret": 2}
+      {"op": "rl_read_init_file \"missing.inputrc\"", "ret": 2}
     ],
     "screen": [],
     "cursor": [0, 0]

@@ -10,10 +10,11 @@ screen: 120x24
 rl_read_init_file "my.inputrc"
 rl_macro_dumper 1
 
+# (rl_read_init_file "" falls back to ~/.inputrc and then /etc/inputrc,
+# which exists on some systems: not tested)
 === read-init-file-missing-returns-errno
 --- script
 rl_read_init_file "missing.inputrc"
-rl_read_init_file ""
 
 === read-init-file-directory
 --- dir adir
