@@ -26,6 +26,7 @@ from __future__ import annotations
 import dataclasses
 import os
 import re
+import shlex
 
 HEADER_KEYS = {
     "tags", "screen", "env", "timeout", "ignore", "skip", "platforms",
@@ -107,7 +108,12 @@ def _parse_blocks(text: str, path: str) -> list[_Block]:
             cur_section = None
             continue
         if line.startswith("--- "):
-            parts = line[4:].split()
+            # arguments are split like a shell does, so fixture paths with
+            # blanks can be quoted: --- file "with space"
+            try:
+                parts = shlex.split(line[4:])
+            except ValueError as e:
+                raise CaseError(f"{path}:{i}: bad section arguments: {e}")
             if not parts or parts[0] not in SECTION_KEYS:
                 raise CaseError(f"{path}:{i}: unknown section {line!r}")
             cur_section = (parts[0], parts[1:], [], i)

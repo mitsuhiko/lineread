@@ -151,6 +151,9 @@ abc\r
 | `--- dir PATH [mode=0755]` | fixture directory |
 | `--- symlink PATH TARGET` | fixture symlink |
 
+Section arguments are split like a shell command line (Python `shlex`), so
+paths with blanks are quoted: `--- file "with space"` or `--- file 'with space'`.
+
 Fixture paths must be relative and must not contain `..`. Content that has
 lines starting with `--- `/`=== ` or needs exact bytes can be written by the
 script instead (`file_write` with a heredoc and escapes).

@@ -31,6 +31,7 @@ import concurrent.futures
 import json
 import os
 import random
+import shlex
 import sys
 import time
 
@@ -175,9 +176,9 @@ class FuzzCase:
         out.append("timeout: 20")
         for f in self.files:
             if f.endswith("/"):
-                out.append(f"--- dir {f.rstrip('/')}")
+                out.append(f"--- dir {shlex.quote(f.rstrip('/'))}")
             else:
-                out.append(f"--- file {f}")
+                out.append(f"--- file {shlex.quote(f)}")
                 out.append("x")
         if self.inputrc:
             out.append("--- inputrc")
