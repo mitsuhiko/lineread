@@ -110,7 +110,16 @@ unsafe fn show_minibuffer(prefix: &[u8], name: &[u8]) {
 }
 
 /// Read a command name.  None if aborted.
+/// Reading the command name is a string read (RL_STATE_READSTR: the
+/// callback interface blocks there like the reference).
 unsafe fn read_command_name() -> Option<Vec<u8>> {
+    set_state(RL_STATE_READSTR);
+    let r = read_command_name_inner();
+    unset_state(RL_STATE_READSTR);
+    r
+}
+
+unsafe fn read_command_name_inner() -> Option<Vec<u8>> {
     let mut prefix = crate::display::split_prompt(cstr(crate::display::rl_display_prompt.get())).1.to_vec();
     prefix.push(b'!');
     let mut name: Vec<u8> = Vec::new();
