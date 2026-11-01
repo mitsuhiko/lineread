@@ -706,9 +706,8 @@ pub unsafe extern "C" fn rl_bracketed_paste_begin(_count: c_int, _key: c_int) ->
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_tilde_expand(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_tilde_expand");
-    0
+pub unsafe extern "C" fn rl_tilde_expand(_count: c_int, _key: c_int) -> c_int {
+    crate::tilde::tilde_expand_command()
 }
 
 #[no_mangle]
