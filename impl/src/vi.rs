@@ -293,7 +293,15 @@ fn done_inserting() {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_vi_movement_mode(_count: c_int, _key: c_int) -> c_int {
+pub unsafe extern "C" fn rl_vi_movement_mode(_count: c_int, key: c_int) -> c_int {
+    if key == ESC && in_replace_mode() {
+        // ESC is not a key-sequence prefix in replace mode: a bracketed
+        // paste is recognised here
+        if let Some(text) = crate::commands::text::read_paste_after_esc() {
+            overstrike_text(&text);
+            return 0;
+        }
+    }
     if point() > 0 {
         set_point(mb::prev_char(line(), point()));
     }
@@ -847,11 +855,17 @@ fn is_digit(k: c_int) -> bool {
 /// or None (aborted / invalid motion / failed motion).  On success point
 /// and mark delimit the range (point <= mark).
 unsafe fn domove(op: u8, count: c_int) -> Option<(c_int, c_int)> {
+    domove_with(op, count, None)
+}
+
+unsafe fn domove_with(op: u8, count: c_int, forced: Option<c_int>) -> Option<(c_int, c_int)> {
     let start = point();
     let mut total = count.max(1);
     let mut c;
     if redoing() {
         c = st().last_motion;
+    } else if let Some(f) = forced {
+        c = f;
     } else {
         set_state(RL_STATE_VIMOTION);
         c = read_raw_key();
@@ -926,7 +940,11 @@ unsafe fn domove(op: u8, count: c_int) -> Option<(c_int, c_int)> {
     }
     let l = line();
     let mut np = point().min(l.len());
-    if cw {
+    if (cb == b'w' || cb == b'W') && np == start && start < l.len() {
+        // w cannot move from the last character: act up to the end
+        np = l.len();
+    }
+    if cw && np < l.len() {
         // back over the blanks the motion skipped, keeping at least one char
         while np > start + 1 && np > 0 && is_ws(l[mb::prev_char(l, np)]) {
             np = mb::prev_char(l, np);
@@ -975,11 +993,7 @@ fn op_count(count: c_int) -> c_int {
 unsafe fn operator_range(op: u8, key: c_int, count: c_int) -> Option<(c_int, c_int)> {
     if upper(key) {
         // D C Y: to the end of the line
-        let start = point();
-        set_point(start);
-        buffer::rl_mark.set(end() as c_int);
-        st().last_motion = b'$' as c_int;
-        return Some((b'$' as c_int, count));
+        return domove_with(op, count, Some(b'$' as c_int));
     }
     domove(op, count)
 }
@@ -1095,16 +1109,14 @@ pub unsafe extern "C" fn rl_vi_rubout(count: c_int, key: c_int) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_subst(count: c_int, key: c_int) -> c_int {
+    // s = c with an l motion, S = cc
     let count = op_count(count);
     crate::undo::rl_begin_undo_group();
-    if upper(key) {
-        set_point(0);
-        buffer::rl_mark.set(end() as c_int);
-    } else {
-        let p = point();
-        let to = mb::forward_chars(line(), p, count as usize);
-        buffer::rl_mark.set(to as c_int);
-    }
+    let motion = if upper(key) { b'c' } else { b'l' } as c_int;
+    let Some((_m, count)) = domove_with(b'c', count, Some(motion)) else {
+        crate::undo::rl_end_undo_group();
+        return -1;
+    };
     let a = point();
     let b = buffer::mark();
     if a < b {
@@ -1232,6 +1244,8 @@ unsafe fn replace_keymap() -> Keymap {
         let del = KEYMAP_ENTRY::func(rl_vi_overstrike_delete);
         *m.add(127) = del;
         *m.add(8) = del;
+        // ESC leaves replace mode at once (no escape-sequence prefix)
+        *m.add(ESC as usize) = KEYMAP_ENTRY::func(rl_vi_movement_mode);
         s.replace_map = m;
     }
     s.replace_map
@@ -1381,7 +1395,10 @@ pub unsafe extern "C" fn rl_vi_redo(count: c_int, _key: c_int) -> c_int {
         _ => {
             let e = *crate::keymap::entry(crate::keymap::vi_movement(), (cmd as usize) & 0xff);
             match (e.type_, e.function.func) {
-                (ISFUNC, Some(f)) if !crate::dispatch::same_fn(Some(f), rl_vi_redo) => f(count, cmd),
+                (ISFUNC, Some(f)) if !crate::dispatch::same_fn(Some(f), rl_vi_redo) => {
+                    crate::dispatch::rl_executing_key.set(cmd);
+                    f(count, cmd)
+                }
                 _ => {
                     rl_ding();
                     0
@@ -1664,10 +1681,11 @@ pub unsafe extern "C" fn rl_vi_search(_count: c_int, key: c_int) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_search_again(_count: c_int, key: c_int) -> c_int {
-    let Some((pat, dir)) = SEARCH.get_mut().clone() else {
+    let Some((pat, _dir)) = SEARCH.get_mut().clone() else {
         rl_ding();
         return 0;
     };
-    let dir = if key == b'N' as c_int { -dir } else { dir };
+    // n searches back (older), N forward, whatever the last search was
+    let dir = if key == b'N' as c_int { 1 } else { -1 };
     search_history(&pat, dir)
 }
