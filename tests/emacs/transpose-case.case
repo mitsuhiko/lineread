@@ -1,0 +1,143 @@
+# transpose-chars, transpose-words and the case-changing commands.
+tags: emacs
+--- script
+readline "> "
+
+=== transpose-chars-middle
+tags: transpose-chars
+keys: abcd\C-b\C-b\C-t<dump>\C-t<dump>\r
+
+=== transpose-chars-at-end
+tags: transpose-chars
+keys: abcd\C-t<dump>\C-t<dump>\r
+
+=== transpose-chars-at-start-dings
+tags: transpose-chars
+keys: abcd\C-a\C-t<dump>\r
+
+=== transpose-chars-single-char
+tags: transpose-chars
+keys: a\C-t<dump>\r
+
+=== transpose-chars-count
+tags: transpose-chars numarg
+keys: abcdef\C-a\C-f\M-3\C-t<dump>\r
+
+=== transpose-chars-negative-count
+tags: transpose-chars numarg
+keys: abcdef\C-b\M--\M-2\C-t<dump>\r
+
+=== transpose-chars-undo
+tags: transpose-chars undo
+keys: abcd\C-b\C-t\C-_<dump>\r
+
+=== transpose-chars-utf8
+tags: transpose-chars utf8
+keys: aé日\C-t<dump>\C-b\C-t<dump>\r
+
+=== transpose-words-basic
+tags: transpose-words
+keys: one two\M-t<dump>\r
+
+=== transpose-words-middle
+tags: transpose-words
+keys: one two three\C-a\M-f\M-t<dump>\M-t<dump>\r
+
+=== transpose-words-at-start
+tags: transpose-words
+keys: one two\C-a\M-t<dump>\r
+
+=== transpose-words-inside-word
+tags: transpose-words
+keys: one two three\M-b\C-f\M-t<dump>\r
+
+=== transpose-words-trailing-space
+tags: transpose-words
+keys: one two  \M-t<dump>\r
+
+=== transpose-words-punct
+tags: transpose-words
+keys: foo.bar, baz\M-b\M-t<dump>\r
+
+=== transpose-words-single-word
+tags: transpose-words
+keys: one\M-t<dump>\r
+
+=== transpose-words-count
+tags: transpose-words numarg
+keys: a b c d\C-a\M-f\M-2\M-t<dump>\r
+
+=== transpose-words-negative
+tags: transpose-words numarg
+keys: a b c d\M--\M-t<dump>\r
+
+=== transpose-words-undo
+tags: transpose-words undo
+keys: one two\M-t\C-_<dump>\r
+
+=== upcase-word
+tags: upcase-word
+keys: hello world\C-a\M-u<dump>\M-u<dump>\r
+
+=== upcase-word-mid-word
+tags: upcase-word
+keys: hello\C-a\C-f\C-f\M-u<dump>\r
+
+=== upcase-word-count
+tags: upcase-word numarg
+keys: a b c d\C-a\M-3\M-u<dump>\r
+
+=== upcase-word-negative
+tags: upcase-word numarg
+keys: one two three\M--\M-2\M-u<dump>\r
+
+=== downcase-word
+tags: downcase-word
+keys: HELLO WORLD\C-a\M-l<dump>\r
+
+=== downcase-word-negative
+tags: downcase-word numarg
+keys: ONE TWO\M--\M-l<dump>\r
+
+=== capitalize-word
+tags: capitalize-word
+keys: hELLO wORLD\C-a\M-c<dump>\M-c<dump>\r
+
+=== capitalize-word-digits-and-punct
+tags: capitalize-word
+keys: 1abc foo-bar x_y\C-a\M-c<dump>\M-c<dump>\M-c<dump>\M-c<dump>\r
+
+=== capitalize-word-mid-word
+tags: capitalize-word
+keys: hello\C-a\C-f\C-f\M-c<dump>\r
+
+=== capitalize-word-negative
+tags: capitalize-word numarg
+keys: one two\M--\M-c<dump>\r
+
+=== case-word-at-end-noop
+tags: upcase-word
+keys: abc \M-u<dump>\r
+
+=== case-word-utf8
+tags: upcase-word downcase-word capitalize-word utf8
+keys: élan ÉCOLE über\C-a\M-u<dump>\M-l<dump>\M-c<dump>\r
+
+=== case-word-undo
+tags: upcase-word undo
+keys: abc def\C-a\M-u\M-u\C-_<dump>\C-_<dump>\r
+
+=== meta-uppercase-is-lowercase-version
+tags: do-lowercase-version
+keys: one two\M-B<dump>\M-F<dump>\r
+
+=== meta-uppercase-u
+tags: do-lowercase-version upcase-word
+keys: abc\C-a\M-U<dump>\r
+
+=== ctl-x-uppercase-lowercase-version
+tags: do-lowercase-version
+--- inputrc
+"\C-xa": beginning-of-line
+--- keys
+abc\C-xA<dump>\r

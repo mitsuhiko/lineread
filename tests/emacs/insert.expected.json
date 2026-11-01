@@ -1,0 +1,578 @@
+{
+  "self-insert-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xxxxx", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xxxxx"}
+    ],
+    "screen": [
+      "> xxxxx"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-count-large": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", "point": 120, "end": 120, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"}
+    ],
+    "screen": [
+      "> yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy",
+      "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"
+    ],
+    "cursor": [2, 0]
+  },
+  "self-insert-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-universal-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zzzz", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "zzzzwwwwwwwwwwwwwwww", "point": 20, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zzzzwwwwwwwwwwwwwwww"}
+    ],
+    "screen": [
+      "> zzzzwwwwwwwwwwwwwwww"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-space-and-punct": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a b!@#$%^&*()_+{}|:\"<>?~`", "point": 25, "end": 25, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a b!@#$%^&*()_+{}|:\"<>?~`"}
+    ],
+    "screen": [
+      "> a b!@#$%^&*()_+{}|:\"<>?~`"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-one-at-a-time": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-typeahead-batch": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-unbound-control-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\u0018b", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\u0018b"}
+    ],
+    "screen": [
+      "> a^Xb"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoted-insert-control": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\u0001b", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\u0001b"}
+    ],
+    "screen": [
+      "> a^Ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoted-insert-ctrl-v": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\u0007b", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\u0007b"}
+    ],
+    "screen": [
+      "> a^Gb"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a^Gb"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "quoted-insert-escape": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\u001b", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\u001b"}
+    ],
+    "screen": [
+      "> ^["
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ^["
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "quoted-insert-del": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\u007f", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\u007f"}
+    ],
+    "screen": [
+      "> x^?"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x^?"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "quoted-insert-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "qqq", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "qqq"}
+    ],
+    "screen": [
+      "> qqq"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoted-insert-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\nb", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\nb"}
+    ],
+    "screen": [
+      "> a",
+      "b"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "b"
+        ],
+        "cursor": [1, 1]
+      }
+    ]
+  },
+  "quoted-insert-tab": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\tb", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\tb"}
+    ],
+    "screen": [
+      "> a     b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a     b"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "quoted-insert-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé"}
+    ],
+    "screen": [
+      "> aé"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoted-insert-signal-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\u0003\u001a", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\u0003\u001a"}
+    ],
+    "screen": [
+      "> a^C^Z"
+    ],
+    "cursor": [1, 0]
+  },
+  "tab-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\tb", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\tb"}
+    ],
+    "screen": [
+      "> a     b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a     b"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "tab-insert-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\t\t\t", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\t\t\t"}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "tab-key-without-completion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\ty", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\ty"}
+    ],
+    "screen": [
+      "> x     y"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-toggle": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XYcdef", "point": 2, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "dump", "line": "XYZcdef", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "XYZcdef"}
+    ],
+    "screen": [
+      "> XYZcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-insert-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XYZW", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "dump", "line": "XYZWv", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "XYZWv"}
+    ],
+    "screen": [
+      "> XYZWv"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-positive-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xbc", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "dump", "line": "XYc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "XYc"}
+    ],
+    "screen": [
+      "> XYc"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-negative-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xabc", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xabc"}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-count-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xxxdef", "point": 3, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "xxxdef"}
+    ],
+    "screen": [
+      "> xxxdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-at-end-appends": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcd", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-resets-each-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"},
+      {"op": "dumpfull", "line": "xbc", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 1, null], ["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "xbc"}
+    ],
+    "screen": [
+      "> a",
+      "> xbc"
+    ],
+    "cursor": [2, 0]
+  },
+  "overwrite-mode-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xbcd", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "dump", "line": "abcd", "point": 0, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-tab-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\tabcd", "point": 1, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "\tabcd"}
+    ],
+    "screen": [
+      ">       abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-quoted-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\u0001abcd", "point": 1, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "\u0001abcd"}
+    ],
+    "screen": [
+      "> ^Aabcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-mode-wide-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab語", "point": 2, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "ab語"}
+    ],
+    "screen": [
+      "> ab語"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab語"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "insert-mode-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xabc", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xabc"},
+      {"op": "get rl_insert_mode", "ret": 1}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xhello worldy", "point": 13, "end": 13, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xhello worldy"}
+    ],
+    "screen": [
+      "> xhello worldy"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-newline-not-accepted": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "line1\nline2\nline3", "point": 17, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "line1\nline2\nline3"}
+    ],
+    "screen": [
+      "> line1",
+      "line2",
+      "line3"
+    ],
+    "cursor": [3, 0]
+  },
+  "bracketed-paste-control-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\tb\u0001c\u007fd", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\tb\u0001c\u007fd"}
+    ],
+    "screen": [
+      "> a     b^Ac^?d"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-single-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ", "point": 2, "end": 2, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-sets-mark-active": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abcd", "point": 4, "end": 4, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 2, 4, null], ["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "bracketed-paste-begin", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 1, "executing_key": 126, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-region-highlight": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abcdefg"}
+    ],
+    "screen": [
+      "> abcdefg"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abcdef"
+        ],
+        "cursor": [0, 8]
+      },
+      {
+        "screen": [
+          "> abcdefg"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "bracketed-paste-overwrite-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XYabcdef", "point": 2, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "XYabcdef"}
+    ],
+    "screen": [
+      "> XYabcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-disabled": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xab", "point": 3, "end": 3, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xab"}
+    ],
+    "screen": [
+      "> xab"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "héllo 日本", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "héllo 日本"}
+    ],
+    "screen": [
+      "> héllo 日本"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-numeric-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value enable-bracketed-paste", "ret": "on"},
+      {"op": "rl_variable_bind enable-bracketed-paste off", "ret": 0},
+      {"op": "rl_variable_value enable-bracketed-paste", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}
