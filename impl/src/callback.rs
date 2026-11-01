@@ -66,12 +66,20 @@ unsafe fn suspend(st: WState) {
 /// whether a command waited for more input).
 static SUSPENSIONS: CVar<u64> = CVar::new(0);
 
-pub fn suspensions() -> u64 {
-    SUSPENSIONS.get()
+/// Suspensions inside an incremental or non-incremental search (the
+/// reference drives those through their own callbacks, whose result is
+/// not reported as EOF).
+static SEARCH_SUSPENSIONS: CVar<u64> = CVar::new(0);
+
+pub fn suspensions() -> (u64, u64) {
+    (SUSPENSIONS.get(), SEARCH_SUSPENSIONS.get())
 }
 
 unsafe fn suspend_in_command() {
     SUSPENSIONS.set(SUSPENSIONS.get() + 1);
+    if is_state(RL_STATE_ISEARCH | RL_STATE_NSEARCH) {
+        SEARCH_SUSPENSIONS.set(SEARCH_SUSPENSIONS.get() + 1);
+    }
     // (a key sequence leading to the command is complete by then)
     let bits = (RL_STATE_DISPATCHING | RL_STATE_MOREINPUT | RL_STATE_MULTIKEY) as c_ulong;
     let saved_bits = crate::readline::rl_readline_state.get() & bits;

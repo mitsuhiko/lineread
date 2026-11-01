@@ -135,7 +135,8 @@ pub unsafe fn call_command(f: rl_command_func_t, key: c_int, map: Keymap) -> c_i
     if r < 0
         && is_state(RL_STATE_CALLBACK)
         && crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE
-        && (rl_key_sequence_length.get() > 1 || crate::callback::suspensions() != susp)
+        && crate::callback::suspensions().1 == susp.1
+        && (rl_key_sequence_length.get() > 1 || crate::callback::suspensions().0 != susp.0)
     {
         // the reference's callback interface reports a failure of a
         // command reached through a key sequence or continued with more
