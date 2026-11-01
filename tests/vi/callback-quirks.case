@@ -1,0 +1,66 @@
+# vi character commands in callback mode: a failed f F t T m ` reports
+# EOF (state and rl_eof_found; the finished line gets one more newline),
+# a failed f/t inside an operator acts on one character.
+tags: vi callback quirk
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+callback "> "
+
+=== cb-failed-mark-state
+tags: vi-set-mark
+keys: one two\e<pause>m1<pause><dumpfull>\r
+
+=== cb-failed-f-state
+tags: vi-char-search
+keys: one two\e<pause>0fz<pause><dumpfull>\r
+
+=== cb-found-f-state
+tags: vi-char-search
+keys: one two\e<pause>0fo<pause><dumpfull>\r
+
+=== cb-failed-F
+tags: vi-char-search
+keys: one two\e<pause>Fz<pause><dump>\r
+
+=== cb-failed-t
+tags: vi-char-search
+keys: one two\e<pause>0tz<pause><dump>\r
+
+=== cb-failed-mark-then-edit
+tags: vi-set-mark
+keys: one two\e<pause>m1x<pause>x\r
+
+=== cb-failed-backtick
+tags: vi-goto-mark
+keys: one two\e<pause>`q<pause>\r
+
+=== cb-cfz-changes-one-char
+tags: vi-change-to vi-char-search
+keys: one-two\e<pause>0cfz<pause><dumpfull>\r
+
+=== cb-yfz
+tags: vi-yank-to vi-char-search
+keys: one-two\e<pause>0yfz<pause><dump>\r
+
+=== cb-dFz-nothing
+tags: vi-delete-to vi-char-search
+keys: one-two\e<pause>dFz<pause><dump>\r
+
+=== cb-dtz-one-char
+tags: vi-delete-to vi-char-search
+keys: one-two\e<pause>0dtz<pause><dumpfull>\r
+
+=== cb-eof-found-extra-newline
+tags: rl_eof_found
+--- script
+def e
+set rl_eof_found 1
+end
+defun eofset e
+rl_bind_keyseq "\C-x" eofset
+callback "> " 2
+--- inputrc
+--- keys
+abc\C-x\rdef\r

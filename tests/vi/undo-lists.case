@@ -1,0 +1,152 @@
+# vi undo-list structure: insertion groups, redo (no extra group), change
+# commands (two groups), replace mode (a group per character, backspace
+# undoes it) and the text kept for `.`.
+tags: vi vi-undo
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== insert-group-after-first-escape
+tags: vi-insertion-mode vi-movement-mode
+keys: abc\e<pause>adef\e<pause><dumpfull>U<dumpfull>\r
+
+=== insert-group-nested-in-insert
+tags: vi-insertion-mode
+keys: abc\e<pause>adef\e<pause>iX<dumpfull>\e<pause><dumpfull>\r
+
+=== redo-saves-last-insert-record
+tags: vi-redo
+keys: abc\e<pause>adef<left>gh\e<pause><dumpfull>.<dumpfull>\r
+
+=== emacs-to-vi-insert-group
+tags: vi-editing-mode
+--- inputrc
+set keyseq-timeout 50
+--- keys
+ab\M-\C-j<dumpfull>\e<pause><dumpfull>\r
+
+=== insert-from-command-mode-undo
+tags: vi-insertion-mode vi-undo
+keys: \e<pause>iab<dumpfull>\e<pause><dumpfull>u<dumpfull>\r
+
+=== vicmdonce-reset-per-line
+tags: vi-movement-mode
+--- script
+readline "> " 2
+--- keys
+one\e<pause>\rtwo<dumpfull>\e<pause><dumpfull>\r
+
+=== change-word-groups
+tags: vi-change-to
+keys: one two\e<pause>0cwX\e<pause><dumpfull>\r
+
+=== redo-x
+tags: vi-redo vi-delete
+keys: abcdef\e<pause>0x<pause>.<dumpfull>\r
+
+=== redo-x-count
+tags: vi-redo vi-delete numarg
+keys: abcdef\e<pause>03x<pause>.<dumpfull>\r
+
+=== redo-dw
+tags: vi-redo vi-delete-to
+keys: a b c d\e<pause>0dw<pause>.<dumpfull>\r
+
+=== redo-put-merges-insert
+tags: vi-redo vi-put
+keys: abcdef\e<pause>0x<pause>p<pause>.<dumpfull>\r
+
+=== redo-r
+tags: vi-redo vi-change-char
+keys: abcdef\e<pause>0rX<pause>l.<dumpfull>\r
+
+=== redo-tilde
+tags: vi-redo vi-change-case
+keys: abcdef\e<pause>0~<pause>.<dumpfull>\r
+
+=== redo-X
+tags: vi-redo vi-rubout
+keys: abcdef\e<pause>X<pause>.<dumpfull>\r
+
+=== redo-cw
+tags: vi-redo vi-change-to
+keys: ab cd ef\e<pause>0cwX\e<pause>w.<dumpfull>\r
+
+=== redo-s
+tags: vi-redo vi-subst
+keys: abcdef\e<pause>0sX\e<pause>l.<dumpfull>\r
+
+=== redo-D
+tags: vi-redo vi-delete-to
+keys: abc def\e<pause>0wD<pause>0.<dumpfull>\r
+
+=== redo-R
+tags: vi-redo vi-replace
+keys: abcdef\e<pause>0RXY\e<pause>l.<dumpfull>\r
+
+=== redo-a
+tags: vi-redo vi-append-mode
+keys: abcdef\e<pause>0aXY\e<pause>.<dumpfull>\r
+
+=== tilde-groups
+tags: vi-change-case
+keys: abcdef\e<pause>0~<dumpfull>\r
+
+=== r-count-group
+tags: vi-change-char numarg
+keys: abcdef\e<pause>03rX<dumpfull>\r
+
+=== replace-groups
+tags: vi-replace vi-overstrike
+keys: abcdef\e<pause>0RXY<dumpfull>\e<pause><dumpfull>\r
+
+=== replace-backspace-undoes-char
+tags: vi-replace vi-overstrike-delete
+keys: abcdef\e<pause>0RXYZ\C-?<dumpfull>\e<pause><dumpfull>\r
+
+=== replace-backspace-to-start
+tags: vi-replace vi-overstrike-delete
+keys: abcdef\e<pause>0RX<dumpfull>\C-?<dumpfull>\e<pause><dumpfull>\r
+
+=== replace-nothing-typed
+tags: vi-replace
+keys: abcdef\e<pause>0R\e<pause><dumpfull>\r
+
+=== replace-backspace-then-type
+tags: vi-replace vi-overstrike-delete
+keys: abcdef\e<pause>0RX\C-?Y<dumpfull>\e<pause><dumpfull>\r
+
+=== replace-backspace-twice-then-type
+tags: vi-replace vi-overstrike-delete
+keys: abcdef\e<pause>0RXY\C-?\C-?<dumpfull>Z<dumpfull>\e<pause><dumpfull>\r
+
+=== replace-past-end-groups
+tags: vi-replace vi-overstrike
+keys: abc\e<pause>0lRXYZ<dumpfull>\e<pause><dumpfull>\r
+
+=== start-inserting-i-redo
+tags: rl_vi_start_inserting vi-redo api
+--- script
+def s
+rl_vi_start_inserting "i" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause><dumpfull>.<dumpfull>\r
+
+=== start-inserting-c-keeps-change-text
+tags: rl_vi_start_inserting vi-redo vi-change-to api
+description: an insertion started with key c through the API does not replace the text the last change inserted
+--- script
+def s
+rl_vi_start_inserting "c" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc def\e<pause>0cwY\e<pause>w\C-xX\e<pause><dumpfull>.<dumpfull>\r

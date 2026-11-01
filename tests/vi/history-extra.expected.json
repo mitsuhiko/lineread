@@ -1,0 +1,159 @@
+{
+  "search-escape-is-literal": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ma\u001b", "point": 3, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "NSEARCH", "TTYCSAVED", "VICMDONCE"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> /", "last_func": "vi-movement-mode", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 47, "executing_keyseq": "/", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 3},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-state-while-typing": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ma", "point": 2, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "NSEARCH", "TTYCSAVED", "VICMDONCE"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> /", "last_func": "vi-movement-mode", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 47, "executing_keyseq": "/", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 3},
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 47, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-ctrl-u": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-ctrl-w": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-with-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-again-after-failure": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-question-then-N": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 8, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-backspace-edits": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-then-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 47, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "fetch-forward-does-not-move": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "h2", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "h2", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "h2"},
+      {"op": "dump", "line": "h4", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "h2", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "h2"},
+      {"op": "dump", "line": "h3", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "h3", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "h3"},
+      {"op": "dump", "line": "h3", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "h1", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "h1"},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "h5", "point": 0, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "h5"}
+    ],
+    "screen": [
+      "> h2",
+      "> h2",
+      "> h3",
+      "> h1",
+      "> h5"
+    ],
+    "cursor": [5, 0]
+  },
+  "search-n-after-question-goes-back": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 63, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search-again", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 78, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "dumpfull", "line": "make all", "point": 0, "end": 8, "mark": 8, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search-again", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 110, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "search-N-after-slash-goes-forward": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 47, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-search-again", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 78, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  }
+}

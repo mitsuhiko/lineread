@@ -1,0 +1,164 @@
+# vi operator details: kills never append to the previous kill, the mark
+# after y (kill + undo), cw over blanks, redo counts of d with a motion
+# count, % and ` as motions in both directions, replace-mode ESC.
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== dw-dw-separate-kills
+tags: vi-delete-to vi-put
+keys: one two three four\e<pause>0dwdwP<dump>\r
+
+=== dw-redo-separate-kills
+tags: vi-delete-to vi-redo vi-put
+keys: one two three four\e<pause>0dw.P<dump>\r
+
+=== yw-yw-separate-kills
+tags: vi-yank-to vi-put
+keys: one two three four\e<pause>0ywwywP<dump>\r
+
+=== yank-marks
+tags: vi-yank-to
+--- script
+readline "> "
+readline "> "
+readline "> "
+readline "> "
+--- keys
+one two\e<pause>0wyw<dumpfull>\rone two\e<pause>yb<dumpfull>\rone two\e<pause>0ye<dumpfull>\rone two\e<pause>0lyy<dumpfull>\r
+
+=== cw-blank-count
+tags: vi-change-to numarg
+keys: one   two three\e<pause>0ell2cwX\e<pause><dump>\r
+
+=== cw-last-char-of-word
+tags: vi-change-to
+keys: one two\e<pause>0ecwX\e<pause><dump>\r
+
+=== cw-before-punctuation
+tags: vi-change-to
+keys: one.two\e<pause>0ecwX\e<pause><dump>\r
+
+=== cw-at-end
+tags: vi-change-to
+keys: one two\e<pause>cwX\e<pause><dump>\r
+
+=== redo-keeps-motion-count
+tags: vi-redo vi-delete-to numarg
+keys: a b c d e f g h i j\e<pause>02d2w.<dump>\r
+
+=== redo-count-replaces-both-counts
+tags: vi-redo vi-delete-to numarg
+keys: a b c d e f g h i j\e<pause>02d2w3.<dump>\r
+
+=== d-percent-backward
+tags: vi-delete-to vi-match
+keys: x(a b)y\e<pause>0f)d%<dump>\r
+
+=== d-backtick-forward
+tags: vi-delete-to vi-goto-mark
+keys: one two three\e<pause>0wmb0d`b<dump>\r
+
+=== backtick-backtick-uses-mark
+tags: vi-goto-mark
+keys: one two three\e<pause>0wma$`a<dump>``<dump>``<dump>\r
+
+=== put-empty-kill-ring-aborts
+tags: vi-put
+keys: abc\e<pause>p<dumpfull>x<dump>\r
+
+=== put-empty-kill-ring-mid-line
+tags: vi-put
+keys: abcd\e<pause>0p<pause>l<dump>\r
+
+=== replace-mode-escape-is-not-a-prefix
+tags: vi-replace
+keys: abcdef\e<pause>0RXY\ex<dumpfull>\r
+
+=== replace-mode-arrow-key-leaves
+tags: vi-replace
+keys: abcdef\e<pause>0RXY<left>Z<dump>\r
+
+=== char-arg-escape-read-again
+tags: vi-char-search vi-change-char vi-set-mark
+--- script
+readline "> "
+readline "> "
+readline "> "
+--- keys
+one two\e<pause>0f\ex<dump>\rone two\e<pause>0r\ex<dump>\rone two\e<pause>0m\ex<dump>\r
+
+=== eof-after-universal-arg-in-motion
+tags: vi-delete-to eof
+keys: abc\e<pause>0d2\C-u
+
+=== eof-after-universal-arg-only
+tags: vi-delete-to eof
+keys: abc\e<pause>0d\C-u
+
+=== d0-at-start
+tags: vi-delete-to
+keys: abc\e<pause>0d0<dump>\r
+
+=== dh-at-start
+tags: vi-delete-to
+keys: abc\e<pause>0dh<dump>\r
+
+=== dw-on-last-char
+tags: vi-delete-to
+keys: abc def\e<pause>dw<dump>\r
+
+=== cw-on-last-char
+tags: vi-change-to
+keys: abc def\e<pause>cwX\e<pause><dump>\r
+
+=== cW-on-last-char
+tags: vi-change-to
+keys: abc def\e<pause>cWX\e<pause><dump>\r
+
+=== c0-at-start
+tags: vi-change-to
+keys: abc\e<pause>0c0X\e<pause><dump>\r
+
+=== cb-at-start
+tags: vi-change-to
+keys: abc\e<pause>0cbX\e<pause><dump>\r
+
+=== yw-on-last-char
+tags: vi-yank-to
+keys: abc def\e<pause>yw0P<dump>\r
+
+=== cw-one-char-word
+tags: vi-change-to
+keys: a b\e<pause>0cwX\e<pause><dump>\r
+
+=== cw-trailing-blank
+tags: vi-change-to
+keys: abc \e<pause>cwX\e<pause><dump>\r
+
+=== c2w-at-last-word
+tags: vi-change-to numarg
+keys: abc def\e<pause>0w2cwX\e<pause><dump>\r
+
+=== cw-blanks-to-end
+tags: vi-change-to
+keys: abc   \e<pause>0ellcwX\e<pause><dump>\r
+
+=== dw-to-last-char
+tags: vi-delete-to
+keys: ab c\e<pause>0dw<dump>\r
+
+=== cw-to-last-char
+tags: vi-change-to
+keys: ab  c\e<pause>0lllcwX\e<pause><dump>\r
+
+=== yw-to-last-char
+tags: vi-yank-to
+keys: ab c\e<pause>0yw$p<dump>\r
+
+=== d2w-to-last-char
+tags: vi-delete-to numarg
+keys: ab c d\e<pause>0d2w<dump>\r

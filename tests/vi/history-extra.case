@@ -1,0 +1,72 @@
+# vi history commands in detail: G with counts (moves only back), the
+# / ? search line (search char after the prompt, string edited in the line
+# buffer, ESC is a literal), n N.
+tags: vi history
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+readline "> "
+
+=== search-escape-is-literal
+tags: vi-search
+keys: abc\e<pause>/ma\e<pause><dumpfull>\r
+
+=== search-state-while-typing
+tags: vi-search
+keys: abc\e<pause>/ma<dumpfull>\r<dumpfull>\r
+
+=== search-ctrl-u
+tags: vi-search
+keys: abc\e<pause>/zz\C-umake\r<dump>\r
+
+=== search-ctrl-w
+tags: vi-search
+keys: abc\e<pause>/zz yy\C-wmake\r<dump>\r
+
+=== search-with-count
+tags: vi-search numarg
+keys: \e<pause>2/make\r<dump>\r
+
+=== search-again-after-failure
+tags: vi-search vi-search-again
+keys: \e<pause>/zzz\r<dump>n<dump>\r
+
+=== search-question-then-N
+tags: vi-search vi-search-again
+keys: \e<pause>kkk/git\r<dump>?make\r<dump>N<dump>\r
+
+=== search-backspace-edits
+tags: vi-search
+keys: \e<pause>/mx\C-hake\r<dump>\r
+
+=== search-then-undo
+tags: vi-search vi-undo
+keys: abc\e<pause>/make\r<dumpfull>u<dump>\r
+
+=== fetch-forward-does-not-move
+tags: vi-fetch-history numarg
+--- script
+add_history "h1"
+add_history "h2"
+add_history "h3"
+add_history "h4"
+add_history "h5"
+readline "> "
+readline "> "
+readline "> "
+readline "> "
+readline "> "
+--- keys
+\e<pause>2G<dump>4G<dump>\r\e<pause>4G<dump>2G<dump>\r\e<pause>3G<dump>3G<dump>\r\e<pause>kk3G<dump>1G<dump>\r\e<pause>6G<dump>5G<dump>\r
+
+=== search-n-after-question-goes-back
+tags: vi-search vi-search-again
+keys: \e<pause>kkk?make\r<dumpfull>N<dumpfull>n<dumpfull>\r
+
+=== search-N-after-slash-goes-forward
+tags: vi-search vi-search-again
+keys: \e<pause>/make\r<dumpfull>N<dumpfull>\r

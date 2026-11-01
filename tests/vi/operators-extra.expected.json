@@ -1,0 +1,414 @@
+{
+  "dw-dw-separate-kills": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three four", "point": 3, "end": 14, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two three four"}
+    ],
+    "screen": [
+      "> two three four"
+    ],
+    "cursor": [1, 0]
+  },
+  "dw-redo-separate-kills": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three four", "point": 3, "end": 14, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two three four"}
+    ],
+    "screen": [
+      "> two three four"
+    ],
+    "cursor": [1, 0]
+  },
+  "yw-yw-separate-kills": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two two three four", "point": 7, "end": 22, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two two three four"}
+    ],
+    "screen": [
+      "> one two two three four"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-marks": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "one two", "point": 4, "end": 7, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-yank-to", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 119, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "one two"},
+      {"op": "dumpfull", "line": "one two", "point": 6, "end": 7, "mark": 5, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-yank-to", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 98, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "one two"},
+      {"op": "dumpfull", "line": "one two", "point": 0, "end": 7, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-yank-to", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 101, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "one two"},
+      {"op": "dumpfull", "line": "one two", "point": 1, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-yank-to", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 121, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      "> one two",
+      "> one two",
+      "> one two"
+    ],
+    "cursor": [4, 0]
+  },
+  "cw-blank-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one X three", "point": 4, "end": 11, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one X three"}
+    ],
+    "screen": [
+      "> one X three"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-last-char-of-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "onX two", "point": 2, "end": 7, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "onX two"}
+    ],
+    "screen": [
+      "> onX two"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-before-punctuation": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "onX.two", "point": 2, "end": 7, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "onX.two"}
+    ],
+    "screen": [
+      "> onX.two"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one twX", "point": 6, "end": 7, "mark": 6, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one twX"}
+    ],
+    "screen": [
+      "> one twX"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-keeps-motion-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "i j", "point": 0, "end": 3, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "i j"}
+    ],
+    "screen": [
+      "> i j"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-count-replaces-both-counts": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "h i j", "point": 0, "end": 5, "mark": 5, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "h i j"}
+    ],
+    "screen": [
+      "> h i j"
+    ],
+    "cursor": [1, 0]
+  },
+  "d-percent-backward": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x)y", "point": 1, "end": 3, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x)y"}
+    ],
+    "screen": [
+      "> x)y"
+    ],
+    "cursor": [1, 0]
+  },
+  "d-backtick-forward": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three", "point": 0, "end": 9, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two three"}
+    ],
+    "screen": [
+      "> two three"
+    ],
+    "cursor": [1, 0]
+  },
+  "backtick-backtick-uses-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two three", "point": 4, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two three", "point": 0, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two three", "point": 0, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two three"}
+    ],
+    "screen": [
+      "> one two three"
+    ],
+    "cursor": [1, 0]
+  },
+  "put-empty-kill-ring-aborts": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 112, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "put-empty-kill-ring-mid-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcd", "point": 2, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "replace-mode-escape-is-not-a-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "Xcdef", "point": 1, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["delete", 1, 2, "Y"], ["end", 0, 0, null], ["end", 0, 0, null], ["end", 0, 0, null], ["delete", 2, 3, "b"], ["insert", 1, 2, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 1, 2, "a"], ["insert", 0, 1, null], ["begin", 0, 0, null], ["begin", 0, 0, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-delete", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "Xcdef"}
+    ],
+    "screen": [
+      "> Xcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "replace-mode-arrow-key-leaves": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "X", "point": 0, "end": 1, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "X"}
+    ],
+    "screen": [
+      "> X"
+    ],
+    "cursor": [1, 0]
+  },
+  "char-arg-escape-read-again": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ne two", "point": 0, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ne two"},
+      {"op": "dump", "line": "ne two", "point": 0, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ne two"},
+      {"op": "dump", "line": "ne two", "point": 0, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ne two"}
+    ],
+    "screen": [
+      "> ne two",
+      "> ne two",
+      "> ne two"
+    ],
+    "cursor": [3, 0]
+  },
+  "eof-after-universal-arg-in-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "eof-after-universal-arg-only": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "d0-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "dh-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "dw-on-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc de", "point": 5, "end": 6, "mark": 6, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc de"}
+    ],
+    "screen": [
+      "> abc de"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-on-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc deX", "point": 6, "end": 7, "mark": 6, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc deX"}
+    ],
+    "screen": [
+      "> abc deX"
+    ],
+    "cursor": [1, 0]
+  },
+  "cW-on-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc deX", "point": 6, "end": 7, "mark": 6, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc deX"}
+    ],
+    "screen": [
+      "> abc deX"
+    ],
+    "cursor": [1, 0]
+  },
+  "c0-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xabc", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xabc"}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xabc", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xabc"}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "yw-on-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "fabc def", "point": 0, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "fabc def"}
+    ],
+    "screen": [
+      "> fabc def"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-one-char-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "X b", "point": 0, "end": 3, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "X b"}
+    ],
+    "screen": [
+      "> X b"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-trailing-blank": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcX", "point": 3, "end": 4, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcX"}
+    ],
+    "screen": [
+      "> abcX"
+    ],
+    "cursor": [1, 0]
+  },
+  "c2w-at-last-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc X", "point": 4, "end": 5, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc X"}
+    ],
+    "screen": [
+      "> abc X"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-blanks-to-end": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc X", "point": 4, "end": 5, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc X"}
+    ],
+    "screen": [
+      "> abc X"
+    ],
+    "cursor": [1, 0]
+  },
+  "dw-to-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "c", "point": 0, "end": 1, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "c"}
+    ],
+    "screen": [
+      "> c"
+    ],
+    "cursor": [1, 0]
+  },
+  "cw-to-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab Xc", "point": 3, "end": 5, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab Xc"}
+    ],
+    "screen": [
+      "> ab Xc"
+    ],
+    "cursor": [1, 0]
+  },
+  "yw-to-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab cab ", "point": 6, "end": 7, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab cab "}
+    ],
+    "screen": [
+      "> ab cab"
+    ],
+    "cursor": [1, 0]
+  },
+  "d2w-to-last-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "d", "point": 0, "end": 1, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "d"}
+    ],
+    "screen": [
+      "> d"
+    ],
+    "cursor": [1, 0]
+  }
+}
