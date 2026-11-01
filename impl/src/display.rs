@@ -764,9 +764,6 @@ pub unsafe extern "C" fn rl_clear_message() -> c_int {
 /// "(arg: N) " while a numeric argument is being read.
 pub fn show_arg_message() {
     unsafe {
-        if crate::readline::rl_editing_mode.get() != crate::readline::EMACS_MODE {
-            return;
-        }
         let n = crate::numarg::count();
         let m = format!("(arg: {}) ", n);
         set_message(m.as_bytes());
