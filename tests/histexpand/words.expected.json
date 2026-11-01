@@ -1,0 +1,333 @@
+{
+  "word-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:0\"", "ret": 1, "out": "cmd"},
+      {"op": "history_expand \"!:0\"", "ret": 1, "out": "cmd"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-n": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1\"", "ret": 1, "out": "a1"},
+      {"op": "history_expand \"!!:2\"", "ret": 1, "out": "a2"},
+      {"op": "history_expand \"!!:3\"", "ret": 1, "out": "a3"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-n-multi-digit": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:10\"", "ret": 1, "out": "w10"},
+      {"op": "history_expand \"!!:12\"", "ret": 1, "out": "w12"},
+      {"op": "history_expand \"!!:13\"", "ret": -1, "out": ":13: bad word specifier"},
+      {"op": "history_expand \"!!:9-11\"", "ret": 1, "out": "w9 w10 w11"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-n-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:2\"", "ret": -1, "out": ":2: bad word specifier"},
+      {"op": "history_expand \"!!:1-2\"", "ret": -1, "out": ":1-2: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-caret": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:^\"", "ret": 1, "out": "a1"},
+      {"op": "history_expand \"!^\"", "ret": 1, "out": "a1"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-caret-no-args": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!^\"", "ret": -1, "out": "^: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-dollar": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:$\"", "ret": 1, "out": "a2"},
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "a2"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-dollar-single-word": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "cmd"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-star": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:*\"", "ret": 1, "out": "a1 a2"},
+      {"op": "history_expand \"!*\"", "ret": 1, "out": "a1 a2"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-star-no-args": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!*\"", "ret": 1, "out": ""},
+      {"op": "history_expand \"x !!:* y\"", "ret": 1, "out": "x  y"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1-3\"", "ret": 1, "out": "a1 a2 a3"},
+      {"op": "history_expand \"!!:0-1\"", "ret": 1, "out": "c a1"},
+      {"op": "history_expand \"!!:2-2\"", "ret": 1, "out": "a2"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-range-reversed": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:3-1\"", "ret": -1, "out": ":3-1: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-range-to-dollar": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1-$\"", "ret": 1, "out": "a1 a2 a3"},
+      {"op": "history_expand \"!!:0-$\"", "ret": 1, "out": "c a1 a2 a3"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-range-to-caret": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:0-^\"", "ret": 1, "out": "c a1"},
+      {"op": "history_expand \"!!:2-^\"", "ret": -1, "out": ":2-^: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-leading-dash": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:-2\"", "ret": 1, "out": "c a1 a2"},
+      {"op": "history_expand \"!!:-$\"", "ret": 1, "out": "c a1 a2 a3"},
+      {"op": "history_expand \"!-1:-1\"", "ret": 1, "out": "c a1"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-n-star": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:2*\"", "ret": 1, "out": "a2 a3"},
+      {"op": "history_expand \"!!:0*\"", "ret": 1, "out": "c a1 a2 a3"},
+      {"op": "history_expand \"!!:3*\"", "ret": 1, "out": "a3"},
+      {"op": "history_expand \"!!:4*\"", "ret": -1, "out": ":4*: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-n-dash-omits-last": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1-\"", "ret": 1, "out": "a1 a2"},
+      {"op": "history_expand \"!!:0-\"", "ret": 1, "out": "c a1 a2"},
+      {"op": "history_expand \"!!:3-\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-n-caret": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:0^\"", "ret": 1, "out": "c a1"},
+      {"op": "history_expand \"!!:2^\"", "ret": -1, "out": ":2^: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-caret-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:^-3\"", "ret": 1, "out": "a1 a2 a3"},
+      {"op": "history_expand \"!!:^-$\"", "ret": 1, "out": "a1 a2 a3"},
+      {"op": "history_expand \"!!:^*\"", "ret": 1, "out": "a1 a2 a3"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-without-colon": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!2\"", "ret": 1, "out": "c a1 a2 a32"},
+      {"op": "history_expand \"!!-2\"", "ret": 1, "out": "c a1 a2"},
+      {"op": "history_expand \"!-1$\"", "ret": 1, "out": "a3"},
+      {"op": "history_expand \"!c^\"", "ret": 1, "out": "a1"},
+      {"op": "history_expand \"!c*\"", "ret": 1, "out": "a1 a2 a3"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-colon-not-designator": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:\"", "ret": -1, "out": ": unrecognized history modifier"},
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'c' 'a1'"},
+      {"op": "history_expand \"!!: \"", "ret": -1, "out": " : unrecognized history modifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-dash-terminated-by-text": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1-x\"", "ret": 1, "out": "a1 a2x"},
+      {"op": "history_expand \"!!:1-:p\"", "ret": 2, "out": "a1 a2"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-percent-without-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:%\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-designator-quoted-words": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1\"", "ret": 1, "out": "'a b'"},
+      {"op": "history_expand \"!!:2\"", "ret": 1, "out": "\"c d\""},
+      {"op": "history_expand \"!!:$\"", "ret": 1, "out": "e"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-designator-shell-metachars": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:0\"", "ret": 1, "out": "ls"},
+      {"op": "history_expand \"!!:1\"", "ret": 1, "out": "|"},
+      {"op": "history_expand \"!!:2\"", "ret": 1, "out": "wc"},
+      {"op": "history_expand \"!!:3\"", "ret": 1, "out": "-l"},
+      {"op": "history_expand \"!!:4\"", "ret": 1, "out": ">"},
+      {"op": "history_expand \"!!:5\"", "ret": 1, "out": "out"},
+      {"op": "history_expand \"!!:6\"", "ret": 1, "out": "2>&1"},
+      {"op": "history_expand \"!!:$\"", "ret": 1, "out": "2>&1"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-designator-after-substring-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?all?:1\"", "ret": 1, "out": "all"},
+      {"op": "history_expand \"!?x?:$\"", "ret": 1, "out": "y"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-designator-with-modifier": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1:t\"", "ret": 1, "out": "b.c"},
+      {"op": "history_expand \"!$:r\"", "ret": 1, "out": "/d/e"},
+      {"op": "history_expand \"!^:h\"", "ret": 1, "out": "/a"},
+      {"op": "history_expand \"!*:t\"", "ret": 1, "out": "e.h"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-designator-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1\"", "ret": 1, "out": "ä.txt"},
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "ö.txt"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract 0 0 \"a b c\"", "ret": "a"},
+      {"op": "history_arg_extract 1 1 \"a b c\"", "ret": "b"},
+      {"op": "history_arg_extract 0 2 \"a b c\"", "ret": "a b c"},
+      {"op": "history_arg_extract 1 '$' \"a b c\"", "ret": "b c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract-negative": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract -1 -1 \"a b c d\"", "ret": "c"},
+      {"op": "history_arg_extract 0 -1 \"a b c d\"", "ret": "a b c"},
+      {"op": "history_arg_extract -2 '$' \"a b c d\"", "ret": "b c d"},
+      {"op": "history_arg_extract 0 -5 \"a b c d\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract-dollar-first": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract '$' '$' \"a b c\"", "ret": "c"},
+      {"op": "history_arg_extract '$' 0 \"a b c\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract 3 3 \"a b c\"", "ret": null},
+      {"op": "history_arg_extract 0 3 \"a b c\"", "ret": null},
+      {"op": "history_arg_extract 2 1 \"a b c\"", "ret": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract 0 0 \"\"", "ret": null},
+      {"op": "history_arg_extract 0 '$' \"   \"", "ret": null},
+      {"op": "history_arg_extract 1 '$' \"only\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract-tokens": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract 1 3 \"a  'b  c'   d\"", "ret": null},
+      {"op": "history_arg_extract 0 '$' \"x;y\"", "ret": "x ; y"},
+      {"op": "history_arg_extract 1 1 \"x;y\"", "ret": ";"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}
