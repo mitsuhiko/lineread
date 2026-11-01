@@ -1,0 +1,459 @@
+{
+  "if-mode-emacs": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-mode-vi-in-emacs": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"after\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-mode-vi-after-set": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" vi-insert", "type": "macro", "value": "vi"},
+      {"op": "rl_function_of_keyseq \"\\x18b\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-mode-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-mode-unknown": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"else\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-term-short-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"short\"\n\"\\C-xb\": \"full\"\n\"\\C-xc\": \"case\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-term-custom-terminal-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"vt100\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-term-set-by-application": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"sun\"\n\"\\C-xb\": \"sun-cmd\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-version-operators": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"eq\"\n\"\\C-xb\": \"eq-single\"\n\"\\C-xd\": \"lt\"\n\"\\C-xe\": \"le\"\n\"\\C-xf\": \"gt\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-version-no-spaces": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"nospace\"\n\"\\C-xb\": \"eq\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-version-major-only": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"gt8\"\n\"\\C-xc\": \"lt80\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-version-trailing-comment": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-version-errors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xz\": \"end\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: comparison operator expected, found `end-of-line'",
+      "readline: $BASE/inputrc: line 4: comparison operator expected, found `8.3'",
+      "readline: $BASE/inputrc: line 7: numeric argument expected, found `x'",
+      "readline: $BASE/inputrc: line 10: numeric argument expected, found `8.x'",
+      "readline: $BASE/inputrc: line 13: trailing garbage on line: ` garbage'",
+      "readline: $BASE/inputrc: line 16: numeric argument expected, found `! 8'"
+    ],
+    "cursor": [6, 0]
+  },
+  "if-version-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-application-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"exact\"\n\"\\C-xb\": \"lower\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-application-default-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"default name is other\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-application-name-trailing-words": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-unknown-word-is-false": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"else\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-bool-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"eq-on\"\n\"\\C-xc\": \"ne-off\"\n\"\\C-xe\": \"case\"\n\"\\C-xf\": \"single-eq\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-string-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"bell\"\n\"\\C-xb\": \"num\"\n\"\\C-xc\": \"mode\"\n\"\\C-xd\": \"keymap\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-variable-errors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xz\": \"end\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: equality comparison operator expected, found `end-of-line'",
+      "readline: $BASE/inputrc: line 4: equality comparison operator expected, found `< audible'",
+      "readline: $BASE/inputrc: line 7: argument expected, found `'",
+      "readline: $BASE/inputrc: line 10: equality comparison operator expected, found `audible'"
+    ],
+    "cursor": [4, 0]
+  },
+  "if-variable-value-trailing-text": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "if-variable-case-insensitive-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"yes\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "else-branch": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"else\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "else-of-true": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"if\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "else-without-if": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"after\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: $else found without matching $if"
+    ],
+    "cursor": [1, 0]
+  },
+  "endif-without-if": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"after\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: $endif without matching $if"
+    ],
+    "cursor": [1, 0]
+  },
+  "missing-endif": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "missing-endif-does-not-leak-to-next-read": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_read_init_file \"next.inputrc\"", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"next file\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "nested-true-true": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"both\"\n\"\\C-xb\": \"outer\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "nested-false-outer": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xd\": \"outer-else\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "nested-false-inner": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"inner-else\"\n\"\\C-xc\": \"outer\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "nested-deep": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"deep\"\n\"\\C-xb\": \"after\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiple-else": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"else1\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "directive-case-and-spacing": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"upper\"\n\"\\C-xb\": \"spaced\"\n\"\\C-xc\": \"indented\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "directive-trailing-comment-on-endif": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"a\"\n\"\\C-xb\": \"b\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-directive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"after\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: foo: unknown parser directive"
+    ],
+    "cursor": [1, 0]
+  },
+  "empty-directive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"after\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: : unknown parser directive"
+    ],
+    "cursor": [1, 0]
+  },
+  "set-inside-false-if": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"before\"\n\"\\C-xb\": \"after\"\n\"\\C-xi\": \"included\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xi\": \"included\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-missing": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"after\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-nested": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-x1\": \"one\"\n\"\\C-x2\": \"two\"\n\"\\C-x3\": \"back in one\"\n\"\\C-x4\": \"main\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-in-false-if": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-error-line-numbers": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"a\"\n"}
+    ],
+    "screen": [
+      "readline: inc.inputrc: line 2: bogus: unknown parser directive",
+      "readline: alsobogus: unknown parser directive"
+    ],
+    "cursor": [2, 0]
+  },
+  "include-conditional-spans-files": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"after endif\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-sets-variables": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include-trailing-whitespace-in-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"after\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

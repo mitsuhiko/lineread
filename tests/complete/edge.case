@@ -1,0 +1,313 @@
+# Completion edge cases: quoting with case folding and dequoting, insert
+# of all matches inside quotes, closing quotes from quoting functions,
+# skip-completed-text replacement, directory hooks without trailing slash,
+# byte-locale case folding, old-menu-complete details.
+tags: complete edge
+
+=== ignore-case-quoted-dequoted-lcd
+--- inputrc
+set completion-ignore-case on
+--- script
+file_write "With Space1" ""
+file_write "with space2" ""
+set rl_completer_quote_characters "\""
+set rl_filename_dequoting_function log
+readline "> "
+--- keys
+x "with s\t<dump>\r
+
+=== menu-complete-quoted-dequoted
+--- inputrc
+TAB: menu-complete
+--- script
+file_write "with space1" ""
+file_write "with space2" ""
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+set rl_filename_dequoting_function log
+readline "> "
+--- keys
+x "with s\t<dump>\t<dump>\r
+
+=== complete-quoted-dequoted-nontrivial
+--- script
+file_write "with space1" ""
+set rl_completer_quote_characters "\""
+set rl_filename_dequoting_function log
+readline "> "
+--- keys
+x "with s\t<dump>\r
+
+=== insert-completions-in-open-quote
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+set rl_completer_quote_characters "\""
+readline "> "
+--- keys
+x "ap\M-*<dump>\r
+
+=== insert-completions-quoting-function
+--- script
+file_write "a b1" ""
+file_write "a b2" ""
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x a\M-*<dump>\r
+
+=== insert-completions-single-quoted
+--- script
+file_write "a b1" ""
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x a\M-*<dump>\r
+
+=== quoting-function-adds-closing-quote
+--- script
+def q
+args
+return "\"with space.txt\""
+end
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+set rl_filename_quoting_function script:q
+readline "> "
+--- keys
+x "with"\C-b\t<dump>\r
+
+=== quoting-function-changes-quote-char
+--- script
+def q
+args
+return "'with space.txt"
+end
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+set rl_filename_quoting_function script:q
+readline "> "
+--- keys
+x "wi\t<dump>\r
+
+=== quote-found-but-no-quote-chars-needed
+# a quote seen in the word lets the quoting function decide
+--- script
+set rl_completer_quote_characters "\""
+set rl_filename_quoting_function log
+set rl_char_is_quoted_p backslash
+readline "> "
+--- file plain.txt
+--- keys
+x pl\\a\C-?\C-?\t<dump>\r
+
+=== skip-completed-text-replaces-rest
+--- inputrc
+set skip-completed-text on
+--- script
+complete_words banana
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+banzz\C-b\C-b\t<dump>\r
+
+=== skip-completed-text-partial-overlap
+--- inputrc
+set skip-completed-text on
+--- script
+complete_words banana
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+banaxyz\C-a\C-f\C-f\t<dump>\r
+
+=== directory-hook-without-trailing-slash
+--- dir subdir
+--- file subdir/inner.txt
+--- script
+def redirect
+replace_arg "subdir"
+return 1
+end
+set rl_directory_completion_hook script:redirect
+gen filename "x/in"
+
+=== directory-hook-listing-with-stats
+--- inputrc
+set visible-stats on
+--- dir subdir
+--- file subdir/inner.txt
+--- dir subdir/deep
+--- script
+set rl_directory_completion_hook log
+readline "> "
+--- keys
+x subdir/\M-?<snap>\r
+
+=== stat-hook-listing-mark-directories
+--- dir subdir
+--- file subdir/inner.txt
+--- dir subdir/deep
+--- script
+set rl_filename_stat_hook log
+readline "> "
+--- keys
+x subdir/\M-?<snap>\r
+
+=== listing-root-directory-entries
+--- script
+set rl_filename_completion_desired 1
+rl_initialize
+capture display_match_list "/" "/dev"
+capture display_match_list "///" "///dev"
+
+=== match-ending-in-slash
+--- dir somedir
+--- script
+def fn
+set rl_filename_completion_desired 1
+end
+complete_words somedir/
+set rl_attempted_completion_function script:fn
+set rl_completion_entry_function words
+readline "> "
+--- keys
+som\t<dump>\r
+
+=== byte-locale-ignore-case-filenames
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set completion-ignore-case on
+--- file Upper.TXT
+--- file upper2
+--- script
+rl_initialize
+gen filename "upp" sort
+gen filename "UPPER." sort
+gen filename "x" sort
+
+=== byte-locale-map-case-filenames
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set completion-ignore-case on
+set completion-map-case on
+--- file sub-three
+--- file sub_two
+--- script
+rl_initialize
+gen filename "SUB_T" sort
+gen filename "sub-t" sort
+
+=== byte-locale-lcd-ignore-case
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set completion-ignore-case on
+--- script
+rl_initialize
+complete_words -i Apple APPLY
+rl_completion_matches "ap" words
+
+=== utf8-map-case-filenames
+--- inputrc
+set completion-ignore-case on
+set completion-map-case on
+--- file Sub-Three
+--- file sub_two
+--- script
+rl_initialize
+gen filename "SUB_T" sort
+gen filename "sub-t" sort
+
+=== old-menu-complete-restart
+--- inputrc
+"\C-o": old-menu-complete
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\C-o\C-o\C-e\C-o<dump>\r
+
+=== old-menu-complete-negative-first
+--- inputrc
+"\C-o": old-menu-complete
+--- script
+complete_words apple apricot avocado
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\e-\C-o<dump>\e-3\C-o<dump>\r
+
+=== old-menu-complete-repeated-failure
+--- inputrc
+"\C-o": old-menu-complete
+--- script
+complete_words apple
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+zz\C-o\C-o<dump>\r
+
+=== menu-complete-repeated-failure
+--- inputrc
+TAB: menu-complete
+--- script
+complete_words apple
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+zz\t\t<dump>\r
+
+=== menu-complete-negative-large
+--- inputrc
+TAB: menu-complete
+--- script
+complete_words apple apricot avocado
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\e-7\t<dump>\r
+
+=== completion-word-break-hook-returns-empty
+--- script
+def brk
+return ""
+end
+def show
+args
+return NULL
+end
+set rl_completion_word_break_hook script:brk
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+a b c\t\r
+
+=== completion-in-vi-command-mode
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+x apr\e<pause>\\<dump>\r
+
+=== vi-complete-star-and-equals
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+x ap\e<pause>=<snap>*<dump>\r

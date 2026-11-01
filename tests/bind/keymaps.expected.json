@@ -1,0 +1,382 @@
+{
+  "bare-keymap-is-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_empty_keymap b", "ret": 1},
+      {"op": "keymap_dump b", "ret": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "full-keymap-contents": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_empty_keymap f", "ret": 0},
+      {"op": "keymap_dump f", "ret": [["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "self-insert"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "copy-keymap-is-shallow": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_function_of_keyseq \"\\x18\\x18\" c", "type": "func", "value": "exchange-point-and-mark"},
+      {"op": "rl_bind_keyseq_in_map '\\C-x\\C-x' kill-word c", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18\\x18\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_bind_key_in_map \"a\" kill-word c", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a\" emacs", "type": "func", "value": "self-insert"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "copy-keymap-macros-shared": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind 'm' 'macro' src", "ret": 0},
+      {"op": "rl_function_of_keyseq \"m\" dst", "type": "macro", "value": "macro"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-keymap-checks": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_empty_keymap emacs", "ret": 0},
+      {"op": "rl_empty_keymap emacs-ctlx", "ret": 0},
+      {"op": "rl_bind_key_in_map \"a\" kill-word b", "ret": 0},
+      {"op": "rl_empty_keymap b", "ret": 0},
+      {"op": "rl_unbind_key_in_map \"a\" b", "ret": 0},
+      {"op": "rl_empty_keymap b", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-keymap-ignores-anyotherkey": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'a' kill-word top", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'ab' upcase-word top", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a\" top", "type": "keymap", "value": "?anon"},
+      {"op": "rl_unbind_key_in_map \"a\" top", "ret": 0},
+      {"op": "rl_empty_keymap top", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-keymap-macro-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind 'x' 'y' b", "ret": 0},
+      {"op": "rl_empty_keymap b", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "builtin-keymap-names": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_keymap_by_name \"emacs\"", "ret": "emacs"},
+      {"op": "rl_get_keymap_by_name \"emacs-standard\"", "ret": "emacs"},
+      {"op": "rl_get_keymap_by_name \"emacs-meta\"", "ret": "emacs-meta"},
+      {"op": "rl_get_keymap_by_name \"emacs-ctlx\"", "ret": "emacs-ctlx"},
+      {"op": "rl_get_keymap_by_name \"vi\"", "ret": "vi"},
+      {"op": "rl_get_keymap_by_name \"vi-move\"", "ret": "vi"},
+      {"op": "rl_get_keymap_by_name \"vi-command\"", "ret": "vi"},
+      {"op": "rl_get_keymap_by_name \"vi-insert\"", "ret": "vi-insert"},
+      {"op": "rl_get_keymap_by_name \"EMACS-META\"", "ret": "emacs-meta"},
+      {"op": "rl_get_keymap_by_name \"Vi-Insert\"", "ret": "vi-insert"},
+      {"op": "rl_get_keymap_by_name \"\"", "ret": null},
+      {"op": "rl_get_keymap_by_name \"emacs-\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-name-of-builtins": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_keymap_name emacs", "ret": "emacs"},
+      {"op": "rl_get_keymap_name emacs-meta", "ret": "emacs-meta"},
+      {"op": "rl_get_keymap_name emacs-ctlx", "ret": "emacs-ctlx"},
+      {"op": "rl_get_keymap_name vi-command", "ret": "vi"},
+      {"op": "rl_get_keymap_name vi-insert", "ret": "vi-insert"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-name-of-anonymous": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_keymap_name b", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keymap-name-new": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"mine\" b", "ret": 8},
+      {"op": "rl_get_keymap_name b", "ret": "mine"},
+      {"op": "rl_get_keymap_by_name \"mine\"", "ret": "mine"},
+      {"op": "rl_get_keymap_by_name \"MINE\"", "ret": "mine"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keymap-name-rename": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"first\" b", "ret": 8},
+      {"op": "rl_set_keymap_name \"second\" b", "ret": 8},
+      {"op": "rl_get_keymap_name b", "ret": "second"},
+      {"op": "rl_get_keymap_by_name \"first\"", "ret": null},
+      {"op": "rl_get_keymap_by_name \"second\"", "ret": "second"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keymap-name-reassign": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"shared\" b1", "ret": 8},
+      {"op": "rl_set_keymap_name \"shared\" b2", "ret": 8},
+      {"op": "rl_get_keymap_name b1", "ret": null},
+      {"op": "rl_get_keymap_name b2", "ret": "shared"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keymap-name-builtin-rejected": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"emacs\" b", "ret": -1},
+      {"op": "rl_set_keymap_name \"vi-insert\" b", "ret": -1},
+      {"op": "rl_set_keymap_name \"newname\" emacs", "ret": -1},
+      {"op": "rl_set_keymap_name \"newname\" vi-command", "ret": -1},
+      {"op": "rl_get_keymap_name emacs", "ret": "emacs"},
+      {"op": "rl_get_keymap_name b", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keymap-name-several": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"ka\" a", "ret": 8},
+      {"op": "rl_set_keymap_name \"kb\" b", "ret": 9},
+      {"op": "rl_set_keymap_name \"kc\" c", "ret": 10},
+      {"op": "rl_get_keymap_by_name \"ka\"", "ret": "ka"},
+      {"op": "rl_get_keymap_by_name \"kb\"", "ret": "kb"},
+      {"op": "rl_get_keymap_by_name \"kc\"", "ret": "kc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "named-keymap-in-inputrc": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"custom\" b", "ret": 8},
+      {"op": "rl_parse_and_bind \"set keymap custom\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"x\\\": kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set keymap emacs\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"x\" b", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"x\" emacs", "type": "func", "value": "self-insert"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-set-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_keymap", "ret": "emacs"},
+      {"op": "rl_get_keymap", "ret": "vi"},
+      {"op": "rl_get_keymap", "ret": "vi"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keymap-from-edit-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_keymap", "ret": "emacs"},
+      {"op": "rl_get_keymap", "ret": "vi-insert"},
+      {"op": "rl_get_keymap_name_from_edit_mode", "ret": "vi"},
+      {"op": "rl_get_keymap_name_from_edit_mode", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "edit-mode-name-unknown-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_keymap_name_from_edit_mode", "ret": "none"},
+      {"op": "rl_get_keymap", "ret": "vi"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "discard-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'abc' kill-word top", "ret": 0},
+      {"op": "rl_macro_bind 'm' 'macro' top", "ret": 0},
+      {"op": "echo", "args": ["discarded"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "free-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'xy' kill-word top", "ret": 0},
+      {"op": "rl_macro_bind 'm' 'macro' top", "ret": 0},
+      {"op": "echo", "args": ["freed"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-emacs-default": {
+    "exit": 0,
+    "results": [
+      {"op": "keymap_dump emacs", "ret": [["\\C-@", "func", "set-mark"], ["\\C-a", "func", "beginning-of-line"], ["\\C-b", "func", "backward-char"], ["\\C-d", "func", "delete-char"], ["\\C-e", "func", "end-of-line"], ["\\C-f", "func", "forward-char"], ["\\C-g", "func", "abort"], ["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "complete"], ["\\C-j", "func", "accept-line"], ["\\C-k", "func", "kill-line"], ["\\C-l", "func", "clear-screen"], ["\\C-m", "func", "accept-line"], ["\\C-n", "func", "next-history"], ["\\C-o", "func", "operate-and-get-next"], ["\\C-p", "func", "previous-history"], ["\\C-q", "func", "quoted-insert"], ["\\C-r", "func", "reverse-search-history"], ["\\C-s", "func", "forward-search-history"], ["\\C-t", "func", "transpose-chars"], ["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-x", "keymap", "emacs-ctlx"], ["\\C-y", "func", "yank"], ["\\e", "keymap", "emacs-meta"], ["\\C-]", "func", "character-search"], ["\\C-_", "func", "undo"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-emacs-after-initialize": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump emacs", "ret": [["\\C-@", "func", "set-mark"], ["\\C-a", "func", "beginning-of-line"], ["\\C-b", "func", "backward-char"], ["\\C-d", "func", "delete-char"], ["\\C-e", "func", "end-of-line"], ["\\C-f", "func", "forward-char"], ["\\C-g", "func", "abort"], ["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "complete"], ["\\C-j", "func", "accept-line"], ["\\C-k", "func", "kill-line"], ["\\C-l", "func", "clear-screen"], ["\\C-m", "func", "accept-line"], ["\\C-n", "func", "next-history"], ["\\C-o", "func", "operate-and-get-next"], ["\\C-p", "func", "previous-history"], ["\\C-q", "func", "quoted-insert"], ["\\C-r", "func", "reverse-search-history"], ["\\C-s", "func", "forward-search-history"], ["\\C-t", "func", "transpose-chars"], ["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-x", "keymap", "emacs-ctlx"], ["\\C-y", "func", "yank"], ["\\e", "keymap", "emacs-meta"], ["\\C-]", "func", "character-search"], ["\\C-_", "func", "undo"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-emacs-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump emacs-meta", "ret": [["\\C-g", "func", "abort"], ["\\C-h", "func", "backward-kill-word"], ["\\C-i", "func", "tab-insert"], ["\\C-j", "func", "vi-editing-mode"], ["\\C-l", "func", "clear-display"], ["\\C-m", "func", "vi-editing-mode"], ["\\C-r", "func", "revert-line"], ["\\C-y", "func", "yank-nth-arg"], ["\\e", "func", "complete"], ["\\C-]", "func", "character-search-backward"], [" ", "func", "set-mark"], ["#", "func", "insert-comment"], ["&", "func", "tilde-expand"], ["*", "func", "insert-completions"], ["-", "func", "digit-argument"], [".", "func", "yank-last-arg"], ["0", "func", "digit-argument"], ["1", "func", "digit-argument"], ["2", "func", "digit-argument"], ["3", "func", "digit-argument"], ["4", "func", "digit-argument"], ["5", "func", "digit-argument"], ["6", "func", "digit-argument"], ["7", "func", "digit-argument"], ["8", "func", "digit-argument"], ["9", "func", "digit-argument"], ["<", "func", "beginning-of-history"], ["=", "func", "possible-completions"], [">", "func", "end-of-history"], ["?", "func", "possible-completions"], ["A", "func", "do-lowercase-version"], ["B", "func", "do-lowercase-version"], ["C", "func", "do-lowercase-version"], ["D", "func", "do-lowercase-version"], ["E", "func", "do-lowercase-version"], ["F", "func", "do-lowercase-version"], ["G", "func", "do-lowercase-version"], ["H", "func", "do-lowercase-version"], ["I", "func", "do-lowercase-version"], ["J", "func", "do-lowercase-version"], ["K", "func", "do-lowercase-version"], ["L", "func", "do-lowercase-version"], ["M", "func", "do-lowercase-version"], ["N", "func", "do-lowercase-version"], ["OA", "func", "previous-history"], ["OB", "func", "next-history"], ["OC", "func", "forward-char"], ["OD", "func", "backward-char"], ["OF", "func", "end-of-line"], ["OH", "func", "beginning-of-line"], ["P", "func", "do-lowercase-version"], ["Q", "func", "do-lowercase-version"], ["R", "func", "do-lowercase-version"], ["S", "func", "do-lowercase-version"], ["T", "func", "do-lowercase-version"], ["U", "func", "do-lowercase-version"], ["V", "func", "do-lowercase-version"], ["W", "func", "do-lowercase-version"], ["X", "func", "do-lowercase-version"], ["Y", "func", "do-lowercase-version"], ["Z", "func", "do-lowercase-version"], ["[1;3C", "func", "forward-word"], ["[1;3D", "func", "backward-word"], ["[1;5C", "func", "forward-word"], ["[1;5D", "func", "backward-word"], ["[200~", "func", "bracketed-paste-begin"], ["[2~", "func", "overwrite-mode"], ["[3;5~", "func", "kill-word"], ["[3~", "func", "delete-char"], ["[5~", "func", "history-search-backward"], ["[6~", "func", "history-search-forward"], ["[A", "func", "previous-history"], ["[B", "func", "next-history"], ["[C", "func", "forward-char"], ["[D", "func", "backward-char"], ["[F", "func", "end-of-line"], ["[H", "func", "beginning-of-line"], ["\\\\", "func", "delete-horizontal-space"], ["_", "func", "yank-last-arg"], ["b", "func", "backward-word"], ["c", "func", "capitalize-word"], ["d", "func", "kill-word"], ["f", "func", "forward-word"], ["l", "func", "downcase-word"], ["n", "func", "non-incremental-forward-search-history"], ["p", "func", "non-incremental-reverse-search-history"], ["r", "func", "revert-line"], ["t", "func", "transpose-words"], ["u", "func", "upcase-word"], ["x", "func", "execute-named-command"], ["y", "func", "yank-pop"], ["~", "func", "tilde-expand"], ["\\C-?", "func", "backward-kill-word"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-emacs-ctlx": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump emacs-ctlx", "ret": [["\\C-g", "func", "abort"], ["\\C-r", "func", "re-read-init-file"], ["\\C-u", "func", "undo"], ["\\C-x", "func", "exchange-point-and-mark"], ["(", "func", "start-kbd-macro"], [")", "func", "end-kbd-macro"], ["A", "func", "do-lowercase-version"], ["B", "func", "do-lowercase-version"], ["C", "func", "do-lowercase-version"], ["D", "func", "do-lowercase-version"], ["E", "func", "do-lowercase-version"], ["F", "func", "do-lowercase-version"], ["G", "func", "do-lowercase-version"], ["H", "func", "do-lowercase-version"], ["I", "func", "do-lowercase-version"], ["J", "func", "do-lowercase-version"], ["K", "func", "do-lowercase-version"], ["L", "func", "do-lowercase-version"], ["M", "func", "do-lowercase-version"], ["N", "func", "do-lowercase-version"], ["O", "func", "do-lowercase-version"], ["P", "func", "do-lowercase-version"], ["Q", "func", "do-lowercase-version"], ["R", "func", "do-lowercase-version"], ["S", "func", "do-lowercase-version"], ["T", "func", "do-lowercase-version"], ["U", "func", "do-lowercase-version"], ["V", "func", "do-lowercase-version"], ["W", "func", "do-lowercase-version"], ["X", "func", "do-lowercase-version"], ["Y", "func", "do-lowercase-version"], ["Z", "func", "do-lowercase-version"], ["e", "func", "call-last-kbd-macro"], ["\\C-?", "func", "backward-kill-line"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-vi-command": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump vi-command", "ret": [["\\C-d", "func", "vi-eof-maybe"], ["\\C-e", "func", "emacs-editing-mode"], ["\\C-g", "func", "abort"], ["\\C-h", "func", "backward-char"], ["\\C-j", "func", "accept-line"], ["\\C-k", "func", "kill-line"], ["\\C-l", "func", "clear-screen"], ["\\C-m", "func", "accept-line"], ["\\C-n", "func", "next-history"], ["\\C-p", "func", "previous-history"], ["\\C-q", "func", "quoted-insert"], ["\\C-r", "func", "reverse-search-history"], ["\\C-s", "func", "forward-search-history"], ["\\C-t", "func", "transpose-chars"], ["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "vi-unix-word-rubout"], ["\\C-y", "func", "yank"], ["\\eOA", "func", "previous-history"], ["\\eOB", "func", "next-history"], ["\\eOC", "func", "forward-char"], ["\\eOD", "func", "backward-char"], ["\\eOF", "func", "end-of-line"], ["\\eOH", "func", "beginning-of-line"], ["\\e[1;3C", "func", "forward-word"], ["\\e[1;3D", "func", "backward-word"], ["\\e[1;5C", "func", "forward-word"], ["\\e[1;5D", "func", "backward-word"], ["\\e[2~", "func", "overwrite-mode"], ["\\e[3;5~", "func", "kill-word"], ["\\e[3~", "func", "delete-char"], ["\\e[5~", "func", "history-search-backward"], ["\\e[6~", "func", "history-search-forward"], ["\\e[A", "func", "previous-history"], ["\\e[B", "func", "next-history"], ["\\e[C", "func", "forward-char"], ["\\e[D", "func", "backward-char"], ["\\e[F", "func", "end-of-line"], ["\\e[H", "func", "beginning-of-line"], ["\\e<any>", "func", "?unknown"], ["\\C-_", "func", "vi-undo"], [" ", "func", "forward-char"], ["#", "func", "insert-comment"], ["$", "func", "end-of-line"], ["%", "func", "vi-match"], ["&", "func", "vi-tilde-expand"], ["*", "func", "vi-complete"], ["+", "func", "next-history"], [",", "func", "vi-char-search"], ["-", "func", "previous-history"], [".", "func", "vi-redo"], ["/", "func", "vi-search"], ["0", "func", "beginning-of-line"], ["1", "func", "vi-arg-digit"], ["2", "func", "vi-arg-digit"], ["3", "func", "vi-arg-digit"], ["4", "func", "vi-arg-digit"], ["5", "func", "vi-arg-digit"], ["6", "func", "vi-arg-digit"], ["7", "func", "vi-arg-digit"], ["8", "func", "vi-arg-digit"], ["9", "func", "vi-arg-digit"], [";", "func", "vi-char-search"], ["=", "func", "vi-complete"], ["?", "func", "vi-search"], ["A", "func", "vi-append-eol"], ["B", "func", "vi-prev-word"], ["C", "func", "vi-change-to"], ["D", "func", "vi-delete-to"], ["E", "func", "vi-end-word"], ["F", "func", "vi-char-search"], ["G", "func", "vi-fetch-history"], ["I", "func", "vi-insert-beg"], ["N", "func", "vi-search-again"], ["P", "func", "vi-put"], ["R", "func", "vi-replace"], ["S", "func", "vi-subst"], ["T", "func", "vi-char-search"], ["U", "func", "revert-line"], ["W", "func", "vi-next-word"], ["X", "func", "vi-rubout"], ["Y", "func", "vi-yank-to"], ["\\\\", "func", "vi-complete"], ["^", "func", "vi-first-print"], ["_", "func", "vi-yank-arg"], ["`", "func", "vi-goto-mark"], ["a", "func", "vi-append-mode"], ["b", "func", "vi-prev-word"], ["c", "func", "vi-change-to"], ["d", "func", "vi-delete-to"], ["e", "func", "vi-end-word"], ["f", "func", "vi-char-search"], ["h", "func", "backward-char"], ["i", "func", "vi-insertion-mode"], ["j", "func", "next-history"], ["k", "func", "previous-history"], ["l", "func", "forward-char"], ["m", "func", "vi-set-mark"], ["n", "func", "vi-search-again"], ["p", "func", "vi-put"], ["r", "func", "vi-change-char"], ["s", "func", "vi-subst"], ["t", "func", "vi-char-search"], ["u", "func", "vi-undo"], ["w", "func", "vi-next-word"], ["x", "func", "vi-delete"], ["y", "func", "vi-yank-to"], ["|", "func", "vi-column"], ["~", "func", "vi-change-case"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-vi-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump vi-insert", "ret": [["\\C-a", "func", "self-insert"], ["\\C-b", "func", "self-insert"], ["\\C-c", "func", "self-insert"], ["\\C-d", "func", "vi-eof-maybe"], ["\\C-e", "func", "self-insert"], ["\\C-f", "func", "self-insert"], ["\\C-g", "func", "self-insert"], ["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "complete"], ["\\C-j", "func", "accept-line"], ["\\C-k", "func", "self-insert"], ["\\C-l", "func", "self-insert"], ["\\C-m", "func", "accept-line"], ["\\C-n", "func", "menu-complete"], ["\\C-o", "func", "self-insert"], ["\\C-p", "func", "menu-complete-backward"], ["\\C-q", "func", "self-insert"], ["\\C-r", "func", "reverse-search-history"], ["\\C-s", "func", "forward-search-history"], ["\\C-t", "func", "transpose-chars"], ["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "vi-unix-word-rubout"], ["\\C-x", "func", "self-insert"], ["\\C-y", "func", "yank"], ["\\C-z", "func", "self-insert"], ["\\eOA", "func", "previous-history"], ["\\eOB", "func", "next-history"], ["\\eOC", "func", "forward-char"], ["\\eOD", "func", "backward-char"], ["\\eOF", "func", "end-of-line"], ["\\eOH", "func", "beginning-of-line"], ["\\e[1;3C", "func", "forward-word"], ["\\e[1;3D", "func", "backward-word"], ["\\e[1;5C", "func", "forward-word"], ["\\e[1;5D", "func", "backward-word"], ["\\e[200~", "func", "bracketed-paste-begin"], ["\\e[2~", "func", "overwrite-mode"], ["\\e[3;5~", "func", "kill-word"], ["\\e[3~", "func", "delete-char"], ["\\e[5~", "func", "history-search-backward"], ["\\e[6~", "func", "history-search-forward"], ["\\e[A", "func", "previous-history"], ["\\e[B", "func", "next-history"], ["\\e[C", "func", "forward-char"], ["\\e[D", "func", "backward-char"], ["\\e[F", "func", "end-of-line"], ["\\e[H", "func", "beginning-of-line"], ["\\e<any>", "func", "vi-movement-mode"], ["\\C-\\", "func", "self-insert"], ["\\C-]", "func", "self-insert"], ["\\C-^", "func", "self-insert"], ["\\C-_", "func", "vi-undo"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-dump-c-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump emacs", "ret": [["\\C-@", "func", "set-mark"], ["\\C-a", "func", "beginning-of-line"], ["\\C-b", "func", "backward-char"], ["\\C-d", "func", "delete-char"], ["\\C-e", "func", "end-of-line"], ["\\C-f", "func", "forward-char"], ["\\C-g", "func", "abort"], ["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "complete"], ["\\C-j", "func", "accept-line"], ["\\C-k", "func", "kill-line"], ["\\C-l", "func", "clear-screen"], ["\\C-m", "func", "accept-line"], ["\\C-n", "func", "next-history"], ["\\C-o", "func", "operate-and-get-next"], ["\\C-p", "func", "previous-history"], ["\\C-q", "func", "quoted-insert"], ["\\C-r", "func", "reverse-search-history"], ["\\C-s", "func", "forward-search-history"], ["\\C-t", "func", "transpose-chars"], ["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-x", "keymap", "emacs-ctlx"], ["\\C-y", "func", "yank"], ["\\e", "keymap", "emacs-meta"], ["\\C-]", "func", "character-search"], ["\\C-_", "func", "undo"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tty-special-chars-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "readline", "ret": "x"},
+      {"op": "rl_function_of_keyseq \"\\x7f\" emacs", "type": "func", "value": "backward-delete-char"},
+      {"op": "rl_function_of_keyseq \"\\x15\" emacs", "type": "func", "value": "unix-line-discard"},
+      {"op": "rl_function_of_keyseq \"\\x17\" emacs", "type": "func", "value": "unix-word-rubout"},
+      {"op": "rl_function_of_keyseq \"\\x16\" emacs", "type": "func", "value": "quoted-insert"},
+      {"op": "rl_function_of_keyseq \"\\x7f\" vi-insert", "type": "func", "value": "backward-delete-char"},
+      {"op": "rl_function_of_keyseq \"\\x15\" vi-insert", "type": "func", "value": "unix-line-discard"},
+      {"op": "rl_function_of_keyseq \"\\x17\" vi-insert", "type": "func", "value": "vi-unix-word-rubout"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "tty-special-chars-not-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key \"\\C-w\" kill-word", "ret": 0},
+      {"op": "readline", "ret": "x"},
+      {"op": "rl_function_of_keyseq \"\\x17\" emacs", "type": "func", "value": "unix-word-rubout"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "tty-set-default-bindings": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "keymap_dump k", "ret": [["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-?", "func", "backward-delete-char"]]},
+      {"op": "keymap_dump k", "ret": [["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-?", "func", "backward-delete-char"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-variable-executing": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-km show", "ret": 0},
+      {"op": "rl_bind_keyseq '\\C-xs' show-km", "ret": 0},
+      {"op": "get rl_executing_keymap", "ret": "emacs-ctlx"},
+      {"op": "get rl_executing_key", "ret": 115},
+      {"op": "get rl_executing_keyseq", "ret": "\u0018s"},
+      {"op": "get rl_key_sequence_length", "ret": 2},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "tty-special-chars-not-bound-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind \"bind-tty-special-chars\" \"off\"", "ret": 0},
+      {"op": "rl_bind_key \"\\C-w\" kill-word", "ret": 0},
+      {"op": "readline", "ret": "x"},
+      {"op": "rl_function_of_keyseq \"\\x17\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "tty-unset-default-bindings-after-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"},
+      {"op": "keymap_dump k", "ret": [["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-?", "func", "backward-delete-char"]]},
+      {"op": "keymap_dump k", "ret": [["\\C-u", "func", "self-insert"], ["\\C-v", "func", "self-insert"], ["\\C-w", "func", "self-insert"], ["\\C-?", "func", "self-insert"]]},
+      {"op": "rl_function_of_keyseq \"\\x17\" emacs", "type": "func", "value": "self-insert"},
+      {"op": "rl_function_of_keyseq \"\\x15\" emacs", "type": "func", "value": "self-insert"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  }
+}

@@ -1,0 +1,798 @@
+{
+  "read-counter": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"five.txt\"", "ret": 0},
+      {"op": "get history_lines_read_from_file", "ret": 5},
+      {"op": "read_history \"missing.txt\"", "ret": 2},
+      {"op": "get history_lines_read_from_file", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-appends-to-list": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"five.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 6, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "existing", "timestamp": "", "data": 0}, {"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}, {"line": "three", "timestamp": "", "data": 0}, {"line": "four", "timestamp": "", "data": 0}, {"line": "five", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"five.txt\"", "ret": 0},
+      {"op": "read_history \"five.txt\"", "ret": 0},
+      {"op": "get history_length", "ret": 10}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-from-zero-to-two": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 0 2", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]},
+      {"op": "get history_lines_read_from_file", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-from-three": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 3 -1", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "four", "timestamp": "", "data": 0}, {"line": "five", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-to-less-than-from": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 3 1", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "four", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-past-end": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 10 20", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []},
+      {"op": "get history_lines_read_from_file", "ret": 5}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-to-past-end": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 4 100", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "five", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-empty-range": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 2 2", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "three", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-single": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" 1 2", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "range-negative-from": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"five.txt\" -3 2", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "blank-lines-skipped": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"blanks.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}, {"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]},
+      {"op": "get history_lines_read_from_file", "ret": 6}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "blank-lines-count-in-range": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"blanks.txt\" 2 -1", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "last-line-without-newline-dropped": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"noeol.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "first", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "crlf-line-endings": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"crlf.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}, {"line": "three", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "lone-cr-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"cr.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a\rb", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-file": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"empty.txt\"", "ret": 0},
+      {"op": "get history_lines_read_from_file", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "only-newlines": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"nl.txt\"", "ret": 0},
+      {"op": "get history_lines_read_from_file", "ret": 3},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "binary-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"bin.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "café", "timestamp": "", "data": 0}, {"line": "\udcff\udcfe", "timestamp": "", "data": 0}, {"line": "\u0001ctl", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "nul-byte-in-line": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"nul.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "ab", "timestamp": "", "data": 0}, {"line": "next", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "very-long-line": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"long.txt\"", "ret": 0},
+      {"op": "get history_length", "ret": 2},
+      {"op": "history_get 2", "ret": {"line": "short", "timestamp": "", "data": 0}},
+      {"op": "history_total_bytes", "ret": 74405}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "many-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"many.txt\"", "ret": 0},
+      {"op": "get history_length", "ret": 2000},
+      {"op": "get history_lines_read_from_file", "ret": 2000},
+      {"op": "history_get 2000", "ret": {"line": "line", "timestamp": "", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-directory-fails": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"adir\"", "ret": 79},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-unreadable": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"secret.txt\"", "ret": 13},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-via-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"link.txt\"", "ret": 0},
+      {"op": "get history_length", "ret": 5}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-default-home-unset": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history NULL", "ret": 0},
+      {"op": "history_truncate_file NULL 1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-default-uses-home": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history NULL", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "from sub", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-default-file": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history NULL", "ret": 0},
+      {"op": "file_read \".history\"", "content": "w\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-counter": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"w.txt\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 3},
+      {"op": "append_history 2 \"w.txt\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 2},
+      {"op": "file_read \"w.txt\"", "content": "a\nb\nc\nb\nc\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-empty-history": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"empty.txt\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 0},
+      {"op": "file_read \"empty.txt\"", "content": ""},
+      {"op": "file_stat \"empty.txt\"", "exists": true, "mode": "0600", "size": 0, "type": "file"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-replaces-existing": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"five.txt\"", "ret": 0},
+      {"op": "file_read \"five.txt\"", "content": "new\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-new-file-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"new.txt\"", "ret": 0},
+      {"op": "file_stat \"new.txt\"", "exists": true, "mode": "0600", "size": 2, "type": "file"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-existing-file-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"perm.txt\"", "ret": 0},
+      {"op": "file_stat \"perm.txt\"", "exists": true, "mode": "0600", "size": 2, "type": "file"},
+      {"op": "file_read \"perm.txt\"", "content": "x\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-through-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"link.txt\"", "ret": 0},
+      {"op": "file_stat \"link.txt\"", "exists": true, "mode": "0600", "size": 9, "type": "file"},
+      {"op": "file_read \"real.txt\"", "content": "via link\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-dangling-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"dangling.txt\"", "ret": 0},
+      {"op": "file_read \"target.txt\"", "content": "x\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-to-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"adir\"", "ret": 21}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-missing-dir": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"nodir/x.txt\"", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-readonly-file": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 1 \"ro.txt\"", "ret": 13},
+      {"op": "file_read \"ro.txt\"", "content": "keep\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-readonly-file-in-writable-dir": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ro.txt\"", "ret": 0},
+      {"op": "file_read \"ro.txt\"", "content": "x\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-missing-file": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 1 \"missing.txt\"", "ret": 2},
+      {"op": "file_stat \"missing.txt\"", "exists": false}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-more-than-length": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 10 \"five.txt\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 2},
+      {"op": "file_read \"five.txt\"", "content": "one\ntwo\nthree\nfour\nfive\na\nb\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 0 \"five.txt\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 0},
+      {"op": "file_read \"five.txt\"", "content": "one\ntwo\nthree\nfour\nfive\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-negative": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history -1 \"five.txt\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": -1},
+      {"op": "file_read \"five.txt\"", "content": "one\ntwo\nthree\nfour\nfive\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-multiline-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ml.txt\"", "ret": 0},
+      {"op": "file_read \"ml.txt\"", "content": "a\nb\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ts.txt\"", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "#100\none\ntwo\n#300\nthree\n"},
+      {"op": "get history_lines_written_to_file", "ret": 3}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-timestamps-default-stamp-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ts.txt\"", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "one\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-timestamps-off": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ts.txt\"", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "one\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 1 \"five.txt\"", "ret": 0},
+      {"op": "file_read \"five.txt\"", "content": "one\ntwo\nthree\nfour\nfive\n#100\none\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-timestamps-auto-comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "#100", "data": 0}, {"line": "two", "timestamp": "#200", "data": 0}]},
+      {"op": "get history_comment_char", "ret": ""},
+      {"op": "history_get_time 1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-timestamps-not-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "zero", "timestamp": "", "data": 0}, {"line": "#100", "timestamp": "", "data": 0}, {"line": "one", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-timestamps-not-at-start-comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "zero", "timestamp": "#<now>", "data": 0}, {"line": "one", "timestamp": "#100", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-timestamps-custom-comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "%100", "data": 0}, {"line": "two", "timestamp": "%200", "data": 0}]},
+      {"op": "history_get_time 2", "ret": 200}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-hash-nondigit-not-timestamp": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "#abc", "timestamp": "", "data": 0}, {"line": "one", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-consecutive-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "#200", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-trailing-timestamp": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "#100", "data": 0}]},
+      {"op": "get history_lines_read_from_file", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-timestamp-then-blank-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "#100", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-range-with-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"ts.txt\" 1 -1", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "two", "timestamp": "#200", "data": 0}, {"line": "three", "timestamp": "#300", "data": 0}]},
+      {"op": "get history_lines_read_from_file", "ret": 3}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-range-with-timestamps-to": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"ts.txt\" 0 2", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "#100", "data": 0}, {"line": "two", "timestamp": "#200", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-range-with-timestamps-from-two": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"ts.txt\" 2 3", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "three", "timestamp": "#300", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-read": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "line a\nline b", "timestamp": "#100", "data": 0}, {"line": "single", "timestamp": "#200", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-without-flag": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "line a", "timestamp": "#100", "data": 0}, {"line": "line b", "timestamp": "#<now>", "data": 0}, {"line": "single", "timestamp": "#200", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-blank-lines-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "line a\n\nline c", "timestamp": "#100", "data": 0}, {"line": "single", "timestamp": "#200", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-enabled-by-write-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a\nb", "timestamp": "#100", "data": 0}]},
+      {"op": "get history_multiline_entries", "ret": 1},
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "get history_multiline_entries", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-long-continuation": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "get history_length", "ret": 1},
+      {"op": "history_total_bytes", "ret": 1215}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-first-line-without-timestamp": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "plain", "timestamp": "#<now>", "data": 0}, {"line": "a\nb", "timestamp": "#100", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-roundtrip": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"rt.txt\"", "ret": 0},
+      {"op": "file_read \"rt.txt\"", "content": "#100\nfirst\nsecond\n#200\nthird\n"},
+      {"op": "read_history \"rt.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "first\nsecond", "timestamp": "#100", "data": 0}, {"line": "third", "timestamp": "#200", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-counter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"five.txt\" 2", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 2},
+      {"op": "file_read \"five.txt\"", "content": "four\nfive\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-more-than-file": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"five.txt\" 10", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 5},
+      {"op": "file_read \"five.txt\"", "content": "one\ntwo\nthree\nfour\nfive\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-exact": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"five.txt\" 5", "ret": 0},
+      {"op": "file_read \"five.txt\"", "content": "one\ntwo\nthree\nfour\nfive\n"},
+      {"op": "history_truncate_file \"five.txt\" 4", "ret": 0},
+      {"op": "file_read \"five.txt\"", "content": "two\nthree\nfour\nfive\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-negative": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"five.txt\" -1", "ret": 0},
+      {"op": "file_read \"five.txt\"", "content": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-zero-counter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"five.txt\" 0", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 0},
+      {"op": "file_stat \"five.txt\"", "exists": true, "mode": "0600", "size": 0, "type": "file"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-empty-file": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"empty.txt\" 3", "ret": 0},
+      {"op": "file_read \"empty.txt\"", "content": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-missing": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"missing.txt\" 3", "ret": 2},
+      {"op": "get history_lines_written_to_file", "ret": 0},
+      {"op": "file_stat \"missing.txt\"", "exists": false}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"adir\" 1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-unreadable": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"secret.txt\" 1", "ret": 13}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-no-trailing-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"noeol.txt\" 1", "ret": 0},
+      {"op": "file_read \"noeol.txt\"", "content": "b\nc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-with-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"ts.txt\" 2", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "#200\ntwo\n#300\nthree\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-timestamps-without-flag": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"ts.txt\" 2", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "#300\nthree\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-timestamps-comment-char-unset": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"ts.txt\" 2", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "#300\nthree\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-multiline-with-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"ml.txt\" 1", "ret": 0},
+      {"op": "file_read \"ml.txt\"", "content": "#200\nb1\nb2\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-via-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"link.txt\" 1", "ret": 0},
+      {"op": "file_stat \"link.txt\"", "exists": true, "mode": "0600", "size": 2, "type": "file"},
+      {"op": "file_read \"real.txt\"", "content": "3\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-mode-of-result": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"perm.txt\" 1", "ret": 0},
+      {"op": "file_stat \"perm.txt\"", "exists": true, "mode": "0600", "size": 2, "type": "file"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-readonly-dir": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"ro/h.txt\" 1", "ret": 13},
+      {"op": "file_read \"ro/h.txt\"", "content": "1\n2\n3\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "variables-defaults": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_write_timestamps", "ret": 0},
+      {"op": "get history_multiline_entries", "ret": 0},
+      {"op": "get history_file_version", "ret": 1},
+      {"op": "get history_lines_read_from_file", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

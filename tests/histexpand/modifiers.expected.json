@@ -1,0 +1,518 @@
+{
+  "head": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:h\"", "ret": 1, "out": "/usr/local/bin"},
+      {"op": "history_expand \"!!:h:h\"", "ret": 1, "out": "/usr/local"},
+      {"op": "history_expand \"!!:h:h:h\"", "ret": 1, "out": "/usr"},
+      {"op": "history_expand \"!!:h:h:h:h\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "head-no-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:h\"", "ret": 1, "out": "file.txt"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "head-trailing-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:h\"", "ret": 1, "out": "dir/sub"},
+      {"op": "history_expand \"!!:t\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "head-whole-line": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:h\"", "ret": 1, "out": "cp /a/b /c"},
+      {"op": "history_expand \"!!:t\"", "ret": 1, "out": "d"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tail": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:t\"", "ret": 1, "out": "tool"},
+      {"op": "history_expand \"!!:t:t\"", "ret": 1, "out": "tool"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tail-no-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:t\"", "ret": 1, "out": "file.txt"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "root": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:r\"", "ret": 1, "out": "archive.tar"},
+      {"op": "history_expand \"!!:r:r\"", "ret": 1, "out": "archive"},
+      {"op": "history_expand \"!!:r:r:r\"", "ret": 1, "out": "archive"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "root-dot-in-dir": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:r\"", "ret": 1, "out": "dir"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "extension": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:e\"", "ret": 1, "out": ".gz"},
+      {"op": "history_expand \"!!:e:e\"", "ret": 1, "out": ".gz"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "extension-none": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:e\"", "ret": 1, "out": "noext"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "extension-then-root": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:e:r\"", "ret": 1, "out": ""},
+      {"op": "history_expand \"!!:r:e\"", "ret": 1, "out": ".b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "head-then-tail": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:h:t\"", "ret": 1, "out": "b"},
+      {"op": "history_expand \"!!:t:r\"", "ret": 1, "out": "c"},
+      {"op": "history_expand \"!!:h:e\"", "ret": 1, "out": "/a/b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-only": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:p\"", "ret": 2, "out": "echo x"},
+      {"op": "history_expand \"a !! b:p\"", "ret": 1, "out": "a echo x b:p"},
+      {"op": "history_expand \"!!:p !!\"", "ret": 2, "out": "echo x echo x"},
+      {"op": "history_expand \"!!:p:p\"", "ret": 2, "out": "echo x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-only-with-other-modifiers": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:t:p\"", "ret": 2, "out": "b"},
+      {"op": "history_expand \"!!:p:t\"", "ret": 2, "out": "b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:q\"", "ret": 1, "out": "'echo it'\\''s here'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!*:q\"", "ret": 1, "out": "''"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote-then-other": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:q:h\"", "ret": 1, "out": "'a b'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote-breaks": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'a' 'b'\t'c'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote-breaks-quote-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'it'\\''s' 'a'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote-last-wins": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:q:x\"", "ret": 1, "out": "'a' 'b'"},
+      {"op": "history_expand \"!!:x:q\"", "ret": 1, "out": "'a b'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-first": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/aaa/X/\"", "ret": 1, "out": "X bbb aaa"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-without-trailing-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/aaa/X\"", "ret": 1, "out": "X bbb"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-text-after": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/o/0/ tail\"", "ret": 1, "out": "f0o tail"},
+      {"op": "history_expand \"!!:s/o/0 tail\"", "ret": 1, "out": "f0 tailo"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-global-g": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:gs/.c/.o/\"", "ret": 1, "out": "a.o b.o c.o"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-global-a": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:as/.c/.o/\"", "ret": 1, "out": "a.o b.o c.o"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-global-single-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:gs/a/b/\"", "ret": 1, "out": "bbbb"},
+      {"op": "history_expand \"!!:gs/a/aa/\"", "ret": 1, "out": "aaaaaaaa"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-global-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:gs/x/y/\"", "ret": -1, "out": ":gs/x/y/: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-bywords": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Gs/foo/X/\"", "ret": 1, "out": "X.c X.c bar.c"},
+      {"op": "history_expand \"!!:Gs/o/0/\"", "ret": 1, "out": "f0o.c f0o.c bar.c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-bywords-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Gs/x/y/\"", "ret": -1, "out": ":Gs/x/y/: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-custom-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s|/usr|/opt|\"", "ret": 1, "out": "/opt/bin"},
+      {"op": "history_expand \"!!:s,bin,lib,\"", "ret": 1, "out": "/usr/lib"},
+      {"op": "history_expand \"!!:s:bin:sbin:\"", "ret": 1, "out": "/usr/sbin"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-escaped-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/a\\\\/b/X/\"", "ret": 1, "out": "X c"},
+      {"op": "history_expand \"!!:s/c/d\\\\/e/\"", "ret": 1, "out": "a/b d/e"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-backslash-not-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/\\\\b/X/\"", "ret": 1, "out": "aX"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-empty-rhs": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/b//\"", "ret": 1, "out": "ac"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-empty-lhs-no-previous": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s//x/\"", "ret": -1, "out": ":s//x/: no previous substitution"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-empty-lhs-uses-previous": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/b/X/\"", "ret": 1, "out": "aXc abc"},
+      {"op": "history_expand \"!!:s//Y/\"", "ret": 1, "out": "aYc abc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-empty-lhs-uses-search-string": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?bar?\"", "ret": 1, "out": "foo bar"},
+      {"op": "history_expand \"!!:s//baz/\"", "ret": 1, "out": "foo baz"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-ampersand-rhs": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/b/[&]/\"", "ret": 1, "out": "a[b]c"},
+      {"op": "history_expand \"!!:s/b/&&/\"", "ret": 1, "out": "abbc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-escaped-ampersand": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/b/\\\\&/\"", "ret": 1, "out": "a&c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-ampersand-long-rhs": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/y/&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&/\"", "ret": 1, "out": "xyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyz"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-ampersand-long-lhs": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/abcdefghijklmnopqrstuvwxyz/<&&&&>/\"", "ret": 1, "out": "<abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz>"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-lhs-longer-than-text": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/abc/x/\"", "ret": -1, "out": ":s/abc/x/: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-failed": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/x/y/\"", "ret": -1, "out": ":s/x/y/: substitution failed"},
+      {"op": "history_expand \"!!:gs/x/y/\"", "ret": -1, "out": ":gs/x/y/: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-no-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s\"", "ret": 1, "out": "abc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-repeat-ampersand": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/a/b/\"", "ret": 1, "out": "b1 a2"},
+      {"op": "history_expand \"!!:&\"", "ret": 1, "out": "b1 a2"},
+      {"op": "history_expand \"!!:g&\"", "ret": 1, "out": "b1 b2"},
+      {"op": "history_expand \"!!:G&\"", "ret": 1, "out": "b1 b2"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-repeat-no-previous": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:&\"", "ret": -1, "out": ":&: no previous substitution"},
+      {"op": "history_expand \"!!:g&\"", "ret": -1, "out": ":g&: no previous substitution"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-repeat-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/a/b/:&\"", "ret": 1, "out": "bba"},
+      {"op": "history_expand \"!!:s/a/b/:&:&\"", "ret": 1, "out": "bbb"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-chained": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/one/1/:s/two/2/\"", "ret": 1, "out": "1 2"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-then-head": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/b/x/:h\"", "ret": 1, "out": "/a/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-on-word": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:2:s/b/c/\"", "ret": 1, "out": "c.txt"},
+      {"op": "history_expand \"!$:s/txt/md/\"", "ret": 1, "out": "b.md"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/ö/o/\"", "ret": 1, "out": "große"},
+      {"op": "history_expand \"!!:s/ß/ss/\"", "ret": 1, "out": "grösse"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-multibyte-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:säbäXä\"", "ret": -1, "out": ":säbäXä: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-state-persists": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/b/X/\"", "ret": 1, "out": "aXc"},
+      {"op": "history_expand \"!!:&\"", "ret": 1, "out": "Xbb"},
+      {"op": "history_expand \"^^Y\"", "ret": 1, "out": "Ybb"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-modifier": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:z\"", "ret": -1, "out": "z: unrecognized history modifier"},
+      {"op": "history_expand \"!!:t:z\"", "ret": -1, "out": "z: unrecognized history modifier"},
+      {"op": "history_expand \"!!:gz\"", "ret": -1, "out": "z: unrecognized history modifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-modifier-uppercase": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:H\"", "ret": -1, "out": "H: unrecognized history modifier"},
+      {"op": "history_expand \"!!:S/a/b/\"", "ret": -1, "out": "S: unrecognized history modifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "modifier-after-word-designator": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!$:h\"", "ret": 1, "out": "/etc"},
+      {"op": "history_expand \"!$:t:r\"", "ret": 1, "out": "x"},
+      {"op": "history_expand \"!vi:1:e\"", "ret": 1, "out": ".conf"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-ampersand-rhs-grows": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/ab/&&x/\"", "ret": 1, "out": "ababx"},
+      {"op": "history_expand \"!!:s/ab/&&&xyz/\"", "ret": 1, "out": "abababxyz"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-byte-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/a\\\\/b/X/\"", "ret": 1, "out": "X c"},
+      {"op": "history_expand \"!!:s|c|d|\"", "ret": 1, "out": "a/b d"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-bywords-extra-whitespace": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Gs/x/y/\"", "ret": 1, "out": "ya   yb  yc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "long-word-result": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"},
+      {"op": "history_expand \"!$:s/0/X/\"", "ret": 1, "out": "X123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

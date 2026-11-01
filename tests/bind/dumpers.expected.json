@@ -1,0 +1,886 @@
+{
+  "function-dumper-readable-after-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_dumper 1", "out": "\n\"\\C-g\": abort\n\"\\C-x\\C-g\": abort\n\"\\e\\C-g\": abort\n\"\\C-j\": accept-line\n\"\\C-m\": accept-line\n# arrow-key-prefix (not bound)\n# backward-byte (not bound)\n\"\\C-b\": backward-char\n\"\\eOD\": backward-char\n\"\\e[D\": backward-char\n\"\\C-h\": backward-delete-char\n\"\\C-?\": backward-delete-char\n\"\\C-x\\C-?\": backward-kill-line\n\"\\e\\C-h\": backward-kill-word\n\"\\e\\C-?\": backward-kill-word\n\"\\e[1;3D\": backward-word\n\"\\e[1;5D\": backward-word\n\"\\eb\": backward-word\n\"\\e<\": beginning-of-history\n\"\\C-a\": beginning-of-line\n\"\\eOH\": beginning-of-line\n\"\\e[H\": beginning-of-line\n\"\\e[200~\": bracketed-paste-begin\n\"\\C-xe\": call-last-kbd-macro\n\"\\ec\": capitalize-word\n\"\\C-]\": character-search\n\"\\e\\C-]\": character-search-backward\n\"\\e\\C-l\": clear-display\n\"\\C-l\": clear-screen\n\"\\C-i\": complete\n\"\\e\\e\": complete\n# copy-backward-word (not bound)\n# copy-forward-word (not bound)\n# copy-region-as-kill (not bound)\n\"\\C-d\": delete-char\n\"\\e[3~\": delete-char\n# delete-char-or-list (not bound)\n\"\\e\\\\\": delete-horizontal-space\n\"\\e-\": digit-argument\n\"\\e0\": digit-argument\n\"\\e1\": digit-argument\n\"\\e2\": digit-argument\n\"\\e3\": digit-argument\n\"\\e4\": digit-argument\n\"\\e5\": digit-argument\n\"\\e6\": digit-argument\n\"\\e7\": digit-argument\n\"\\e8\": digit-argument\n\"\\e9\": digit-argument\n\"\\C-xA\": do-lowercase-version\n\"\\C-xB\": do-lowercase-version\n\"\\C-xC\": do-lowercase-version\n\"\\C-xD\": do-lowercase-version\n\"\\C-xE\": do-lowercase-version\n\"\\C-xF\": do-lowercase-version\n\"\\C-xG\": do-lowercase-version\n\"\\C-xH\": do-lowercase-version\n\"\\C-xI\": do-lowercase-version\n\"\\C-xJ\": do-lowercase-version\n\"\\C-xK\": do-lowercase-version\n\"\\C-xL\": do-lowercase-version\n\"\\C-xM\": do-lowercase-version\n\"\\C-xN\": do-lowercase-version\n\"\\C-xO\": do-lowercase-version\n\"\\C-xP\": do-lowercase-version\n\"\\C-xQ\": do-lowercase-version\n\"\\C-xR\": do-lowercase-version\n\"\\C-xS\": do-lowercase-version\n\"\\C-xT\": do-lowercase-version\n\"\\C-xU\": do-lowercase-version\n\"\\C-xV\": do-lowercase-version\n\"\\C-xW\": do-lowercase-version\n\"\\C-xX\": do-lowercase-version\n\"\\C-xY\": do-lowercase-version\n\"\\C-xZ\": do-lowercase-version\n\"\\eA\": do-lowercase-version\n\"\\eB\": do-lowercase-version\n\"\\eC\": do-lowercase-version\n\"\\eD\": do-lowercase-version\n\"\\eE\": do-lowercase-version\n\"\\eF\": do-lowercase-version\n\"\\eG\": do-lowercase-version\n\"\\eH\": do-lowercase-version\n\"\\eI\": do-lowercase-version\n\"\\eJ\": do-lowercase-version\n\"\\eK\": do-lowercase-version\n\"\\eL\": do-lowercase-version\n\"\\eM\": do-lowercase-version\n\"\\eN\": do-lowercase-version\n\"\\eP\": do-lowercase-version\n\"\\eQ\": do-lowercase-version\n\"\\eR\": do-lowercase-version\n\"\\eS\": do-lowercase-version\n\"\\eT\": do-lowercase-version\n\"\\eU\": do-lowercase-version\n\"\\eV\": do-lowercase-version\n\"\\eW\": do-lowercase-version\n\"\\eX\": do-lowercase-version\n\"\\eY\": do-lowercase-version\n\"\\eZ\": do-lowercase-version\n\"\\el\": downcase-word\n# driver-dump (not bound)\n# driver-dump-full (not bound)\n# driver-snap (not bound)\n# dump-functions (not bound)\n# dump-macros (not bound)\n# dump-variables (not bound)\n# emacs-editing-mode (not bound)\n\"\\C-x)\": end-kbd-macro\n\"\\e>\": end-of-history\n\"\\C-e\": end-of-line\n\"\\eOF\": end-of-line\n\"\\e[F\": end-of-line\n\"\\C-x\\C-x\": exchange-point-and-mark\n\"\\ex\": execute-named-command\n# export-completions (not bound)\n# fetch-history (not bound)\n# forward-backward-delete-char (not bound)\n# forward-byte (not bound)\n\"\\C-f\": forward-char\n\"\\eOC\": forward-char\n\"\\e[C\": forward-char\n\"\\C-s\": forward-search-history\n\"\\e[1;3C\": forward-word\n\"\\e[1;5C\": forward-word\n\"\\ef\": forward-word\n\"\\e[5~\": history-search-backward\n\"\\e[6~\": history-search-forward\n# history-substring-search-backward (not bound)\n# history-substring-search-forward (not bound)\n\"\\e#\": insert-comment\n\"\\e*\": insert-completions\n\"\\C-k\": kill-line\n# kill-region (not bound)\n# kill-whole-line (not bound)\n\"\\e[3;5~\": kill-word\n\"\\ed\": kill-word\n# menu-complete (not bound)\n# menu-complete-backward (not bound)\n\"\\C-n\": next-history\n\"\\eOB\": next-history\n\"\\e[B\": next-history\n# next-screen-line (not bound)\n\"\\en\": non-incremental-forward-search-history\n# non-incremental-forward-search-history-again (not bound)\n\"\\ep\": non-incremental-reverse-search-history\n# non-incremental-reverse-search-history-again (not bound)\n# old-menu-complete (not bound)\n\"\\C-o\": operate-and-get-next\n\"\\e[2~\": overwrite-mode\n\"\\e=\": possible-completions\n\"\\e?\": possible-completions\n\"\\C-p\": previous-history\n\"\\eOA\": previous-history\n\"\\e[A\": previous-history\n# previous-screen-line (not bound)\n# print-last-kbd-macro (not bound)\n\"\\C-q\": quoted-insert\n\"\\C-v\": quoted-insert\n\"\\C-x\\C-r\": re-read-init-file\n# redraw-current-line (not bound)\n\"\\C-r\": reverse-search-history\n\"\\e\\C-r\": revert-line\n\"\\er\": revert-line\n\" \": self-insert\n\"!\": self-insert\n\"\\\"\": self-insert\n\"#\": self-insert\n\"$\": self-insert\n\"%\": self-insert\n\"&\": self-insert\n\"'\": self-insert\n\"(\": self-insert\n\")\": self-insert\n\"*\": self-insert\n\"+\": self-insert\n\",\": self-insert\n\"-\": self-insert\n\".\": self-insert\n\"/\": self-insert\n\"0\": self-insert\n\"1\": self-insert\n\"2\": self-insert\n\"3\": self-insert\n\"4\": self-insert\n\"5\": self-insert\n\"6\": self-insert\n\"7\": self-insert\n\"8\": self-insert\n\"9\": self-insert\n\":\": self-insert\n\";\": self-insert\n\"<\": self-insert\n\"=\": self-insert\n\">\": self-insert\n\"?\": self-insert\n\"@\": self-insert\n\"A\": self-insert\n\"B\": self-insert\n\"C\": self-insert\n\"D\": self-insert\n\"E\": self-insert\n\"F\": self-insert\n\"G\": self-insert\n\"H\": self-insert\n\"I\": self-insert\n\"J\": self-insert\n\"K\": self-insert\n\"L\": self-insert\n\"M\": self-insert\n\"N\": self-insert\n\"O\": self-insert\n\"P\": self-insert\n\"Q\": self-insert\n\"R\": self-insert\n\"S\": self-insert\n\"T\": self-insert\n\"U\": self-insert\n\"V\": self-insert\n\"W\": self-insert\n\"X\": self-insert\n\"Y\": self-insert\n\"Z\": self-insert\n\"[\": self-insert\n\"\\\\\": self-insert\n\"]\": self-insert\n\"^\": self-insert\n\"_\": self-insert\n\"`\": self-insert\n\"a\": self-insert\n\"b\": self-insert\n\"c\": self-insert\n\"d\": self-insert\n\"e\": self-insert\n\"f\": self-insert\n\"g\": self-insert\n\"h\": self-insert\n\"i\": self-insert\n\"j\": self-insert\n\"k\": self-insert\n\"l\": self-insert\n\"m\": self-insert\n\"n\": self-insert\n\"o\": self-insert\n\"p\": self-insert\n\"q\": self-insert\n\"r\": self-insert\n\"s\": self-insert\n\"t\": self-insert\n\"u\": self-insert\n\"v\": self-insert\n\"w\": self-insert\n\"x\": self-insert\n\"y\": self-insert\n\"z\": self-insert\n\"{\": self-insert\n\"|\": self-insert\n\"}\": self-insert\n\"~\": self-insert\n\"\\200\": self-insert\n\"\\201\": self-insert\n\"\\202\": self-insert\n\"\\203\": self-insert\n\"\\204\": self-insert\n\"\\205\": self-insert\n\"\\206\": self-insert\n\"\\207\": self-insert\n\"\\210\": self-insert\n\"\\211\": self-insert\n\"\\212\": self-insert\n\"\\213\": self-insert\n\"\\214\": self-insert\n\"\\215\": self-insert\n\"\\216\": self-insert\n\"\\217\": self-insert\n\"\\220\": self-insert\n\"\\221\": self-insert\n\"\\222\": self-insert\n\"\\223\": self-insert\n\"\\224\": self-insert\n\"\\225\": self-insert\n\"\\226\": self-insert\n\"\\227\": self-insert\n\"\\230\": self-insert\n\"\\231\": self-insert\n\"\\232\": self-insert\n\"\\233\": self-insert\n\"\\234\": self-insert\n\"\\235\": self-insert\n\"\\236\": self-insert\n\"\\237\": self-insert\n\"\\240\": self-insert\n\"\\241\": self-insert\n\"\\242\": self-insert\n\"\\243\": self-insert\n\"\\244\": self-insert\n\"\\245\": self-insert\n\"\\246\": self-insert\n\"\\247\": self-insert\n\"\\250\": self-insert\n\"\\251\": self-insert\n\"\\252\": self-insert\n\"\\253\": self-insert\n\"\\254\": self-insert\n\"\\255\": self-insert\n\"\\256\": self-insert\n\"\\257\": self-insert\n\"\\260\": self-insert\n\"\\261\": self-insert\n\"\\262\": self-insert\n\"\\263\": self-insert\n\"\\264\": self-insert\n\"\\265\": self-insert\n\"\\266\": self-insert\n\"\\267\": self-insert\n\"\\270\": self-insert\n\"\\271\": self-insert\n\"\\272\": self-insert\n\"\\273\": self-insert\n\"\\274\": self-insert\n\"\\275\": self-insert\n\"\\276\": self-insert\n\"\\277\": self-insert\n\"\\300\": self-insert\n\"\\301\": self-insert\n\"\\302\": self-insert\n\"\\303\": self-insert\n\"\\304\": self-insert\n\"\\305\": self-insert\n\"\\306\": self-insert\n\"\\307\": self-insert\n\"\\310\": self-insert\n\"\\311\": self-insert\n\"\\312\": self-insert\n\"\\313\": self-insert\n\"\\314\": self-insert\n\"\\315\": self-insert\n\"\\316\": self-insert\n\"\\317\": self-insert\n\"\\320\": self-insert\n\"\\321\": self-insert\n\"\\322\": self-insert\n\"\\323\": self-insert\n\"\\324\": self-insert\n\"\\325\": self-insert\n\"\\326\": self-insert\n\"\\327\": self-insert\n\"\\330\": self-insert\n\"\\331\": self-insert\n\"\\332\": self-insert\n\"\\333\": self-insert\n\"\\334\": self-insert\n\"\\335\": self-insert\n\"\\336\": self-insert\n\"\\337\": self-insert\n\"\\340\": self-insert\n\"\\341\": self-insert\n\"\\342\": self-insert\n\"\\343\": self-insert\n\"\\344\": self-insert\n\"\\345\": self-insert\n\"\\346\": self-insert\n\"\\347\": self-insert\n\"\\350\": self-insert\n\"\\351\": self-insert\n\"\\352\": self-insert\n\"\\353\": self-insert\n\"\\354\": self-insert\n\"\\355\": self-insert\n\"\\356\": self-insert\n\"\\357\": self-insert\n\"\\360\": self-insert\n\"\\361\": self-insert\n\"\\362\": self-insert\n\"\\363\": self-insert\n\"\\364\": self-insert\n\"\\365\": self-insert\n\"\\366\": self-insert\n\"\\367\": self-insert\n\"\\370\": self-insert\n\"\\371\": self-insert\n\"\\372\": self-insert\n\"\\373\": self-insert\n\"\\374\": self-insert\n\"\\375\": self-insert\n\"\\376\": self-insert\n\"\\377\": self-insert\n\"\\C-@\": set-mark\n\"\\e \": set-mark\n# skip-csi-sequence (not bound)\n\"\\C-x(\": start-kbd-macro\n\"\\e\\C-i\": tab-insert\n\"\\e&\": tilde-expand\n\"\\e~\": tilde-expand\n\"\\C-t\": transpose-chars\n\"\\et\": transpose-words\n# tty-status (not bound)\n\"\\C-x\\C-u\": undo\n\"\\C-_\": undo\n# universal-argument (not bound)\n# unix-filename-rubout (not bound)\n\"\\C-u\": unix-line-discard\n\"\\C-w\": unix-word-rubout\n\"\\eu\": upcase-word\n# vi-append-eol (not bound)\n# vi-append-mode (not bound)\n# vi-arg-digit (not bound)\n# vi-bWord (not bound)\n# vi-back-to-indent (not bound)\n# vi-backward-bigword (not bound)\n# vi-backward-word (not bound)\n# vi-bword (not bound)\n# vi-change-case (not bound)\n# vi-change-char (not bound)\n# vi-change-to (not bound)\n# vi-char-search (not bound)\n# vi-column (not bound)\n# vi-complete (not bound)\n# vi-delete (not bound)\n# vi-delete-to (not bound)\n# vi-eWord (not bound)\n\"\\e\\C-j\": vi-editing-mode\n\"\\e\\C-m\": vi-editing-mode\n# vi-end-bigword (not bound)\n# vi-end-word (not bound)\n# vi-eof-maybe (not bound)\n# vi-eword (not bound)\n# vi-fWord (not bound)\n# vi-fetch-history (not bound)\n# vi-first-print (not bound)\n# vi-forward-bigword (not bound)\n# vi-forward-word (not bound)\n# vi-fword (not bound)\n# vi-goto-mark (not bound)\n# vi-insert-beg (not bound)\n# vi-insertion-mode (not bound)\n# vi-match (not bound)\n# vi-movement-mode (not bound)\n# vi-next-word (not bound)\n# vi-overstrike (not bound)\n# vi-overstrike-delete (not bound)\n# vi-prev-word (not bound)\n# vi-put (not bound)\n# vi-redo (not bound)\n# vi-replace (not bound)\n# vi-rubout (not bound)\n# vi-search (not bound)\n# vi-search-again (not bound)\n# vi-set-mark (not bound)\n# vi-subst (not bound)\n# vi-tilde-expand (not bound)\n# vi-undo (not bound)\n# vi-unix-word-rubout (not bound)\n# vi-yank-arg (not bound)\n# vi-yank-pop (not bound)\n# vi-yank-to (not bound)\n\"\\C-y\": yank\n\"\\e.\": yank-last-arg\n\"\\e_\": yank-last-arg\n\"\\e\\C-y\": yank-nth-arg\n\"\\ey\": yank-pop\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "function-dumper-plain-after-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_dumper 0", "out": "\nabort can be found on \"\\C-g\", \"\\C-x\\C-g\", \"\\e\\C-g\".\naccept-line can be found on \"\\C-j\", \"\\C-m\".\narrow-key-prefix is not bound to any keys\nbackward-byte is not bound to any keys\nbackward-char can be found on \"\\C-b\", \"\\eOD\", \"\\e[D\".\nbackward-delete-char can be found on \"\\C-h\", \"\\C-?\".\nbackward-kill-line can be found on \"\\C-x\\C-?\".\nbackward-kill-word can be found on \"\\e\\C-h\", \"\\e\\C-?\".\nbackward-word can be found on \"\\e[1;3D\", \"\\e[1;5D\", \"\\eb\".\nbeginning-of-history can be found on \"\\e<\".\nbeginning-of-line can be found on \"\\C-a\", \"\\eOH\", \"\\e[H\".\nbracketed-paste-begin can be found on \"\\e[200~\".\ncall-last-kbd-macro can be found on \"\\C-xe\".\ncapitalize-word can be found on \"\\ec\".\ncharacter-search can be found on \"\\C-]\".\ncharacter-search-backward can be found on \"\\e\\C-]\".\nclear-display can be found on \"\\e\\C-l\".\nclear-screen can be found on \"\\C-l\".\ncomplete can be found on \"\\C-i\", \"\\e\\e\".\ncopy-backward-word is not bound to any keys\ncopy-forward-word is not bound to any keys\ncopy-region-as-kill is not bound to any keys\ndelete-char can be found on \"\\C-d\", \"\\e[3~\".\ndelete-char-or-list is not bound to any keys\ndelete-horizontal-space can be found on \"\\e\\\\\".\ndigit-argument can be found on \"\\e-\", \"\\e0\", \"\\e1\", \"\\e2\", \"\\e3\", ...\ndo-lowercase-version can be found on \"\\C-xA\", \"\\C-xB\", \"\\C-xC\", \"\\C-xD\", \"\\C-xE\", ...\ndowncase-word can be found on \"\\el\".\ndriver-dump is not bound to any keys\ndriver-dump-full is not bound to any keys\ndriver-snap is not bound to any keys\ndump-functions is not bound to any keys\ndump-macros is not bound to any keys\ndump-variables is not bound to any keys\nemacs-editing-mode is not bound to any keys\nend-kbd-macro can be found on \"\\C-x)\".\nend-of-history can be found on \"\\e>\".\nend-of-line can be found on \"\\C-e\", \"\\eOF\", \"\\e[F\".\nexchange-point-and-mark can be found on \"\\C-x\\C-x\".\nexecute-named-command can be found on \"\\ex\".\nexport-completions is not bound to any keys\nfetch-history is not bound to any keys\nforward-backward-delete-char is not bound to any keys\nforward-byte is not bound to any keys\nforward-char can be found on \"\\C-f\", \"\\eOC\", \"\\e[C\".\nforward-search-history can be found on \"\\C-s\".\nforward-word can be found on \"\\e[1;3C\", \"\\e[1;5C\", \"\\ef\".\nhistory-search-backward can be found on \"\\e[5~\".\nhistory-search-forward can be found on \"\\e[6~\".\nhistory-substring-search-backward is not bound to any keys\nhistory-substring-search-forward is not bound to any keys\ninsert-comment can be found on \"\\e#\".\ninsert-completions can be found on \"\\e*\".\nkill-line can be found on \"\\C-k\".\nkill-region is not bound to any keys\nkill-whole-line is not bound to any keys\nkill-word can be found on \"\\e[3;5~\", \"\\ed\".\nmenu-complete is not bound to any keys\nmenu-complete-backward is not bound to any keys\nnext-history can be found on \"\\C-n\", \"\\eOB\", \"\\e[B\".\nnext-screen-line is not bound to any keys\nnon-incremental-forward-search-history can be found on \"\\en\".\nnon-incremental-forward-search-history-again is not bound to any keys\nnon-incremental-reverse-search-history can be found on \"\\ep\".\nnon-incremental-reverse-search-history-again is not bound to any keys\nold-menu-complete is not bound to any keys\noperate-and-get-next can be found on \"\\C-o\".\noverwrite-mode can be found on \"\\e[2~\".\npossible-completions can be found on \"\\e=\", \"\\e?\".\nprevious-history can be found on \"\\C-p\", \"\\eOA\", \"\\e[A\".\nprevious-screen-line is not bound to any keys\nprint-last-kbd-macro is not bound to any keys\nquoted-insert can be found on \"\\C-q\", \"\\C-v\".\nre-read-init-file can be found on \"\\C-x\\C-r\".\nredraw-current-line is not bound to any keys\nreverse-search-history can be found on \"\\C-r\".\nrevert-line can be found on \"\\e\\C-r\", \"\\er\".\nself-insert can be found on \" \", \"!\", \"\\\"\", \"#\", \"$\", ...\nset-mark can be found on \"\\C-@\", \"\\e \".\nskip-csi-sequence is not bound to any keys\nstart-kbd-macro can be found on \"\\C-x(\".\ntab-insert can be found on \"\\e\\C-i\".\ntilde-expand can be found on \"\\e&\", \"\\e~\".\ntranspose-chars can be found on \"\\C-t\".\ntranspose-words can be found on \"\\et\".\ntty-status is not bound to any keys\nundo can be found on \"\\C-x\\C-u\", \"\\C-_\".\nuniversal-argument is not bound to any keys\nunix-filename-rubout is not bound to any keys\nunix-line-discard can be found on \"\\C-u\".\nunix-word-rubout can be found on \"\\C-w\".\nupcase-word can be found on \"\\eu\".\nvi-append-eol is not bound to any keys\nvi-append-mode is not bound to any keys\nvi-arg-digit is not bound to any keys\nvi-bWord is not bound to any keys\nvi-back-to-indent is not bound to any keys\nvi-backward-bigword is not bound to any keys\nvi-backward-word is not bound to any keys\nvi-bword is not bound to any keys\nvi-change-case is not bound to any keys\nvi-change-char is not bound to any keys\nvi-change-to is not bound to any keys\nvi-char-search is not bound to any keys\nvi-column is not bound to any keys\nvi-complete is not bound to any keys\nvi-delete is not bound to any keys\nvi-delete-to is not bound to any keys\nvi-eWord is not bound to any keys\nvi-editing-mode can be found on \"\\e\\C-j\", \"\\e\\C-m\".\nvi-end-bigword is not bound to any keys\nvi-end-word is not bound to any keys\nvi-eof-maybe is not bound to any keys\nvi-eword is not bound to any keys\nvi-fWord is not bound to any keys\nvi-fetch-history is not bound to any keys\nvi-first-print is not bound to any keys\nvi-forward-bigword is not bound to any keys\nvi-forward-word is not bound to any keys\nvi-fword is not bound to any keys\nvi-goto-mark is not bound to any keys\nvi-insert-beg is not bound to any keys\nvi-insertion-mode is not bound to any keys\nvi-match is not bound to any keys\nvi-movement-mode is not bound to any keys\nvi-next-word is not bound to any keys\nvi-overstrike is not bound to any keys\nvi-overstrike-delete is not bound to any keys\nvi-prev-word is not bound to any keys\nvi-put is not bound to any keys\nvi-redo is not bound to any keys\nvi-replace is not bound to any keys\nvi-rubout is not bound to any keys\nvi-search is not bound to any keys\nvi-search-again is not bound to any keys\nvi-set-mark is not bound to any keys\nvi-subst is not bound to any keys\nvi-tilde-expand is not bound to any keys\nvi-undo is not bound to any keys\nvi-unix-word-rubout is not bound to any keys\nvi-yank-arg is not bound to any keys\nvi-yank-pop is not bound to any keys\nvi-yank-to is not bound to any keys\nyank can be found on \"\\C-y\".\nyank-last-arg can be found on \"\\e.\", \"\\e_\".\nyank-nth-arg can be found on \"\\e\\C-y\".\nyank-pop can be found on \"\\ey\".\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "function-dumper-current-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_dumper 1", "out": "\n\"\\C-g\": abort\n\"\\C-j\": accept-line\n\"\\C-m\": accept-line\n# arrow-key-prefix (not bound)\n# backward-byte (not bound)\n\"\\C-h\": backward-char\n\"\\eOD\": backward-char\n\"\\e[D\": backward-char\n\"h\": backward-char\n# backward-delete-char (not bound)\n# backward-kill-line (not bound)\n# backward-kill-word (not bound)\n\"\\e[1;3D\": backward-word\n\"\\e[1;5D\": backward-word\n# beginning-of-history (not bound)\n\"\\eOH\": beginning-of-line\n\"\\e[H\": beginning-of-line\n\"0\": beginning-of-line\n# bracketed-paste-begin (not bound)\n# call-last-kbd-macro (not bound)\n# capitalize-word (not bound)\n# character-search (not bound)\n# character-search-backward (not bound)\n# clear-display (not bound)\n\"\\C-l\": clear-screen\n# complete (not bound)\n# copy-backward-word (not bound)\n# copy-forward-word (not bound)\n# copy-region-as-kill (not bound)\n\"\\e[3~\": delete-char\n# delete-char-or-list (not bound)\n# delete-horizontal-space (not bound)\n# digit-argument (not bound)\n# do-lowercase-version (not bound)\n# downcase-word (not bound)\n# driver-dump (not bound)\n# driver-dump-full (not bound)\n# driver-snap (not bound)\n# dump-functions (not bound)\n# dump-macros (not bound)\n# dump-variables (not bound)\n\"\\C-e\": emacs-editing-mode\n# end-kbd-macro (not bound)\n# end-of-history (not bound)\n\"\\eOF\": end-of-line\n\"\\e[F\": end-of-line\n\"$\": end-of-line\n# exchange-point-and-mark (not bound)\n# execute-named-command (not bound)\n# export-completions (not bound)\n# fetch-history (not bound)\n# forward-backward-delete-char (not bound)\n# forward-byte (not bound)\n\"\\eOC\": forward-char\n\"\\e[C\": forward-char\n\" \": forward-char\n\"l\": forward-char\n\"\\C-s\": forward-search-history\n\"\\e[1;3C\": forward-word\n\"\\e[1;5C\": forward-word\n\"\\e[5~\": history-search-backward\n\"\\e[6~\": history-search-forward\n# history-substring-search-backward (not bound)\n# history-substring-search-forward (not bound)\n\"#\": insert-comment\n# insert-completions (not bound)\n\"\\C-k\": kill-line\n# kill-region (not bound)\n# kill-whole-line (not bound)\n\"\\e[3;5~\": kill-word\n# menu-complete (not bound)\n# menu-complete-backward (not bound)\n\"\\C-n\": next-history\n\"\\eOB\": next-history\n\"\\e[B\": next-history\n\"+\": next-history\n\"j\": next-history\n# next-screen-line (not bound)\n# non-incremental-forward-search-history (not bound)\n# non-incremental-forward-search-history-again (not bound)\n# non-incremental-reverse-search-history (not bound)\n# non-incremental-reverse-search-history-again (not bound)\n# old-menu-complete (not bound)\n# operate-and-get-next (not bound)\n\"\\e[2~\": overwrite-mode\n# possible-completions (not bound)\n\"\\C-p\": previous-history\n\"\\eOA\": previous-history\n\"\\e[A\": previous-history\n\"-\": previous-history\n\"k\": previous-history\n# previous-screen-line (not bound)\n# print-last-kbd-macro (not bound)\n\"\\C-q\": quoted-insert\n\"\\C-v\": quoted-insert\n# re-read-init-file (not bound)\n# redraw-current-line (not bound)\n\"\\C-r\": reverse-search-history\n\"U\": revert-line\n# self-insert (not bound)\n# set-mark (not bound)\n# skip-csi-sequence (not bound)\n# start-kbd-macro (not bound)\n# tab-insert (not bound)\n# tilde-expand (not bound)\n\"\\C-t\": transpose-chars\n# transpose-words (not bound)\n# tty-status (not bound)\n# undo (not bound)\n# universal-argument (not bound)\n# unix-filename-rubout (not bound)\n\"\\C-u\": unix-line-discard\n# unix-word-rubout (not bound)\n# upcase-word (not bound)\n\"A\": vi-append-eol\n\"a\": vi-append-mode\n\"1\": vi-arg-digit\n\"2\": vi-arg-digit\n\"3\": vi-arg-digit\n\"4\": vi-arg-digit\n\"5\": vi-arg-digit\n\"6\": vi-arg-digit\n\"7\": vi-arg-digit\n\"8\": vi-arg-digit\n\"9\": vi-arg-digit\n# vi-bWord (not bound)\n# vi-back-to-indent (not bound)\n# vi-backward-bigword (not bound)\n# vi-backward-word (not bound)\n# vi-bword (not bound)\n\"~\": vi-change-case\n\"r\": vi-change-char\n\"C\": vi-change-to\n\"c\": vi-change-to\n\",\": vi-char-search\n\";\": vi-char-search\n\"F\": vi-char-search\n\"T\": vi-char-search\n\"f\": vi-char-search\n\"t\": vi-char-search\n\"|\": vi-column\n\"*\": vi-complete\n\"=\": vi-complete\n\"\\\\\": vi-complete\n\"x\": vi-delete\n\"D\": vi-delete-to\n\"d\": vi-delete-to\n# vi-eWord (not bound)\n# vi-editing-mode (not bound)\n# vi-end-bigword (not bound)\n\"E\": vi-end-word\n\"e\": vi-end-word\n\"\\C-d\": vi-eof-maybe\n# vi-eword (not bound)\n# vi-fWord (not bound)\n\"G\": vi-fetch-history\n\"^\": vi-first-print\n# vi-forward-bigword (not bound)\n# vi-forward-word (not bound)\n# vi-fword (not bound)\n\"`\": vi-goto-mark\n\"I\": vi-insert-beg\n\"i\": vi-insertion-mode\n\"%\": vi-match\n# vi-movement-mode (not bound)\n\"W\": vi-next-word\n\"w\": vi-next-word\n# vi-overstrike (not bound)\n# vi-overstrike-delete (not bound)\n\"B\": vi-prev-word\n\"b\": vi-prev-word\n\"P\": vi-put\n\"p\": vi-put\n\".\": vi-redo\n\"R\": vi-replace\n\"X\": vi-rubout\n\"/\": vi-search\n\"?\": vi-search\n\"N\": vi-search-again\n\"n\": vi-search-again\n\"m\": vi-set-mark\n\"S\": vi-subst\n\"s\": vi-subst\n\"&\": vi-tilde-expand\n\"\\C-_\": vi-undo\n\"u\": vi-undo\n\"\\C-w\": vi-unix-word-rubout\n\"_\": vi-yank-arg\n# vi-yank-pop (not bound)\n\"Y\": vi-yank-to\n\"y\": vi-yank-to\n\"\\C-y\": yank\n# yank-last-arg (not bound)\n# yank-nth-arg (not bound)\n# yank-pop (not bound)\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "function-dumper-custom-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'ab' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'x' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\e[1~' beginning-of-line k", "ret": 0},
+      {"op": "rl_function_dumper 1", "out": "\n# abort (not bound)\n# accept-line (not bound)\n# arrow-key-prefix (not bound)\n# backward-byte (not bound)\n# backward-char (not bound)\n# backward-delete-char (not bound)\n# backward-kill-line (not bound)\n# backward-kill-word (not bound)\n# backward-word (not bound)\n# beginning-of-history (not bound)\n\"\\e[1~\": beginning-of-line\n# bracketed-paste-begin (not bound)\n# call-last-kbd-macro (not bound)\n# capitalize-word (not bound)\n# character-search (not bound)\n# character-search-backward (not bound)\n# clear-display (not bound)\n# clear-screen (not bound)\n# complete (not bound)\n# copy-backward-word (not bound)\n# copy-forward-word (not bound)\n# copy-region-as-kill (not bound)\n# delete-char (not bound)\n# delete-char-or-list (not bound)\n# delete-horizontal-space (not bound)\n# digit-argument (not bound)\n# do-lowercase-version (not bound)\n# downcase-word (not bound)\n# driver-dump (not bound)\n# driver-dump-full (not bound)\n# driver-snap (not bound)\n# dump-functions (not bound)\n# dump-macros (not bound)\n# dump-variables (not bound)\n# emacs-editing-mode (not bound)\n# end-kbd-macro (not bound)\n# end-of-history (not bound)\n# end-of-line (not bound)\n# exchange-point-and-mark (not bound)\n# execute-named-command (not bound)\n# export-completions (not bound)\n# fetch-history (not bound)\n# forward-backward-delete-char (not bound)\n# forward-byte (not bound)\n# forward-char (not bound)\n# forward-search-history (not bound)\n# forward-word (not bound)\n# history-search-backward (not bound)\n# history-search-forward (not bound)\n# history-substring-search-backward (not bound)\n# history-substring-search-forward (not bound)\n# insert-comment (not bound)\n# insert-completions (not bound)\n# kill-line (not bound)\n# kill-region (not bound)\n# kill-whole-line (not bound)\n\"ab\": kill-word\n\"x\": kill-word\n# menu-complete (not bound)\n# menu-complete-backward (not bound)\n# next-history (not bound)\n# next-screen-line (not bound)\n# non-incremental-forward-search-history (not bound)\n# non-incremental-forward-search-history-again (not bound)\n# non-incremental-reverse-search-history (not bound)\n# non-incremental-reverse-search-history-again (not bound)\n# old-menu-complete (not bound)\n# operate-and-get-next (not bound)\n# overwrite-mode (not bound)\n# possible-completions (not bound)\n# previous-history (not bound)\n# previous-screen-line (not bound)\n# print-last-kbd-macro (not bound)\n# quoted-insert (not bound)\n# re-read-init-file (not bound)\n# redraw-current-line (not bound)\n# reverse-search-history (not bound)\n# revert-line (not bound)\n# self-insert (not bound)\n# set-mark (not bound)\n# skip-csi-sequence (not bound)\n# start-kbd-macro (not bound)\n# tab-insert (not bound)\n# tilde-expand (not bound)\n# transpose-chars (not bound)\n# transpose-words (not bound)\n# tty-status (not bound)\n# undo (not bound)\n# universal-argument (not bound)\n# unix-filename-rubout (not bound)\n# unix-line-discard (not bound)\n# unix-word-rubout (not bound)\n# upcase-word (not bound)\n# vi-append-eol (not bound)\n# vi-append-mode (not bound)\n# vi-arg-digit (not bound)\n# vi-bWord (not bound)\n# vi-back-to-indent (not bound)\n# vi-backward-bigword (not bound)\n# vi-backward-word (not bound)\n# vi-bword (not bound)\n# vi-change-case (not bound)\n# vi-change-char (not bound)\n# vi-change-to (not bound)\n# vi-char-search (not bound)\n# vi-column (not bound)\n# vi-complete (not bound)\n# vi-delete (not bound)\n# vi-delete-to (not bound)\n# vi-eWord (not bound)\n# vi-editing-mode (not bound)\n# vi-end-bigword (not bound)\n# vi-end-word (not bound)\n# vi-eof-maybe (not bound)\n# vi-eword (not bound)\n# vi-fWord (not bound)\n# vi-fetch-history (not bound)\n# vi-first-print (not bound)\n# vi-forward-bigword (not bound)\n# vi-forward-word (not bound)\n# vi-fword (not bound)\n# vi-goto-mark (not bound)\n# vi-insert-beg (not bound)\n# vi-insertion-mode (not bound)\n# vi-match (not bound)\n# vi-movement-mode (not bound)\n# vi-next-word (not bound)\n# vi-overstrike (not bound)\n# vi-overstrike-delete (not bound)\n# vi-prev-word (not bound)\n# vi-put (not bound)\n# vi-redo (not bound)\n# vi-replace (not bound)\n# vi-rubout (not bound)\n# vi-search (not bound)\n# vi-search-again (not bound)\n# vi-set-mark (not bound)\n# vi-subst (not bound)\n# vi-tilde-expand (not bound)\n# vi-undo (not bound)\n# vi-unix-word-rubout (not bound)\n# vi-yank-arg (not bound)\n# vi-yank-pop (not bound)\n# vi-yank-to (not bound)\n# yank (not bound)\n# yank-last-arg (not bound)\n# yank-nth-arg (not bound)\n# yank-pop (not bound)\n"},
+      {"op": "rl_function_dumper 0", "out": "\nabort is not bound to any keys\naccept-line is not bound to any keys\narrow-key-prefix is not bound to any keys\nbackward-byte is not bound to any keys\nbackward-char is not bound to any keys\nbackward-delete-char is not bound to any keys\nbackward-kill-line is not bound to any keys\nbackward-kill-word is not bound to any keys\nbackward-word is not bound to any keys\nbeginning-of-history is not bound to any keys\nbeginning-of-line can be found on \"\\e[1~\".\nbracketed-paste-begin is not bound to any keys\ncall-last-kbd-macro is not bound to any keys\ncapitalize-word is not bound to any keys\ncharacter-search is not bound to any keys\ncharacter-search-backward is not bound to any keys\nclear-display is not bound to any keys\nclear-screen is not bound to any keys\ncomplete is not bound to any keys\ncopy-backward-word is not bound to any keys\ncopy-forward-word is not bound to any keys\ncopy-region-as-kill is not bound to any keys\ndelete-char is not bound to any keys\ndelete-char-or-list is not bound to any keys\ndelete-horizontal-space is not bound to any keys\ndigit-argument is not bound to any keys\ndo-lowercase-version is not bound to any keys\ndowncase-word is not bound to any keys\ndriver-dump is not bound to any keys\ndriver-dump-full is not bound to any keys\ndriver-snap is not bound to any keys\ndump-functions is not bound to any keys\ndump-macros is not bound to any keys\ndump-variables is not bound to any keys\nemacs-editing-mode is not bound to any keys\nend-kbd-macro is not bound to any keys\nend-of-history is not bound to any keys\nend-of-line is not bound to any keys\nexchange-point-and-mark is not bound to any keys\nexecute-named-command is not bound to any keys\nexport-completions is not bound to any keys\nfetch-history is not bound to any keys\nforward-backward-delete-char is not bound to any keys\nforward-byte is not bound to any keys\nforward-char is not bound to any keys\nforward-search-history is not bound to any keys\nforward-word is not bound to any keys\nhistory-search-backward is not bound to any keys\nhistory-search-forward is not bound to any keys\nhistory-substring-search-backward is not bound to any keys\nhistory-substring-search-forward is not bound to any keys\ninsert-comment is not bound to any keys\ninsert-completions is not bound to any keys\nkill-line is not bound to any keys\nkill-region is not bound to any keys\nkill-whole-line is not bound to any keys\nkill-word can be found on \"ab\", \"x\".\nmenu-complete is not bound to any keys\nmenu-complete-backward is not bound to any keys\nnext-history is not bound to any keys\nnext-screen-line is not bound to any keys\nnon-incremental-forward-search-history is not bound to any keys\nnon-incremental-forward-search-history-again is not bound to any keys\nnon-incremental-reverse-search-history is not bound to any keys\nnon-incremental-reverse-search-history-again is not bound to any keys\nold-menu-complete is not bound to any keys\noperate-and-get-next is not bound to any keys\noverwrite-mode is not bound to any keys\npossible-completions is not bound to any keys\nprevious-history is not bound to any keys\nprevious-screen-line is not bound to any keys\nprint-last-kbd-macro is not bound to any keys\nquoted-insert is not bound to any keys\nre-read-init-file is not bound to any keys\nredraw-current-line is not bound to any keys\nreverse-search-history is not bound to any keys\nrevert-line is not bound to any keys\nself-insert is not bound to any keys\nset-mark is not bound to any keys\nskip-csi-sequence is not bound to any keys\nstart-kbd-macro is not bound to any keys\ntab-insert is not bound to any keys\ntilde-expand is not bound to any keys\ntranspose-chars is not bound to any keys\ntranspose-words is not bound to any keys\ntty-status is not bound to any keys\nundo is not bound to any keys\nuniversal-argument is not bound to any keys\nunix-filename-rubout is not bound to any keys\nunix-line-discard is not bound to any keys\nunix-word-rubout is not bound to any keys\nupcase-word is not bound to any keys\nvi-append-eol is not bound to any keys\nvi-append-mode is not bound to any keys\nvi-arg-digit is not bound to any keys\nvi-bWord is not bound to any keys\nvi-back-to-indent is not bound to any keys\nvi-backward-bigword is not bound to any keys\nvi-backward-word is not bound to any keys\nvi-bword is not bound to any keys\nvi-change-case is not bound to any keys\nvi-change-char is not bound to any keys\nvi-change-to is not bound to any keys\nvi-char-search is not bound to any keys\nvi-column is not bound to any keys\nvi-complete is not bound to any keys\nvi-delete is not bound to any keys\nvi-delete-to is not bound to any keys\nvi-eWord is not bound to any keys\nvi-editing-mode is not bound to any keys\nvi-end-bigword is not bound to any keys\nvi-end-word is not bound to any keys\nvi-eof-maybe is not bound to any keys\nvi-eword is not bound to any keys\nvi-fWord is not bound to any keys\nvi-fetch-history is not bound to any keys\nvi-first-print is not bound to any keys\nvi-forward-bigword is not bound to any keys\nvi-forward-word is not bound to any keys\nvi-fword is not bound to any keys\nvi-goto-mark is not bound to any keys\nvi-insert-beg is not bound to any keys\nvi-insertion-mode is not bound to any keys\nvi-match is not bound to any keys\nvi-movement-mode is not bound to any keys\nvi-next-word is not bound to any keys\nvi-overstrike is not bound to any keys\nvi-overstrike-delete is not bound to any keys\nvi-prev-word is not bound to any keys\nvi-put is not bound to any keys\nvi-redo is not bound to any keys\nvi-replace is not bound to any keys\nvi-rubout is not bound to any keys\nvi-search is not bound to any keys\nvi-search-again is not bound to any keys\nvi-set-mark is not bound to any keys\nvi-subst is not bound to any keys\nvi-tilde-expand is not bound to any keys\nvi-undo is not bound to any keys\nvi-unix-word-rubout is not bound to any keys\nvi-yank-arg is not bound to any keys\nvi-yank-pop is not bound to any keys\nvi-yank-to is not bound to any keys\nyank is not bound to any keys\nyank-last-arg is not bound to any keys\nyank-nth-arg is not bound to any keys\nyank-pop is not bound to any keys\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-keybinding-many-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'a' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'b' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'c' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'd' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'e' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'f' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'g' kill-word k", "ret": 0},
+      {"op": "rl_print_keybinding \"kill-word\" k 0", "out": "kill-word can be found on \"a\", \"b\", \"c\", \"d\", \"e\", ...\n"},
+      {"op": "rl_print_keybinding \"kill-word\" k 1", "out": "\"a\": kill-word\n\"b\": kill-word\n\"c\": kill-word\n\"d\": kill-word\n\"e\": kill-word\n\"f\": kill-word\n\"g\": kill-word\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-keybinding-exactly-five": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'a' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'b' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'c' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'd' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'e' kill-word k", "ret": 0},
+      {"op": "rl_print_keybinding \"kill-word\" k 0", "out": "kill-word can be found on \"a\", \"b\", \"c\", \"d\", \"e\".\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-keybinding-single": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'a' kill-word k", "ret": 0},
+      {"op": "rl_print_keybinding \"kill-word\" k 0", "out": "kill-word can be found on \"a\".\n"},
+      {"op": "rl_print_keybinding \"kill-word\" k 1", "out": "\"a\": kill-word\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-keybinding-unbound-and-unknown": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_print_keybinding \"kill-word\" k 0", "out": "kill-word is not bound to any keys\n"},
+      {"op": "rl_print_keybinding \"kill-word\" k 1", "out": "# kill-word (not bound)\n"},
+      {"op": "rl_print_keybinding \"no-such\" k 0", "out": "no-such is not bound to any keys\n"},
+      {"op": "rl_print_keybinding \"no-such\" k 1", "out": "# no-such (not bound)\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-keybinding-current-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_print_keybinding \"beginning-of-line\" current 1", "out": "\"\\C-a\": beginning-of-line\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "print-keybinding-key-names": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map '\\e' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\C-a' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\C-?' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\\\' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\"' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map ' ' kill-word k", "ret": 0},
+      {"op": "rl_print_keybinding \"kill-word\" k 1", "out": "\"\\C-a\": kill-word\n\"\\e\": kill-word\n\" \": kill-word\n\"\\\"\": kill-word\n\"\\\\\": kill-word\n\"\\C-?\": kill-word\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "invoking-keyseqs-high-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_generic_bind ISFUNC \"\\x80\" kill-word k", "ret": 0},
+      {"op": "rl_generic_bind ISFUNC \"\\x9f\" kill-word k", "ret": 0},
+      {"op": "rl_generic_bind ISFUNC \"\\xa0\" kill-word k", "ret": 0},
+      {"op": "rl_generic_bind ISFUNC \"\\xc3\\xa4\" kill-word k", "ret": 0},
+      {"op": "rl_generic_bind ISFUNC \"\\xff\" kill-word k", "ret": 0},
+      {"op": "rl_invoking_keyseqs_in_map kill-word k", "ret": ["\\200", "\\237", "\\240", "\\303\\244", "\\377"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "invoking-keyseqs-nested": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'a' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'bc' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'bde' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\eq' kill-word k", "ret": 0},
+      {"op": "rl_invoking_keyseqs_in_map kill-word k", "ret": ["\\eq", "a", "bc", "bde"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "invoking-keyseqs-macro-pointer": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind 'm' 'kill-word' k", "ret": 0},
+      {"op": "rl_invoking_keyseqs_in_map kill-word k", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "invoking-keyseqs-shadowed": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'a' kill-word k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'ab' upcase-word k", "ret": 0},
+      {"op": "rl_invoking_keyseqs_in_map kill-word k", "ret": ["a"]},
+      {"op": "rl_invoking_keyseqs_in_map upcase-word k", "ret": ["ab"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "invoking-keyseqs-default-emacs": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_invoking_keyseqs beginning-of-line", "ret": ["\\C-a", "\\eOH", "\\e[H"]},
+      {"op": "rl_invoking_keyseqs_in_map beginning-of-line emacs-meta", "ret": ["OH", "[H"]},
+      {"op": "rl_invoking_keyseqs_in_map vi-movement-mode vi-insert", "ret": ["\\e"]},
+      {"op": "rl_invoking_keyseqs self-insert", "ret": [" ", "!", "\\\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "<", "=", ">", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "{", "|", "}", "~", "\\200", "\\201", "\\202", "\\203", "\\204", "\\205", "\\206", "\\207", "\\210", "\\211", "\\212", "\\213", "\\214", "\\215", "\\216", "\\217", "\\220", "\\221", "\\222", "\\223", "\\224", "\\225", "\\226", "\\227", "\\230", "\\231", "\\232", "\\233", "\\234", "\\235", "\\236", "\\237", "\\240", "\\241", "\\242", "\\243", "\\244", "\\245", "\\246", "\\247", "\\250", "\\251", "\\252", "\\253", "\\254", "\\255", "\\256", "\\257", "\\260", "\\261", "\\262", "\\263", "\\264", "\\265", "\\266", "\\267", "\\270", "\\271", "\\272", "\\273", "\\274", "\\275", "\\276", "\\277", "\\300", "\\301", "\\302", "\\303", "\\304", "\\305", "\\306", "\\307", "\\310", "\\311", "\\312", "\\313", "\\314", "\\315", "\\316", "\\317", "\\320", "\\321", "\\322", "\\323", "\\324", "\\325", "\\326", "\\327", "\\330", "\\331", "\\332", "\\333", "\\334", "\\335", "\\336", "\\337", "\\340", "\\341", "\\342", "\\343", "\\344", "\\345", "\\346", "\\347", "\\350", "\\351", "\\352", "\\353", "\\354", "\\355", "\\356", "\\357", "\\360", "\\361", "\\362", "\\363", "\\364", "\\365", "\\366", "\\367", "\\370", "\\371", "\\372", "\\373", "\\374", "\\375", "\\376", "\\377"]},
+      {"op": "rl_invoking_keyseqs NULL", "ret": ["\\C-c", "\\C-x\\C-@", "\\C-x\\C-a", "\\C-x\\C-b", "\\C-x\\C-c", "\\C-x\\C-d", "\\C-x\\C-e", "\\C-x\\C-f", "\\C-x\\C-h", "\\C-x\\C-i", "\\C-x\\C-j", "\\C-x\\C-k", "\\C-x\\C-l", "\\C-x\\C-m", "\\C-x\\C-n", "\\C-x\\C-o", "\\C-x\\C-p", "\\C-x\\C-q", "\\C-x\\C-s", "\\C-x\\C-t", "\\C-x\\C-v", "\\C-x\\C-w", "\\C-x\\C-y", "\\C-x\\C-z", "\\C-x\\e", "\\C-x\\C-\\\\", "\\C-x\\C-]", "\\C-x\\C-^", "\\C-x\\C-_", "\\C-x ", "\\C-x!", "\\C-x\\\"", "\\C-x#", "\\C-x$", "\\C-x%", "\\C-x&", "\\C-x'", "\\C-x*", "\\C-x+", "\\C-x,", "\\C-x-", "\\C-x.", "\\C-x/", "\\C-x0", "\\C-x1", "\\C-x2", "\\C-x3", "\\C-x4", "\\C-x5", "\\C-x6", "\\C-x7", "\\C-x8", "\\C-x9", "\\C-x:", "\\C-x;", "\\C-x<", "\\C-x=", "\\C-x>", "\\C-x?", "\\C-x@", "\\C-x[", "\\C-x\\\\", "\\C-x]", "\\C-x^", "\\C-x_", "\\C-x`", "\\C-xa", "\\C-xb", "\\C-xc", "\\C-xd", "\\C-xf", "\\C-xg", "\\C-xh", "\\C-xi", "\\C-xj", "\\C-xk", "\\C-xl", "\\C-xm", "\\C-xn", "\\C-xo", "\\C-xp", "\\C-xq", "\\C-xr", "\\C-xs", "\\C-xt", "\\C-xu", "\\C-xv", "\\C-xw", "\\C-xx", "\\C-xy", "\\C-xz", "\\C-x{", "\\C-x|", "\\C-x}", "\\C-x~", "\\C-x\\200", "\\C-x\\201", "\\C-x\\202", "\\C-x\\203", "\\C-x\\204", "\\C-x\\205", "\\C-x\\206", "\\C-x\\207", "\\C-x\\210", "\\C-x\\211", "\\C-x\\212", "\\C-x\\213", "\\C-x\\214", "\\C-x\\215", "\\C-x\\216", "\\C-x\\217", "\\C-x\\220", "\\C-x\\221", "\\C-x\\222", "\\C-x\\223", "\\C-x\\224", "\\C-x\\225", "\\C-x\\226", "\\C-x\\227", "\\C-x\\230", "\\C-x\\231", "\\C-x\\232", "\\C-x\\233", "\\C-x\\234", "\\C-x\\235", "\\C-x\\236", "\\C-x\\237", "\\C-x\\240", "\\C-x\\241", "\\C-x\\242", "\\C-x\\243", "\\C-x\\244", "\\C-x\\245", "\\C-x\\246", "\\C-x\\247", "\\C-x\\250", "\\C-x\\251", "\\C-x\\252", "\\C-x\\253", "\\C-x\\254", "\\C-x\\255", "\\C-x\\256", "\\C-x\\257", "\\C-x\\260", "\\C-x\\261", "\\C-x\\262", "\\C-x\\263", "\\C-x\\264", "\\C-x\\265", "\\C-x\\266", "\\C-x\\267", "\\C-x\\270", "\\C-x\\271", "\\C-x\\272", "\\C-x\\273", "\\C-x\\274", "\\C-x\\275", "\\C-x\\276", "\\C-x\\277", "\\C-x\\300", "\\C-x\\301", "\\C-x\\302", "\\C-x\\303", "\\C-x\\304", "\\C-x\\305", "\\C-x\\306", "\\C-x\\307", "\\C-x\\310", "\\C-x\\311", "\\C-x\\312", "\\C-x\\313", "\\C-x\\314", "\\C-x\\315", "\\C-x\\316", "\\C-x\\317", "\\C-x\\320", "\\C-x\\321", "\\C-x\\322", "\\C-x\\323", "\\C-x\\324", "\\C-x\\325", "\\C-x\\326", "\\C-x\\327", "\\C-x\\330", "\\C-x\\331", "\\C-x\\332", "\\C-x\\333", "\\C-x\\334", "\\C-x\\335", "\\C-x\\336", "\\C-x\\337", "\\C-x\\340", "\\C-x\\341", "\\C-x\\342", "\\C-x\\343", "\\C-x\\344", "\\C-x\\345", "\\C-x\\346", "\\C-x\\347", "\\C-x\\350", "\\C-x\\351", "\\C-x\\352", "\\C-x\\353", "\\C-x\\354", "\\C-x\\355", "\\C-x\\356", "\\C-x\\357", "\\C-x\\360", "\\C-x\\361", "\\C-x\\362", "\\C-x\\363", "\\C-x\\364", "\\C-x\\365", "\\C-x\\366", "\\C-x\\367", "\\C-x\\370", "\\C-x\\371", "\\C-x\\372", "\\C-x\\373", "\\C-x\\374", "\\C-x\\375", "\\C-x\\376", "\\C-x\\377", "\\C-x", "\\C-z", "\\e\\C-@", "\\e\\C-a", "\\e\\C-b", "\\e\\C-c", "\\e\\C-d", "\\e\\C-e", "\\e\\C-f", "\\e\\C-k", "\\e\\C-n", "\\e\\C-o", "\\e\\C-p", "\\e\\C-q", "\\e\\C-s", "\\e\\C-t", "\\e\\C-u", "\\e\\C-v", "\\e\\C-w", "\\e\\C-x", "\\e\\C-z", "\\e\\C-\\\\", "\\e\\C-^", "\\e\\C-_", "\\e!", "\\e\\\"", "\\e$", "\\e%", "\\e'", "\\e(", "\\e)", "\\e+", "\\e,", "\\e/", "\\e:", "\\e;", "\\e@", "\\eO\\C-@", "\\eO\\C-a", "\\eO\\C-b", "\\eO\\C-c", "\\eO\\C-d", "\\eO\\C-e", "\\eO\\C-f", "\\eO\\C-g", "\\eO\\C-h", "\\eO\\C-i", "\\eO\\C-j", "\\eO\\C-k", "\\eO\\C-l", "\\eO\\C-m", "\\eO\\C-n", "\\eO\\C-o", "\\eO\\C-p", "\\eO\\C-q", "\\eO\\C-r", "\\eO\\C-s", "\\eO\\C-t", "\\eO\\C-u", "\\eO\\C-v", "\\eO\\C-w", "\\eO\\C-x", "\\eO\\C-y", "\\eO\\C-z", "\\eO\\e", "\\eO\\C-\\\\", "\\eO\\C-]", "\\eO\\C-^", "\\eO\\C-_", "\\eO ", "\\eO!", "\\eO\\\"", "\\eO#", "\\eO$", "\\eO%", "\\eO&", "\\eO'", "\\eO(", "\\eO)", "\\eO*", "\\eO+", "\\eO,", "\\eO-", "\\eO.", "\\eO/", "\\eO0", "\\eO1", "\\eO2", "\\eO3", "\\eO4", "\\eO5", "\\eO6", "\\eO7", "\\eO8", "\\eO9", "\\eO:", "\\eO;", "\\eO<", "\\eO=", "\\eO>", "\\eO?", "\\eO@", "\\eOE", "\\eOG", "\\eOI", "\\eOJ", "\\eOK", "\\eOL", "\\eOM", "\\eON", "\\eOO", "\\eOP", "\\eOQ", "\\eOR", "\\eOS", "\\eOT", "\\eOU", "\\eOV", "\\eOW", "\\eOX", "\\eOY", "\\eOZ", "\\eO[", "\\eO\\\\", "\\eO]", "\\eO^", "\\eO_", "\\eO`", "\\eOa", "\\eOb", "\\eOc", "\\eOd", "\\eOe", "\\eOf", "\\eOg", "\\eOh", "\\eOi", "\\eOj", "\\eOk", "\\eOl", "\\eOm", "\\eOn", "\\eOo", "\\eOp", "\\eOq", "\\eOr", "\\eOs", "\\eOt", "\\eOu", "\\eOv", "\\eOw", "\\eOx", "\\eOy", "\\eOz", "\\eO{", "\\eO|", "\\eO}", "\\eO~", "\\eO\\C-?", "\\eO\\200", "\\eO\\201", "\\eO\\202", "\\eO\\203", "\\eO\\204", "\\eO\\205", "\\eO\\206", "\\eO\\207", "\\eO\\210", "\\eO\\211", "\\eO\\212", "\\eO\\213", "\\eO\\214", "\\eO\\215", "\\eO\\216", "\\eO\\217", "\\eO\\220", "\\eO\\221", "\\eO\\222", "\\eO\\223", "\\eO\\224", "\\eO\\225", "\\eO\\226", "\\eO\\227", "\\eO\\230", "\\eO\\231", "\\eO\\232", "\\eO\\233", "\\eO\\234", "\\eO\\235", "\\eO\\236", "\\eO\\237", "\\eO\\240", "\\eO\\241", "\\eO\\242", "\\eO\\243", "\\eO\\244", "\\eO\\245", "\\eO\\246", "\\eO\\247", "\\eO\\250", "\\eO\\251", "\\eO\\252", "\\eO\\253", "\\eO\\254", "\\eO\\255", "\\eO\\256", "\\eO\\257", "\\eO\\260", "\\eO\\261", "\\eO\\262", "\\eO\\263", "\\eO\\264", "\\eO\\265", "\\eO\\266", "\\eO\\267", "\\eO\\270", "\\eO\\271", "\\eO\\272", "\\eO\\273", "\\eO\\274", "\\eO\\275", "\\eO\\276", "\\eO\\277", "\\eO\\300", "\\eO\\301", "\\eO\\302", "\\eO\\303", "\\eO\\304", "\\eO\\305", "\\eO\\306", "\\eO\\307", "\\eO\\310", "\\eO\\311", "\\eO\\312", "\\eO\\313", "\\eO\\314", "\\eO\\315", "\\eO\\316", "\\eO\\317", "\\eO\\320", "\\eO\\321", "\\eO\\322", "\\eO\\323", "\\eO\\324", "\\eO\\325", "\\eO\\326", "\\eO\\327", "\\eO\\330", "\\eO\\331", "\\eO\\332", "\\eO\\333", "\\eO\\334", "\\eO\\335", "\\eO\\336", "\\eO\\337", "\\eO\\340", "\\eO\\341", "\\eO\\342", "\\eO\\343", "\\eO\\344", "\\eO\\345", "\\eO\\346", "\\eO\\347", "\\eO\\350", "\\eO\\351", "\\eO\\352", "\\eO\\353", "\\eO\\354", "\\eO\\355", "\\eO\\356", "\\eO\\357", "\\eO\\360", "\\eO\\361", "\\eO\\362", "\\eO\\363", "\\eO\\364", "\\eO\\365", "\\eO\\366", "\\eO\\367", "\\eO\\370", "\\eO\\371", "\\eO\\372", "\\eO\\373", "\\eO\\374", "\\eO\\375", "\\eO\\376", "\\eO\\377", "\\eO", "\\e[\\C-@", "\\e[\\C-a", "\\e[\\C-b", "\\e[\\C-c", "\\e[\\C-d", "\\e[\\C-e", "\\e[\\C-f", "\\e[\\C-g", "\\e[\\C-h", "\\e[\\C-i", "\\e[\\C-j", "\\e[\\C-k", "\\e[\\C-l", "\\e[\\C-m", "\\e[\\C-n", "\\e[\\C-o", "\\e[\\C-p", "\\e[\\C-q", "\\e[\\C-r", "\\e[\\C-s", "\\e[\\C-t", "\\e[\\C-u", "\\e[\\C-v", "\\e[\\C-w", "\\e[\\C-x", "\\e[\\C-y", "\\e[\\C-z", "\\e[\\e", "\\e[\\C-\\\\", "\\e[\\C-]", "\\e[\\C-^", "\\e[\\C-_", "\\e[ ", "\\e[!", "\\e[\\\"", "\\e[#", "\\e[$", "\\e[%", "\\e[&", "\\e['", "\\e[(", "\\e[)", "\\e[*", "\\e[+", "\\e[,", "\\e[-", "\\e[.", "\\e[/", "\\e[0", "\\e[1\\C-@", "\\e[1\\C-a", "\\e[1\\C-b", "\\e[1\\C-c", "\\e[1\\C-d", "\\e[1\\C-e", "\\e[1\\C-f", "\\e[1\\C-g", "\\e[1\\C-h", "\\e[1\\C-i", "\\e[1\\C-j", "\\e[1\\C-k", "\\e[1\\C-l", "\\e[1\\C-m", "\\e[1\\C-n", "\\e[1\\C-o", "\\e[1\\C-p", "\\e[1\\C-q", "\\e[1\\C-r", "\\e[1\\C-s", "\\e[1\\C-t", "\\e[1\\C-u", "\\e[1\\C-v", "\\e[1\\C-w", "\\e[1\\C-x", "\\e[1\\C-y", "\\e[1\\C-z", "\\e[1\\e", "\\e[1\\C-\\\\", "\\e[1\\C-]", "\\e[1\\C-^", "\\e[1\\C-_", "\\e[1 ", "\\e[1!", "\\e[1\\\"", "\\e[1#", "\\e[1$", "\\e[1%", "\\e[1&", "\\e[1'", "\\e[1(", "\\e[1)", "\\e[1*", "\\e[1+", "\\e[1,", "\\e[1-", "\\e[1.", "\\e[1/", "\\e[10", "\\e[11", "\\e[12", "\\e[13", "\\e[14", "\\e[15", "\\e[16", "\\e[17", "\\e[18", "\\e[19", "\\e[1:", "\\e[1;\\C-@", "\\e[1;\\C-a", "\\e[1;\\C-b", "\\e[1;\\C-c", "\\e[1;\\C-d", "\\e[1;\\C-e", "\\e[1;\\C-f", "\\e[1;\\C-g", "\\e[1;\\C-h", "\\e[1;\\C-i", "\\e[1;\\C-j", "\\e[1;\\C-k", "\\e[1;\\C-l", "\\e[1;\\C-m", "\\e[1;\\C-n", "\\e[1;\\C-o", "\\e[1;\\C-p", "\\e[1;\\C-q", "\\e[1;\\C-r", "\\e[1;\\C-s", "\\e[1;\\C-t", "\\e[1;\\C-u", "\\e[1;\\C-v", "\\e[1;\\C-w", "\\e[1;\\C-x", "\\e[1;\\C-y", "\\e[1;\\C-z", "\\e[1;\\e", "\\e[1;\\C-\\\\", "\\e[1;\\C-]", "\\e[1;\\C-^", "\\e[1;\\C-_", "\\e[1; ", "\\e[1;!", "\\e[1;\\\"", "\\e[1;#", "\\e[1;$", "\\e[1;%", "\\e[1;&", "\\e[1;'", "\\e[1;(", "\\e[1;)", "\\e[1;*", "\\e[1;+", "\\e[1;,", "\\e[1;-", "\\e[1;.", "\\e[1;/", "\\e[1;0", "\\e[1;1", "\\e[1;2", "\\e[1;3\\C-@", "\\e[1;3\\C-a", "\\e[1;3\\C-b", "\\e[1;3\\C-c", "\\e[1;3\\C-d", "\\e[1;3\\C-e", "\\e[1;3\\C-f", "\\e[1;3\\C-g", "\\e[1;3\\C-h", "\\e[1;3\\C-i", "\\e[1;3\\C-j", "\\e[1;3\\C-k", "\\e[1;3\\C-l", "\\e[1;3\\C-m", "\\e[1;3\\C-n", "\\e[1;3\\C-o", "\\e[1;3\\C-p", "\\e[1;3\\C-q", "\\e[1;3\\C-r", "\\e[1;3\\C-s", "\\e[1;3\\C-t", "\\e[1;3\\C-u", "\\e[1;3\\C-v", "\\e[1;3\\C-w", "\\e[1;3\\C-x", "\\e[1;3\\C-y", "\\e[1;3\\C-z", "\\e[1;3\\e", "\\e[1;3\\C-\\\\", "\\e[1;3\\C-]", "\\e[1;3\\C-^", "\\e[1;3\\C-_", "\\e[1;3 ", "\\e[1;3!", "\\e[1;3\\\"", "\\e[1;3#", "\\e[1;3$", "\\e[1;3%", "\\e[1;3&", "\\e[1;3'", "\\e[1;3(", "\\e[1;3)", "\\e[1;3*", "\\e[1;3+", "\\e[1;3,", "\\e[1;3-", "\\e[1;3.", "\\e[1;3/", "\\e[1;30", "\\e[1;31", "\\e[1;32", "\\e[1;33", "\\e[1;34", "\\e[1;35", "\\e[1;36", "\\e[1;37", "\\e[1;38", "\\e[1;39", "\\e[1;3:", "\\e[1;3;", "\\e[1;3<", "\\e[1;3=", "\\e[1;3>", "\\e[1;3?", "\\e[1;3@", "\\e[1;3A", "\\e[1;3B", "\\e[1;3E", "\\e[1;3F", "\\e[1;3G", "\\e[1;3H", "\\e[1;3I", "\\e[1;3J", "\\e[1;3K", "\\e[1;3L", "\\e[1;3M", "\\e[1;3N", "\\e[1;3O", "\\e[1;3P", "\\e[1;3Q", "\\e[1;3R", "\\e[1;3S", "\\e[1;3T", "\\e[1;3U", "\\e[1;3V", "\\e[1;3W", "\\e[1;3X", "\\e[1;3Y", "\\e[1;3Z", "\\e[1;3[", "\\e[1;3\\\\", "\\e[1;3]", "\\e[1;3^", "\\e[1;3_", "\\e[1;3`", "\\e[1;3a", "\\e[1;3b", "\\e[1;3c", "\\e[1;3d", "\\e[1;3e", "\\e[1;3f", "\\e[1;3g", "\\e[1;3h", "\\e[1;3i", "\\e[1;3j", "\\e[1;3k", "\\e[1;3l", "\\e[1;3m", "\\e[1;3n", "\\e[1;3o", "\\e[1;3p", "\\e[1;3q", "\\e[1;3r", "\\e[1;3s", "\\e[1;3t", "\\e[1;3u", "\\e[1;3v", "\\e[1;3w", "\\e[1;3x", "\\e[1;3y", "\\e[1;3z", "\\e[1;3{", "\\e[1;3|", "\\e[1;3}", "\\e[1;3~", "\\e[1;3\\C-?", "\\e[1;3\\200", "\\e[1;3\\201", "\\e[1;3\\202", "\\e[1;3\\203", "\\e[1;3\\204", "\\e[1;3\\205", "\\e[1;3\\206", "\\e[1;3\\207", "\\e[1;3\\210", "\\e[1;3\\211", "\\e[1;3\\212", "\\e[1;3\\213", "\\e[1;3\\214", "\\e[1;3\\215", "\\e[1;3\\216", "\\e[1;3\\217", "\\e[1;3\\220", "\\e[1;3\\221", "\\e[1;3\\222", "\\e[1;3\\223", "\\e[1;3\\224", "\\e[1;3\\225", "\\e[1;3\\226", "\\e[1;3\\227", "\\e[1;3\\230", "\\e[1;3\\231", "\\e[1;3\\232", "\\e[1;3\\233", "\\e[1;3\\234", "\\e[1;3\\235", "\\e[1;3\\236", "\\e[1;3\\237", "\\e[1;3\\240", "\\e[1;3\\241", "\\e[1;3\\242", "\\e[1;3\\243", "\\e[1;3\\244", "\\e[1;3\\245", "\\e[1;3\\246", "\\e[1;3\\247", "\\e[1;3\\250", "\\e[1;3\\251", "\\e[1;3\\252", "\\e[1;3\\253", "\\e[1;3\\254", "\\e[1;3\\255", "\\e[1;3\\256", "\\e[1;3\\257", "\\e[1;3\\260", "\\e[1;3\\261", "\\e[1;3\\262", "\\e[1;3\\263", "\\e[1;3\\264", "\\e[1;3\\265", "\\e[1;3\\266", "\\e[1;3\\267", "\\e[1;3\\270", "\\e[1;3\\271", "\\e[1;3\\272", "\\e[1;3\\273", "\\e[1;3\\274", "\\e[1;3\\275", "\\e[1;3\\276", "\\e[1;3\\277", "\\e[1;3\\300", "\\e[1;3\\301", "\\e[1;3\\302", "\\e[1;3\\303", "\\e[1;3\\304", "\\e[1;3\\305", "\\e[1;3\\306", "\\e[1;3\\307", "\\e[1;3\\310", "\\e[1;3\\311", "\\e[1;3\\312", "\\e[1;3\\313", "\\e[1;3\\314", "\\e[1;3\\315", "\\e[1;3\\316", "\\e[1;3\\317", "\\e[1;3\\320", "\\e[1;3\\321", "\\e[1;3\\322", "\\e[1;3\\323", "\\e[1;3\\324", "\\e[1;3\\325", "\\e[1;3\\326", "\\e[1;3\\327", "\\e[1;3\\330", "\\e[1;3\\331", "\\e[1;3\\332", "\\e[1;3\\333", "\\e[1;3\\334", "\\e[1;3\\335", "\\e[1;3\\336", "\\e[1;3\\337", "\\e[1;3\\340", "\\e[1;3\\341", "\\e[1;3\\342", "\\e[1;3\\343", "\\e[1;3\\344", "\\e[1;3\\345", "\\e[1;3\\346", "\\e[1;3\\347", "\\e[1;3\\350", "\\e[1;3\\351", "\\e[1;3\\352", "\\e[1;3\\353", "\\e[1;3\\354", "\\e[1;3\\355", "\\e[1;3\\356", "\\e[1;3\\357", "\\e[1;3\\360", "\\e[1;3\\361", "\\e[1;3\\362", "\\e[1;3\\363", "\\e[1;3\\364", "\\e[1;3\\365", "\\e[1;3\\366", "\\e[1;3\\367", "\\e[1;3\\370", "\\e[1;3\\371", "\\e[1;3\\372", "\\e[1;3\\373", "\\e[1;3\\374", "\\e[1;3\\375", "\\e[1;3\\376", "\\e[1;3\\377", "\\e[1;3", "\\e[1;4", "\\e[1;5\\C-@", "\\e[1;5\\C-a", "\\e[1;5\\C-b", "\\e[1;5\\C-c", "\\e[1;5\\C-d", "\\e[1;5\\C-e", "\\e[1;5\\C-f", "\\e[1;5\\C-g", "\\e[1;5\\C-h", "\\e[1;5\\C-i", "\\e[1;5\\C-j", "\\e[1;5\\C-k", "\\e[1;5\\C-l", "\\e[1;5\\C-m", "\\e[1;5\\C-n", "\\e[1;5\\C-o", "\\e[1;5\\C-p", "\\e[1;5\\C-q", "\\e[1;5\\C-r", "\\e[1;5\\C-s", "\\e[1;5\\C-t", "\\e[1;5\\C-u", "\\e[1;5\\C-v", "\\e[1;5\\C-w", "\\e[1;5\\C-x", "\\e[1;5\\C-y", "\\e[1;5\\C-z", "\\e[1;5\\e", "\\e[1;5\\C-\\\\", "\\e[1;5\\C-]", "\\e[1;5\\C-^", "\\e[1;5\\C-_", "\\e[1;5 ", "\\e[1;5!", "\\e[1;5\\\"", "\\e[1;5#", "\\e[1;5$", "\\e[1;5%", "\\e[1;5&", "\\e[1;5'", "\\e[1;5(", "\\e[1;5)", "\\e[1;5*", "\\e[1;5+", "\\e[1;5,", "\\e[1;5-", "\\e[1;5.", "\\e[1;5/", "\\e[1;50", "\\e[1;51", "\\e[1;52", "\\e[1;53", "\\e[1;54", "\\e[1;55", "\\e[1;56", "\\e[1;57", "\\e[1;58", "\\e[1;59", "\\e[1;5:", "\\e[1;5;", "\\e[1;5<", "\\e[1;5=", "\\e[1;5>", "\\e[1;5?", "\\e[1;5@", "\\e[1;5A", "\\e[1;5B", "\\e[1;5E", "\\e[1;5F", "\\e[1;5G", "\\e[1;5H", "\\e[1;5I", "\\e[1;5J", "\\e[1;5K", "\\e[1;5L", "\\e[1;5M", "\\e[1;5N", "\\e[1;5O", "\\e[1;5P", "\\e[1;5Q", "\\e[1;5R", "\\e[1;5S", "\\e[1;5T", "\\e[1;5U", "\\e[1;5V", "\\e[1;5W", "\\e[1;5X", "\\e[1;5Y", "\\e[1;5Z", "\\e[1;5[", "\\e[1;5\\\\", "\\e[1;5]", "\\e[1;5^", "\\e[1;5_", "\\e[1;5`", "\\e[1;5a", "\\e[1;5b", "\\e[1;5c", "\\e[1;5d", "\\e[1;5e", "\\e[1;5f", "\\e[1;5g", "\\e[1;5h", "\\e[1;5i", "\\e[1;5j", "\\e[1;5k", "\\e[1;5l", "\\e[1;5m", "\\e[1;5n", "\\e[1;5o", "\\e[1;5p", "\\e[1;5q", "\\e[1;5r", "\\e[1;5s", "\\e[1;5t", "\\e[1;5u", "\\e[1;5v", "\\e[1;5w", "\\e[1;5x", "\\e[1;5y", "\\e[1;5z", "\\e[1;5{", "\\e[1;5|", "\\e[1;5}", "\\e[1;5~", "\\e[1;5\\C-?", "\\e[1;5\\200", "\\e[1;5\\201", "\\e[1;5\\202", "\\e[1;5\\203", "\\e[1;5\\204", "\\e[1;5\\205", "\\e[1;5\\206", "\\e[1;5\\207", "\\e[1;5\\210", "\\e[1;5\\211", "\\e[1;5\\212", "\\e[1;5\\213", "\\e[1;5\\214", "\\e[1;5\\215", "\\e[1;5\\216", "\\e[1;5\\217", "\\e[1;5\\220", "\\e[1;5\\221", "\\e[1;5\\222", "\\e[1;5\\223", "\\e[1;5\\224", "\\e[1;5\\225", "\\e[1;5\\226", "\\e[1;5\\227", "\\e[1;5\\230", "\\e[1;5\\231", "\\e[1;5\\232", "\\e[1;5\\233", "\\e[1;5\\234", "\\e[1;5\\235", "\\e[1;5\\236", "\\e[1;5\\237", "\\e[1;5\\240", "\\e[1;5\\241", "\\e[1;5\\242", "\\e[1;5\\243", "\\e[1;5\\244", "\\e[1;5\\245", "\\e[1;5\\246", "\\e[1;5\\247", "\\e[1;5\\250", "\\e[1;5\\251", "\\e[1;5\\252", "\\e[1;5\\253", "\\e[1;5\\254", "\\e[1;5\\255", "\\e[1;5\\256", "\\e[1;5\\257", "\\e[1;5\\260", "\\e[1;5\\261", "\\e[1;5\\262", "\\e[1;5\\263", "\\e[1;5\\264", "\\e[1;5\\265", "\\e[1;5\\266", "\\e[1;5\\267", "\\e[1;5\\270", "\\e[1;5\\271", "\\e[1;5\\272", "\\e[1;5\\273", "\\e[1;5\\274", "\\e[1;5\\275", "\\e[1;5\\276", "\\e[1;5\\277", "\\e[1;5\\300", "\\e[1;5\\301", "\\e[1;5\\302", "\\e[1;5\\303", "\\e[1;5\\304", "\\e[1;5\\305", "\\e[1;5\\306", "\\e[1;5\\307", "\\e[1;5\\310", "\\e[1;5\\311", "\\e[1;5\\312", "\\e[1;5\\313", "\\e[1;5\\314", "\\e[1;5\\315", "\\e[1;5\\316", "\\e[1;5\\317", "\\e[1;5\\320", "\\e[1;5\\321", "\\e[1;5\\322", "\\e[1;5\\323", "\\e[1;5\\324", "\\e[1;5\\325", "\\e[1;5\\326", "\\e[1;5\\327", "\\e[1;5\\330", "\\e[1;5\\331", "\\e[1;5\\332", "\\e[1;5\\333", "\\e[1;5\\334", "\\e[1;5\\335", "\\e[1;5\\336", "\\e[1;5\\337", "\\e[1;5\\340", "\\e[1;5\\341", "\\e[1;5\\342", "\\e[1;5\\343", "\\e[1;5\\344", "\\e[1;5\\345", "\\e[1;5\\346", "\\e[1;5\\347", "\\e[1;5\\350", "\\e[1;5\\351", "\\e[1;5\\352", "\\e[1;5\\353", "\\e[1;5\\354", "\\e[1;5\\355", "\\e[1;5\\356", "\\e[1;5\\357", "\\e[1;5\\360", "\\e[1;5\\361", "\\e[1;5\\362", "\\e[1;5\\363", "\\e[1;5\\364", "\\e[1;5\\365", "\\e[1;5\\366", "\\e[1;5\\367", "\\e[1;5\\370", "\\e[1;5\\371", "\\e[1;5\\372", "\\e[1;5\\373", "\\e[1;5\\374", "\\e[1;5\\375", "\\e[1;5\\376", "\\e[1;5\\377", "\\e[1;5", "\\e[1;6", "\\e[1;7", "\\e[1;8", "\\e[1;9", "\\e[1;:", "\\e[1;;", "\\e[1;<", "\\e[1;=", "\\e[1;>", "\\e[1;?", "\\e[1;@", "\\e[1;A", "\\e[1;B", "\\e[1;C", "\\e[1;D", "\\e[1;E", "\\e[1;F", "\\e[1;G", "\\e[1;H", "\\e[1;I", "\\e[1;J", "\\e[1;K", "\\e[1;L", "\\e[1;M", "\\e[1;N", "\\e[1;O", "\\e[1;P", "\\e[1;Q", "\\e[1;R", "\\e[1;S", "\\e[1;T", "\\e[1;U", "\\e[1;V", "\\e[1;W", "\\e[1;X", "\\e[1;Y", "\\e[1;Z", "\\e[1;[", "\\e[1;\\\\", "\\e[1;]", "\\e[1;^", "\\e[1;_", "\\e[1;`", "\\e[1;a", "\\e[1;b", "\\e[1;c", "\\e[1;d", "\\e[1;e", "\\e[1;f", "\\e[1;g", "\\e[1;h", "\\e[1;i", "\\e[1;j", "\\e[1;k", "\\e[1;l", "\\e[1;m", "\\e[1;n", "\\e[1;o", "\\e[1;p", "\\e[1;q", "\\e[1;r", "\\e[1;s", "\\e[1;t", "\\e[1;u", "\\e[1;v", "\\e[1;w", "\\e[1;x", "\\e[1;y", "\\e[1;z", "\\e[1;{", "\\e[1;|", "\\e[1;}", "\\e[1;~", "\\e[1;\\C-?", "\\e[1;\\200", "\\e[1;\\201", "\\e[1;\\202", "\\e[1;\\203", "\\e[1;\\204", "\\e[1;\\205", "\\e[1;\\206", "\\e[1;\\207", "\\e[1;\\210", "\\e[1;\\211", "\\e[1;\\212", "\\e[1;\\213", "\\e[1;\\214", "\\e[1;\\215", "\\e[1;\\216", "\\e[1;\\217", "\\e[1;\\220", "\\e[1;\\221", "\\e[1;\\222", "\\e[1;\\223", "\\e[1;\\224", "\\e[1;\\225", "\\e[1;\\226", "\\e[1;\\227", "\\e[1;\\230", "\\e[1;\\231", "\\e[1;\\232", "\\e[1;\\233", "\\e[1;\\234", "\\e[1;\\235", "\\e[1;\\236", "\\e[1;\\237", "\\e[1;\\240", "\\e[1;\\241", "\\e[1;\\242", "\\e[1;\\243", "\\e[1;\\244", "\\e[1;\\245", "\\e[1;\\246", "\\e[1;\\247", "\\e[1;\\250", "\\e[1;\\251", "\\e[1;\\252", "\\e[1;\\253", "\\e[1;\\254", "\\e[1;\\255", "\\e[1;\\256", "\\e[1;\\257", "\\e[1;\\260", "\\e[1;\\261", "\\e[1;\\262", "\\e[1;\\263", "\\e[1;\\264", "\\e[1;\\265", "\\e[1;\\266", "\\e[1;\\267", "\\e[1;\\270", "\\e[1;\\271", "\\e[1;\\272", "\\e[1;\\273", "\\e[1;\\274", "\\e[1;\\275", "\\e[1;\\276", "\\e[1;\\277", "\\e[1;\\300", "\\e[1;\\301", "\\e[1;\\302", "\\e[1;\\303", "\\e[1;\\304", "\\e[1;\\305", "\\e[1;\\306", "\\e[1;\\307", "\\e[1;\\310", "\\e[1;\\311", "\\e[1;\\312", "\\e[1;\\313", "\\e[1;\\314", "\\e[1;\\315", "\\e[1;\\316", "\\e[1;\\317", "\\e[1;\\320", "\\e[1;\\321", "\\e[1;\\322", "\\e[1;\\323", "\\e[1;\\324", "\\e[1;\\325", "\\e[1;\\326", "\\e[1;\\327", "\\e[1;\\330", "\\e[1;\\331", "\\e[1;\\332", "\\e[1;\\333", "\\e[1;\\334", "\\e[1;\\335", "\\e[1;\\336", "\\e[1;\\337", "\\e[1;\\340", "\\e[1;\\341", "\\e[1;\\342", "\\e[1;\\343", "\\e[1;\\344", "\\e[1;\\345", "\\e[1;\\346", "\\e[1;\\347", "\\e[1;\\350", "\\e[1;\\351", "\\e[1;\\352", "\\e[1;\\353", "\\e[1;\\354", "\\e[1;\\355", "\\e[1;\\356", "\\e[1;\\357", "\\e[1;\\360", "\\e[1;\\361", "\\e[1;\\362", "\\e[1;\\363", "\\e[1;\\364", "\\e[1;\\365", "\\e[1;\\366", "\\e[1;\\367", "\\e[1;\\370", "\\e[1;\\371", "\\e[1;\\372", "\\e[1;\\373", "\\e[1;\\374", "\\e[1;\\375", "\\e[1;\\376", "\\e[1;\\377", "\\e[1;", "\\e[1<", "\\e[1=", "\\e[1>", "\\e[1?", "\\e[1@", "\\e[1A", "\\e[1B", "\\e[1C", "\\e[1D", "\\e[1E", "\\e[1F", "\\e[1G", "\\e[1H", "\\e[1I", "\\e[1J", "\\e[1K", "\\e[1L", "\\e[1M", "\\e[1N", "\\e[1O", "\\e[1P", "\\e[1Q", "\\e[1R", "\\e[1S", "\\e[1T", "\\e[1U", "\\e[1V", "\\e[1W", "\\e[1X", "\\e[1Y", "\\e[1Z", "\\e[1[", "\\e[1\\\\", "\\e[1]", "\\e[1^", "\\e[1_", "\\e[1`", "\\e[1a", "\\e[1b", "\\e[1c", "\\e[1d", "\\e[1e", "\\e[1f", "\\e[1g", "\\e[1h", "\\e[1i", "\\e[1j", "\\e[1k", "\\e[1l", "\\e[1m", "\\e[1n", "\\e[1o", "\\e[1p", "\\e[1q", "\\e[1r", "\\e[1s", "\\e[1t", "\\e[1u", "\\e[1v", "\\e[1w", "\\e[1x", "\\e[1y", "\\e[1z", "\\e[1{", "\\e[1|", "\\e[1}", "\\e[1~", "\\e[1\\C-?", "\\e[1\\200", "\\e[1\\201", "\\e[1\\202", "\\e[1\\203", "\\e[1\\204", "\\e[1\\205", "\\e[1\\206", "\\e[1\\207", "\\e[1\\210", "\\e[1\\211", "\\e[1\\212", "\\e[1\\213", "\\e[1\\214", "\\e[1\\215", "\\e[1\\216", "\\e[1\\217", "\\e[1\\220", "\\e[1\\221", "\\e[1\\222", "\\e[1\\223", "\\e[1\\224", "\\e[1\\225", "\\e[1\\226", "\\e[1\\227", "\\e[1\\230", "\\e[1\\231", "\\e[1\\232", "\\e[1\\233", "\\e[1\\234", "\\e[1\\235", "\\e[1\\236", "\\e[1\\237", "\\e[1\\240", "\\e[1\\241", "\\e[1\\242", "\\e[1\\243", "\\e[1\\244", "\\e[1\\245", "\\e[1\\246", "\\e[1\\247", "\\e[1\\250", "\\e[1\\251", "\\e[1\\252", "\\e[1\\253", "\\e[1\\254", "\\e[1\\255", "\\e[1\\256", "\\e[1\\257", "\\e[1\\260", "\\e[1\\261", "\\e[1\\262", "\\e[1\\263", "\\e[1\\264", "\\e[1\\265", "\\e[1\\266", "\\e[1\\267", "\\e[1\\270", "\\e[1\\271", "\\e[1\\272", "\\e[1\\273", "\\e[1\\274", "\\e[1\\275", "\\e[1\\276", "\\e[1\\277", "\\e[1\\300", "\\e[1\\301", "\\e[1\\302", "\\e[1\\303", "\\e[1\\304", "\\e[1\\305", "\\e[1\\306", "\\e[1\\307", "\\e[1\\310", "\\e[1\\311", "\\e[1\\312", "\\e[1\\313", "\\e[1\\314", "\\e[1\\315", "\\e[1\\316", "\\e[1\\317", "\\e[1\\320", "\\e[1\\321", "\\e[1\\322", "\\e[1\\323", "\\e[1\\324", "\\e[1\\325", "\\e[1\\326", "\\e[1\\327", "\\e[1\\330", "\\e[1\\331", "\\e[1\\332", "\\e[1\\333", "\\e[1\\334", "\\e[1\\335", "\\e[1\\336", "\\e[1\\337", "\\e[1\\340", "\\e[1\\341", "\\e[1\\342", "\\e[1\\343", "\\e[1\\344", "\\e[1\\345", "\\e[1\\346", "\\e[1\\347", "\\e[1\\350", "\\e[1\\351", "\\e[1\\352", "\\e[1\\353", "\\e[1\\354", "\\e[1\\355", "\\e[1\\356", "\\e[1\\357", "\\e[1\\360", "\\e[1\\361", "\\e[1\\362", "\\e[1\\363", "\\e[1\\364", "\\e[1\\365", "\\e[1\\366", "\\e[1\\367", "\\e[1\\370", "\\e[1\\371", "\\e[1\\372", "\\e[1\\373", "\\e[1\\374", "\\e[1\\375", "\\e[1\\376", "\\e[1\\377", "\\e[1", "\\e[2\\C-@", "\\e[2\\C-a", "\\e[2\\C-b", "\\e[2\\C-c", "\\e[2\\C-d", "\\e[2\\C-e", "\\e[2\\C-f", "\\e[2\\C-g", "\\e[2\\C-h", "\\e[2\\C-i", "\\e[2\\C-j", "\\e[2\\C-k", "\\e[2\\C-l", "\\e[2\\C-m", "\\e[2\\C-n", "\\e[2\\C-o", "\\e[2\\C-p", "\\e[2\\C-q", "\\e[2\\C-r", "\\e[2\\C-s", "\\e[2\\C-t", "\\e[2\\C-u", "\\e[2\\C-v", "\\e[2\\C-w", "\\e[2\\C-x", "\\e[2\\C-y", "\\e[2\\C-z", "\\e[2\\e", "\\e[2\\C-\\\\", "\\e[2\\C-]", "\\e[2\\C-^", "\\e[2\\C-_", "\\e[2 ", "\\e[2!", "\\e[2\\\"", "\\e[2#", "\\e[2$", "\\e[2%", "\\e[2&", "\\e[2'", "\\e[2(", "\\e[2)", "\\e[2*", "\\e[2+", "\\e[2,", "\\e[2-", "\\e[2.", "\\e[2/", "\\e[20\\C-@", "\\e[20\\C-a", "\\e[20\\C-b", "\\e[20\\C-c", "\\e[20\\C-d", "\\e[20\\C-e", "\\e[20\\C-f", "\\e[20\\C-g", "\\e[20\\C-h", "\\e[20\\C-i", "\\e[20\\C-j", "\\e[20\\C-k", "\\e[20\\C-l", "\\e[20\\C-m", "\\e[20\\C-n", "\\e[20\\C-o", "\\e[20\\C-p", "\\e[20\\C-q", "\\e[20\\C-r", "\\e[20\\C-s", "\\e[20\\C-t", "\\e[20\\C-u", "\\e[20\\C-v", "\\e[20\\C-w", "\\e[20\\C-x", "\\e[20\\C-y", "\\e[20\\C-z", "\\e[20\\e", "\\e[20\\C-\\\\", "\\e[20\\C-]", "\\e[20\\C-^", "\\e[20\\C-_", "\\e[20 ", "\\e[20!", "\\e[20\\\"", "\\e[20#", "\\e[20$", "\\e[20%", "\\e[20&", "\\e[20'", "\\e[20(", "\\e[20)", "\\e[20*", "\\e[20+", "\\e[20,", "\\e[20-", "\\e[20.", "\\e[20/", "\\e[200\\C-@", "\\e[200\\C-a", "\\e[200\\C-b", "\\e[200\\C-c", "\\e[200\\C-d", "\\e[200\\C-e", "\\e[200\\C-f", "\\e[200\\C-g", "\\e[200\\C-h", "\\e[200\\C-i", "\\e[200\\C-j", "\\e[200\\C-k", "\\e[200\\C-l", "\\e[200\\C-m", "\\e[200\\C-n", "\\e[200\\C-o", "\\e[200\\C-p", "\\e[200\\C-q", "\\e[200\\C-r", "\\e[200\\C-s", "\\e[200\\C-t", "\\e[200\\C-u", "\\e[200\\C-v", "\\e[200\\C-w", "\\e[200\\C-x", "\\e[200\\C-y", "\\e[200\\C-z", "\\e[200\\e", "\\e[200\\C-\\\\", "\\e[200\\C-]", "\\e[200\\C-^", "\\e[200\\C-_", "\\e[200 ", "\\e[200!", "\\e[200\\\"", "\\e[200#", "\\e[200$", "\\e[200%", "\\e[200&", "\\e[200'", "\\e[200(", "\\e[200)", "\\e[200*", "\\e[200+", "\\e[200,", "\\e[200-", "\\e[200.", "\\e[200/", "\\e[2000", "\\e[2001", "\\e[2002", "\\e[2003", "\\e[2004", "\\e[2005", "\\e[2006", "\\e[2007", "\\e[2008", "\\e[2009", "\\e[200:", "\\e[200;", "\\e[200<", "\\e[200=", "\\e[200>", "\\e[200?", "\\e[200@", "\\e[200A", "\\e[200B", "\\e[200C", "\\e[200D", "\\e[200E", "\\e[200F", "\\e[200G", "\\e[200H", "\\e[200I", "\\e[200J", "\\e[200K", "\\e[200L", "\\e[200M", "\\e[200N", "\\e[200O", "\\e[200P", "\\e[200Q", "\\e[200R", "\\e[200S", "\\e[200T", "\\e[200U", "\\e[200V", "\\e[200W", "\\e[200X", "\\e[200Y", "\\e[200Z", "\\e[200[", "\\e[200\\\\", "\\e[200]", "\\e[200^", "\\e[200_", "\\e[200`", "\\e[200a", "\\e[200b", "\\e[200c", "\\e[200d", "\\e[200e", "\\e[200f", "\\e[200g", "\\e[200h", "\\e[200i", "\\e[200j", "\\e[200k", "\\e[200l", "\\e[200m", "\\e[200n", "\\e[200o", "\\e[200p", "\\e[200q", "\\e[200r", "\\e[200s", "\\e[200t", "\\e[200u", "\\e[200v", "\\e[200w", "\\e[200x", "\\e[200y", "\\e[200z", "\\e[200{", "\\e[200|", "\\e[200}", "\\e[200\\C-?", "\\e[200\\200", "\\e[200\\201", "\\e[200\\202", "\\e[200\\203", "\\e[200\\204", "\\e[200\\205", "\\e[200\\206", "\\e[200\\207", "\\e[200\\210", "\\e[200\\211", "\\e[200\\212", "\\e[200\\213", "\\e[200\\214", "\\e[200\\215", "\\e[200\\216", "\\e[200\\217", "\\e[200\\220", "\\e[200\\221", "\\e[200\\222", "\\e[200\\223", "\\e[200\\224", "\\e[200\\225", "\\e[200\\226", "\\e[200\\227", "\\e[200\\230", "\\e[200\\231", "\\e[200\\232", "\\e[200\\233", "\\e[200\\234", "\\e[200\\235", "\\e[200\\236", "\\e[200\\237", "\\e[200\\240", "\\e[200\\241", "\\e[200\\242", "\\e[200\\243", "\\e[200\\244", "\\e[200\\245", "\\e[200\\246", "\\e[200\\247", "\\e[200\\250", "\\e[200\\251", "\\e[200\\252", "\\e[200\\253", "\\e[200\\254", "\\e[200\\255", "\\e[200\\256", "\\e[200\\257", "\\e[200\\260", "\\e[200\\261", "\\e[200\\262", "\\e[200\\263", "\\e[200\\264", "\\e[200\\265", "\\e[200\\266", "\\e[200\\267", "\\e[200\\270", "\\e[200\\271", "\\e[200\\272", "\\e[200\\273", "\\e[200\\274", "\\e[200\\275", "\\e[200\\276", "\\e[200\\277", "\\e[200\\300", "\\e[200\\301", "\\e[200\\302", "\\e[200\\303", "\\e[200\\304", "\\e[200\\305", "\\e[200\\306", "\\e[200\\307", "\\e[200\\310", "\\e[200\\311", "\\e[200\\312", "\\e[200\\313", "\\e[200\\314", "\\e[200\\315", "\\e[200\\316", "\\e[200\\317", "\\e[200\\320", "\\e[200\\321", "\\e[200\\322", "\\e[200\\323", "\\e[200\\324", "\\e[200\\325", "\\e[200\\326", "\\e[200\\327", "\\e[200\\330", "\\e[200\\331", "\\e[200\\332", "\\e[200\\333", "\\e[200\\334", "\\e[200\\335", "\\e[200\\336", "\\e[200\\337", "\\e[200\\340", "\\e[200\\341", "\\e[200\\342", "\\e[200\\343", "\\e[200\\344", "\\e[200\\345", "\\e[200\\346", "\\e[200\\347", "\\e[200\\350", "\\e[200\\351", "\\e[200\\352", "\\e[200\\353", "\\e[200\\354", "\\e[200\\355", "\\e[200\\356", "\\e[200\\357", "\\e[200\\360", "\\e[200\\361", "\\e[200\\362", "\\e[200\\363", "\\e[200\\364", "\\e[200\\365", "\\e[200\\366", "\\e[200\\367", "\\e[200\\370", "\\e[200\\371", "\\e[200\\372", "\\e[200\\373", "\\e[200\\374", "\\e[200\\375", "\\e[200\\376", "\\e[200\\377", "\\e[200", "\\e[201", "\\e[202", "\\e[203", "\\e[204", "\\e[205", "\\e[206", "\\e[207", "\\e[208", "\\e[209", "\\e[20:", "\\e[20;", "\\e[20<", "\\e[20=", "\\e[20>", "\\e[20?", "\\e[20@", "\\e[20A", "\\e[20B", "\\e[20C", "\\e[20D", "\\e[20E", "\\e[20F", "\\e[20G", "\\e[20H", "\\e[20I", "\\e[20J", "\\e[20K", "\\e[20L", "\\e[20M", "\\e[20N", "\\e[20O", "\\e[20P", "\\e[20Q", "\\e[20R", "\\e[20S", "\\e[20T", "\\e[20U", "\\e[20V", "\\e[20W", "\\e[20X", "\\e[20Y", "\\e[20Z", "\\e[20[", "\\e[20\\\\", "\\e[20]", "\\e[20^", "\\e[20_", "\\e[20`", "\\e[20a", "\\e[20b", "\\e[20c", "\\e[20d", "\\e[20e", "\\e[20f", "\\e[20g", "\\e[20h", "\\e[20i", "\\e[20j", "\\e[20k", "\\e[20l", "\\e[20m", "\\e[20n", "\\e[20o", "\\e[20p", "\\e[20q", "\\e[20r", "\\e[20s", "\\e[20t", "\\e[20u", "\\e[20v", "\\e[20w", "\\e[20x", "\\e[20y", "\\e[20z", "\\e[20{", "\\e[20|", "\\e[20}", "\\e[20~", "\\e[20\\C-?", "\\e[20\\200", "\\e[20\\201", "\\e[20\\202", "\\e[20\\203", "\\e[20\\204", "\\e[20\\205", "\\e[20\\206", "\\e[20\\207", "\\e[20\\210", "\\e[20\\211", "\\e[20\\212", "\\e[20\\213", "\\e[20\\214", "\\e[20\\215", "\\e[20\\216", "\\e[20\\217", "\\e[20\\220", "\\e[20\\221", "\\e[20\\222", "\\e[20\\223", "\\e[20\\224", "\\e[20\\225", "\\e[20\\226", "\\e[20\\227", "\\e[20\\230", "\\e[20\\231", "\\e[20\\232", "\\e[20\\233", "\\e[20\\234", "\\e[20\\235", "\\e[20\\236", "\\e[20\\237", "\\e[20\\240", "\\e[20\\241", "\\e[20\\242", "\\e[20\\243", "\\e[20\\244", "\\e[20\\245", "\\e[20\\246", "\\e[20\\247", "\\e[20\\250", "\\e[20\\251", "\\e[20\\252", "\\e[20\\253", "\\e[20\\254", "\\e[20\\255", "\\e[20\\256", "\\e[20\\257", "\\e[20\\260", "\\e[20\\261", "\\e[20\\262", "\\e[20\\263", "\\e[20\\264", "\\e[20\\265", "\\e[20\\266", "\\e[20\\267", "\\e[20\\270", "\\e[20\\271", "\\e[20\\272", "\\e[20\\273", "\\e[20\\274", "\\e[20\\275", "\\e[20\\276", "\\e[20\\277", "\\e[20\\300", "\\e[20\\301", "\\e[20\\302", "\\e[20\\303", "\\e[20\\304", "\\e[20\\305", "\\e[20\\306", "\\e[20\\307", "\\e[20\\310", "\\e[20\\311", "\\e[20\\312", "\\e[20\\313", "\\e[20\\314", "\\e[20\\315", "\\e[20\\316", "\\e[20\\317", "\\e[20\\320", "\\e[20\\321", "\\e[20\\322", "\\e[20\\323", "\\e[20\\324", "\\e[20\\325", "\\e[20\\326", "\\e[20\\327", "\\e[20\\330", "\\e[20\\331", "\\e[20\\332", "\\e[20\\333", "\\e[20\\334", "\\e[20\\335", "\\e[20\\336", "\\e[20\\337", "\\e[20\\340", "\\e[20\\341", "\\e[20\\342", "\\e[20\\343", "\\e[20\\344", "\\e[20\\345", "\\e[20\\346", "\\e[20\\347", "\\e[20\\350", "\\e[20\\351", "\\e[20\\352", "\\e[20\\353", "\\e[20\\354", "\\e[20\\355", "\\e[20\\356", "\\e[20\\357", "\\e[20\\360", "\\e[20\\361", "\\e[20\\362", "\\e[20\\363", "\\e[20\\364", "\\e[20\\365", "\\e[20\\366", "\\e[20\\367", "\\e[20\\370", "\\e[20\\371", "\\e[20\\372", "\\e[20\\373", "\\e[20\\374", "\\e[20\\375", "\\e[20\\376", "\\e[20\\377", "\\e[20", "\\e[21", "\\e[22", "\\e[23", "\\e[24", "\\e[25", "\\e[26", "\\e[27", "\\e[28", "\\e[29", "\\e[2:", "\\e[2;", "\\e[2<", "\\e[2=", "\\e[2>", "\\e[2?", "\\e[2@", "\\e[2A", "\\e[2B", "\\e[2C", "\\e[2D", "\\e[2E", "\\e[2F", "\\e[2G", "\\e[2H", "\\e[2I", "\\e[2J", "\\e[2K", "\\e[2L", "\\e[2M", "\\e[2N", "\\e[2O", "\\e[2P", "\\e[2Q", "\\e[2R", "\\e[2S", "\\e[2T", "\\e[2U", "\\e[2V", "\\e[2W", "\\e[2X", "\\e[2Y", "\\e[2Z", "\\e[2[", "\\e[2\\\\", "\\e[2]", "\\e[2^", "\\e[2_", "\\e[2`", "\\e[2a", "\\e[2b", "\\e[2c", "\\e[2d", "\\e[2e", "\\e[2f", "\\e[2g", "\\e[2h", "\\e[2i", "\\e[2j", "\\e[2k", "\\e[2l", "\\e[2m", "\\e[2n", "\\e[2o", "\\e[2p", "\\e[2q", "\\e[2r", "\\e[2s", "\\e[2t", "\\e[2u", "\\e[2v", "\\e[2w", "\\e[2x", "\\e[2y", "\\e[2z", "\\e[2{", "\\e[2|", "\\e[2}", "\\e[2\\C-?", "\\e[2\\200", "\\e[2\\201", "\\e[2\\202", "\\e[2\\203", "\\e[2\\204", "\\e[2\\205", "\\e[2\\206", "\\e[2\\207", "\\e[2\\210", "\\e[2\\211", "\\e[2\\212", "\\e[2\\213", "\\e[2\\214", "\\e[2\\215", "\\e[2\\216", "\\e[2\\217", "\\e[2\\220", "\\e[2\\221", "\\e[2\\222", "\\e[2\\223", "\\e[2\\224", "\\e[2\\225", "\\e[2\\226", "\\e[2\\227", "\\e[2\\230", "\\e[2\\231", "\\e[2\\232", "\\e[2\\233", "\\e[2\\234", "\\e[2\\235", "\\e[2\\236", "\\e[2\\237", "\\e[2\\240", "\\e[2\\241", "\\e[2\\242", "\\e[2\\243", "\\e[2\\244", "\\e[2\\245", "\\e[2\\246", "\\e[2\\247", "\\e[2\\250", "\\e[2\\251", "\\e[2\\252", "\\e[2\\253", "\\e[2\\254", "\\e[2\\255", "\\e[2\\256", "\\e[2\\257", "\\e[2\\260", "\\e[2\\261", "\\e[2\\262", "\\e[2\\263", "\\e[2\\264", "\\e[2\\265", "\\e[2\\266", "\\e[2\\267", "\\e[2\\270", "\\e[2\\271", "\\e[2\\272", "\\e[2\\273", "\\e[2\\274", "\\e[2\\275", "\\e[2\\276", "\\e[2\\277", "\\e[2\\300", "\\e[2\\301", "\\e[2\\302", "\\e[2\\303", "\\e[2\\304", "\\e[2\\305", "\\e[2\\306", "\\e[2\\307", "\\e[2\\310", "\\e[2\\311", "\\e[2\\312", "\\e[2\\313", "\\e[2\\314", "\\e[2\\315", "\\e[2\\316", "\\e[2\\317", "\\e[2\\320", "\\e[2\\321", "\\e[2\\322", "\\e[2\\323", "\\e[2\\324", "\\e[2\\325", "\\e[2\\326", "\\e[2\\327", "\\e[2\\330", "\\e[2\\331", "\\e[2\\332", "\\e[2\\333", "\\e[2\\334", "\\e[2\\335", "\\e[2\\336", "\\e[2\\337", "\\e[2\\340", "\\e[2\\341", "\\e[2\\342", "\\e[2\\343", "\\e[2\\344", "\\e[2\\345", "\\e[2\\346", "\\e[2\\347", "\\e[2\\350", "\\e[2\\351", "\\e[2\\352", "\\e[2\\353", "\\e[2\\354", "\\e[2\\355", "\\e[2\\356", "\\e[2\\357", "\\e[2\\360", "\\e[2\\361", "\\e[2\\362", "\\e[2\\363", "\\e[2\\364", "\\e[2\\365", "\\e[2\\366", "\\e[2\\367", "\\e[2\\370", "\\e[2\\371", "\\e[2\\372", "\\e[2\\373", "\\e[2\\374", "\\e[2\\375", "\\e[2\\376", "\\e[2\\377", "\\e[2", "\\e[3\\C-@", "\\e[3\\C-a", "\\e[3\\C-b", "\\e[3\\C-c", "\\e[3\\C-d", "\\e[3\\C-e", "\\e[3\\C-f", "\\e[3\\C-g", "\\e[3\\C-h", "\\e[3\\C-i", "\\e[3\\C-j", "\\e[3\\C-k", "\\e[3\\C-l", "\\e[3\\C-m", "\\e[3\\C-n", "\\e[3\\C-o", "\\e[3\\C-p", "\\e[3\\C-q", "\\e[3\\C-r", "\\e[3\\C-s", "\\e[3\\C-t", "\\e[3\\C-u", "\\e[3\\C-v", "\\e[3\\C-w", "\\e[3\\C-x", "\\e[3\\C-y", "\\e[3\\C-z", "\\e[3\\e", "\\e[3\\C-\\\\", "\\e[3\\C-]", "\\e[3\\C-^", "\\e[3\\C-_", "\\e[3 ", "\\e[3!", "\\e[3\\\"", "\\e[3#", "\\e[3$", "\\e[3%", "\\e[3&", "\\e[3'", "\\e[3(", "\\e[3)", "\\e[3*", "\\e[3+", "\\e[3,", "\\e[3-", "\\e[3.", "\\e[3/", "\\e[30", "\\e[31", "\\e[32", "\\e[33", "\\e[34", "\\e[35", "\\e[36", "\\e[37", "\\e[38", "\\e[39", "\\e[3:", "\\e[3;\\C-@", "\\e[3;\\C-a", "\\e[3;\\C-b", "\\e[3;\\C-c", "\\e[3;\\C-d", "\\e[3;\\C-e", "\\e[3;\\C-f", "\\e[3;\\C-g", "\\e[3;\\C-h", "\\e[3;\\C-i", "\\e[3;\\C-j", "\\e[3;\\C-k", "\\e[3;\\C-l", "\\e[3;\\C-m", "\\e[3;\\C-n", "\\e[3;\\C-o", "\\e[3;\\C-p", "\\e[3;\\C-q", "\\e[3;\\C-r", "\\e[3;\\C-s", "\\e[3;\\C-t", "\\e[3;\\C-u", "\\e[3;\\C-v", "\\e[3;\\C-w", "\\e[3;\\C-x", "\\e[3;\\C-y", "\\e[3;\\C-z", "\\e[3;\\e", "\\e[3;\\C-\\\\", "\\e[3;\\C-]", "\\e[3;\\C-^", "\\e[3;\\C-_", "\\e[3; ", "\\e[3;!", "\\e[3;\\\"", "\\e[3;#", "\\e[3;$", "\\e[3;%", "\\e[3;&", "\\e[3;'", "\\e[3;(", "\\e[3;)", "\\e[3;*", "\\e[3;+", "\\e[3;,", "\\e[3;-", "\\e[3;.", "\\e[3;/", "\\e[3;0", "\\e[3;1", "\\e[3;2", "\\e[3;3", "\\e[3;4", "\\e[3;5\\C-@", "\\e[3;5\\C-a", "\\e[3;5\\C-b", "\\e[3;5\\C-c", "\\e[3;5\\C-d", "\\e[3;5\\C-e", "\\e[3;5\\C-f", "\\e[3;5\\C-g", "\\e[3;5\\C-h", "\\e[3;5\\C-i", "\\e[3;5\\C-j", "\\e[3;5\\C-k", "\\e[3;5\\C-l", "\\e[3;5\\C-m", "\\e[3;5\\C-n", "\\e[3;5\\C-o", "\\e[3;5\\C-p", "\\e[3;5\\C-q", "\\e[3;5\\C-r", "\\e[3;5\\C-s", "\\e[3;5\\C-t", "\\e[3;5\\C-u", "\\e[3;5\\C-v", "\\e[3;5\\C-w", "\\e[3;5\\C-x", "\\e[3;5\\C-y", "\\e[3;5\\C-z", "\\e[3;5\\e", "\\e[3;5\\C-\\\\", "\\e[3;5\\C-]", "\\e[3;5\\C-^", "\\e[3;5\\C-_", "\\e[3;5 ", "\\e[3;5!", "\\e[3;5\\\"", "\\e[3;5#", "\\e[3;5$", "\\e[3;5%", "\\e[3;5&", "\\e[3;5'", "\\e[3;5(", "\\e[3;5)", "\\e[3;5*", "\\e[3;5+", "\\e[3;5,", "\\e[3;5-", "\\e[3;5.", "\\e[3;5/", "\\e[3;50", "\\e[3;51", "\\e[3;52", "\\e[3;53", "\\e[3;54", "\\e[3;55", "\\e[3;56", "\\e[3;57", "\\e[3;58", "\\e[3;59", "\\e[3;5:", "\\e[3;5;", "\\e[3;5<", "\\e[3;5=", "\\e[3;5>", "\\e[3;5?", "\\e[3;5@", "\\e[3;5A", "\\e[3;5B", "\\e[3;5C", "\\e[3;5D", "\\e[3;5E", "\\e[3;5F", "\\e[3;5G", "\\e[3;5H", "\\e[3;5I", "\\e[3;5J", "\\e[3;5K", "\\e[3;5L", "\\e[3;5M", "\\e[3;5N", "\\e[3;5O", "\\e[3;5P", "\\e[3;5Q", "\\e[3;5R", "\\e[3;5S", "\\e[3;5T", "\\e[3;5U", "\\e[3;5V", "\\e[3;5W", "\\e[3;5X", "\\e[3;5Y", "\\e[3;5Z", "\\e[3;5[", "\\e[3;5\\\\", "\\e[3;5]", "\\e[3;5^", "\\e[3;5_", "\\e[3;5`", "\\e[3;5a", "\\e[3;5b", "\\e[3;5c", "\\e[3;5d", "\\e[3;5e", "\\e[3;5f", "\\e[3;5g", "\\e[3;5h", "\\e[3;5i", "\\e[3;5j", "\\e[3;5k", "\\e[3;5l", "\\e[3;5m", "\\e[3;5n", "\\e[3;5o", "\\e[3;5p", "\\e[3;5q", "\\e[3;5r", "\\e[3;5s", "\\e[3;5t", "\\e[3;5u", "\\e[3;5v", "\\e[3;5w", "\\e[3;5x", "\\e[3;5y", "\\e[3;5z", "\\e[3;5{", "\\e[3;5|", "\\e[3;5}", "\\e[3;5\\C-?", "\\e[3;5\\200", "\\e[3;5\\201", "\\e[3;5\\202", "\\e[3;5\\203", "\\e[3;5\\204", "\\e[3;5\\205", "\\e[3;5\\206", "\\e[3;5\\207", "\\e[3;5\\210", "\\e[3;5\\211", "\\e[3;5\\212", "\\e[3;5\\213", "\\e[3;5\\214", "\\e[3;5\\215", "\\e[3;5\\216", "\\e[3;5\\217", "\\e[3;5\\220", "\\e[3;5\\221", "\\e[3;5\\222", "\\e[3;5\\223", "\\e[3;5\\224", "\\e[3;5\\225", "\\e[3;5\\226", "\\e[3;5\\227", "\\e[3;5\\230", "\\e[3;5\\231", "\\e[3;5\\232", "\\e[3;5\\233", "\\e[3;5\\234", "\\e[3;5\\235", "\\e[3;5\\236", "\\e[3;5\\237", "\\e[3;5\\240", "\\e[3;5\\241", "\\e[3;5\\242", "\\e[3;5\\243", "\\e[3;5\\244", "\\e[3;5\\245", "\\e[3;5\\246", "\\e[3;5\\247", "\\e[3;5\\250", "\\e[3;5\\251", "\\e[3;5\\252", "\\e[3;5\\253", "\\e[3;5\\254", "\\e[3;5\\255", "\\e[3;5\\256", "\\e[3;5\\257", "\\e[3;5\\260", "\\e[3;5\\261", "\\e[3;5\\262", "\\e[3;5\\263", "\\e[3;5\\264", "\\e[3;5\\265", "\\e[3;5\\266", "\\e[3;5\\267", "\\e[3;5\\270", "\\e[3;5\\271", "\\e[3;5\\272", "\\e[3;5\\273", "\\e[3;5\\274", "\\e[3;5\\275", "\\e[3;5\\276", "\\e[3;5\\277", "\\e[3;5\\300", "\\e[3;5\\301", "\\e[3;5\\302", "\\e[3;5\\303", "\\e[3;5\\304", "\\e[3;5\\305", "\\e[3;5\\306", "\\e[3;5\\307", "\\e[3;5\\310", "\\e[3;5\\311", "\\e[3;5\\312", "\\e[3;5\\313", "\\e[3;5\\314", "\\e[3;5\\315", "\\e[3;5\\316", "\\e[3;5\\317", "\\e[3;5\\320", "\\e[3;5\\321", "\\e[3;5\\322", "\\e[3;5\\323", "\\e[3;5\\324", "\\e[3;5\\325", "\\e[3;5\\326", "\\e[3;5\\327", "\\e[3;5\\330", "\\e[3;5\\331", "\\e[3;5\\332", "\\e[3;5\\333", "\\e[3;5\\334", "\\e[3;5\\335", "\\e[3;5\\336", "\\e[3;5\\337", "\\e[3;5\\340", "\\e[3;5\\341", "\\e[3;5\\342", "\\e[3;5\\343", "\\e[3;5\\344", "\\e[3;5\\345", "\\e[3;5\\346", "\\e[3;5\\347", "\\e[3;5\\350", "\\e[3;5\\351", "\\e[3;5\\352", "\\e[3;5\\353", "\\e[3;5\\354", "\\e[3;5\\355", "\\e[3;5\\356", "\\e[3;5\\357", "\\e[3;5\\360", "\\e[3;5\\361", "\\e[3;5\\362", "\\e[3;5\\363", "\\e[3;5\\364", "\\e[3;5\\365", "\\e[3;5\\366", "\\e[3;5\\367", "\\e[3;5\\370", "\\e[3;5\\371", "\\e[3;5\\372", "\\e[3;5\\373", "\\e[3;5\\374", "\\e[3;5\\375", "\\e[3;5\\376", "\\e[3;5\\377", "\\e[3;5", "\\e[3;6", "\\e[3;7", "\\e[3;8", "\\e[3;9", "\\e[3;:", "\\e[3;;", "\\e[3;<", "\\e[3;=", "\\e[3;>", "\\e[3;?", "\\e[3;@", "\\e[3;A", "\\e[3;B", "\\e[3;C", "\\e[3;D", "\\e[3;E", "\\e[3;F", "\\e[3;G", "\\e[3;H", "\\e[3;I", "\\e[3;J", "\\e[3;K", "\\e[3;L", "\\e[3;M", "\\e[3;N", "\\e[3;O", "\\e[3;P", "\\e[3;Q", "\\e[3;R", "\\e[3;S", "\\e[3;T", "\\e[3;U", "\\e[3;V", "\\e[3;W", "\\e[3;X", "\\e[3;Y", "\\e[3;Z", "\\e[3;[", "\\e[3;\\\\", "\\e[3;]", "\\e[3;^", "\\e[3;_", "\\e[3;`", "\\e[3;a", "\\e[3;b", "\\e[3;c", "\\e[3;d", "\\e[3;e", "\\e[3;f", "\\e[3;g", "\\e[3;h", "\\e[3;i", "\\e[3;j", "\\e[3;k", "\\e[3;l", "\\e[3;m", "\\e[3;n", "\\e[3;o", "\\e[3;p", "\\e[3;q", "\\e[3;r", "\\e[3;s", "\\e[3;t", "\\e[3;u", "\\e[3;v", "\\e[3;w", "\\e[3;x", "\\e[3;y", "\\e[3;z", "\\e[3;{", "\\e[3;|", "\\e[3;}", "\\e[3;~", "\\e[3;\\C-?", "\\e[3;\\200", "\\e[3;\\201", "\\e[3;\\202", "\\e[3;\\203", "\\e[3;\\204", "\\e[3;\\205", "\\e[3;\\206", "\\e[3;\\207", "\\e[3;\\210", "\\e[3;\\211", "\\e[3;\\212", "\\e[3;\\213", "\\e[3;\\214", "\\e[3;\\215", "\\e[3;\\216", "\\e[3;\\217", "\\e[3;\\220", "\\e[3;\\221", "\\e[3;\\222", "\\e[3;\\223", "\\e[3;\\224", "\\e[3;\\225", "\\e[3;\\226", "\\e[3;\\227", "\\e[3;\\230", "\\e[3;\\231", "\\e[3;\\232", "\\e[3;\\233", "\\e[3;\\234", "\\e[3;\\235", "\\e[3;\\236", "\\e[3;\\237", "\\e[3;\\240", "\\e[3;\\241", "\\e[3;\\242", "\\e[3;\\243", "\\e[3;\\244", "\\e[3;\\245", "\\e[3;\\246", "\\e[3;\\247", "\\e[3;\\250", "\\e[3;\\251", "\\e[3;\\252", "\\e[3;\\253", "\\e[3;\\254", "\\e[3;\\255", "\\e[3;\\256", "\\e[3;\\257", "\\e[3;\\260", "\\e[3;\\261", "\\e[3;\\262", "\\e[3;\\263", "\\e[3;\\264", "\\e[3;\\265", "\\e[3;\\266", "\\e[3;\\267", "\\e[3;\\270", "\\e[3;\\271", "\\e[3;\\272", "\\e[3;\\273", "\\e[3;\\274", "\\e[3;\\275", "\\e[3;\\276", "\\e[3;\\277", "\\e[3;\\300", "\\e[3;\\301", "\\e[3;\\302", "\\e[3;\\303", "\\e[3;\\304", "\\e[3;\\305", "\\e[3;\\306", "\\e[3;\\307", "\\e[3;\\310", "\\e[3;\\311", "\\e[3;\\312", "\\e[3;\\313", "\\e[3;\\314", "\\e[3;\\315", "\\e[3;\\316", "\\e[3;\\317", "\\e[3;\\320", "\\e[3;\\321", "\\e[3;\\322", "\\e[3;\\323", "\\e[3;\\324", "\\e[3;\\325", "\\e[3;\\326", "\\e[3;\\327", "\\e[3;\\330", "\\e[3;\\331", "\\e[3;\\332", "\\e[3;\\333", "\\e[3;\\334", "\\e[3;\\335", "\\e[3;\\336", "\\e[3;\\337", "\\e[3;\\340", "\\e[3;\\341", "\\e[3;\\342", "\\e[3;\\343", "\\e[3;\\344", "\\e[3;\\345", "\\e[3;\\346", "\\e[3;\\347", "\\e[3;\\350", "\\e[3;\\351", "\\e[3;\\352", "\\e[3;\\353", "\\e[3;\\354", "\\e[3;\\355", "\\e[3;\\356", "\\e[3;\\357", "\\e[3;\\360", "\\e[3;\\361", "\\e[3;\\362", "\\e[3;\\363", "\\e[3;\\364", "\\e[3;\\365", "\\e[3;\\366", "\\e[3;\\367", "\\e[3;\\370", "\\e[3;\\371", "\\e[3;\\372", "\\e[3;\\373", "\\e[3;\\374", "\\e[3;\\375", "\\e[3;\\376", "\\e[3;\\377", "\\e[3;", "\\e[3<", "\\e[3=", "\\e[3>", "\\e[3?", "\\e[3@", "\\e[3A", "\\e[3B", "\\e[3C", "\\e[3D", "\\e[3E", "\\e[3F", "\\e[3G", "\\e[3H", "\\e[3I", "\\e[3J", "\\e[3K", "\\e[3L", "\\e[3M", "\\e[3N", "\\e[3O", "\\e[3P", "\\e[3Q", "\\e[3R", "\\e[3S", "\\e[3T", "\\e[3U", "\\e[3V", "\\e[3W", "\\e[3X", "\\e[3Y", "\\e[3Z", "\\e[3[", "\\e[3\\\\", "\\e[3]", "\\e[3^", "\\e[3_", "\\e[3`", "\\e[3a", "\\e[3b", "\\e[3c", "\\e[3d", "\\e[3e", "\\e[3f", "\\e[3g", "\\e[3h", "\\e[3i", "\\e[3j", "\\e[3k", "\\e[3l", "\\e[3m", "\\e[3n", "\\e[3o", "\\e[3p", "\\e[3q", "\\e[3r", "\\e[3s", "\\e[3t", "\\e[3u", "\\e[3v", "\\e[3w", "\\e[3x", "\\e[3y", "\\e[3z", "\\e[3{", "\\e[3|", "\\e[3}", "\\e[3\\C-?", "\\e[3\\200", "\\e[3\\201", "\\e[3\\202", "\\e[3\\203", "\\e[3\\204", "\\e[3\\205", "\\e[3\\206", "\\e[3\\207", "\\e[3\\210", "\\e[3\\211", "\\e[3\\212", "\\e[3\\213", "\\e[3\\214", "\\e[3\\215", "\\e[3\\216", "\\e[3\\217", "\\e[3\\220", "\\e[3\\221", "\\e[3\\222", "\\e[3\\223", "\\e[3\\224", "\\e[3\\225", "\\e[3\\226", "\\e[3\\227", "\\e[3\\230", "\\e[3\\231", "\\e[3\\232", "\\e[3\\233", "\\e[3\\234", "\\e[3\\235", "\\e[3\\236", "\\e[3\\237", "\\e[3\\240", "\\e[3\\241", "\\e[3\\242", "\\e[3\\243", "\\e[3\\244", "\\e[3\\245", "\\e[3\\246", "\\e[3\\247", "\\e[3\\250", "\\e[3\\251", "\\e[3\\252", "\\e[3\\253", "\\e[3\\254", "\\e[3\\255", "\\e[3\\256", "\\e[3\\257", "\\e[3\\260", "\\e[3\\261", "\\e[3\\262", "\\e[3\\263", "\\e[3\\264", "\\e[3\\265", "\\e[3\\266", "\\e[3\\267", "\\e[3\\270", "\\e[3\\271", "\\e[3\\272", "\\e[3\\273", "\\e[3\\274", "\\e[3\\275", "\\e[3\\276", "\\e[3\\277", "\\e[3\\300", "\\e[3\\301", "\\e[3\\302", "\\e[3\\303", "\\e[3\\304", "\\e[3\\305", "\\e[3\\306", "\\e[3\\307", "\\e[3\\310", "\\e[3\\311", "\\e[3\\312", "\\e[3\\313", "\\e[3\\314", "\\e[3\\315", "\\e[3\\316", "\\e[3\\317", "\\e[3\\320", "\\e[3\\321", "\\e[3\\322", "\\e[3\\323", "\\e[3\\324", "\\e[3\\325", "\\e[3\\326", "\\e[3\\327", "\\e[3\\330", "\\e[3\\331", "\\e[3\\332", "\\e[3\\333", "\\e[3\\334", "\\e[3\\335", "\\e[3\\336", "\\e[3\\337", "\\e[3\\340", "\\e[3\\341", "\\e[3\\342", "\\e[3\\343", "\\e[3\\344", "\\e[3\\345", "\\e[3\\346", "\\e[3\\347", "\\e[3\\350", "\\e[3\\351", "\\e[3\\352", "\\e[3\\353", "\\e[3\\354", "\\e[3\\355", "\\e[3\\356", "\\e[3\\357", "\\e[3\\360", "\\e[3\\361", "\\e[3\\362", "\\e[3\\363", "\\e[3\\364", "\\e[3\\365", "\\e[3\\366", "\\e[3\\367", "\\e[3\\370", "\\e[3\\371", "\\e[3\\372", "\\e[3\\373", "\\e[3\\374", "\\e[3\\375", "\\e[3\\376", "\\e[3\\377", "\\e[3", "\\e[4", "\\e[5\\C-@", "\\e[5\\C-a", "\\e[5\\C-b", "\\e[5\\C-c", "\\e[5\\C-d", "\\e[5\\C-e", "\\e[5\\C-f", "\\e[5\\C-g", "\\e[5\\C-h", "\\e[5\\C-i", "\\e[5\\C-j", "\\e[5\\C-k", "\\e[5\\C-l", "\\e[5\\C-m", "\\e[5\\C-n", "\\e[5\\C-o", "\\e[5\\C-p", "\\e[5\\C-q", "\\e[5\\C-r", "\\e[5\\C-s", "\\e[5\\C-t", "\\e[5\\C-u", "\\e[5\\C-v", "\\e[5\\C-w", "\\e[5\\C-x", "\\e[5\\C-y", "\\e[5\\C-z", "\\e[5\\e", "\\e[5\\C-\\\\", "\\e[5\\C-]", "\\e[5\\C-^", "\\e[5\\C-_", "\\e[5 ", "\\e[5!", "\\e[5\\\"", "\\e[5#", "\\e[5$", "\\e[5%", "\\e[5&", "\\e[5'", "\\e[5(", "\\e[5)", "\\e[5*", "\\e[5+", "\\e[5,", "\\e[5-", "\\e[5.", "\\e[5/", "\\e[50", "\\e[51", "\\e[52", "\\e[53", "\\e[54", "\\e[55", "\\e[56", "\\e[57", "\\e[58", "\\e[59", "\\e[5:", "\\e[5;", "\\e[5<", "\\e[5=", "\\e[5>", "\\e[5?", "\\e[5@", "\\e[5A", "\\e[5B", "\\e[5C", "\\e[5D", "\\e[5E", "\\e[5F", "\\e[5G", "\\e[5H", "\\e[5I", "\\e[5J", "\\e[5K", "\\e[5L", "\\e[5M", "\\e[5N", "\\e[5O", "\\e[5P", "\\e[5Q", "\\e[5R", "\\e[5S", "\\e[5T", "\\e[5U", "\\e[5V", "\\e[5W", "\\e[5X", "\\e[5Y", "\\e[5Z", "\\e[5[", "\\e[5\\\\", "\\e[5]", "\\e[5^", "\\e[5_", "\\e[5`", "\\e[5a", "\\e[5b", "\\e[5c", "\\e[5d", "\\e[5e", "\\e[5f", "\\e[5g", "\\e[5h", "\\e[5i", "\\e[5j", "\\e[5k", "\\e[5l", "\\e[5m", "\\e[5n", "\\e[5o", "\\e[5p", "\\e[5q", "\\e[5r", "\\e[5s", "\\e[5t", "\\e[5u", "\\e[5v", "\\e[5w", "\\e[5x", "\\e[5y", "\\e[5z", "\\e[5{", "\\e[5|", "\\e[5}", "\\e[5\\C-?", "\\e[5\\200", "\\e[5\\201", "\\e[5\\202", "\\e[5\\203", "\\e[5\\204", "\\e[5\\205", "\\e[5\\206", "\\e[5\\207", "\\e[5\\210", "\\e[5\\211", "\\e[5\\212", "\\e[5\\213", "\\e[5\\214", "\\e[5\\215", "\\e[5\\216", "\\e[5\\217", "\\e[5\\220", "\\e[5\\221", "\\e[5\\222", "\\e[5\\223", "\\e[5\\224", "\\e[5\\225", "\\e[5\\226", "\\e[5\\227", "\\e[5\\230", "\\e[5\\231", "\\e[5\\232", "\\e[5\\233", "\\e[5\\234", "\\e[5\\235", "\\e[5\\236", "\\e[5\\237", "\\e[5\\240", "\\e[5\\241", "\\e[5\\242", "\\e[5\\243", "\\e[5\\244", "\\e[5\\245", "\\e[5\\246", "\\e[5\\247", "\\e[5\\250", "\\e[5\\251", "\\e[5\\252", "\\e[5\\253", "\\e[5\\254", "\\e[5\\255", "\\e[5\\256", "\\e[5\\257", "\\e[5\\260", "\\e[5\\261", "\\e[5\\262", "\\e[5\\263", "\\e[5\\264", "\\e[5\\265", "\\e[5\\266", "\\e[5\\267", "\\e[5\\270", "\\e[5\\271", "\\e[5\\272", "\\e[5\\273", "\\e[5\\274", "\\e[5\\275", "\\e[5\\276", "\\e[5\\277", "\\e[5\\300", "\\e[5\\301", "\\e[5\\302", "\\e[5\\303", "\\e[5\\304", "\\e[5\\305", "\\e[5\\306", "\\e[5\\307", "\\e[5\\310", "\\e[5\\311", "\\e[5\\312", "\\e[5\\313", "\\e[5\\314", "\\e[5\\315", "\\e[5\\316", "\\e[5\\317", "\\e[5\\320", "\\e[5\\321", "\\e[5\\322", "\\e[5\\323", "\\e[5\\324", "\\e[5\\325", "\\e[5\\326", "\\e[5\\327", "\\e[5\\330", "\\e[5\\331", "\\e[5\\332", "\\e[5\\333", "\\e[5\\334", "\\e[5\\335", "\\e[5\\336", "\\e[5\\337", "\\e[5\\340", "\\e[5\\341", "\\e[5\\342", "\\e[5\\343", "\\e[5\\344", "\\e[5\\345", "\\e[5\\346", "\\e[5\\347", "\\e[5\\350", "\\e[5\\351", "\\e[5\\352", "\\e[5\\353", "\\e[5\\354", "\\e[5\\355", "\\e[5\\356", "\\e[5\\357", "\\e[5\\360", "\\e[5\\361", "\\e[5\\362", "\\e[5\\363", "\\e[5\\364", "\\e[5\\365", "\\e[5\\366", "\\e[5\\367", "\\e[5\\370", "\\e[5\\371", "\\e[5\\372", "\\e[5\\373", "\\e[5\\374", "\\e[5\\375", "\\e[5\\376", "\\e[5\\377", "\\e[5", "\\e[6\\C-@", "\\e[6\\C-a", "\\e[6\\C-b", "\\e[6\\C-c", "\\e[6\\C-d", "\\e[6\\C-e", "\\e[6\\C-f", "\\e[6\\C-g", "\\e[6\\C-h", "\\e[6\\C-i", "\\e[6\\C-j", "\\e[6\\C-k", "\\e[6\\C-l", "\\e[6\\C-m", "\\e[6\\C-n", "\\e[6\\C-o", "\\e[6\\C-p", "\\e[6\\C-q", "\\e[6\\C-r", "\\e[6\\C-s", "\\e[6\\C-t", "\\e[6\\C-u", "\\e[6\\C-v", "\\e[6\\C-w", "\\e[6\\C-x", "\\e[6\\C-y", "\\e[6\\C-z", "\\e[6\\e", "\\e[6\\C-\\\\", "\\e[6\\C-]", "\\e[6\\C-^", "\\e[6\\C-_", "\\e[6 ", "\\e[6!", "\\e[6\\\"", "\\e[6#", "\\e[6$", "\\e[6%", "\\e[6&", "\\e[6'", "\\e[6(", "\\e[6)", "\\e[6*", "\\e[6+", "\\e[6,", "\\e[6-", "\\e[6.", "\\e[6/", "\\e[60", "\\e[61", "\\e[62", "\\e[63", "\\e[64", "\\e[65", "\\e[66", "\\e[67", "\\e[68", "\\e[69", "\\e[6:", "\\e[6;", "\\e[6<", "\\e[6=", "\\e[6>", "\\e[6?", "\\e[6@", "\\e[6A", "\\e[6B", "\\e[6C", "\\e[6D", "\\e[6E", "\\e[6F", "\\e[6G", "\\e[6H", "\\e[6I", "\\e[6J", "\\e[6K", "\\e[6L", "\\e[6M", "\\e[6N", "\\e[6O", "\\e[6P", "\\e[6Q", "\\e[6R", "\\e[6S", "\\e[6T", "\\e[6U", "\\e[6V", "\\e[6W", "\\e[6X", "\\e[6Y", "\\e[6Z", "\\e[6[", "\\e[6\\\\", "\\e[6]", "\\e[6^", "\\e[6_", "\\e[6`", "\\e[6a", "\\e[6b", "\\e[6c", "\\e[6d", "\\e[6e", "\\e[6f", "\\e[6g", "\\e[6h", "\\e[6i", "\\e[6j", "\\e[6k", "\\e[6l", "\\e[6m", "\\e[6n", "\\e[6o", "\\e[6p", "\\e[6q", "\\e[6r", "\\e[6s", "\\e[6t", "\\e[6u", "\\e[6v", "\\e[6w", "\\e[6x", "\\e[6y", "\\e[6z", "\\e[6{", "\\e[6|", "\\e[6}", "\\e[6\\C-?", "\\e[6\\200", "\\e[6\\201", "\\e[6\\202", "\\e[6\\203", "\\e[6\\204", "\\e[6\\205", "\\e[6\\206", "\\e[6\\207", "\\e[6\\210", "\\e[6\\211", "\\e[6\\212", "\\e[6\\213", "\\e[6\\214", "\\e[6\\215", "\\e[6\\216", "\\e[6\\217", "\\e[6\\220", "\\e[6\\221", "\\e[6\\222", "\\e[6\\223", "\\e[6\\224", "\\e[6\\225", "\\e[6\\226", "\\e[6\\227", "\\e[6\\230", "\\e[6\\231", "\\e[6\\232", "\\e[6\\233", "\\e[6\\234", "\\e[6\\235", "\\e[6\\236", "\\e[6\\237", "\\e[6\\240", "\\e[6\\241", "\\e[6\\242", "\\e[6\\243", "\\e[6\\244", "\\e[6\\245", "\\e[6\\246", "\\e[6\\247", "\\e[6\\250", "\\e[6\\251", "\\e[6\\252", "\\e[6\\253", "\\e[6\\254", "\\e[6\\255", "\\e[6\\256", "\\e[6\\257", "\\e[6\\260", "\\e[6\\261", "\\e[6\\262", "\\e[6\\263", "\\e[6\\264", "\\e[6\\265", "\\e[6\\266", "\\e[6\\267", "\\e[6\\270", "\\e[6\\271", "\\e[6\\272", "\\e[6\\273", "\\e[6\\274", "\\e[6\\275", "\\e[6\\276", "\\e[6\\277", "\\e[6\\300", "\\e[6\\301", "\\e[6\\302", "\\e[6\\303", "\\e[6\\304", "\\e[6\\305", "\\e[6\\306", "\\e[6\\307", "\\e[6\\310", "\\e[6\\311", "\\e[6\\312", "\\e[6\\313", "\\e[6\\314", "\\e[6\\315", "\\e[6\\316", "\\e[6\\317", "\\e[6\\320", "\\e[6\\321", "\\e[6\\322", "\\e[6\\323", "\\e[6\\324", "\\e[6\\325", "\\e[6\\326", "\\e[6\\327", "\\e[6\\330", "\\e[6\\331", "\\e[6\\332", "\\e[6\\333", "\\e[6\\334", "\\e[6\\335", "\\e[6\\336", "\\e[6\\337", "\\e[6\\340", "\\e[6\\341", "\\e[6\\342", "\\e[6\\343", "\\e[6\\344", "\\e[6\\345", "\\e[6\\346", "\\e[6\\347", "\\e[6\\350", "\\e[6\\351", "\\e[6\\352", "\\e[6\\353", "\\e[6\\354", "\\e[6\\355", "\\e[6\\356", "\\e[6\\357", "\\e[6\\360", "\\e[6\\361", "\\e[6\\362", "\\e[6\\363", "\\e[6\\364", "\\e[6\\365", "\\e[6\\366", "\\e[6\\367", "\\e[6\\370", "\\e[6\\371", "\\e[6\\372", "\\e[6\\373", "\\e[6\\374", "\\e[6\\375", "\\e[6\\376", "\\e[6\\377", "\\e[6", "\\e[7", "\\e[8", "\\e[9", "\\e[:", "\\e[;", "\\e[<", "\\e[=", "\\e[>", "\\e[?", "\\e[@", "\\e[E", "\\e[G", "\\e[I", "\\e[J", "\\e[K", "\\e[L", "\\e[M", "\\e[N", "\\e[O", "\\e[P", "\\e[Q", "\\e[R", "\\e[S", "\\e[T", "\\e[U", "\\e[V", "\\e[W", "\\e[X", "\\e[Y", "\\e[Z", "\\e[[", "\\e[\\\\", "\\e[]", "\\e[^", "\\e[_", "\\e[`", "\\e[a", "\\e[b", "\\e[c", "\\e[d", "\\e[e", "\\e[f", "\\e[g", "\\e[h", "\\e[i", "\\e[j", "\\e[k", "\\e[l", "\\e[m", "\\e[n", "\\e[o", "\\e[p", "\\e[q", "\\e[r", "\\e[s", "\\e[t", "\\e[u", "\\e[v", "\\e[w", "\\e[x", "\\e[y", "\\e[z", "\\e[{", "\\e[|", "\\e[}", "\\e[~", "\\e[\\C-?", "\\e[\\200", "\\e[\\201", "\\e[\\202", "\\e[\\203", "\\e[\\204", "\\e[\\205", "\\e[\\206", "\\e[\\207", "\\e[\\210", "\\e[\\211", "\\e[\\212", "\\e[\\213", "\\e[\\214", "\\e[\\215", "\\e[\\216", "\\e[\\217", "\\e[\\220", "\\e[\\221", "\\e[\\222", "\\e[\\223", "\\e[\\224", "\\e[\\225", "\\e[\\226", "\\e[\\227", "\\e[\\230", "\\e[\\231", "\\e[\\232", "\\e[\\233", "\\e[\\234", "\\e[\\235", "\\e[\\236", "\\e[\\237", "\\e[\\240", "\\e[\\241", "\\e[\\242", "\\e[\\243", "\\e[\\244", "\\e[\\245", "\\e[\\246", "\\e[\\247", "\\e[\\250", "\\e[\\251", "\\e[\\252", "\\e[\\253", "\\e[\\254", "\\e[\\255", "\\e[\\256", "\\e[\\257", "\\e[\\260", "\\e[\\261", "\\e[\\262", "\\e[\\263", "\\e[\\264", "\\e[\\265", "\\e[\\266", "\\e[\\267", "\\e[\\270", "\\e[\\271", "\\e[\\272", "\\e[\\273", "\\e[\\274", "\\e[\\275", "\\e[\\276", "\\e[\\277", "\\e[\\300", "\\e[\\301", "\\e[\\302", "\\e[\\303", "\\e[\\304", "\\e[\\305", "\\e[\\306", "\\e[\\307", "\\e[\\310", "\\e[\\311", "\\e[\\312", "\\e[\\313", "\\e[\\314", "\\e[\\315", "\\e[\\316", "\\e[\\317", "\\e[\\320", "\\e[\\321", "\\e[\\322", "\\e[\\323", "\\e[\\324", "\\e[\\325", "\\e[\\326", "\\e[\\327", "\\e[\\330", "\\e[\\331", "\\e[\\332", "\\e[\\333", "\\e[\\334", "\\e[\\335", "\\e[\\336", "\\e[\\337", "\\e[\\340", "\\e[\\341", "\\e[\\342", "\\e[\\343", "\\e[\\344", "\\e[\\345", "\\e[\\346", "\\e[\\347", "\\e[\\350", "\\e[\\351", "\\e[\\352", "\\e[\\353", "\\e[\\354", "\\e[\\355", "\\e[\\356", "\\e[\\357", "\\e[\\360", "\\e[\\361", "\\e[\\362", "\\e[\\363", "\\e[\\364", "\\e[\\365", "\\e[\\366", "\\e[\\367", "\\e[\\370", "\\e[\\371", "\\e[\\372", "\\e[\\373", "\\e[\\374", "\\e[\\375", "\\e[\\376", "\\e[\\377", "\\e[", "\\e]", "\\e^", "\\e`", "\\ea", "\\ee", "\\eg", "\\eh", "\\ei", "\\ej", "\\ek", "\\em", "\\eo", "\\eq", "\\es", "\\ev", "\\ew", "\\ez", "\\e{", "\\e|", "\\e}", "\\e\\200", "\\e\\201", "\\e\\202", "\\e\\203", "\\e\\204", "\\e\\205", "\\e\\206", "\\e\\207", "\\e\\210", "\\e\\211", "\\e\\212", "\\e\\213", "\\e\\214", "\\e\\215", "\\e\\216", "\\e\\217", "\\e\\220", "\\e\\221", "\\e\\222", "\\e\\223", "\\e\\224", "\\e\\225", "\\e\\226", "\\e\\227", "\\e\\230", "\\e\\231", "\\e\\232", "\\e\\233", "\\e\\234", "\\e\\235", "\\e\\236", "\\e\\237", "\\e\\240", "\\e\\241", "\\e\\242", "\\e\\243", "\\e\\244", "\\e\\245", "\\e\\246", "\\e\\247", "\\e\\250", "\\e\\251", "\\e\\252", "\\e\\253", "\\e\\254", "\\e\\255", "\\e\\256", "\\e\\257", "\\e\\260", "\\e\\261", "\\e\\262", "\\e\\263", "\\e\\264", "\\e\\265", "\\e\\266", "\\e\\267", "\\e\\270", "\\e\\271", "\\e\\272", "\\e\\273", "\\e\\274", "\\e\\275", "\\e\\276", "\\e\\277", "\\e\\300", "\\e\\301", "\\e\\302", "\\e\\303", "\\e\\304", "\\e\\305", "\\e\\306", "\\e\\307", "\\e\\310", "\\e\\311", "\\e\\312", "\\e\\313", "\\e\\314", "\\e\\315", "\\e\\316", "\\e\\317", "\\e\\320", "\\e\\321", "\\e\\322", "\\e\\323", "\\e\\324", "\\e\\325", "\\e\\326", "\\e\\327", "\\e\\330", "\\e\\331", "\\e\\332", "\\e\\333", "\\e\\334", "\\e\\335", "\\e\\336", "\\e\\337", "\\e\\340", "\\e\\341", "\\e\\342", "\\e\\343", "\\e\\344", "\\e\\345", "\\e\\346", "\\e\\347", "\\e\\350", "\\e\\351", "\\e\\352", "\\e\\353", "\\e\\354", "\\e\\355", "\\e\\356", "\\e\\357", "\\e\\360", "\\e\\361", "\\e\\362", "\\e\\363", "\\e\\364", "\\e\\365", "\\e\\366", "\\e\\367", "\\e\\370", "\\e\\371", "\\e\\372", "\\e\\373", "\\e\\374", "\\e\\375", "\\e\\376", "\\e\\377", "\\e", "\\C-\\\\", "\\C-^", ""]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-readable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind '\\C-xa' 'plain' emacs", "ret": 0},
+      {"op": "rl_macro_bind '\\eb' 'meta' emacs", "ret": 0},
+      {"op": "rl_macro_bind '\\C-x\\C-yc' 'deep' emacs", "ret": 0},
+      {"op": "rl_macro_bind '\\e[Q' 'esc seq' emacs", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-x\\C-yc\": \"deep\"\n\"\\C-xa\": \"plain\"\n\"\\e[Q\": \"esc seq\"\n\"\\eb\": \"meta\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-plain": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind '\\C-xa' 'plain' emacs", "ret": 0},
+      {"op": "rl_macro_bind '\\eb' 'meta' emacs", "ret": 0},
+      {"op": "rl_macro_dumper 0", "out": "\\C-xa outputs plain\n\\eb outputs meta\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-escapes-value": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind '\\C-xa' '\\C-a\\t\\n\\r\\a\\b\\f\\v\\e\\d\"\\\\' emacs", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"\\C-a\\C-i\\C-j\\C-m\\C-g\\C-h\\C-l\\C-k\\e\\C-?\\\"\\\\\"\n"},
+      {"op": "rl_macro_dumper 0", "out": "\\C-xa outputs \\C-a\\C-i\\C-j\\C-m\\C-g\\C-h\\C-l\\C-k\\e\\C-?\\\"\\\\\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-meta-value": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_generic_bind ISMACR \"\\x18a\" \"\\xe1\\x9b\\xff\" emacs", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"\\M-a\\M-\\e\\M-\\C-?\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-current-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind 'x' 'vi macro' vi-command", "ret": 0},
+      {"op": "rl_macro_bind '\\C-xa' 'emacs macro' emacs", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"x\": \"vi macro\"\n"},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"emacs macro\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_dumper 1", "out": ""},
+      {"op": "rl_macro_dumper 0", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-dumper-high-key": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_generic_bind ISMACR \"\\xe4\" \"x\" k", "ret": 0},
+      {"op": "rl_generic_bind ISMACR \"\\x85\" \"y\" k", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\205\": \"y\"\n\"\\344\": \"x\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-display-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind '\\C-xa' 'one\\ttwo' emacs", "ret": 0},
+      {"op": "rl_macro_bind '\\eb' 'meta' emacs", "ret": 0},
+      {"op": "hook", "hook": "rl_macro_display_hook", "keyseq": "a", "value": "one\\C-itwo", "readable": 1, "prefix": "\\C-x"},
+      {"op": "hook", "hook": "rl_macro_display_hook", "keyseq": "b", "value": "meta", "readable": 1, "prefix": "\\e"},
+      {"op": "rl_macro_dumper 1", "out": ""},
+      {"op": "hook", "hook": "rl_macro_display_hook", "keyseq": "a", "value": "one\\C-itwo", "readable": 0, "prefix": "\\C-x"},
+      {"op": "hook", "hook": "rl_macro_display_hook", "keyseq": "b", "value": "meta", "readable": 0, "prefix": "\\e"},
+      {"op": "rl_macro_dumper 0", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-display-hook-script": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_macro_bind 'q' 'qq' vi-command", "ret": 0},
+      {"op": "hook", "hook": "rl_macro_display_hook", "keyseq": "q", "value": "qq", "readable": 1, "prefix": null},
+      {"op": "rl_macro_dumper 1", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "variable-dumper-plain-after-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_dumper 0", "out": "bind-tty-special-chars is set to `on'\nblink-matching-paren is set to `off'\nbyte-oriented is set to `off'\ncolored-completion-prefix is set to `off'\ncolored-stats is set to `off'\ncompletion-ignore-case is set to `off'\ncompletion-map-case is set to `off'\nconvert-meta is set to `off'\ndisable-completion is set to `off'\necho-control-characters is set to `on'\nenable-active-region is set to `on'\nenable-bracketed-paste is set to `on'\nenable-keypad is set to `off'\nenable-meta-key is set to `on'\nexpand-tilde is set to `off'\nforce-meta-prefix is set to `off'\nhistory-preserve-point is set to `off'\nhorizontal-scroll-mode is set to `off'\ninput-meta is set to `on'\nmark-directories is set to `on'\nmark-modified-lines is set to `off'\nmark-symlinked-directories is set to `off'\nmatch-hidden-files is set to `on'\nmenu-complete-display-prefix is set to `off'\nmeta-flag is set to `on'\noutput-meta is set to `on'\npage-completions is set to `on'\nprefer-visible-bell is set to `on'\nprint-completions-horizontally is set to `off'\nrevert-all-at-newline is set to `off'\nsearch-ignore-case is set to `off'\nshow-all-if-ambiguous is set to `off'\nshow-all-if-unmodified is set to `off'\nshow-mode-in-prompt is set to `off'\nskip-completed-text is set to `off'\nvisible-stats is set to `off'\nactive-region-end-color is set to `\\e[27m'\nactive-region-start-color is set to `\\e[7m'\nbell-style is set to `audible'\ncomment-begin is set to `#'\ncompletion-display-width is set to `-1'\ncompletion-prefix-display-length is set to `0'\ncompletion-query-items is set to `100'\nediting-mode is set to `emacs'\nemacs-mode-string is set to `@'\nhistory-size is set to `-1'\nkeymap is set to `emacs'\nkeyseq-timeout is set to `500'\nvi-cmd-mode-string is set to `(cmd)'\nvi-ins-mode-string is set to `(ins)'\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "list-funmap-names-sorted": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_list_funmap_names", "out": "abort\naccept-line\narrow-key-prefix\nbackward-byte\nbackward-char\nbackward-delete-char\nbackward-kill-line\nbackward-kill-word\nbackward-word\nbeginning-of-history\nbeginning-of-line\nbracketed-paste-begin\ncall-last-kbd-macro\ncapitalize-word\ncharacter-search\ncharacter-search-backward\nclear-display\nclear-screen\ncomplete\ncopy-backward-word\ncopy-forward-word\ncopy-region-as-kill\ndelete-char\ndelete-char-or-list\ndelete-horizontal-space\ndigit-argument\ndo-lowercase-version\ndowncase-word\ndump-functions\ndump-macros\ndump-variables\nemacs-editing-mode\nend-kbd-macro\nend-of-history\nend-of-line\nexchange-point-and-mark\nexecute-named-command\nexport-completions\nfetch-history\nforward-backward-delete-char\nforward-byte\nforward-char\nforward-search-history\nforward-word\nhistory-search-backward\nhistory-search-forward\nhistory-substring-search-backward\nhistory-substring-search-forward\ninsert-comment\ninsert-completions\nkill-line\nkill-region\nkill-whole-line\nkill-word\nmenu-complete\nmenu-complete-backward\nnext-history\nnext-screen-line\nnon-incremental-forward-search-history\nnon-incremental-forward-search-history-again\nnon-incremental-reverse-search-history\nnon-incremental-reverse-search-history-again\nold-menu-complete\noperate-and-get-next\noverwrite-mode\npossible-completions\nprevious-history\nprevious-screen-line\nprint-last-kbd-macro\nquoted-insert\nre-read-init-file\nredraw-current-line\nreverse-search-history\nrevert-line\nself-insert\nset-mark\nskip-csi-sequence\nstart-kbd-macro\ntab-insert\ntilde-expand\ntranspose-chars\ntranspose-words\ntty-status\nundo\nuniversal-argument\nunix-filename-rubout\nunix-line-discard\nunix-word-rubout\nupcase-word\nvi-append-eol\nvi-append-mode\nvi-arg-digit\nvi-bWord\nvi-back-to-indent\nvi-backward-bigword\nvi-backward-word\nvi-bword\nvi-change-case\nvi-change-char\nvi-change-to\nvi-char-search\nvi-column\nvi-complete\nvi-delete\nvi-delete-to\nvi-eWord\nvi-editing-mode\nvi-end-bigword\nvi-end-word\nvi-eof-maybe\nvi-eword\nvi-fWord\nvi-fetch-history\nvi-first-print\nvi-forward-bigword\nvi-forward-word\nvi-fword\nvi-goto-mark\nvi-insert-beg\nvi-insertion-mode\nvi-match\nvi-movement-mode\nvi-next-word\nvi-overstrike\nvi-overstrike-delete\nvi-prev-word\nvi-put\nvi-redo\nvi-replace\nvi-rubout\nvi-search\nvi-search-again\nvi-set-mark\nvi-subst\nvi-tilde-expand\nvi-undo\nvi-unix-word-rubout\nvi-yank-arg\nvi-yank-pop\nvi-yank-to\nyank\nyank-last-arg\nyank-nth-arg\nyank-pop\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-names-with-additions": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"zzz-last\" kill-word", "ret": 145},
+      {"op": "rl_add_funmap_entry \"aaa-first\" kill-word", "ret": 146},
+      {"op": "rl_funmap_names", "ret": ["aaa-first", "abort", "accept-line", "arrow-key-prefix", "backward-byte", "backward-char", "backward-delete-char", "backward-kill-line", "backward-kill-word", "backward-word", "beginning-of-history", "beginning-of-line", "bracketed-paste-begin", "call-last-kbd-macro", "capitalize-word", "character-search", "character-search-backward", "clear-display", "clear-screen", "complete", "copy-backward-word", "copy-forward-word", "copy-region-as-kill", "delete-char", "delete-char-or-list", "delete-horizontal-space", "digit-argument", "do-lowercase-version", "downcase-word", "dump-functions", "dump-macros", "dump-variables", "emacs-editing-mode", "end-kbd-macro", "end-of-history", "end-of-line", "exchange-point-and-mark", "execute-named-command", "export-completions", "fetch-history", "forward-backward-delete-char", "forward-byte", "forward-char", "forward-search-history", "forward-word", "history-search-backward", "history-search-forward", "history-substring-search-backward", "history-substring-search-forward", "insert-comment", "insert-completions", "kill-line", "kill-region", "kill-whole-line", "kill-word", "menu-complete", "menu-complete-backward", "next-history", "next-screen-line", "non-incremental-forward-search-history", "non-incremental-forward-search-history-again", "non-incremental-reverse-search-history", "non-incremental-reverse-search-history-again", "old-menu-complete", "operate-and-get-next", "overwrite-mode", "possible-completions", "previous-history", "previous-screen-line", "print-last-kbd-macro", "quoted-insert", "re-read-init-file", "redraw-current-line", "reverse-search-history", "revert-line", "self-insert", "set-mark", "skip-csi-sequence", "start-kbd-macro", "tab-insert", "tilde-expand", "transpose-chars", "transpose-words", "tty-status", "undo", "universal-argument", "unix-filename-rubout", "unix-line-discard", "unix-word-rubout", "upcase-word", "vi-append-eol", "vi-append-mode", "vi-arg-digit", "vi-bWord", "vi-back-to-indent", "vi-backward-bigword", "vi-backward-word", "vi-bword", "vi-change-case", "vi-change-char", "vi-change-to", "vi-char-search", "vi-column", "vi-complete", "vi-delete", "vi-delete-to", "vi-eWord", "vi-editing-mode", "vi-end-bigword", "vi-end-word", "vi-eof-maybe", "vi-eword", "vi-fWord", "vi-fetch-history", "vi-first-print", "vi-forward-bigword", "vi-forward-word", "vi-fword", "vi-goto-mark", "vi-insert-beg", "vi-insertion-mode", "vi-match", "vi-movement-mode", "vi-next-word", "vi-overstrike", "vi-overstrike-delete", "vi-prev-word", "vi-put", "vi-redo", "vi-replace", "vi-rubout", "vi-search", "vi-search-again", "vi-set-mark", "vi-subst", "vi-tilde-expand", "vi-undo", "vi-unix-word-rubout", "vi-yank-arg", "vi-yank-pop", "vi-yank-to", "yank", "yank-last-arg", "yank-nth-arg", "yank-pop", "zzz-last"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-insertion-order": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"zzz-last\" kill-word", "ret": 145},
+      {"op": "rl_add_funmap_entry \"aaa-first\" kill-word", "ret": 146},
+      {"op": "get funmap", "ret": ["abort", "accept-line", "arrow-key-prefix", "backward-byte", "backward-char", "backward-delete-char", "backward-kill-line", "backward-kill-word", "backward-word", "beginning-of-history", "beginning-of-line", "bracketed-paste-begin", "call-last-kbd-macro", "capitalize-word", "character-search", "character-search-backward", "clear-display", "clear-screen", "complete", "copy-backward-word", "copy-forward-word", "copy-region-as-kill", "delete-char", "delete-char-or-list", "delete-horizontal-space", "digit-argument", "do-lowercase-version", "downcase-word", "dump-functions", "dump-macros", "dump-variables", "emacs-editing-mode", "end-kbd-macro", "end-of-history", "end-of-line", "exchange-point-and-mark", "execute-named-command", "export-completions", "fetch-history", "forward-backward-delete-char", "forward-byte", "forward-char", "forward-search-history", "forward-word", "history-search-backward", "history-search-forward", "history-substring-search-backward", "history-substring-search-forward", "insert-comment", "insert-completions", "kill-whole-line", "kill-line", "kill-region", "kill-word", "menu-complete", "menu-complete-backward", "next-history", "next-screen-line", "non-incremental-forward-search-history", "non-incremental-reverse-search-history", "non-incremental-forward-search-history-again", "non-incremental-reverse-search-history-again", "old-menu-complete", "operate-and-get-next", "overwrite-mode", "possible-completions", "previous-history", "previous-screen-line", "print-last-kbd-macro", "quoted-insert", "re-read-init-file", "redraw-current-line", "reverse-search-history", "revert-line", "self-insert", "set-mark", "skip-csi-sequence", "start-kbd-macro", "tab-insert", "tilde-expand", "transpose-chars", "transpose-words", "tty-status", "undo", "universal-argument", "unix-filename-rubout", "unix-line-discard", "unix-word-rubout", "upcase-word", "yank", "yank-last-arg", "yank-nth-arg", "yank-pop", "vi-append-eol", "vi-append-mode", "vi-arg-digit", "vi-back-to-indent", "vi-backward-bigword", "vi-backward-word", "vi-bWord", "vi-bword", "vi-change-case", "vi-change-char", "vi-change-to", "vi-char-search", "vi-column", "vi-complete", "vi-delete", "vi-delete-to", "vi-eWord", "vi-editing-mode", "vi-end-bigword", "vi-end-word", "vi-eof-maybe", "vi-eword", "vi-fWord", "vi-fetch-history", "vi-first-print", "vi-forward-bigword", "vi-forward-word", "vi-fword", "vi-goto-mark", "vi-insert-beg", "vi-insertion-mode", "vi-match", "vi-movement-mode", "vi-next-word", "vi-overstrike", "vi-overstrike-delete", "vi-prev-word", "vi-put", "vi-redo", "vi-replace", "vi-rubout", "vi-search", "vi-search-again", "vi-set-mark", "vi-subst", "vi-tilde-expand", "vi-undo", "vi-unix-word-rubout", "vi-yank-arg", "vi-yank-pop", "vi-yank-to", "zzz-last", "aaa-first"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-funmap-entry-returns": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"one\" kill-word", "ret": 145},
+      {"op": "rl_add_funmap_entry \"two\" kill-word", "ret": 146}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-funmap-entry-before-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"early\" kill-word", "ret": 145},
+      {"op": "rl_add_funmap_entry \"late\" kill-word", "ret": 146}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-funmap-entry-duplicate-name": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"kill-word\" upcase-word", "ret": 145},
+      {"op": "rl_named_function \"kill-word\"", "ret": "kill-word"},
+      {"op": "rl_add_funmap_entry \"dup\" upcase-word", "ret": 146},
+      {"op": "rl_add_funmap_entry \"dup\" downcase-word", "ret": 147},
+      {"op": "rl_named_function \"dup\"", "ret": "upcase-word"},
+      {"op": "rl_function_dumper 1", "out": "\n\"\\C-g\": abort\n\"\\C-x\\C-g\": abort\n\"\\e\\C-g\": abort\n\"\\C-j\": accept-line\n\"\\C-m\": accept-line\n# arrow-key-prefix (not bound)\n# backward-byte (not bound)\n\"\\C-b\": backward-char\n\"\\C-h\": backward-delete-char\n\"\\C-?\": backward-delete-char\n\"\\C-x\\C-?\": backward-kill-line\n\"\\e\\C-h\": backward-kill-word\n\"\\e\\C-?\": backward-kill-word\n\"\\eb\": backward-word\n\"\\e<\": beginning-of-history\n\"\\C-a\": beginning-of-line\n# bracketed-paste-begin (not bound)\n\"\\C-xe\": call-last-kbd-macro\n\"\\ec\": capitalize-word\n\"\\C-]\": character-search\n\"\\e\\C-]\": character-search-backward\n\"\\e\\C-l\": clear-display\n\"\\C-l\": clear-screen\n\"\\C-i\": complete\n\"\\e\\e\": complete\n# copy-backward-word (not bound)\n# copy-forward-word (not bound)\n# copy-region-as-kill (not bound)\n\"\\C-d\": delete-char\n# delete-char-or-list (not bound)\n\"\\e\\\\\": delete-horizontal-space\n\"\\e-\": digit-argument\n\"\\e0\": digit-argument\n\"\\e1\": digit-argument\n\"\\e2\": digit-argument\n\"\\e3\": digit-argument\n\"\\e4\": digit-argument\n\"\\e5\": digit-argument\n\"\\e6\": digit-argument\n\"\\e7\": digit-argument\n\"\\e8\": digit-argument\n\"\\e9\": digit-argument\n\"\\C-xA\": do-lowercase-version\n\"\\C-xB\": do-lowercase-version\n\"\\C-xC\": do-lowercase-version\n\"\\C-xD\": do-lowercase-version\n\"\\C-xE\": do-lowercase-version\n\"\\C-xF\": do-lowercase-version\n\"\\C-xG\": do-lowercase-version\n\"\\C-xH\": do-lowercase-version\n\"\\C-xI\": do-lowercase-version\n\"\\C-xJ\": do-lowercase-version\n\"\\C-xK\": do-lowercase-version\n\"\\C-xL\": do-lowercase-version\n\"\\C-xM\": do-lowercase-version\n\"\\C-xN\": do-lowercase-version\n\"\\C-xO\": do-lowercase-version\n\"\\C-xP\": do-lowercase-version\n\"\\C-xQ\": do-lowercase-version\n\"\\C-xR\": do-lowercase-version\n\"\\C-xS\": do-lowercase-version\n\"\\C-xT\": do-lowercase-version\n\"\\C-xU\": do-lowercase-version\n\"\\C-xV\": do-lowercase-version\n\"\\C-xW\": do-lowercase-version\n\"\\C-xX\": do-lowercase-version\n\"\\C-xY\": do-lowercase-version\n\"\\C-xZ\": do-lowercase-version\n\"\\eA\": do-lowercase-version\n\"\\eB\": do-lowercase-version\n\"\\eC\": do-lowercase-version\n\"\\eD\": do-lowercase-version\n\"\\eE\": do-lowercase-version\n\"\\eF\": do-lowercase-version\n\"\\eG\": do-lowercase-version\n\"\\eH\": do-lowercase-version\n\"\\eI\": do-lowercase-version\n\"\\eJ\": do-lowercase-version\n\"\\eK\": do-lowercase-version\n\"\\eL\": do-lowercase-version\n\"\\eM\": do-lowercase-version\n\"\\eN\": do-lowercase-version\n\"\\eO\": do-lowercase-version\n\"\\eP\": do-lowercase-version\n\"\\eQ\": do-lowercase-version\n\"\\eR\": do-lowercase-version\n\"\\eS\": do-lowercase-version\n\"\\eT\": do-lowercase-version\n\"\\eU\": do-lowercase-version\n\"\\eV\": do-lowercase-version\n\"\\eW\": do-lowercase-version\n\"\\eX\": do-lowercase-version\n\"\\eY\": do-lowercase-version\n\"\\eZ\": do-lowercase-version\n\"\\el\": downcase-word\n# dump-functions (not bound)\n# dump-macros (not bound)\n# dump-variables (not bound)\n\"\\eu\": dup\n\"\\eu\": dup\n# emacs-editing-mode (not bound)\n\"\\C-x)\": end-kbd-macro\n\"\\e>\": end-of-history\n\"\\C-e\": end-of-line\n\"\\C-x\\C-x\": exchange-point-and-mark\n\"\\ex\": execute-named-command\n# export-completions (not bound)\n# fetch-history (not bound)\n# forward-backward-delete-char (not bound)\n# forward-byte (not bound)\n\"\\C-f\": forward-char\n\"\\C-s\": forward-search-history\n\"\\ef\": forward-word\n# history-search-backward (not bound)\n# history-search-forward (not bound)\n# history-substring-search-backward (not bound)\n# history-substring-search-forward (not bound)\n\"\\e#\": insert-comment\n\"\\e*\": insert-completions\n\"\\C-k\": kill-line\n# kill-region (not bound)\n# kill-whole-line (not bound)\n\"\\ed\": kill-word\n\"\\ed\": kill-word\n# menu-complete (not bound)\n# menu-complete-backward (not bound)\n\"\\C-n\": next-history\n# next-screen-line (not bound)\n\"\\en\": non-incremental-forward-search-history\n# non-incremental-forward-search-history-again (not bound)\n\"\\ep\": non-incremental-reverse-search-history\n# non-incremental-reverse-search-history-again (not bound)\n# old-menu-complete (not bound)\n\"\\C-o\": operate-and-get-next\n# overwrite-mode (not bound)\n\"\\e=\": possible-completions\n\"\\e?\": possible-completions\n\"\\C-p\": previous-history\n# previous-screen-line (not bound)\n# print-last-kbd-macro (not bound)\n\"\\C-q\": quoted-insert\n\"\\C-v\": quoted-insert\n\"\\C-x\\C-r\": re-read-init-file\n# redraw-current-line (not bound)\n\"\\C-r\": reverse-search-history\n\"\\e\\C-r\": revert-line\n\"\\er\": revert-line\n\" \": self-insert\n\"!\": self-insert\n\"\\\"\": self-insert\n\"#\": self-insert\n\"$\": self-insert\n\"%\": self-insert\n\"&\": self-insert\n\"'\": self-insert\n\"(\": self-insert\n\")\": self-insert\n\"*\": self-insert\n\"+\": self-insert\n\",\": self-insert\n\"-\": self-insert\n\".\": self-insert\n\"/\": self-insert\n\"0\": self-insert\n\"1\": self-insert\n\"2\": self-insert\n\"3\": self-insert\n\"4\": self-insert\n\"5\": self-insert\n\"6\": self-insert\n\"7\": self-insert\n\"8\": self-insert\n\"9\": self-insert\n\":\": self-insert\n\";\": self-insert\n\"<\": self-insert\n\"=\": self-insert\n\">\": self-insert\n\"?\": self-insert\n\"@\": self-insert\n\"A\": self-insert\n\"B\": self-insert\n\"C\": self-insert\n\"D\": self-insert\n\"E\": self-insert\n\"F\": self-insert\n\"G\": self-insert\n\"H\": self-insert\n\"I\": self-insert\n\"J\": self-insert\n\"K\": self-insert\n\"L\": self-insert\n\"M\": self-insert\n\"N\": self-insert\n\"O\": self-insert\n\"P\": self-insert\n\"Q\": self-insert\n\"R\": self-insert\n\"S\": self-insert\n\"T\": self-insert\n\"U\": self-insert\n\"V\": self-insert\n\"W\": self-insert\n\"X\": self-insert\n\"Y\": self-insert\n\"Z\": self-insert\n\"[\": self-insert\n\"\\\\\": self-insert\n\"]\": self-insert\n\"^\": self-insert\n\"_\": self-insert\n\"`\": self-insert\n\"a\": self-insert\n\"b\": self-insert\n\"c\": self-insert\n\"d\": self-insert\n\"e\": self-insert\n\"f\": self-insert\n\"g\": self-insert\n\"h\": self-insert\n\"i\": self-insert\n\"j\": self-insert\n\"k\": self-insert\n\"l\": self-insert\n\"m\": self-insert\n\"n\": self-insert\n\"o\": self-insert\n\"p\": self-insert\n\"q\": self-insert\n\"r\": self-insert\n\"s\": self-insert\n\"t\": self-insert\n\"u\": self-insert\n\"v\": self-insert\n\"w\": self-insert\n\"x\": self-insert\n\"y\": self-insert\n\"z\": self-insert\n\"{\": self-insert\n\"|\": self-insert\n\"}\": self-insert\n\"~\": self-insert\n\"\\200\": self-insert\n\"\\201\": self-insert\n\"\\202\": self-insert\n\"\\203\": self-insert\n\"\\204\": self-insert\n\"\\205\": self-insert\n\"\\206\": self-insert\n\"\\207\": self-insert\n\"\\210\": self-insert\n\"\\211\": self-insert\n\"\\212\": self-insert\n\"\\213\": self-insert\n\"\\214\": self-insert\n\"\\215\": self-insert\n\"\\216\": self-insert\n\"\\217\": self-insert\n\"\\220\": self-insert\n\"\\221\": self-insert\n\"\\222\": self-insert\n\"\\223\": self-insert\n\"\\224\": self-insert\n\"\\225\": self-insert\n\"\\226\": self-insert\n\"\\227\": self-insert\n\"\\230\": self-insert\n\"\\231\": self-insert\n\"\\232\": self-insert\n\"\\233\": self-insert\n\"\\234\": self-insert\n\"\\235\": self-insert\n\"\\236\": self-insert\n\"\\237\": self-insert\n\"\\240\": self-insert\n\"\\241\": self-insert\n\"\\242\": self-insert\n\"\\243\": self-insert\n\"\\244\": self-insert\n\"\\245\": self-insert\n\"\\246\": self-insert\n\"\\247\": self-insert\n\"\\250\": self-insert\n\"\\251\": self-insert\n\"\\252\": self-insert\n\"\\253\": self-insert\n\"\\254\": self-insert\n\"\\255\": self-insert\n\"\\256\": self-insert\n\"\\257\": self-insert\n\"\\260\": self-insert\n\"\\261\": self-insert\n\"\\262\": self-insert\n\"\\263\": self-insert\n\"\\264\": self-insert\n\"\\265\": self-insert\n\"\\266\": self-insert\n\"\\267\": self-insert\n\"\\270\": self-insert\n\"\\271\": self-insert\n\"\\272\": self-insert\n\"\\273\": self-insert\n\"\\274\": self-insert\n\"\\275\": self-insert\n\"\\276\": self-insert\n\"\\277\": self-insert\n\"\\300\": self-insert\n\"\\301\": self-insert\n\"\\302\": self-insert\n\"\\303\": self-insert\n\"\\304\": self-insert\n\"\\305\": self-insert\n\"\\306\": self-insert\n\"\\307\": self-insert\n\"\\310\": self-insert\n\"\\311\": self-insert\n\"\\312\": self-insert\n\"\\313\": self-insert\n\"\\314\": self-insert\n\"\\315\": self-insert\n\"\\316\": self-insert\n\"\\317\": self-insert\n\"\\320\": self-insert\n\"\\321\": self-insert\n\"\\322\": self-insert\n\"\\323\": self-insert\n\"\\324\": self-insert\n\"\\325\": self-insert\n\"\\326\": self-insert\n\"\\327\": self-insert\n\"\\330\": self-insert\n\"\\331\": self-insert\n\"\\332\": self-insert\n\"\\333\": self-insert\n\"\\334\": self-insert\n\"\\335\": self-insert\n\"\\336\": self-insert\n\"\\337\": self-insert\n\"\\340\": self-insert\n\"\\341\": self-insert\n\"\\342\": self-insert\n\"\\343\": self-insert\n\"\\344\": self-insert\n\"\\345\": self-insert\n\"\\346\": self-insert\n\"\\347\": self-insert\n\"\\350\": self-insert\n\"\\351\": self-insert\n\"\\352\": self-insert\n\"\\353\": self-insert\n\"\\354\": self-insert\n\"\\355\": self-insert\n\"\\356\": self-insert\n\"\\357\": self-insert\n\"\\360\": self-insert\n\"\\361\": self-insert\n\"\\362\": self-insert\n\"\\363\": self-insert\n\"\\364\": self-insert\n\"\\365\": self-insert\n\"\\366\": self-insert\n\"\\367\": self-insert\n\"\\370\": self-insert\n\"\\371\": self-insert\n\"\\372\": self-insert\n\"\\373\": self-insert\n\"\\374\": self-insert\n\"\\375\": self-insert\n\"\\376\": self-insert\n\"\\377\": self-insert\n\"\\C-@\": set-mark\n\"\\e \": set-mark\n# skip-csi-sequence (not bound)\n\"\\C-x(\": start-kbd-macro\n\"\\e\\C-i\": tab-insert\n\"\\e&\": tilde-expand\n\"\\e~\": tilde-expand\n\"\\C-t\": transpose-chars\n\"\\et\": transpose-words\n# tty-status (not bound)\n\"\\C-x\\C-u\": undo\n\"\\C-_\": undo\n# universal-argument (not bound)\n# unix-filename-rubout (not bound)\n\"\\C-u\": unix-line-discard\n\"\\C-w\": unix-word-rubout\n\"\\eu\": upcase-word\n# vi-append-eol (not bound)\n# vi-append-mode (not bound)\n# vi-arg-digit (not bound)\n# vi-bWord (not bound)\n# vi-back-to-indent (not bound)\n# vi-backward-bigword (not bound)\n# vi-backward-word (not bound)\n# vi-bword (not bound)\n# vi-change-case (not bound)\n# vi-change-char (not bound)\n# vi-change-to (not bound)\n# vi-char-search (not bound)\n# vi-column (not bound)\n# vi-complete (not bound)\n# vi-delete (not bound)\n# vi-delete-to (not bound)\n# vi-eWord (not bound)\n\"\\e\\C-j\": vi-editing-mode\n\"\\e\\C-m\": vi-editing-mode\n# vi-end-bigword (not bound)\n# vi-end-word (not bound)\n# vi-eof-maybe (not bound)\n# vi-eword (not bound)\n# vi-fWord (not bound)\n# vi-fetch-history (not bound)\n# vi-first-print (not bound)\n# vi-forward-bigword (not bound)\n# vi-forward-word (not bound)\n# vi-fword (not bound)\n# vi-goto-mark (not bound)\n# vi-insert-beg (not bound)\n# vi-insertion-mode (not bound)\n# vi-match (not bound)\n# vi-movement-mode (not bound)\n# vi-next-word (not bound)\n# vi-overstrike (not bound)\n# vi-overstrike-delete (not bound)\n# vi-prev-word (not bound)\n# vi-put (not bound)\n# vi-redo (not bound)\n# vi-replace (not bound)\n# vi-rubout (not bound)\n# vi-search (not bound)\n# vi-search-again (not bound)\n# vi-set-mark (not bound)\n# vi-subst (not bound)\n# vi-tilde-expand (not bound)\n# vi-undo (not bound)\n# vi-unix-word-rubout (not bound)\n# vi-yank-arg (not bound)\n# vi-yank-pop (not bound)\n# vi-yank-to (not bound)\n\"\\C-y\": yank\n\"\\e.\": yank-last-arg\n\"\\e_\": yank-last-arg\n\"\\e\\C-y\": yank-nth-arg\n\"\\ey\": yank-pop\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-alias-in-dumper": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"my-alias\" beginning-of-line", "ret": 145},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_print_keybinding \"my-alias\" emacs 1", "out": "\"\\C-a\": my-alias\n\"\\eOH\": my-alias\n\"\\e[H\": my-alias\n"},
+      {"op": "rl_print_keybinding \"my-alias\" emacs 0", "out": "my-alias can be found on \"\\C-a\", \"\\eOH\", \"\\e[H\".\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-many-entries": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 145},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 146},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 147},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 148},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 149},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 150},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 151},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 152},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 153},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 154},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 155},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 156},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 157},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 158},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 159},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 160},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 161},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 162},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 163},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 164},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 165},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 166},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 167},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 168},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 169},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 170},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 171},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 172},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 173},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 174},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 175},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 176},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 177},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 178},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 179},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 180},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 181},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 182},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 183},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 184},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 185},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 186},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 187},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 188},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 189},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 190},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 191},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 192},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 193},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 194},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 195},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 196},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 197},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 198},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 199},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 200},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 201},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 202},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 203},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 204},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 205},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 206},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 207},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 208},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 209},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 210},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 211},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 212},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 213},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 214},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 215},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 216},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 217},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 218},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 219},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 220},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 221},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 222},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 223},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 224},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 225},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 226},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 227},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 228},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 229},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 230},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 231},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 232},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 233},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 234},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 235},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 236},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 237},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 238},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 239},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 240},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 241},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 242},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 243},
+      {"op": "rl_add_funmap_entry \"generated\" kill-word", "ret": 244},
+      {"op": "rl_add_funmap_entry \"final\" kill-word", "ret": 245},
+      {"op": "rl_named_function \"final\"", "ret": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "dump-functions-bindable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map '\\C-xf' dump-functions k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'a' self-insert k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\C-m' accept-line k", "ret": 0},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "vi-next-word is not bound to any keys",
+      "vi-overstrike is not bound to any keys",
+      "vi-overstrike-delete is not bound to any keys",
+      "vi-prev-word is not bound to any keys",
+      "vi-put is not bound to any keys",
+      "vi-redo is not bound to any keys",
+      "vi-replace is not bound to any keys",
+      "vi-rubout is not bound to any keys",
+      "vi-search is not bound to any keys",
+      "vi-search-again is not bound to any keys",
+      "vi-set-mark is not bound to any keys",
+      "vi-subst is not bound to any keys",
+      "vi-tilde-expand is not bound to any keys",
+      "vi-undo is not bound to any keys",
+      "vi-unix-word-rubout is not bound to any keys",
+      "vi-yank-arg is not bound to any keys",
+      "vi-yank-pop is not bound to any keys",
+      "vi-yank-to is not bound to any keys",
+      "yank is not bound to any keys",
+      "yank-last-arg is not bound to any keys",
+      "yank-nth-arg is not bound to any keys",
+      "yank-pop is not bound to any keys",
+      "> a"
+    ],
+    "cursor": [23, 0],
+    "snaps": [
+      {
+        "screen": [
+          "vi-movement-mode is not bound to any keys",
+          "vi-next-word is not bound to any keys",
+          "vi-overstrike is not bound to any keys",
+          "vi-overstrike-delete is not bound to any keys",
+          "vi-prev-word is not bound to any keys",
+          "vi-put is not bound to any keys",
+          "vi-redo is not bound to any keys",
+          "vi-replace is not bound to any keys",
+          "vi-rubout is not bound to any keys",
+          "vi-search is not bound to any keys",
+          "vi-search-again is not bound to any keys",
+          "vi-set-mark is not bound to any keys",
+          "vi-subst is not bound to any keys",
+          "vi-tilde-expand is not bound to any keys",
+          "vi-undo is not bound to any keys",
+          "vi-unix-word-rubout is not bound to any keys",
+          "vi-yank-arg is not bound to any keys",
+          "vi-yank-pop is not bound to any keys",
+          "vi-yank-to is not bound to any keys",
+          "yank is not bound to any keys",
+          "yank-last-arg is not bound to any keys",
+          "yank-nth-arg is not bound to any keys",
+          "yank-pop is not bound to any keys",
+          "> a"
+        ],
+        "cursor": [23, 3]
+      }
+    ]
+  },
+  "dump-functions-bindable-explicit-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map '\\C-xf' dump-functions k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\e1' digit-argument k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map 'a' self-insert k", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map '\\C-m' accept-line k", "ret": 0},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "# vi-next-word (not bound)",
+      "# vi-overstrike (not bound)",
+      "# vi-overstrike-delete (not bound)",
+      "# vi-prev-word (not bound)",
+      "# vi-put (not bound)",
+      "# vi-redo (not bound)",
+      "# vi-replace (not bound)",
+      "# vi-rubout (not bound)",
+      "# vi-search (not bound)",
+      "# vi-search-again (not bound)",
+      "# vi-set-mark (not bound)",
+      "# vi-subst (not bound)",
+      "# vi-tilde-expand (not bound)",
+      "# vi-undo (not bound)",
+      "# vi-unix-word-rubout (not bound)",
+      "# vi-yank-arg (not bound)",
+      "# vi-yank-pop (not bound)",
+      "# vi-yank-to (not bound)",
+      "# yank (not bound)",
+      "# yank-last-arg (not bound)",
+      "# yank-nth-arg (not bound)",
+      "# yank-pop (not bound)",
+      "> a"
+    ],
+    "cursor": [23, 0],
+    "snaps": [
+      {
+        "screen": [
+          "# vi-movement-mode (not bound)",
+          "# vi-next-word (not bound)",
+          "# vi-overstrike (not bound)",
+          "# vi-overstrike-delete (not bound)",
+          "# vi-prev-word (not bound)",
+          "# vi-put (not bound)",
+          "# vi-redo (not bound)",
+          "# vi-replace (not bound)",
+          "# vi-rubout (not bound)",
+          "# vi-search (not bound)",
+          "# vi-search-again (not bound)",
+          "# vi-set-mark (not bound)",
+          "# vi-subst (not bound)",
+          "# vi-tilde-expand (not bound)",
+          "# vi-undo (not bound)",
+          "# vi-unix-word-rubout (not bound)",
+          "# vi-yank-arg (not bound)",
+          "# vi-yank-pop (not bound)",
+          "# vi-yank-to (not bound)",
+          "# yank (not bound)",
+          "# yank-last-arg (not bound)",
+          "# yank-nth-arg (not bound)",
+          "# yank-pop (not bound)",
+          "> a"
+        ],
+        "cursor": [23, 3]
+      }
+    ]
+  },
+  "inputrc-binds-into-current-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"},
+      {"op": "rl_function_of_keyseq \"\\x18f\" k", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x18f\" emacs", "type": null, "value": null}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "dump-macros-bindable": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "\\C-xa outputs macro-a",
+      ">",
+      "\"\\C-xa\": \"macro-a\"",
+      ">"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "\\C-xa outputs macro-a",
+          ">"
+        ],
+        "cursor": [2, 2]
+      },
+      {
+        "screen": [
+          ">",
+          "\\C-xa outputs macro-a",
+          ">",
+          "\"\\C-xa\": \"macro-a\"",
+          ">"
+        ],
+        "cursor": [4, 2]
+      }
+    ]
+  },
+  "dump-variables-bindable": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "bind-tty-special-chars is set to `on'",
+      "blink-matching-paren is set to `off'",
+      "byte-oriented is set to `off'",
+      "colored-completion-prefix is set to `off'",
+      "colored-stats is set to `off'",
+      "completion-ignore-case is set to `off'",
+      "completion-map-case is set to `off'",
+      "convert-meta is set to `off'",
+      "disable-completion is set to `off'",
+      "echo-control-characters is set to `on'",
+      "enable-active-region is set to `on'",
+      "enable-bracketed-paste is set to `on'",
+      "enable-keypad is set to `off'",
+      "enable-meta-key is set to `on'",
+      "expand-tilde is set to `off'",
+      "force-meta-prefix is set to `off'",
+      "history-preserve-point is set to `off'",
+      "horizontal-scroll-mode is set to `off'",
+      "input-meta is set to `on'",
+      "mark-directories is set to `on'",
+      "mark-modified-lines is set to `off'",
+      "mark-symlinked-directories is set to `off'",
+      "match-hidden-files is set to `on'",
+      "menu-complete-display-prefix is set to `off'",
+      "meta-flag is set to `on'",
+      "output-meta is set to `on'",
+      "page-completions is set to `on'",
+      "prefer-visible-bell is set to `on'",
+      "print-completions-horizontally is set to `off'",
+      "revert-all-at-newline is set to `off'",
+      "search-ignore-case is set to `off'",
+      "show-all-if-ambiguous is set to `off'",
+      "show-all-if-unmodified is set to `off'",
+      "show-mode-in-prompt is set to `off'",
+      "skip-completed-text is set to `off'",
+      "visible-stats is set to `off'",
+      "active-region-end-color is set to `\\e[27m'",
+      "active-region-start-color is set to `\\e[7m'",
+      "bell-style is set to `audible'",
+      "comment-begin is set to `#'",
+      "completion-display-width is set to `-1'",
+      "completion-prefix-display-length is set to `0'",
+      "completion-query-items is set to `100'",
+      "editing-mode is set to `emacs'",
+      "emacs-mode-string is set to `@'",
+      "history-size is set to `-1'",
+      "keymap is set to `emacs'",
+      "keyseq-timeout is set to `500'",
+      "vi-cmd-mode-string is set to `(cmd)'",
+      "vi-ins-mode-string is set to `(ins)'",
+      ">"
+    ],
+    "cursor": [52, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "bind-tty-special-chars is set to `on'",
+          "blink-matching-paren is set to `off'",
+          "byte-oriented is set to `off'",
+          "colored-completion-prefix is set to `off'",
+          "colored-stats is set to `off'",
+          "completion-ignore-case is set to `off'",
+          "completion-map-case is set to `off'",
+          "convert-meta is set to `off'",
+          "disable-completion is set to `off'",
+          "echo-control-characters is set to `on'",
+          "enable-active-region is set to `on'",
+          "enable-bracketed-paste is set to `on'",
+          "enable-keypad is set to `off'",
+          "enable-meta-key is set to `on'",
+          "expand-tilde is set to `off'",
+          "force-meta-prefix is set to `off'",
+          "history-preserve-point is set to `off'",
+          "horizontal-scroll-mode is set to `off'",
+          "input-meta is set to `on'",
+          "mark-directories is set to `on'",
+          "mark-modified-lines is set to `off'",
+          "mark-symlinked-directories is set to `off'",
+          "match-hidden-files is set to `on'",
+          "menu-complete-display-prefix is set to `off'",
+          "meta-flag is set to `on'",
+          "output-meta is set to `on'",
+          "page-completions is set to `on'",
+          "prefer-visible-bell is set to `on'",
+          "print-completions-horizontally is set to `off'",
+          "revert-all-at-newline is set to `off'",
+          "search-ignore-case is set to `off'",
+          "show-all-if-ambiguous is set to `off'",
+          "show-all-if-unmodified is set to `off'",
+          "show-mode-in-prompt is set to `off'",
+          "skip-completed-text is set to `off'",
+          "visible-stats is set to `off'",
+          "active-region-end-color is set to `\\e[27m'",
+          "active-region-start-color is set to `\\e[7m'",
+          "bell-style is set to `audible'",
+          "comment-begin is set to `#'",
+          "completion-display-width is set to `-1'",
+          "completion-prefix-display-length is set to `0'",
+          "completion-query-items is set to `100'",
+          "editing-mode is set to `emacs'",
+          "emacs-mode-string is set to `@'",
+          "history-size is set to `-1'",
+          "keymap is set to `emacs'",
+          "keyseq-timeout is set to `500'",
+          "vi-cmd-mode-string is set to `(cmd)'",
+          "vi-ins-mode-string is set to `(ins)'",
+          ">"
+        ],
+        "cursor": [51, 2]
+      }
+    ]
+  },
+  "dump-variables-bindable-explicit-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "set bind-tty-special-chars on",
+      "set blink-matching-paren off",
+      "set byte-oriented off",
+      "set colored-completion-prefix off",
+      "set colored-stats off",
+      "set completion-ignore-case off",
+      "set completion-map-case off",
+      "set convert-meta off",
+      "set disable-completion off",
+      "set echo-control-characters on",
+      "set enable-active-region on",
+      "set enable-bracketed-paste on",
+      "set enable-keypad off",
+      "set enable-meta-key on",
+      "set expand-tilde off",
+      "set force-meta-prefix off",
+      "set history-preserve-point off",
+      "set horizontal-scroll-mode off",
+      "set input-meta on",
+      "set mark-directories on",
+      "set mark-modified-lines off",
+      "set mark-symlinked-directories off",
+      "set match-hidden-files on",
+      "set menu-complete-display-prefix off",
+      "set meta-flag on",
+      "set output-meta on",
+      "set page-completions on",
+      "set prefer-visible-bell on",
+      "set print-completions-horizontally off",
+      "set revert-all-at-newline off",
+      "set search-ignore-case off",
+      "set show-all-if-ambiguous off",
+      "set show-all-if-unmodified off",
+      "set show-mode-in-prompt off",
+      "set skip-completed-text off",
+      "set visible-stats off",
+      "set active-region-end-color \\e[27m",
+      "set active-region-start-color \\e[7m",
+      "set bell-style audible",
+      "set comment-begin #",
+      "set completion-display-width -1",
+      "set completion-prefix-display-length 0",
+      "set completion-query-items 100",
+      "set editing-mode emacs",
+      "set emacs-mode-string @",
+      "set history-size -1",
+      "set keymap emacs",
+      "set keyseq-timeout 500",
+      "set vi-cmd-mode-string (cmd)",
+      "set vi-ins-mode-string (ins)",
+      ">"
+    ],
+    "cursor": [52, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "set bind-tty-special-chars on",
+          "set blink-matching-paren off",
+          "set byte-oriented off",
+          "set colored-completion-prefix off",
+          "set colored-stats off",
+          "set completion-ignore-case off",
+          "set completion-map-case off",
+          "set convert-meta off",
+          "set disable-completion off",
+          "set echo-control-characters on",
+          "set enable-active-region on",
+          "set enable-bracketed-paste on",
+          "set enable-keypad off",
+          "set enable-meta-key on",
+          "set expand-tilde off",
+          "set force-meta-prefix off",
+          "set history-preserve-point off",
+          "set horizontal-scroll-mode off",
+          "set input-meta on",
+          "set mark-directories on",
+          "set mark-modified-lines off",
+          "set mark-symlinked-directories off",
+          "set match-hidden-files on",
+          "set menu-complete-display-prefix off",
+          "set meta-flag on",
+          "set output-meta on",
+          "set page-completions on",
+          "set prefer-visible-bell on",
+          "set print-completions-horizontally off",
+          "set revert-all-at-newline off",
+          "set search-ignore-case off",
+          "set show-all-if-ambiguous off",
+          "set show-all-if-unmodified off",
+          "set show-mode-in-prompt off",
+          "set skip-completed-text off",
+          "set visible-stats off",
+          "set active-region-end-color \\e[27m",
+          "set active-region-start-color \\e[7m",
+          "set bell-style audible",
+          "set comment-begin #",
+          "set completion-display-width -1",
+          "set completion-prefix-display-length 0",
+          "set completion-query-items 100",
+          "set editing-mode emacs",
+          "set emacs-mode-string @",
+          "set history-size -1",
+          "set keymap emacs",
+          "set keyseq-timeout 500",
+          "set vi-cmd-mode-string (cmd)",
+          "set vi-ins-mode-string (ins)",
+          ">"
+        ],
+        "cursor": [51, 2]
+      }
+    ]
+  },
+  "dump-functions-outside-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map 'q' kill-word k", "ret": 0},
+      {"op": "rl_dump_functions 1 0", "ret": 0},
+      {"op": "capture", "out": "\nabort is not bound to any keys\naccept-line is not bound to any keys\narrow-key-prefix is not bound to any keys\nbackward-byte is not bound to any keys\nbackward-char is not bound to any keys\nbackward-delete-char is not bound to any keys\nbackward-kill-line is not bound to any keys\nbackward-kill-word is not bound to any keys\nbackward-word is not bound to any keys\nbeginning-of-history is not bound to any keys\nbeginning-of-line is not bound to any keys\nbracketed-paste-begin is not bound to any keys\ncall-last-kbd-macro is not bound to any keys\ncapitalize-word is not bound to any keys\ncharacter-search is not bound to any keys\ncharacter-search-backward is not bound to any keys\nclear-display is not bound to any keys\nclear-screen is not bound to any keys\ncomplete is not bound to any keys\ncopy-backward-word is not bound to any keys\ncopy-forward-word is not bound to any keys\ncopy-region-as-kill is not bound to any keys\ndelete-char is not bound to any keys\ndelete-char-or-list is not bound to any keys\ndelete-horizontal-space is not bound to any keys\ndigit-argument is not bound to any keys\ndo-lowercase-version is not bound to any keys\ndowncase-word is not bound to any keys\ndriver-dump is not bound to any keys\ndriver-dump-full is not bound to any keys\ndriver-snap is not bound to any keys\ndump-functions is not bound to any keys\ndump-macros is not bound to any keys\ndump-variables is not bound to any keys\nemacs-editing-mode is not bound to any keys\nend-kbd-macro is not bound to any keys\nend-of-history is not bound to any keys\nend-of-line is not bound to any keys\nexchange-point-and-mark is not bound to any keys\nexecute-named-command is not bound to any keys\nexport-completions is not bound to any keys\nfetch-history is not bound to any keys\nforward-backward-delete-char is not bound to any keys\nforward-byte is not bound to any keys\nforward-char is not bound to any keys\nforward-search-history is not bound to any keys\nforward-word is not bound to any keys\nhistory-search-backward is not bound to any keys\nhistory-search-forward is not bound to any keys\nhistory-substring-search-backward is not bound to any keys\nhistory-substring-search-forward is not bound to any keys\ninsert-comment is not bound to any keys\ninsert-completions is not bound to any keys\nkill-line is not bound to any keys\nkill-region is not bound to any keys\nkill-whole-line is not bound to any keys\nkill-word can be found on \"q\".\nmenu-complete is not bound to any keys\nmenu-complete-backward is not bound to any keys\nnext-history is not bound to any keys\nnext-screen-line is not bound to any keys\nnon-incremental-forward-search-history is not bound to any keys\nnon-incremental-forward-search-history-again is not bound to any keys\nnon-incremental-reverse-search-history is not bound to any keys\nnon-incremental-reverse-search-history-again is not bound to any keys\nold-menu-complete is not bound to any keys\noperate-and-get-next is not bound to any keys\noverwrite-mode is not bound to any keys\npossible-completions is not bound to any keys\nprevious-history is not bound to any keys\nprevious-screen-line is not bound to any keys\nprint-last-kbd-macro is not bound to any keys\nquoted-insert is not bound to any keys\nre-read-init-file is not bound to any keys\nredraw-current-line is not bound to any keys\nreverse-search-history is not bound to any keys\nrevert-line is not bound to any keys\nself-insert is not bound to any keys\nset-mark is not bound to any keys\nskip-csi-sequence is not bound to any keys\nstart-kbd-macro is not bound to any keys\ntab-insert is not bound to any keys\ntilde-expand is not bound to any keys\ntranspose-chars is not bound to any keys\ntranspose-words is not bound to any keys\ntty-status is not bound to any keys\nundo is not bound to any keys\nuniversal-argument is not bound to any keys\nunix-filename-rubout is not bound to any keys\nunix-line-discard is not bound to any keys\nunix-word-rubout is not bound to any keys\nupcase-word is not bound to any keys\nvi-append-eol is not bound to any keys\nvi-append-mode is not bound to any keys\nvi-arg-digit is not bound to any keys\nvi-bWord is not bound to any keys\nvi-back-to-indent is not bound to any keys\nvi-backward-bigword is not bound to any keys\nvi-backward-word is not bound to any keys\nvi-bword is not bound to any keys\nvi-change-case is not bound to any keys\nvi-change-char is not bound to any keys\nvi-change-to is not bound to any keys\nvi-char-search is not bound to any keys\nvi-column is not bound to any keys\nvi-complete is not bound to any keys\nvi-delete is not bound to any keys\nvi-delete-to is not bound to any keys\nvi-eWord is not bound to any keys\nvi-editing-mode is not bound to any keys\nvi-end-bigword is not bound to any keys\nvi-end-word is not bound to any keys\nvi-eof-maybe is not bound to any keys\nvi-eword is not bound to any keys\nvi-fWord is not bound to any keys\nvi-fetch-history is not bound to any keys\nvi-first-print is not bound to any keys\nvi-forward-bigword is not bound to any keys\nvi-forward-word is not bound to any keys\nvi-fword is not bound to any keys\nvi-goto-mark is not bound to any keys\nvi-insert-beg is not bound to any keys\nvi-insertion-mode is not bound to any keys\nvi-match is not bound to any keys\nvi-movement-mode is not bound to any keys\nvi-next-word is not bound to any keys\nvi-overstrike is not bound to any keys\nvi-overstrike-delete is not bound to any keys\nvi-prev-word is not bound to any keys\nvi-put is not bound to any keys\nvi-redo is not bound to any keys\nvi-replace is not bound to any keys\nvi-rubout is not bound to any keys\nvi-search is not bound to any keys\nvi-search-again is not bound to any keys\nvi-set-mark is not bound to any keys\nvi-subst is not bound to any keys\nvi-tilde-expand is not bound to any keys\nvi-undo is not bound to any keys\nvi-unix-word-rubout is not bound to any keys\nvi-yank-arg is not bound to any keys\nvi-yank-pop is not bound to any keys\nvi-yank-to is not bound to any keys\nyank is not bound to any keys\nyank-last-arg is not bound to any keys\nyank-nth-arg is not bound to any keys\nyank-pop is not bound to any keys\n"},
+      {"op": "rl_dump_macros 1 0", "ret": 0},
+      {"op": "capture", "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

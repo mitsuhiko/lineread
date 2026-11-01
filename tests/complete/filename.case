@@ -1,0 +1,557 @@
+# Filename completion (rl_filename_completion_function and the default
+# completer) against a fixture tree: directories, symlinks, hidden files,
+# special characters, tilde expansion and the related variables.
+tags: complete filename
+--- file alpha.txt
+a
+--- file alphabet.txt
+b
+--- file beta.c
+--- file .hidden
+--- file .hidden2
+--- dir subdir
+--- file subdir/inner.txt
+--- file subdir/other.txt
+--- dir subdir/deeper
+--- dir emptydir
+--- dir sub_two
+--- file sub-three
+--- symlink link-to-sub subdir
+--- symlink link-to-beta beta.c
+--- symlink dangling nowhere
+--- file Upper.TXT
+--- file run.sh mode=0755
+--- script
+readline "> "
+
+=== unique-file-appends-space
+--- keys
+x bet\t<dump>\r
+
+=== unique-directory-appends-slash
+--- keys
+x subd\t<dump>\r
+
+=== common-prefix-inserted
+--- keys
+x alp\t<dump>\r
+
+=== ambiguous-second-tab-lists
+--- keys
+x alpha\t\t<snap>\r
+
+=== list-shows-basenames
+--- keys
+x subdir/\t\t<snap>\r
+
+=== complete-inside-directory
+--- keys
+x subdir/in\t<dump>\r
+
+=== complete-nested-directory
+--- keys
+x subdir/dee\t<dump>\r
+
+=== complete-dot-slash
+--- keys
+x ./bet\t<dump>\r
+
+=== complete-dot-dot
+--- keys
+x subdir/../bet\t<dump>\r
+
+=== complete-empty-word-lists-all
+--- keys
+x \t\t<snap>\r
+
+=== empty-word-skips-dot-entries
+--- script
+gen filename "" sort
+
+=== empty-directory
+--- keys
+x emptydir/\t<dump>\t<snap>\r
+
+=== no-match-rings-bell-keeps-text
+--- keys
+x zzz\t<dump>\r
+
+=== nonexistent-directory
+--- keys
+x nodir/a\t<dump>\r
+
+=== unreadable-directory
+--- dir locked mode=0000
+--- keys
+x locked/\t<dump>\r
+
+=== mark-directories-off
+--- inputrc
+set mark-directories off
+--- keys
+x subd\t<dump>\r
+
+=== mark-directories-off-listing
+--- inputrc
+set mark-directories off
+--- keys
+x sub\t\t<snap>\r
+
+=== mark-directories-on-listing
+--- keys
+x sub\t\t<snap>\r
+
+=== first-tab-shortens-to-common-prefix
+# completion replaces the word with the common prefix of the matches
+--- inputrc
+set completion-ignore-case on
+set completion-map-case on
+--- keys
+x sub_\t<dump>\r
+
+=== slash-not-doubled
+# a directory completed in the middle of text before a slash gets no slash
+--- keys
+x subd/inner.txt\C-b\C-b\C-b\C-b\C-b\C-b\C-b\C-b\C-b\C-b\t<dump>\r
+
+=== symlink-to-dir-default
+--- keys
+x link-to-s\t<dump>\r
+
+=== symlink-to-dir-complete-again
+--- keys
+x link-to-sub\t<dump>\r
+
+=== symlink-to-dir-marked
+--- inputrc
+set mark-symlinked-directories on
+--- keys
+x link-to-s\t<dump>\r
+
+=== symlink-to-dir-marked-trivial
+--- inputrc
+set mark-symlinked-directories on
+--- keys
+x link-to-sub\t<dump>\r
+
+=== symlink-to-file
+--- keys
+x link-to-b\t<dump>\r
+
+=== dangling-symlink
+--- keys
+x dang\t<dump>\r
+
+=== hidden-files-shown-for-dot
+--- keys
+x .hid\t<dump>\t\t<snap>\r
+
+=== hidden-files-matched-by-default
+--- script
+gen filename "" sort
+
+=== match-hidden-files-off
+--- inputrc
+set match-hidden-files off
+--- script
+gen filename "" sort
+gen filename ".h" sort
+rl_initialize
+readline "> "
+--- keys
+x \t\t<snap>\r
+
+=== ignore-case-files
+--- inputrc
+set completion-ignore-case on
+--- keys
+x upp\t<dump>\r
+
+=== ignore-case-prefix-preserved
+--- inputrc
+set completion-ignore-case on
+--- keys
+x ALP\t<dump>\r
+
+=== ignore-case-off-no-match
+--- keys
+x upp\t<dump>\r
+
+=== map-case-hyphen-underscore
+--- inputrc
+set completion-ignore-case on
+set completion-map-case on
+--- keys
+x sub-t\t<dump>\r
+
+=== map-case-listing
+--- inputrc
+set completion-ignore-case on
+set completion-map-case on
+--- keys
+x sub_\M-?<snap>\r
+
+=== map-case-without-ignore-case
+--- inputrc
+set completion-map-case on
+--- keys
+x sub-t\t<dump>\r
+
+=== visible-stats-listing
+--- inputrc
+set visible-stats on
+--- keys
+x \t\t<snap>\r
+
+=== visible-stats-special-files
+--- script
+mkfifo "pipe"
+mksocket "sock"
+rl_initialize
+readline "> "
+--- inputrc
+set visible-stats on
+--- keys
+x \t\t<snap>\r
+
+=== visible-stats-absolute-device
+--- inputrc
+set visible-stats on
+--- keys
+x /dev/nul\M-?<snap>\r
+
+=== tilde-slash
+--- keys
+x ~/bet\t<dump>\r
+
+=== tilde-slash-expand-tilde
+--- inputrc
+set expand-tilde on
+--- keys
+x ~/bet\t<dump>\r
+
+=== tilde-listing
+--- keys
+x ~/sub\t\t<snap>\r
+
+=== tilde-unknown-user
+--- keys
+x ~nosuchuser_lineread/a\t<dump>\r
+
+=== tilde-user-completion
+# ~prefix without a slash completes user names
+--- keys
+x ~nosuchuser_line\t<dump>\r
+
+=== absolute-path
+--- script
+chdir "subdir"
+readline "> "
+--- keys
+x ../alp\t<dump>\r
+
+=== file-with-space
+--- script
+file_write "with space.txt" ""
+readline "> "
+--- keys
+x with\t<dump>\r
+
+=== file-with-space-quoting-enabled
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x with\t<dump>\r
+
+=== quoting-continues-open-quote
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x "with\t<dump>\r
+
+=== quoting-single-quote
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x 'wi\t<dump>\r
+
+=== quoting-closing-quote-not-doubled
+--- script
+set rl_completer_quote_characters "\""
+readline "> "
+--- keys
+x "bet"\C-b\t<dump>\r
+
+=== quoting-suppress-quote
+--- script
+def setq
+set rl_completion_suppress_quote 1
+return NULL
+end
+set rl_completer_quote_characters "\""
+set rl_attempted_completion_function script:setq
+readline "> "
+--- keys
+x "bet\t<dump>\r
+
+=== quoting-directory-in-quotes
+--- script
+set rl_completer_quote_characters "\""
+readline "> "
+--- keys
+x "subd\t<dump>\r
+
+=== quoting-not-desired
+--- script
+file_write "with space.txt" ""
+def setq
+set rl_filename_quoting_desired 0
+return NULL
+end
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+set rl_attempted_completion_function script:setq
+readline "> "
+--- keys
+x with\t<dump>\r
+
+=== quoting-function-log
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+set rl_filename_quoting_function log
+readline "> "
+--- keys
+x with\t<dump>\r
+
+=== quoting-function-multiple-match
+--- script
+file_write "q b1" ""
+file_write "q b2" ""
+set rl_completer_quote_characters "\""
+set rl_filename_quote_characters " "
+set rl_filename_quoting_function log
+readline "> "
+--- keys
+x q\t<dump>\r
+
+=== dequoting-function
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\""
+set rl_filename_dequoting_function log
+readline "> "
+--- keys
+x "with sp\t<dump>\r
+
+=== dequoting-backslash
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\""
+set rl_filename_dequoting_function log
+set rl_char_is_quoted_p backslash
+readline "> "
+--- keys
+x with\\ sp\t<dump>\r
+
+=== char-is-quoted-hook
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\""
+set rl_char_is_quoted_p log
+readline "> "
+--- keys
+x a\\ b\t<dump>\r
+
+=== filename-rewrite-hook
+# every directory entry is passed through the hook before matching (the
+# reference sizes the result by the original name, so the rewritten name
+# must not be longer than the shortest entry, ".")
+--- script
+def ren
+return "r"
+end
+mkdir "one"
+file_write "one/only" ""
+set rl_filename_rewrite_hook script:ren
+gen filename "one/r"
+gen filename "one/o"
+gen filename "one/"
+
+=== completion-rewrite-hook-log
+--- script
+set rl_completion_rewrite_hook log
+gen filename "bet"
+gen filename "" sort
+
+=== completion-rewrite-hook-changes-text
+--- script
+def up
+args
+return "alpha"
+end
+set rl_completion_rewrite_hook script:up
+gen filename "zz" sort
+
+=== directory-completion-hook
+--- script
+set rl_directory_completion_hook log
+readline "> "
+--- keys
+x subdir/in\t<dump>\r
+
+=== directory-completion-hook-replaces
+--- script
+def redirect
+args
+replace_arg "subdir/"
+return 1
+end
+set rl_directory_completion_hook script:redirect
+readline "> "
+--- keys
+x elsewhere/in\t<dump>\r
+
+=== directory-rewrite-hook
+--- script
+def redirect
+args
+replace_arg "subdir/"
+return 1
+end
+set rl_directory_rewrite_hook script:redirect
+readline "> "
+--- keys
+x elsewhere/in\t<dump>\r
+
+=== filename-stat-hook
+--- script
+set rl_filename_stat_hook log
+readline "> "
+--- keys
+x subd\t<dump>\r
+
+=== filename-stat-hook-listing
+--- inputrc
+set visible-stats on
+--- script
+set rl_filename_stat_hook log
+readline "> "
+--- keys
+x subdir/\t\t<snap>\r
+
+=== generator-sequence
+--- script
+gen filename "alp" sort
+gen filename "subdir/" sort
+gen filename "subdir/i"
+gen filename "./b"
+gen filename "zz"
+
+=== generator-state-restart
+# calling with state 0 again restarts the scan
+--- script
+gen filename "alpha."
+gen filename "alpha."
+
+=== generator-tilde
+--- script
+gen filename "~/bet"
+gen filename "~/subdir/" sort
+set rl_completion_entry_function filename
+
+=== generator-tilde-expand-tilde
+--- inputrc
+set expand-tilde on
+--- script
+rl_initialize
+gen filename "~/bet"
+
+=== generator-root-directory
+--- script
+gen filename "/dev/nul"
+
+=== completion-matches-filename
+--- script
+rl_completion_matches "alp" filename sort
+rl_completion_matches "subdir/" filename sort
+rl_completion_matches "beta.c" filename
+rl_completion_matches "nothing" filename
+
+=== filename-completion-desired-set
+--- script
+def check
+set rl_attempted_completion_over 0
+return NULL
+end
+def after
+get rl_filename_completion_desired
+end
+set rl_attempted_completion_function script:check
+defun show-desired after "\C-t"
+readline "> "
+--- keys
+x bet\t\C-t\r
+
+=== long-listing-columns
+--- script
+def mk
+file_append "longnames/file-with-a-rather-long-name-number" "x"
+end
+mkdir "many"
+file_write "many/a01" ""
+file_write "many/a02" ""
+file_write "many/a03" ""
+file_write "many/a04" ""
+file_write "many/a05" ""
+file_write "many/a06" ""
+file_write "many/a07" ""
+file_write "many/a08" ""
+file_write "many/a09" ""
+file_write "many/a10" ""
+file_write "many/a11" ""
+file_write "many/a12" ""
+readline "> "
+--- keys
+x many/\M-?<snap>\r
+
+=== long-listing-narrow-screen
+screen: 30x24
+--- script
+mkdir "many"
+file_write "many/a01" ""
+file_write "many/a02" ""
+file_write "many/a03" ""
+file_write "many/a04" ""
+file_write "many/a05" ""
+file_write "many/a06" ""
+file_write "many/a07" ""
+file_write "many/a08" ""
+file_write "many/a09" ""
+file_write "many/a10" ""
+file_write "many/a11" ""
+readline "> "
+--- keys
+x many/\M-?<snap>\r
+
+=== dequoting-backslash-word-breaks
+--- script
+file_write "with space.txt" ""
+set rl_completer_quote_characters "\""
+set rl_completer_word_break_characters " \t"
+set rl_filename_quote_characters " "
+set rl_filename_dequoting_function log
+set rl_char_is_quoted_p backslash
+readline "> "
+--- keys
+x with\\ sp\t<dump>\r

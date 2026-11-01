@@ -1,0 +1,999 @@
+{
+  "attempted-function-args-and-type": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "de", "start": 4, "end": 6},
+      {"op": "get rl_completion_type", "ret": 9},
+      {"op": "get rl_completion_invoking_key", "ret": 9},
+      {"op": "get rl_completion_found_quote", "ret": 0},
+      {"op": "get rl_completion_quote_character", "ret": 0},
+      {"op": "get rl_filename_completion_desired", "ret": 0},
+      {"op": "get rl_filename_quoting_desired", "ret": 1},
+      {"op": "get rl_completion_append_character", "ret": 32},
+      {"op": "get rl_completion_suppress_append", "ret": 0},
+      {"op": "get rl_completion_mark_symlink_dirs", "ret": 0},
+      {"op": "readline", "ret": "abc de"}
+    ],
+    "screen": [
+      "> abc de"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-type-per-command": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_type", "ret": 9},
+      {"op": "get rl_completion_type", "ret": 63},
+      {"op": "get rl_completion_type", "ret": 63},
+      {"op": "get rl_completion_type", "ret": 42},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-type-show-all": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_type", "ret": 33},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-type-show-unmodified": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_type", "ret": 64},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-type-menu": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_type", "ret": 37},
+      {"op": "get rl_completion_type", "ret": 37},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "invoking-key-custom-binding": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_invoking_key", "ret": 20},
+      {"op": "get rl_completion_invoking_key", "ret": 122},
+      {"op": "get rl_completion_invoking_key", "ret": 25},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "found-quote-flags": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_found_quote", "ret": 2},
+      {"op": "get rl_completion_quote_character", "ret": 34},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "ab", "start": 1, "end": 3},
+      {"op": "get rl_completion_found_quote", "ret": 1},
+      {"op": "get rl_completion_quote_character", "ret": 39},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "cd", "start": 1, "end": 3},
+      {"op": "get rl_completion_found_quote", "ret": 8},
+      {"op": "get rl_completion_quote_character", "ret": 96},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "ef", "start": 1, "end": 3},
+      {"op": "get rl_completion_found_quote", "ret": 4},
+      {"op": "get rl_completion_quote_character", "ret": 0},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "b", "start": 3, "end": 4},
+      {"op": "get rl_completion_found_quote", "ret": 2},
+      {"op": "get rl_completion_quote_character", "ret": 0},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "y", "start": 4, "end": 5},
+      {"op": "readline", "ret": "\"x\" y"}
+    ],
+    "screen": [
+      "> \"x\" y"
+    ],
+    "cursor": [1, 0]
+  },
+  "found-quote-reset-after-completion": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\"ab"},
+      {"op": "get rl_completion_found_quote", "ret": 0},
+      {"op": "get rl_completion_quote_character", "ret": 0}
+    ],
+    "screen": [
+      "> \"ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "single-quote-ignores-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "b", "start": 4, "end": 5},
+      {"op": "get rl_completion_quote_character", "ret": 0},
+      {"op": "readline", "ret": "'a\\'b"}
+    ],
+    "screen": [
+      "> 'a\\'b"
+    ],
+    "cursor": [1, 0]
+  },
+  "closed-quote-not-open": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "cd", "start": 5, "end": 7},
+      {"op": "get rl_completion_quote_character", "ret": 0},
+      {"op": "readline", "ret": "\"ab\" cd"}
+    ],
+    "screen": [
+      "> \"ab\" cd"
+    ],
+    "cursor": [1, 0]
+  },
+  "words-with-quotes-completed": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\"hello world\" ", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\"hello world\" "}
+    ],
+    "screen": [
+      "> \"hello world\""
+    ],
+    "cursor": [1, 0]
+  },
+  "attempted-returns-filename-generator": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha.txt ", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha.txt "}
+    ],
+    "screen": [
+      "> alpha.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "attempted-completion-over-no-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alp", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alp"},
+      {"op": "get rl_attempted_completion_over", "ret": 0}
+    ],
+    "screen": [
+      "> alp"
+    ],
+    "cursor": [1, 0]
+  },
+  "attempted-completion-over-reset": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "alp"},
+      {"op": "readline", "ret": "alpha.txt "}
+    ],
+    "screen": [
+      "> alp",
+      "> alpha.txt"
+    ],
+    "cursor": [2, 0]
+  },
+  "completion-entry-function-words": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> ap"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "completion-entry-function-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alp", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alp"}
+    ],
+    "screen": [
+      "> alp"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-entry-function-username": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "~nosuchuser_lineread", "point": 20, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "~nosuchuser_lineread"}
+    ],
+    "screen": [
+      "> ~nosuchuser_lineread"
+    ],
+    "cursor": [1, 0]
+  },
+  "username-generator": {
+    "exit": 0,
+    "results": [
+      {"op": "gen username \"~nosuchuser_lineread\"", "ret": []},
+      {"op": "gen username \"nosuchuser_lineread\"", "ret": []},
+      {"op": "gen username \"~roo\"", "ret": ["~root", "~root"]},
+      {"op": "gen username \"roo\"", "ret": ["root", "root"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "username-generator-sets-filename-desired": {
+    "exit": 0,
+    "results": [
+      {"op": "gen username \"~roo\"", "ret": ["~root", "~root"]},
+      {"op": "get rl_filename_completion_desired", "ret": 1},
+      {"op": "gen username \"roo\"", "ret": ["root", "root"]},
+      {"op": "get rl_filename_completion_desired", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-character-custom": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha:", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha:"}
+    ],
+    "screen": [
+      "> alpha:"
+    ],
+    "cursor": [1, 0]
+  },
+  "append-character-nul": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha"}
+    ],
+    "screen": [
+      "> alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "append-not-at-end-of-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha rest", "point": 5, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha rest"}
+    ],
+    "screen": [
+      "> alpha rest"
+    ],
+    "cursor": [1, 0]
+  },
+  "append-reset-per-completion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha: beta ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha: beta "}
+    ],
+    "screen": [
+      "> alpha: beta"
+    ],
+    "cursor": [1, 0]
+  },
+  "delimiter-quote-break": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"alpha\"", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"alpha\""}
+    ],
+    "screen": [
+      "> x \"alpha\""
+    ],
+    "cursor": [1, 0]
+  },
+  "special-prefixes-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "$HO", "start": 5, "end": 8},
+      {"op": "readline", "ret": "echo $HO"}
+    ],
+    "screen": [
+      "> echo $HO"
+    ],
+    "cursor": [1, 0]
+  },
+  "special-prefixes-unset": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "HO", "start": 6, "end": 8},
+      {"op": "readline", "ret": "echo $HO"}
+    ],
+    "screen": [
+      "> echo $HO"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-break-characters-default": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "h", "start": 14, "end": 15},
+      {"op": "readline", "ret": "a=b;c|d>e(f{g@h"}
+    ],
+    "screen": [
+      "> a=b;c|d>e(f{g@h"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-break-characters-custom": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "c d", "start": 4, "end": 7},
+      {"op": "readline", "ret": "a b:c d"}
+    ],
+    "screen": [
+      "> a b:c d"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-break-characters-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "a b c", "start": 0, "end": 5},
+      {"op": "readline", "ret": "a b c"}
+    ],
+    "screen": [
+      "> a b c"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-break-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "cd", "start": 4, "end": 6},
+      {"op": "readline", "ret": "a b:cd"}
+    ],
+    "screen": [
+      "> a b:cd"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-break-hook-null-uses-default": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_completion_word_break_hook"},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "b:cd", "start": 2, "end": 6},
+      {"op": "readline", "ret": "a b:cd"}
+    ],
+    "screen": [
+      "> a b:cd"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-at-start-of-line": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "abc", "start": 0, "end": 3},
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "", "start": 0, "end": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-in-middle-of-line": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "t", "start": 4, "end": 5},
+      {"op": "readline", "ret": "one two three"}
+    ],
+    "screen": [
+      "> one two three"
+    ],
+    "cursor": [1, 0]
+  },
+  "char-is-quoted-with-quote-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": " b", "start": 6, "end": 8},
+      {"op": "readline", "ret": "\"x\" a\\ b"}
+    ],
+    "screen": [
+      "> \"x\" a\\ b"
+    ],
+    "cursor": [1, 0]
+  },
+  "mark-symlink-dirs-set-by-application": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "link/", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "link/"}
+    ],
+    "screen": [
+      "> link/"
+    ],
+    "cursor": [1, 0]
+  },
+  "mark-symlink-dirs-default-from-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_mark_symlink_dirs", "ret": 1},
+      {"op": "readline", "ret": "link/"}
+    ],
+    "screen": [
+      "> link/"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-completion-desired-for-words": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "somedir/", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "somedir/"}
+    ],
+    "screen": [
+      "> somedir/"
+    ],
+    "cursor": [1, 0]
+  },
+  "full-quoting-desired-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_full_quoting_desired", "ret": 1},
+      {"op": "readline", "ret": "x"},
+      {"op": "get rl_full_quoting_desired", "ret": 1}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-some-completions-filenames": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "foo."}
+    ],
+    "screen": [
+      "> foo."
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> foo."
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "ignore-some-completions-log": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_ignore_some_completions_function", "matches": ["foo.", "foo.c", "foo.o"]},
+      {"op": "readline", "ret": "foo."}
+    ],
+    "screen": [
+      "> foo."
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-some-completions-leaves-one": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "foo.c ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "foo.c "}
+    ],
+    "screen": [
+      "> foo.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-some-completions-removes-all": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "foo.o ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "foo.o "}
+    ],
+    "screen": [
+      "> foo.o"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-some-completions-not-for-words": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "foo."}
+    ],
+    "screen": [
+      "> foo."
+    ],
+    "cursor": [1, 0]
+  },
+  "display-matches-hook-args": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_completion_display_matches_hook", "matches": ["b", "blue", "brown"], "num_matches": 2, "max_length": 5},
+      {"op": "readline", "ret": "b"}
+    ],
+    "screen": [
+      "> b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> b"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "display-matches-hook-not-for-single": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "r"}
+    ],
+    "screen": [
+      "> r",
+      "red",
+      "> r"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> r",
+          "red",
+          "> r"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "display-matches-hook-custom-output": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "echo", "args": ["shown"]},
+      {"op": "capture", "out": "blue   brown  "},
+      {"op": "rl_on_new_line", "ret": 0},
+      {"op": "readline", "ret": "b"}
+    ],
+    "screen": [
+      "> b",
+      "",
+      "",
+      "> b"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> b",
+          "",
+          "",
+          "> b"
+        ],
+        "cursor": [3, 3]
+      }
+    ]
+  },
+  "display-match-list-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "blue   brown  black  "},
+      {"op": "capture", "out": "a    bb   ccc  "},
+      {"op": "capture", "out": "x  "}
+    ],
+    "screen": [],
+    "cursor": [6, 0]
+  },
+  "display-match-list-api-filenames": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "one      two/     "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "display-match-list-api-visible-stats": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "one        two/       three@     four*      "},
+      {"op": "capture", "out": "//        dir//     two//     "}
+    ],
+    "screen": [],
+    "cursor": [4, 0]
+  },
+  "display-match-list-root-paths": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "dev/  usr/  "},
+      {"op": "capture", "out": "dev/   "}
+    ],
+    "screen": [],
+    "cursor": [4, 0]
+  },
+  "completion-mode-values": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-mode mode \"\\C-t\"", "ret": 0},
+      {"op": "rl_completion_mode complete", "ret": 9},
+      {"op": "rl_completion_mode menu-complete", "ret": 9},
+      {"op": "rl_completion_mode complete", "ret": 63},
+      {"op": "rl_completion_mode menu-complete", "ret": 9},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-mode-show-all": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-mode mode \"\\C-t\"", "ret": 0},
+      {"op": "rl_completion_mode complete", "ret": 33},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-mode-show-unmodified": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-mode mode \"\\C-t\"", "ret": 0},
+      {"op": "rl_completion_mode complete", "ret": 64},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-internal-what-to-do": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-bang doit \"\\C-t\"", "ret": 0},
+      {"op": "defun do-at doit2 \"\\C-y\"", "ret": 0},
+      {"op": "defun do-bar doit3 \"\\C-o\"", "ret": 0},
+      {"op": "rl_complete_internal \"!\"", "ret": 0},
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_complete_internal \"@\"", "ret": 0},
+      {"op": "rl_complete_internal \"@\"", "ret": 0},
+      {"op": "rl_complete_internal \"|\"", "ret": 0},
+      {"op": "readline", "ret": "apap"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot",
+      "> apap"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      },
+      {
+        "screen": [
+          "> a",
+          "apple    apricot",
+          "> apap"
+        ],
+        "cursor": [2, 6]
+      },
+      {
+        "screen": [
+          "> a",
+          "apple    apricot",
+          "> apap"
+        ],
+        "cursor": [2, 6]
+      }
+    ]
+  },
+  "complete-internal-bang-unique": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-bang doit \"\\C-t\"", "ret": 0},
+      {"op": "rl_complete_internal \"!\"", "ret": 0},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-internal-at-partial": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-at doit \"\\C-t\"", "ret": 0},
+      {"op": "rl_complete_internal \"@\"", "ret": 0},
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "complete-internal-bad-value": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-bad doit \"\\C-t\"", "ret": 0},
+      {"op": "rl_complete_internal \"x\"", "ret": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> areadline: bad value 120 for what_to_do in rl_complete",
+      "> a"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> areadline: bad value 120 for what_to_do in rl_complete",
+          "> a"
+        ],
+        "cursor": [1, 3]
+      }
+    ]
+  },
+  "export-completions": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x ap"}
+    ],
+    "screen": [
+      "> x ap",
+      "3",
+      "ap",
+      "2:4",
+      "ap",
+      "apple",
+      "apricot"
+    ],
+    "cursor": [8, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x ap",
+          "3",
+          "ap",
+          "2:4",
+          "ap",
+          "apple",
+          "apricot"
+        ],
+        "cursor": [7, 0]
+      }
+    ]
+  },
+  "export-completions-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x zz"}
+    ],
+    "screen": [
+      "> x zz",
+      "0",
+      "zz",
+      "2:4"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x zz",
+          "0",
+          "zz",
+          "2:4"
+        ],
+        "cursor": [4, 0]
+      }
+    ]
+  },
+  "export-completions-clears-line-with-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "> x ap",
+      "3",
+      "ap",
+      "2:4",
+      "ap",
+      "apple",
+      "apricot"
+    ],
+    "cursor": [8, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x ap",
+          "3",
+          "ap",
+          "2:4",
+          "ap",
+          "apple",
+          "apricot"
+        ],
+        "cursor": [7, 2]
+      }
+    ]
+  },
+  "export-completions-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_insert_text \"ap\"", "ret": 2},
+      {"op": "rl_export_completions 1 0", "ret": 0},
+      {"op": "capture", "out": "3\nap\n0:2\nap\napple\napricot\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_completion_matches \"ab\" words", "ret": ["ab", "abc", "abd", "abd"]},
+      {"op": "rl_completion_matches \"\" words", "ret": ["", "abc", "abd", "abd", "xyz"]},
+      {"op": "rl_completion_matches \"xyz\" words", "ret": ["xyz"]},
+      {"op": "rl_completion_matches \"q\" empty", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-many": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_completion_matches \"m\" words", "ret": ["m", "m01", "m02", "m03", "m04", "m05", "m06", "m07", "m08", "m09", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19", "m20", "m21", "m22", "m23", "m24", "m25"]},
+      {"op": "rl_completion_matches \"m1\" words", "ret": ["m1", "m10", "m11", "m12", "m13", "m14", "m15", "m16", "m17", "m18", "m19"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-case-fold-lcd": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_completion_matches \"app\" words", "ret": ["APPL", "APPLY", "Apple", "apPlication"]},
+      {"op": "rl_completion_matches \"APP\" words", "ret": ["APPL", "APPLY", "Apple", "apPlication"]},
+      {"op": "rl_completion_matches \"xpp\" words", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-case-fold-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_completion_matches \"äp\" words", "ret": ["äpfelchen"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-invalid-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_completion_matches \"a\" words", "ret": ["a\udcff", "a\udcffb", "a\udcffc"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-no-common-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_completion_matches \"\" words", "ret": ["", "xa", "ya"]},
+      {"op": "rl_completion_matches \"x\" words", "ret": ["x", "Xa", "xb"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "complete-in-callback-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> ap",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "complete-in-callback-query": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "apple    apricot  avocado",
+      "> a",
+      ">"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [3, 3]
+      }
+    ]
+  },
+  "completion-type-is-zero-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_completion_type", "ret": 0},
+      {"op": "get rl_completion_append_character", "ret": 32},
+      {"op": "get rl_completion_suppress_append", "ret": 0},
+      {"op": "get rl_completion_query_items", "ret": 100},
+      {"op": "get rl_sort_completion_matches", "ret": 1},
+      {"op": "get rl_ignore_completion_duplicates", "ret": 1},
+      {"op": "get rl_filename_completion_desired", "ret": 0},
+      {"op": "get rl_filename_quoting_desired", "ret": 1},
+      {"op": "get rl_inhibit_completion", "ret": 0},
+      {"op": "get rl_completion_mark_symlink_dirs", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

@@ -1,0 +1,231 @@
+# History expansion: word designators (:0 :n :^ :$ :* :n-m :n* :n- -m %)
+# and history_arg_extract.
+tags: histexpand api words
+
+=== word-zero
+--- script
+add_history "cmd a1 a2 a3"
+history_expand "!!:0"
+history_expand "!:0"
+
+=== word-n
+--- script
+add_history "cmd a1 a2 a3"
+history_expand "!!:1"
+history_expand "!!:2"
+history_expand "!!:3"
+
+=== word-n-multi-digit
+--- script
+add_history "w0 w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12"
+history_expand "!!:10"
+history_expand "!!:12"
+history_expand "!!:13"
+history_expand "!!:9-11"
+
+=== word-n-out-of-range
+--- script
+add_history "cmd a1"
+history_expand "!!:2"
+history_expand "!!:1-2"
+
+=== word-caret
+--- script
+add_history "cmd a1 a2"
+history_expand "!!:^"
+history_expand "!^"
+
+=== word-caret-no-args
+--- script
+add_history "cmd"
+history_expand "!^"
+
+=== word-dollar
+--- script
+add_history "cmd a1 a2"
+history_expand "!!:$"
+history_expand "!$"
+
+=== word-dollar-single-word
+--- script
+add_history "cmd"
+history_expand "!$"
+
+=== word-star
+--- script
+add_history "cmd a1 a2"
+history_expand "!!:*"
+history_expand "!*"
+
+=== word-star-no-args
+# * with no arguments expands to the empty string, not an error
+--- script
+add_history "cmd"
+history_expand "!*"
+history_expand "x !!:* y"
+
+=== word-range
+--- script
+add_history "c a1 a2 a3 a4"
+history_expand "!!:1-3"
+history_expand "!!:0-1"
+history_expand "!!:2-2"
+
+=== word-range-reversed
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:3-1"
+
+=== word-range-to-dollar
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:1-$"
+history_expand "!!:0-$"
+
+=== word-range-to-caret
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:0-^"
+history_expand "!!:2-^"
+
+=== word-leading-dash
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:-2"
+history_expand "!!:-$"
+history_expand "!-1:-1"
+
+=== word-n-star
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:2*"
+history_expand "!!:0*"
+history_expand "!!:3*"
+history_expand "!!:4*"
+
+=== word-n-dash-omits-last
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:1-"
+history_expand "!!:0-"
+history_expand "!!:3-"
+
+=== word-n-caret
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:0^"
+history_expand "!!:2^"
+
+=== word-caret-range
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:^-3"
+history_expand "!!:^-$"
+history_expand "!!:^*"
+
+=== word-without-colon
+# without a colon only ^ $ * % - start a word designator; digits do not
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!2"
+history_expand "!!-2"
+history_expand "!-1$"
+history_expand "!c^"
+history_expand "!c*"
+
+=== word-colon-not-designator
+--- script
+add_history "c a1"
+history_expand "!!:"
+history_expand "!!:x"
+history_expand "!!: "
+
+=== word-dash-terminated-by-text
+--- script
+add_history "c a1 a2 a3"
+history_expand "!!:1-x"
+history_expand "!!:1-:p"
+
+=== word-percent-without-search
+--- script
+add_history "c a1"
+history_expand "!!:%"
+
+=== word-designator-quoted-words
+--- script
+add_history "echo 'a b' \"c d\" e"
+history_expand "!!:1"
+history_expand "!!:2"
+history_expand "!!:$"
+
+=== word-designator-shell-metachars
+--- script
+add_history "ls|wc -l>out 2>&1"
+history_expand "!!:0"
+history_expand "!!:1"
+history_expand "!!:2"
+history_expand "!!:3"
+history_expand "!!:4"
+history_expand "!!:5"
+history_expand "!!:6"
+history_expand "!!:$"
+
+=== word-designator-after-substring-search
+--- script
+add_history "make all"
+add_history "cat x y"
+using_history
+history_expand "!?all?:1"
+history_expand "!?x?:$"
+
+=== word-designator-with-modifier
+--- script
+add_history "cp /a/b.c /d/e.h"
+history_expand "!!:1:t"
+history_expand "!$:r"
+history_expand "!^:h"
+history_expand "!*:t"
+
+=== word-designator-multibyte
+--- script
+add_history "cp ä.txt ö.txt"
+history_expand "!!:1"
+history_expand "!$"
+
+=== arg-extract-basic
+--- script
+history_arg_extract 0 0 "a b c"
+history_arg_extract 1 1 "a b c"
+history_arg_extract 0 2 "a b c"
+history_arg_extract 1 '$' "a b c"
+
+=== arg-extract-negative
+# negative indices count from the right
+--- script
+history_arg_extract -1 -1 "a b c d"
+history_arg_extract 0 -1 "a b c d"
+history_arg_extract -2 '$' "a b c d"
+history_arg_extract 0 -5 "a b c d"
+
+=== arg-extract-dollar-first
+--- script
+history_arg_extract '$' '$' "a b c"
+history_arg_extract '$' 0 "a b c"
+
+=== arg-extract-out-of-range
+--- script
+history_arg_extract 3 3 "a b c"
+history_arg_extract 0 3 "a b c"
+history_arg_extract 2 1 "a b c"
+
+=== arg-extract-empty
+--- script
+history_arg_extract 0 0 ""
+history_arg_extract 0 '$' "   "
+history_arg_extract 1 '$' "only"
+
+=== arg-extract-tokens
+--- script
+history_arg_extract 1 3 "a  'b  c'   d"
+history_arg_extract 0 '$' "x;y"
+history_arg_extract 1 1 "x;y"

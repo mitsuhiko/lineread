@@ -1,0 +1,1031 @@
+{
+  "unique-file-appends-space": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x beta.c ", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x beta.c "}
+    ],
+    "screen": [
+      "> x beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "unique-directory-appends-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x subdir/", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/"}
+    ],
+    "screen": [
+      "> x subdir/"
+    ],
+    "cursor": [1, 0]
+  },
+  "common-prefix-inserted": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x alpha", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x alpha"}
+    ],
+    "screen": [
+      "> x alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "ambiguous-second-tab-lists": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x alpha"}
+    ],
+    "screen": [
+      "> x alpha",
+      "alpha.txt     alphabet.txt",
+      "> x alpha"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x alpha",
+          "alpha.txt     alphabet.txt",
+          "> x alpha"
+        ],
+        "cursor": [2, 9]
+      }
+    ]
+  },
+  "list-shows-basenames": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x subdir/"}
+    ],
+    "screen": [
+      "> x subdir/",
+      "deeper/    inner.txt  other.txt",
+      "> x subdir/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x subdir/",
+          "deeper/    inner.txt  other.txt",
+          "> x subdir/"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "complete-inside-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x subdir/inner.txt ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/inner.txt "}
+    ],
+    "screen": [
+      "> x subdir/inner.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-nested-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x subdir/deeper/", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/deeper/"}
+    ],
+    "screen": [
+      "> x subdir/deeper/"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-dot-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ./beta.c ", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x ./beta.c "}
+    ],
+    "screen": [
+      "> x ./beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-dot-dot": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x subdir/../beta.c ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/../beta.c "}
+    ],
+    "screen": [
+      "> x subdir/../beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-empty-word-lists-all": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x",
+      ".hidden       alpha.txt     dangling      link-to-sub/  sub_two/",
+      ".hidden2      alphabet.txt  emptydir/     run.sh        subdir/",
+      "Upper.TXT     beta.c        link-to-beta  sub-three",
+      "> x"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x",
+          ".hidden       alpha.txt     dangling      link-to-sub/  sub_two/",
+          ".hidden2      alphabet.txt  emptydir/     run.sh        subdir/",
+          "Upper.TXT     beta.c        link-to-beta  sub-three",
+          "> x"
+        ],
+        "cursor": [4, 4]
+      }
+    ]
+  },
+  "empty-word-skips-dot-entries": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"\" sort", "ret": [".hidden", ".hidden2", "Upper.TXT", "alpha.txt", "alphabet.txt", "beta.c", "dangling", "emptydir", "link-to-beta", "link-to-sub", "run.sh", "sub-three", "sub_two", "subdir"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x emptydir/", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x emptydir/"}
+    ],
+    "screen": [
+      "> x emptydir/"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x emptydir/"
+        ],
+        "cursor": [0, 13]
+      }
+    ]
+  },
+  "no-match-rings-bell-keeps-text": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x zzz", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x zzz"}
+    ],
+    "screen": [
+      "> x zzz"
+    ],
+    "cursor": [1, 0]
+  },
+  "nonexistent-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x nodir/a", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x nodir/a"}
+    ],
+    "screen": [
+      "> x nodir/a"
+    ],
+    "cursor": [1, 0]
+  },
+  "unreadable-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x locked/", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x locked/"}
+    ],
+    "screen": [
+      "> x locked/"
+    ],
+    "cursor": [1, 0]
+  },
+  "mark-directories-off": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x subdir", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir"}
+    ],
+    "screen": [
+      "> x subdir"
+    ],
+    "cursor": [1, 0]
+  },
+  "mark-directories-off-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x sub"}
+    ],
+    "screen": [
+      "> x sub",
+      "sub-three  sub_two    subdir",
+      "> x sub"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x sub",
+          "sub-three  sub_two    subdir",
+          "> x sub"
+        ],
+        "cursor": [2, 7]
+      }
+    ]
+  },
+  "mark-directories-on-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x sub"}
+    ],
+    "screen": [
+      "> x sub",
+      "sub-three  sub_two/   subdir/",
+      "> x sub"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x sub",
+          "sub-three  sub_two/   subdir/",
+          "> x sub"
+        ],
+        "cursor": [2, 7]
+      }
+    ]
+  },
+  "first-tab-shortens-to-common-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x sub", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x sub"}
+    ],
+    "screen": [
+      "> x sub"
+    ],
+    "cursor": [1, 0]
+  },
+  "slash-not-doubled": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x subdir/inner.txt", "point": 8, "end": 18, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/inner.txt"}
+    ],
+    "screen": [
+      "> x subdir/inner.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "symlink-to-dir-default": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x link-to-sub", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x link-to-sub"}
+    ],
+    "screen": [
+      "> x link-to-sub"
+    ],
+    "cursor": [1, 0]
+  },
+  "symlink-to-dir-complete-again": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x link-to-sub/", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x link-to-sub/"}
+    ],
+    "screen": [
+      "> x link-to-sub/"
+    ],
+    "cursor": [1, 0]
+  },
+  "symlink-to-dir-marked": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x link-to-sub/", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x link-to-sub/"}
+    ],
+    "screen": [
+      "> x link-to-sub/"
+    ],
+    "cursor": [1, 0]
+  },
+  "symlink-to-dir-marked-trivial": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x link-to-sub/", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x link-to-sub/"}
+    ],
+    "screen": [
+      "> x link-to-sub/"
+    ],
+    "cursor": [1, 0]
+  },
+  "symlink-to-file": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x link-to-beta ", "point": 15, "end": 15, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x link-to-beta "}
+    ],
+    "screen": [
+      "> x link-to-beta"
+    ],
+    "cursor": [1, 0]
+  },
+  "dangling-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x dangling ", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x dangling "}
+    ],
+    "screen": [
+      "> x dangling"
+    ],
+    "cursor": [1, 0]
+  },
+  "hidden-files-shown-for-dot": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x .hidden", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x .hidden"}
+    ],
+    "screen": [
+      "> x .hidden",
+      ".hidden   .hidden2",
+      "> x .hidden"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x .hidden",
+          ".hidden   .hidden2",
+          "> x .hidden"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "hidden-files-matched-by-default": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"\" sort", "ret": [".hidden", ".hidden2", "Upper.TXT", "alpha.txt", "alphabet.txt", "beta.c", "dangling", "emptydir", "link-to-beta", "link-to-sub", "run.sh", "sub-three", "sub_two", "subdir"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "match-hidden-files-off": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"\" sort", "ret": [".hidden", ".hidden2", "Upper.TXT", "alpha.txt", "alphabet.txt", "beta.c", "dangling", "emptydir", "link-to-beta", "link-to-sub", "run.sh", "sub-three", "sub_two", "subdir"]},
+      {"op": "gen filename \".h\" sort", "ret": [".hidden", ".hidden2"]},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x",
+      "Upper.TXT     beta.c        link-to-beta  sub-three",
+      "alpha.txt     dangling      link-to-sub/  sub_two/",
+      "alphabet.txt  emptydir/     run.sh        subdir/",
+      "> x"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x",
+          "Upper.TXT     beta.c        link-to-beta  sub-three",
+          "alpha.txt     dangling      link-to-sub/  sub_two/",
+          "alphabet.txt  emptydir/     run.sh        subdir/",
+          "> x"
+        ],
+        "cursor": [4, 4]
+      }
+    ]
+  },
+  "ignore-case-files": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x Upper.TXT ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x Upper.TXT "}
+    ],
+    "screen": [
+      "> x Upper.TXT"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-case-prefix-preserved": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x alpha", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x alpha"}
+    ],
+    "screen": [
+      "> x alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-case-off-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x upp", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x upp"}
+    ],
+    "screen": [
+      "> x upp"
+    ],
+    "cursor": [1, 0]
+  },
+  "map-case-hyphen-underscore": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x sub", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x sub"}
+    ],
+    "screen": [
+      "> x sub"
+    ],
+    "cursor": [1, 0]
+  },
+  "map-case-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x sub_"}
+    ],
+    "screen": [
+      "> x sub_",
+      "sub-three  sub_two/",
+      "> x sub_"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x sub_",
+          "sub-three  sub_two/",
+          "> x sub_"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "map-case-without-ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x sub-three ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x sub-three "}
+    ],
+    "screen": [
+      "> x sub-three"
+    ],
+    "cursor": [1, 0]
+  },
+  "visible-stats-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x",
+      ".hidden       alpha.txt     dangling@     link-to-sub@  sub_two/",
+      ".hidden2      alphabet.txt  emptydir/     run.sh*       subdir/",
+      "Upper.TXT     beta.c        link-to-beta@ sub-three",
+      "> x"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x",
+          ".hidden       alpha.txt     dangling@     link-to-sub@  sub_two/",
+          ".hidden2      alphabet.txt  emptydir/     run.sh*       subdir/",
+          "Upper.TXT     beta.c        link-to-beta@ sub-three",
+          "> x"
+        ],
+        "cursor": [4, 4]
+      }
+    ]
+  },
+  "visible-stats-special-files": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x",
+      ".hidden       alphabet.txt  link-to-beta@ sock=",
+      ".hidden2      beta.c        link-to-sub@  sub-three",
+      "Upper.TXT     dangling@     pipe|         sub_two/",
+      "alpha.txt     emptydir/     run.sh*       subdir/",
+      "> x"
+    ],
+    "cursor": [6, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x",
+          ".hidden       alphabet.txt  link-to-beta@ sock=",
+          ".hidden2      beta.c        link-to-sub@  sub-three",
+          "Upper.TXT     dangling@     pipe|         sub_two/",
+          "alpha.txt     emptydir/     run.sh*       subdir/",
+          "> x"
+        ],
+        "cursor": [5, 4]
+      }
+    ]
+  },
+  "visible-stats-absolute-device": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x /dev/nul"}
+    ],
+    "screen": [
+      "> x /dev/nul",
+      "null%",
+      "> x /dev/nul"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x /dev/nul",
+          "null%",
+          "> x /dev/nul"
+        ],
+        "cursor": [2, 12]
+      }
+    ]
+  },
+  "tilde-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ~/beta.c ", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x ~/beta.c "}
+    ],
+    "screen": [
+      "> x ~/beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-slash-expand-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x $HOME/beta.c ", "point": 32, "end": 32, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x $HOME/beta.c "}
+    ],
+    "screen": [
+      "> x $HOME/beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x ~/sub"}
+    ],
+    "screen": [
+      "> x ~/sub",
+      "sub-three  sub_two/   subdir/",
+      "> x ~/sub"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x ~/sub",
+          "sub-three  sub_two/   subdir/",
+          "> x ~/sub"
+        ],
+        "cursor": [2, 9]
+      }
+    ]
+  },
+  "tilde-unknown-user": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ~nosuchuser_lineread/a", "point": 24, "end": 24, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x ~nosuchuser_lineread/a"}
+    ],
+    "screen": [
+      "> x ~nosuchuser_lineread/a"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-user-completion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ~nosuchuser_line", "point": 18, "end": 18, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x ~nosuchuser_line"}
+    ],
+    "screen": [
+      "> x ~nosuchuser_line"
+    ],
+    "cursor": [1, 0]
+  },
+  "absolute-path": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ../alpha", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x ../alpha"}
+    ],
+    "screen": [
+      "> x ../alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "file-with-space": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x with space.txt ", "point": 17, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x with space.txt "}
+    ],
+    "screen": [
+      "> x with space.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "file-with-space-quoting-enabled": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"with space.txt\" ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"with space.txt\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-continues-open-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"with space.txt\" ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"with space.txt\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-single-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"with space.txt\" ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"with space.txt\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-closing-quote-not-doubled": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"beta.c\"", "point": 9, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"beta.c\""}
+    ],
+    "screen": [
+      "> x \"beta.c\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-suppress-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"beta.c ", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"beta.c "}
+    ],
+    "screen": [
+      "> x \"beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-directory-in-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"subdir/", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"subdir/"}
+    ],
+    "screen": [
+      "> x \"subdir/"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-not-desired": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x with space.txt ", "point": 17, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x with space.txt "}
+    ],
+    "screen": [
+      "> x with space.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-function-log": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_quoting_function", "text": "with space.txt", "match_type": 1, "quote_char": ""},
+      {"op": "dump", "line": "x with space.txt ", "point": 17, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x with space.txt "}
+    ],
+    "screen": [
+      "> x with space.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-function-multiple-match": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_quoting_function", "text": "q b", "match_type": 2, "quote_char": ""},
+      {"op": "dump", "line": "x q b", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x q b"}
+    ],
+    "screen": [
+      "> x q b"
+    ],
+    "cursor": [1, 0]
+  },
+  "dequoting-function": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": ".", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with sp", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with sp", "quote_char": 34},
+      {"op": "dump", "line": "x \"with space.txt\" ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"with space.txt\""
+    ],
+    "cursor": [1, 0]
+  },
+  "dequoting-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": ".", "quote_char": 0},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": " sp", "quote_char": 0},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": " sp", "quote_char": 0},
+      {"op": "dump", "line": "x with\\ sp", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x with\\ sp"}
+    ],
+    "screen": [
+      "> x with\\ sp"
+    ],
+    "cursor": [1, 0]
+  },
+  "char-is-quoted-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_char_is_quoted_p", "text": "x a\\ b", "index": 4},
+      {"op": "hook", "hook": "rl_char_is_quoted_p", "text": "x a\\ b", "index": 3},
+      {"op": "hook", "hook": "rl_char_is_quoted_p", "text": "x a\\ b", "index": 3},
+      {"op": "dump", "line": "x a\\ b", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x a\\ b"}
+    ],
+    "screen": [
+      "> x a\\ b"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-rewrite-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"one/r\"", "ret": ["one/r", "one/r", "one/r"]},
+      {"op": "gen filename \"one/o\"", "ret": []},
+      {"op": "gen filename \"one/\"", "ret": ["one/r", "one/r", "one/r"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-rewrite-hook-log": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_completion_rewrite_hook", "text": "bet", "len": 3},
+      {"op": "gen filename \"bet\"", "ret": ["beta.c"]},
+      {"op": "gen filename \"\" sort", "ret": [".hidden", ".hidden2", "Upper.TXT", "alpha.txt", "alphabet.txt", "beta.c", "dangling", "emptydir", "link-to-beta", "link-to-sub", "run.sh", "sub-three", "sub_two", "subdir"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-rewrite-hook-changes-text": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_completion_rewrite_hook", "text": "zz", "len": 2},
+      {"op": "gen filename \"zz\" sort", "ret": ["alpha.txt", "alphabet.txt"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "directory-completion-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_directory_completion_hook", "dirname": "subdir/"},
+      {"op": "dump", "line": "x subdir/inner.txt ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/inner.txt "}
+    ],
+    "screen": [
+      "> x subdir/inner.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "directory-completion-hook-replaces": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_directory_completion_hook", "dirname": "elsewhere/"},
+      {"op": "dump", "line": "x subdir/inner.txt ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/inner.txt "}
+    ],
+    "screen": [
+      "> x subdir/inner.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "directory-rewrite-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_directory_rewrite_hook", "dirname": "elsewhere/"},
+      {"op": "dump", "line": "x elsewhere/inner.txt ", "point": 22, "end": 22, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x elsewhere/inner.txt "}
+    ],
+    "screen": [
+      "> x elsewhere/inner.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-stat-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_stat_hook", "dirname": "subdir"},
+      {"op": "dump", "line": "x subdir/", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x subdir/"}
+    ],
+    "screen": [
+      "> x subdir/"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-stat-hook-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_stat_hook", "dirname": "subdir/deeper"},
+      {"op": "hook", "hook": "rl_filename_stat_hook", "dirname": "subdir/inner.txt"},
+      {"op": "hook", "hook": "rl_filename_stat_hook", "dirname": "subdir/other.txt"},
+      {"op": "readline", "ret": "x subdir/"}
+    ],
+    "screen": [
+      "> x subdir/",
+      "deeper/    inner.txt  other.txt",
+      "> x subdir/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x subdir/",
+          "deeper/    inner.txt  other.txt",
+          "> x subdir/"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "generator-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"alp\" sort", "ret": ["alpha.txt", "alphabet.txt"]},
+      {"op": "gen filename \"subdir/\" sort", "ret": ["subdir/deeper", "subdir/inner.txt", "subdir/other.txt"]},
+      {"op": "gen filename \"subdir/i\"", "ret": ["subdir/inner.txt"]},
+      {"op": "gen filename \"./b\"", "ret": ["./beta.c"]},
+      {"op": "gen filename \"zz\"", "ret": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "generator-state-restart": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"alpha.\"", "ret": ["alpha.txt"]},
+      {"op": "gen filename \"alpha.\"", "ret": ["alpha.txt"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "generator-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"~/bet\"", "ret": ["~/beta.c"]},
+      {"op": "gen filename \"~/subdir/\" sort", "ret": ["~/subdir/deeper", "~/subdir/inner.txt", "~/subdir/other.txt"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "generator-tilde-expand-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "gen filename \"~/bet\"", "ret": ["$HOME/beta.c"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "generator-root-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"/dev/nul\"", "ret": ["/dev/null"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-matches-filename": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_completion_matches \"alp\" filename sort", "ret": ["alpha", "alpha.txt", "alphabet.txt"]},
+      {"op": "rl_completion_matches \"subdir/\" filename sort", "ret": ["subdir/", "subdir/deeper", "subdir/inner.txt", "subdir/other.txt"]},
+      {"op": "rl_completion_matches \"beta.c\" filename", "ret": ["beta.c"]},
+      {"op": "rl_completion_matches \"nothing\" filename", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "filename-completion-desired-set": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-desired after \"\\C-t\"", "ret": 0},
+      {"op": "get rl_filename_completion_desired", "ret": 1},
+      {"op": "readline", "ret": "x beta.c "}
+    ],
+    "screen": [
+      "> x beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "long-listing-columns": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x many/"}
+    ],
+    "screen": [
+      "> x many/",
+      "a01  a02  a03  a04  a05  a06  a07  a08  a09  a10  a11  a12",
+      "> x many/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x many/",
+          "a01  a02  a03  a04  a05  a06  a07  a08  a09  a10  a11  a12",
+          "> x many/"
+        ],
+        "cursor": [2, 9]
+      }
+    ]
+  },
+  "long-listing-narrow-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x many/"}
+    ],
+    "screen": [
+      "> x many/",
+      "a01  a04  a07  a10",
+      "a02  a05  a08  a11",
+      "a03  a06  a09",
+      "> x many/"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x many/",
+          "a01  a04  a07  a10",
+          "a02  a05  a08  a11",
+          "a03  a06  a09",
+          "> x many/"
+        ],
+        "cursor": [4, 9]
+      }
+    ]
+  },
+  "dequoting-backslash-word-breaks": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": ".", "quote_char": 0},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with\\ sp", "quote_char": 0},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with\\ sp", "quote_char": 0},
+      {"op": "dump", "line": "x \"with space.txt\" ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"with space.txt\""
+    ],
+    "cursor": [1, 0]
+  }
+}

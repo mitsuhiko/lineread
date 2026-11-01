@@ -1,0 +1,349 @@
+# History expansion modifiers: :h :t :r :e :p :q :x :s :& :g :a :G, repeated
+# and combined forms, custom delimiters, empty patterns, & in the rhs.
+tags: histexpand api modifiers
+
+=== head
+--- script
+add_history "/usr/local/bin/tool"
+history_expand "!!:h"
+history_expand "!!:h:h"
+history_expand "!!:h:h:h"
+history_expand "!!:h:h:h:h"
+
+=== head-no-slash
+--- script
+add_history "file.txt"
+history_expand "!!:h"
+
+=== head-trailing-slash
+--- script
+add_history "dir/sub/"
+history_expand "!!:h"
+history_expand "!!:t"
+
+=== head-whole-line
+# modifiers apply to the whole event text when no word is selected
+--- script
+add_history "cp /a/b /c/d"
+history_expand "!!:h"
+history_expand "!!:t"
+
+=== tail
+--- script
+add_history "/usr/local/bin/tool"
+history_expand "!!:t"
+history_expand "!!:t:t"
+
+=== tail-no-slash
+--- script
+add_history "file.txt"
+history_expand "!!:t"
+
+=== root
+--- script
+add_history "archive.tar.gz"
+history_expand "!!:r"
+history_expand "!!:r:r"
+history_expand "!!:r:r:r"
+
+=== root-dot-in-dir
+--- script
+add_history "dir.d/file"
+history_expand "!!:r"
+
+=== extension
+--- script
+add_history "archive.tar.gz"
+history_expand "!!:e"
+history_expand "!!:e:e"
+
+=== extension-none
+--- script
+add_history "noext"
+history_expand "!!:e"
+
+=== extension-then-root
+--- script
+add_history "a.b.c"
+history_expand "!!:e:r"
+history_expand "!!:r:e"
+
+=== head-then-tail
+--- script
+add_history "/a/b/c.d"
+history_expand "!!:h:t"
+history_expand "!!:t:r"
+history_expand "!!:h:e"
+
+=== print-only
+--- script
+add_history "echo x"
+history_expand "!!:p"
+history_expand "a !! b:p"
+history_expand "!!:p !!"
+history_expand "!!:p:p"
+
+=== print-only-with-other-modifiers
+--- script
+add_history "/a/b"
+history_expand "!!:t:p"
+history_expand "!!:p:t"
+
+=== quote
+--- script
+add_history "echo it's here"
+history_expand "!!:q"
+
+=== quote-empty
+--- script
+add_history "cmd"
+history_expand "!*:q"
+
+=== quote-then-other
+--- script
+add_history "a b"
+history_expand "!!:q:h"
+
+=== quote-breaks
+--- script
+add_history "a b\tc"
+history_expand "!!:x"
+
+=== quote-breaks-quote-char
+--- script
+add_history "it's a"
+history_expand "!!:x"
+
+=== quote-last-wins
+--- script
+add_history "a b"
+history_expand "!!:q:x"
+history_expand "!!:x:q"
+
+=== subst-first
+--- script
+add_history "aaa bbb aaa"
+history_expand "!!:s/aaa/X/"
+
+=== subst-without-trailing-delimiter
+--- script
+add_history "aaa bbb"
+history_expand "!!:s/aaa/X"
+
+=== subst-text-after
+--- script
+add_history "foo"
+history_expand "!!:s/o/0/ tail"
+history_expand "!!:s/o/0 tail"
+
+=== subst-global-g
+--- script
+add_history "a.c b.c c.c"
+history_expand "!!:gs/.c/.o/"
+
+=== subst-global-a
+--- script
+add_history "a.c b.c c.c"
+history_expand "!!:as/.c/.o/"
+
+=== subst-global-single-char
+--- script
+add_history "aaaa"
+history_expand "!!:gs/a/b/"
+history_expand "!!:gs/a/aa/"
+
+=== subst-global-no-match
+--- script
+add_history "abc"
+history_expand "!!:gs/x/y/"
+
+=== subst-bywords
+--- script
+add_history "foo.c foo.c bar.c"
+history_expand "!!:Gs/foo/X/"
+history_expand "!!:Gs/o/0/"
+
+=== subst-bywords-no-match
+--- script
+add_history "abc def"
+history_expand "!!:Gs/x/y/"
+
+=== subst-custom-delimiter
+--- script
+add_history "/usr/bin"
+history_expand "!!:s|/usr|/opt|"
+history_expand "!!:s,bin,lib,"
+history_expand "!!:s:bin:sbin:"
+
+=== subst-escaped-delimiter
+--- script
+add_history "a/b c"
+history_expand "!!:s/a\\/b/X/"
+history_expand "!!:s/c/d\\/e/"
+
+=== subst-backslash-not-delimiter
+--- script
+add_history "a\\b"
+history_expand "!!:s/\\b/X/"
+
+=== subst-empty-rhs
+--- script
+add_history "abc"
+history_expand "!!:s/b//"
+
+=== subst-empty-lhs-no-previous
+--- script
+add_history "abc"
+history_expand "!!:s//x/"
+
+=== subst-empty-lhs-uses-previous
+--- script
+add_history "abc abc"
+history_expand "!!:s/b/X/"
+history_expand "!!:s//Y/"
+
+=== subst-empty-lhs-uses-search-string
+--- script
+add_history "foo bar"
+using_history
+history_expand "!?bar?"
+history_expand "!!:s//baz/"
+
+=== subst-ampersand-rhs
+--- script
+add_history "abc"
+history_expand "!!:s/b/[&]/"
+history_expand "!!:s/b/&&/"
+
+=== subst-escaped-ampersand
+--- script
+add_history "abc"
+history_expand "!!:s/b/\\&/"
+
+=== subst-ampersand-long-rhs
+--- script
+add_history "xyz"
+history_expand "!!:s/y/&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&/"
+
+=== subst-ampersand-long-lhs
+--- script
+add_history "abcdefghijklmnopqrstuvwxyz"
+history_expand "!!:s/abcdefghijklmnopqrstuvwxyz/<&&&&>/"
+
+=== subst-lhs-longer-than-text
+--- script
+add_history "ab"
+history_expand "!!:s/abc/x/"
+
+=== subst-failed
+--- script
+add_history "abc"
+history_expand "!!:s/x/y/"
+history_expand "!!:gs/x/y/"
+
+=== subst-no-delimiter
+# :s at the end of the string does nothing
+--- script
+add_history "abc"
+history_expand "!!:s"
+
+=== subst-repeat-ampersand
+--- script
+add_history "a1 a2"
+history_expand "!!:s/a/b/"
+history_expand "!!:&"
+history_expand "!!:g&"
+history_expand "!!:G&"
+
+=== subst-repeat-no-previous
+--- script
+add_history "abc"
+history_expand "!!:&"
+history_expand "!!:g&"
+
+=== subst-repeat-twice
+--- script
+add_history "aaa"
+history_expand "!!:s/a/b/:&"
+history_expand "!!:s/a/b/:&:&"
+
+=== subst-chained
+--- script
+add_history "one two"
+history_expand "!!:s/one/1/:s/two/2/"
+
+=== subst-then-head
+--- script
+add_history "/a/b/c"
+history_expand "!!:s/b/x/:h"
+
+=== subst-on-word
+--- script
+add_history "cp a.txt b.txt"
+history_expand "!!:2:s/b/c/"
+history_expand "!$:s/txt/md/"
+
+=== subst-multibyte
+--- script
+add_history "größe"
+history_expand "!!:s/ö/o/"
+history_expand "!!:s/ß/ss/"
+
+=== subst-multibyte-delimiter
+# a multibyte character cannot be a delimiter
+--- script
+add_history "abc"
+history_expand "!!:säbäXä"
+
+=== subst-state-persists
+--- script
+add_history "abc"
+history_expand "!!:s/b/X/"
+add_history "bbb"
+history_expand "!!:&"
+history_expand "^^Y"
+
+=== unknown-modifier
+--- script
+add_history "abc"
+history_expand "!!:z"
+history_expand "!!:t:z"
+history_expand "!!:gz"
+
+=== unknown-modifier-uppercase
+--- script
+add_history "abc"
+history_expand "!!:H"
+history_expand "!!:S/a/b/"
+
+=== modifier-after-word-designator
+--- script
+add_history "vi /etc/x.conf"
+history_expand "!$:h"
+history_expand "!$:t:r"
+history_expand "!vi:1:e"
+
+=== subst-ampersand-rhs-grows
+--- script
+add_history "ab"
+history_expand "!!:s/ab/&&x/"
+history_expand "!!:s/ab/&&&xyz/"
+
+=== subst-byte-locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+add_history "a/b c"
+history_expand "!!:s/a\\/b/X/"
+history_expand "!!:s|c|d|"
+
+=== subst-bywords-extra-whitespace
+--- script
+add_history "xa   xb  xc"
+history_expand "!!:Gs/x/y/"
+
+=== long-word-result
+--- script
+add_history "cmd 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+history_expand "!$"
+history_expand "!$:s/0/X/"

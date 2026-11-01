@@ -1,0 +1,357 @@
+# History expansion: event designators (!!, !n, !-n, !str, !?str?, !#).
+tags: histexpand api events
+
+=== bang-bang-empty-history
+--- script
+history_expand "!!"
+
+=== bang-bang-alone
+--- script
+add_history "echo one"
+history_expand "!!"
+
+=== bang-bang-twice
+--- script
+add_history "x"
+history_expand "!!!!"
+history_expand "!! !!"
+
+=== bang-bang-adjacent-text
+--- script
+add_history "ls"
+history_expand "a!!b"
+history_expand "!!-l"
+history_expand "!!.txt"
+
+=== bang-bang-in-middle
+--- script
+add_history "prev"
+history_expand "echo !! done"
+
+=== bang-bang-then-word-designator
+--- script
+add_history "cp a b"
+history_expand "!!:1"
+history_expand "!!$"
+history_expand "!!^"
+history_expand "!!*"
+
+=== number-absolute
+--- script
+add_history "first"
+add_history "second"
+add_history "third"
+history_expand "!1"
+history_expand "!2"
+history_expand "!3"
+
+=== number-zero
+--- script
+add_history "first"
+history_expand "!0"
+
+=== number-out-of-range
+--- script
+add_history "first"
+history_expand "!2"
+history_expand "!100"
+
+=== number-with-history-base
+--- script
+set history_base 10
+add_history "first"
+add_history "second"
+history_expand "!10"
+history_expand "!11"
+history_expand "!1"
+
+=== number-after-stifle
+--- script
+stifle_history 2
+add_history "a"
+add_history "b"
+add_history "c"
+history_expand "!1"
+history_expand "!2"
+history_expand "!3"
+
+=== number-followed-by-text
+--- script
+add_history "first"
+history_expand "!1x"
+history_expand "!1:0"
+history_expand "!1 rest"
+
+=== number-leading-zeros
+--- script
+add_history "first"
+add_history "second"
+history_expand "!002"
+
+=== negative-number
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+history_expand "!-1"
+history_expand "!-2"
+history_expand "!-3"
+
+=== negative-out-of-range
+--- script
+add_history "a"
+history_expand "!-2"
+history_expand "!-0"
+
+=== negative-with-base
+--- script
+set history_base 5
+add_history "a"
+add_history "b"
+history_expand "!-1"
+history_expand "!-2"
+
+=== minus-without-digit-is-search
+--- script
+add_history "-x flag"
+add_history "other"
+using_history
+history_expand "!-x"
+
+=== prefix-search
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+using_history
+history_expand "!make"
+history_expand "!git"
+history_expand "!m"
+
+=== prefix-search-not-substring
+--- script
+add_history "echo make"
+using_history
+history_expand "!make"
+
+=== prefix-search-uses-history-offset
+# string searches start at history_offset (here 0 after add_history)
+--- script
+add_history "make one"
+add_history "make two"
+history_expand "!make"
+history_set_pos 1
+history_expand "!make"
+using_history
+history_expand "!make"
+
+=== prefix-search-restores-offset
+--- script
+add_history "make one"
+add_history "ls"
+using_history
+history_expand "!make"
+where_history
+
+=== prefix-search-stops-at-colon
+--- script
+add_history "make all install"
+using_history
+history_expand "!make:1"
+history_expand "!ma:$"
+
+=== prefix-search-stops-at-whitespace
+--- script
+add_history "make all"
+using_history
+history_expand "!make rest"
+history_expand "!make\trest"
+
+=== prefix-search-stops-at-event-delimiters
+# history event delimiters (^ $ * % - and others) end a search string
+--- script
+add_history "make all"
+using_history
+history_expand "!make$"
+history_expand "!make^"
+history_expand "!make*"
+history_expand "!make%"
+history_expand "!make-x"
+
+=== prefix-search-includes-other-punctuation
+--- script
+add_history "a.b c"
+add_history "a=b"
+using_history
+history_expand "!a.b"
+history_expand "!a.b:1"
+history_expand "!a/"
+
+=== prefix-search-delimiter-chars
+--- script
+add_history "make all"
+using_history
+history_expand "!make;rest"
+set history_search_delimiter_chars ";"
+history_expand "!make;rest"
+
+=== prefix-search-not-found
+--- script
+add_history "make"
+using_history
+history_expand "!xyz"
+history_expand "!xyz rest"
+
+=== prefix-search-multibyte
+--- script
+add_history "über alles"
+add_history "other"
+using_history
+history_expand "!üb"
+history_expand "!über:1"
+
+=== substring-search
+--- script
+add_history "git commit -m fix"
+add_history "ls"
+using_history
+history_expand "!?commit?"
+history_expand "!?mit"
+history_expand "!?ls?"
+
+=== substring-search-trailing-text
+--- script
+add_history "git commit"
+using_history
+history_expand "!?comm? more"
+history_expand "!?comm?:0"
+
+=== substring-search-without-closing-includes-rest
+--- script
+add_history "a b c"
+using_history
+history_expand "!?b c"
+history_expand "!?b x"
+
+=== substring-search-stops-at-newline
+--- script
+add_history "abc"
+using_history
+history_expand "!?b\nnext"
+
+=== substring-search-empty-reuses-last
+--- script
+add_history "alpha beta"
+add_history "gamma"
+using_history
+history_expand "!??"
+history_expand "!?beta?"
+history_expand "!??"
+history_expand "!?"
+
+=== substring-search-percent-word
+--- script
+add_history "cp source.c dest.c"
+using_history
+history_expand "!?urce?"
+history_expand "!?urce?%"
+history_expand "!%"
+history_expand "!:%"
+
+=== substring-search-percent-before-search
+--- script
+add_history "abc"
+history_expand "!%"
+
+=== substring-search-percent-whitespace-match
+--- script
+add_history "a b"
+using_history
+history_expand "!?a b?%"
+
+=== substring-not-found
+--- script
+add_history "abc"
+using_history
+history_expand "!?zzz?"
+
+=== substring-search-multibyte
+--- script
+add_history "größe x"
+using_history
+history_expand "!?öß?"
+history_expand "!?öß?%"
+
+=== current-line-hash
+--- script
+history_expand "a b !#"
+history_expand "!#"
+history_expand "x !# !#"
+
+=== current-line-hash-word
+--- script
+history_expand "cp file.txt !#:1"
+history_expand "mv a !#:1:r.bak"
+history_expand "one two !#:$"
+
+=== current-line-hash-bad-word
+--- script
+history_expand "a !#:5"
+
+=== implied-previous-event
+--- script
+add_history "tar xf archive.tar"
+history_expand "!:1"
+history_expand "!$"
+history_expand "!^"
+history_expand "!*"
+history_expand "!%"
+
+=== get-event-direct
+--- script
+add_history "echo hello"
+add_history "ls -l"
+using_history
+get_history_event "!!" 0
+get_history_event "x !! y" 2
+get_history_event "!1" 0
+get_history_event "!-1" 0
+get_history_event "!ec" 0
+get_history_event "!?ll" 0
+get_history_event "!?ell? y" 0
+
+=== get-event-not-at-bang
+--- script
+add_history "echo"
+get_history_event "abc" 0
+get_history_event "a!!" 0
+
+=== get-event-delimiting-quote
+--- script
+add_history "echo hello"
+using_history
+get_history_event "!ec\"rest" 0 "\""
+get_history_event "!ec\"rest" 0
+get_history_event "!ec'rest" 0 "'"
+
+=== get-event-not-found-index
+--- script
+add_history "echo"
+using_history
+get_history_event "!zz rest" 0
+get_history_event "!5 rest" 0
+
+=== get-event-empty-search
+--- script
+add_history "echo"
+using_history
+get_history_event "!" 0
+get_history_event "! x" 0
+
+=== substring-search-percent-match-on-space
+# a match starting on whitespace is not inside a word: % is empty
+--- script
+add_history "a b"
+using_history
+history_expand "!? b?"
+history_expand "!? b?%"

@@ -1,0 +1,194 @@
+# Menu completion: menu-complete, menu-complete-backward, old-menu-complete,
+# numeric arguments, wrap-around, menu-complete-display-prefix,
+# show-all-if-ambiguous, rl_menu_completion_entry_function.
+tags: complete menu
+--- inputrc
+TAB: menu-complete
+"\e[Z": menu-complete-backward
+"\C-o": old-menu-complete
+--- script
+complete_words apple apricot avocado banana
+set rl_attempted_completion_function words
+readline "> "
+
+=== cycles-through-matches
+--- keys
+a\t<dump>\t<dump>\t<dump>\t<dump>\t<dump>\r
+
+=== backward-cycles
+--- keys
+a\e[Z<dump>\e[Z<dump>\e[Z<dump>\e[Z<dump>\r
+
+=== forward-then-backward
+--- keys
+a\t\t<dump>\e[Z<dump>\r
+
+=== numeric-argument
+--- keys
+a\e2\t<dump>\r
+
+=== negative-argument
+--- keys
+a\e-\t<dump>\r
+
+=== large-argument-wraps
+--- keys
+a\e9\t<dump>\r
+
+=== unique-match-completes
+--- keys
+ban\t<dump>\t<dump>\r
+
+=== no-match
+--- keys
+zz\t<dump>\r
+
+=== other-command-resets
+--- keys
+a\t\C-e\t<dump>\r
+
+=== typing-starts-new-menu
+--- keys
+a\t\C-?p\t<dump>\r
+
+=== common-prefix-first
+--- keys
+ap\t<dump>\t<dump>\r
+
+=== display-prefix-on
+--- inputrc
+TAB: menu-complete
+set menu-complete-display-prefix on
+--- keys
+ap\t<dump>\t<dump>\t<dump>\r
+
+=== display-prefix-no-common-prefix
+--- inputrc
+TAB: menu-complete
+set menu-complete-display-prefix on
+--- script
+complete_words xa ya za
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+\t<dump>\t<dump>\r
+
+=== show-all-if-ambiguous
+--- inputrc
+TAB: menu-complete
+set show-all-if-ambiguous on
+--- keys
+a\t<snap><dump>\t<dump>\r
+
+=== show-all-if-ambiguous-display-prefix
+--- inputrc
+TAB: menu-complete
+set show-all-if-ambiguous on
+set menu-complete-display-prefix on
+--- keys
+a\t<snap><dump>\t<dump>\r
+
+=== show-all-too-many-items
+--- inputrc
+TAB: menu-complete
+set show-all-if-ambiguous on
+set completion-query-items 3
+--- keys
+a\t<snap>n<dump>\t<dump>\r
+
+=== appends-space-for-words
+--- keys
+a\t<dump>\r
+
+=== filename-menu
+--- file d1/x
+--- file d2/y
+--- file file.txt
+--- script
+readline "> "
+--- keys
+x d\t<dump>\t<dump>\t<dump>\r
+
+=== filename-menu-unique-dir
+--- file dir/x
+--- script
+readline "> "
+--- keys
+x di\t<dump>\t<dump>\r
+
+=== old-menu-complete
+--- keys
+a\C-o<dump>\C-o<dump>\C-o<dump>\C-o<dump>\r
+
+=== old-menu-complete-argument
+--- keys
+a\e2\C-o<dump>\e-\C-o<dump>\r
+
+=== old-menu-complete-no-match
+--- keys
+zz\C-o<dump>\r
+
+=== old-menu-complete-show-all
+--- inputrc
+"\C-o": old-menu-complete
+set show-all-if-ambiguous on
+--- keys
+a\C-o<snap><dump>\r
+
+=== old-menu-complete-unique
+--- keys
+ban\C-o<dump>\C-o<dump>\r
+
+=== menu-completion-entry-function
+--- script
+complete_words apple apricot
+ignore_words
+set rl_menu_completion_entry_function words
+readline "> "
+--- keys
+a\t<dump>\t<dump>\r
+
+=== menu-completion-entry-function-not-for-complete
+--- inputrc
+"\C-t": complete
+TAB: menu-complete
+--- file alpha-file
+--- script
+complete_words apple apricot
+set rl_menu_completion_entry_function words
+readline "> "
+--- keys
+al\C-t<dump>\r
+
+=== completion-entry-function-used-by-menu
+--- script
+complete_words apple apricot
+set rl_completion_entry_function words
+readline "> "
+--- keys
+a\t<dump>\r
+
+=== menu-complete-in-vi-insert
+--- inputrc
+set editing-mode vi
+set keymap vi-insert
+TAB: menu-complete
+--- keys
+a\t<dump>\t<dump>\r
+
+=== menu-complete-undo
+--- keys
+a\t\t\C-_<dump>\r
+
+=== menu-complete-then-accept
+--- keys
+a\t\t\r
+
+=== menu-complete-with-quote-char
+--- script
+complete_words "two words" "two wheels"
+set rl_attempted_completion_function words
+set rl_completer_quote_characters "\""
+readline "> "
+--- keys
+"tw\t<dump>\t<dump>\r

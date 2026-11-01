@@ -1,0 +1,512 @@
+{
+  "bell-style-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set bell-style none\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"set bell-style audible\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"},
+      {"op": "rl_parse_and_bind \"set bell-style visible\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"},
+      {"op": "rl_parse_and_bind \"set bell-style off\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"set bell-style on\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bell-style-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set bell-style NONE\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"set bell-style Visible\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bell-style-empty-and-invalid": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set bell-style none\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set bell-style\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"},
+      {"op": "rl_parse_and_bind \"set bell-style none\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set bell-style loud\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"}
+    ],
+    "screen": [
+      "readline: bell-style: could not set value to `loud'"
+    ],
+    "cursor": [1, 0]
+  },
+  "bell-style-sets-prefer-visible-bell": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set bell-style visible\"", "ret": 0},
+      {"op": "rl_variable_value \"prefer-visible-bell\"", "ret": "on"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-begin-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "#"},
+      {"op": "rl_parse_and_bind \"set comment-begin //\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "//"},
+      {"op": "rl_parse_and_bind \"set comment-begin\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "//"},
+      {"op": "rl_variable_bind \"comment-begin\" NULL", "ret": 1},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "//"}
+    ],
+    "screen": [
+      "readline: comment-begin: could not set value to `'",
+      "readline: comment-begin: could not set value to `(null)'"
+    ],
+    "cursor": [2, 0]
+  },
+  "comment-begin-used-by-insert-comment": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "// abc"}
+    ],
+    "screen": [
+      "> // abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-display-width-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set completion-display-width 40\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-display-width\"", "ret": "40"},
+      {"op": "rl_parse_and_bind \"set completion-display-width -5\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-display-width\"", "ret": "-5"},
+      {"op": "rl_parse_and_bind \"set completion-display-width\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-display-width\"", "ret": "-1"},
+      {"op": "rl_parse_and_bind \"set completion-display-width abc\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-display-width\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set completion-display-width 12abc\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-display-width\"", "ret": "12"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-prefix-display-length-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set completion-prefix-display-length 5\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-prefix-display-length\"", "ret": "5"},
+      {"op": "rl_parse_and_bind \"set completion-prefix-display-length -3\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-prefix-display-length\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set completion-prefix-display-length 5\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set completion-prefix-display-length\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-prefix-display-length\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set completion-prefix-display-length x\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-prefix-display-length\"", "ret": "0"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-query-items-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set completion-query-items 10\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "10"},
+      {"op": "get rl_completion_query_items", "ret": 10},
+      {"op": "rl_parse_and_bind \"set completion-query-items -1\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set completion-query-items\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "100"},
+      {"op": "rl_parse_and_bind \"set completion-query-items 0\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set completion-query-items junk\"", "ret": 0},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "0"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "completion-query-items-application-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "33"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "editing-mode-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set editing-mode vi\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "vi"},
+      {"op": "get rl_editing_mode", "ret": 0},
+      {"op": "rl_get_keymap", "ret": "vi-insert"},
+      {"op": "rl_parse_and_bind \"set editing-mode emacs\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "emacs"},
+      {"op": "get rl_editing_mode", "ret": 1},
+      {"op": "rl_get_keymap", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "editing-mode-prefix-match": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set editing-mode VIM\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "vi"},
+      {"op": "rl_parse_and_bind \"set editing-mode emacsen\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "emacs"},
+      {"op": "rl_parse_and_bind \"set editing-mode Emacs\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "editing-mode-invalid": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set editing-mode vi\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set editing-mode ed\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "vi"},
+      {"op": "rl_parse_and_bind \"set editing-mode\"", "ret": 0},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "vi"}
+    ],
+    "screen": [
+      "readline: editing-mode: could not set value to `ed'",
+      "readline: editing-mode: could not set value to `'"
+    ],
+    "cursor": [2, 0]
+  },
+  "editing-mode-inputrc-affects-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "emacs-mode-string-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"emacs-mode-string\"", "ret": "@"},
+      {"op": "rl_parse_and_bind \"set emacs-mode-string E:\"", "ret": 0},
+      {"op": "rl_variable_value \"emacs-mode-string\"", "ret": "E:"},
+      {"op": "rl_parse_and_bind \"set emacs-mode-string \\\"\\\\e[1m@\\\\e[0m\\\"\"", "ret": 0},
+      {"op": "rl_variable_value \"emacs-mode-string\"", "ret": "\u001b[1m@\u001b[0m"},
+      {"op": "rl_parse_and_bind \"set emacs-mode-string\"", "ret": 0},
+      {"op": "rl_variable_value \"emacs-mode-string\"", "ret": ""},
+      {"op": "rl_variable_bind \"emacs-mode-string\" NULL", "ret": 0},
+      {"op": "rl_variable_value \"emacs-mode-string\"", "ret": "@"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "vi-mode-strings-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"vi-ins-mode-string\"", "ret": "(ins)"},
+      {"op": "rl_variable_value \"vi-cmd-mode-string\"", "ret": "(cmd)"},
+      {"op": "rl_parse_and_bind \"set vi-ins-mode-string +\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set vi-cmd-mode-string :\"", "ret": 0},
+      {"op": "rl_variable_value \"vi-ins-mode-string\"", "ret": "+"},
+      {"op": "rl_variable_value \"vi-cmd-mode-string\"", "ret": ":"},
+      {"op": "rl_parse_and_bind \"set vi-ins-mode-string \\\\C-a\"", "ret": 0},
+      {"op": "rl_variable_value \"vi-ins-mode-string\"", "ret": "\u0001"},
+      {"op": "rl_parse_and_bind \"set vi-ins-mode-string\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set vi-cmd-mode-string\"", "ret": 0},
+      {"op": "rl_variable_value \"vi-ins-mode-string\"", "ret": ""},
+      {"op": "rl_variable_value \"vi-cmd-mode-string\"", "ret": ""},
+      {"op": "rl_variable_bind \"vi-ins-mode-string\" NULL", "ret": 0},
+      {"op": "rl_variable_bind \"vi-cmd-mode-string\" NULL", "ret": 0},
+      {"op": "rl_variable_value \"vi-ins-mode-string\"", "ret": "(ins)"},
+      {"op": "rl_variable_value \"vi-cmd-mode-string\"", "ret": "(cmd)"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "mode-string-shown-in-prompt-emacs": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "[E]> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "mode-string-shown-in-prompt-vi": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "<C>> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<I>> abc"
+        ],
+        "cursor": [0, 8]
+      },
+      {
+        "screen": [
+          "<C>> abc"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "mode-string-invisible-markers": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "E > abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "mode-string-default-shown": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "@> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "show-mode-in-prompt-toggle-at-runtime": {
+    "exit": 0,
+    "results": [
+      {"op": "defun toggle-mode toggle \"\\C-t\"", "ret": 0},
+      {"op": "rl_variable_bind \"show-mode-in-prompt\" \"on\"", "ret": 0},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab"
+        ],
+        "cursor": [0, 4]
+      },
+      {
+        "screen": [
+          "> ab"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "history-size-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set history-size 10\"", "ret": 0},
+      {"op": "rl_variable_value \"history-size\"", "ret": "10"},
+      {"op": "history_is_stifled", "ret": 1},
+      {"op": "get history_max_entries", "ret": 10},
+      {"op": "rl_parse_and_bind \"set history-size -1\"", "ret": 0},
+      {"op": "rl_variable_value \"history-size\"", "ret": "-1"},
+      {"op": "history_is_stifled", "ret": 0},
+      {"op": "rl_parse_and_bind \"set history-size\"", "ret": 0},
+      {"op": "rl_variable_value \"history-size\"", "ret": "500"},
+      {"op": "rl_parse_and_bind \"set history-size 0\"", "ret": 0},
+      {"op": "rl_variable_value \"history-size\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set history-size abc\"", "ret": 0},
+      {"op": "rl_variable_value \"history-size\"", "ret": "0"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-size-truncates-history": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set history-size 2\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "isearch-terminators-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"isearch-terminators\"", "ret": null},
+      {"op": "rl_parse_and_bind \"set isearch-terminators \\\"\\\\C-a\\\\C-b\\\"\"", "ret": 0},
+      {"op": "rl_variable_value \"isearch-terminators\"", "ret": "\\C-a\\C-b"},
+      {"op": "rl_parse_and_bind \"set isearch-terminators 'xy'\"", "ret": 0},
+      {"op": "rl_variable_value \"isearch-terminators\"", "ret": "xy"},
+      {"op": "rl_parse_and_bind \"set isearch-terminators abc def\"", "ret": 0},
+      {"op": "rl_variable_value \"isearch-terminators\"", "ret": "abc"},
+      {"op": "rl_parse_and_bind \"set isearch-terminators \\\\e\"", "ret": 0},
+      {"op": "rl_variable_value \"isearch-terminators\"", "ret": "\\e"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "isearch-terminators-variable-bind-null": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind \"isearch-terminators\" NULL", "ret": 1},
+      {"op": "rl_variable_value \"isearch-terminators\"", "ret": null}
+    ],
+    "screen": [
+      "readline: isearch-terminators: could not set value to `(null)'"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-terminators-effect": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello Zworld", "point": 7, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello Zworld"}
+    ],
+    "screen": [
+      "> hello Zworld"
+    ],
+    "cursor": [1, 0]
+  },
+  "keymap-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs"},
+      {"op": "rl_parse_and_bind \"set keymap vi-command\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "vi"},
+      {"op": "rl_get_keymap", "ret": "vi"},
+      {"op": "rl_parse_and_bind \"set keymap vi-move\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "vi"},
+      {"op": "rl_parse_and_bind \"set keymap vi\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "vi"},
+      {"op": "rl_parse_and_bind \"set keymap emacs-meta\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs-meta"},
+      {"op": "rl_parse_and_bind \"set keymap emacs-ctlx\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs-ctlx"},
+      {"op": "rl_parse_and_bind \"set keymap vi-insert\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "vi-insert"},
+      {"op": "rl_parse_and_bind \"set keymap emacs-standard\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs"},
+      {"op": "rl_parse_and_bind \"set keymap EMACS\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-invalid": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set keymap vi-insert\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set keymap nosuchmap\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "vi-insert"},
+      {"op": "rl_parse_and_bind \"set keymap\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "vi-insert"}
+    ],
+    "screen": [
+      "readline: keymap: could not set value to `nosuchmap'",
+      "readline: keymap: could not set value to `'"
+    ],
+    "cursor": [2, 0]
+  },
+  "keymap-anonymous-falls-back-to-edit-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-set-name-reported": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keymap_name \"my-map\" mine", "ret": 8},
+      {"op": "rl_parse_and_bind \"set keymap my-map\"", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "my-map"},
+      {"op": "rl_parse_and_bind \"\\\"a\\\": forward-char\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a\" mine", "type": "func", "value": "forward-char"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-reset-by-inputrc-end": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"keymap\"", "ret": "emacs"},
+      {"op": "rl_get_keymap", "ret": "emacs"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-timeout-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set keyseq-timeout 100\"", "ret": 0},
+      {"op": "rl_variable_value \"keyseq-timeout\"", "ret": "100"},
+      {"op": "rl_parse_and_bind \"set keyseq-timeout -100\"", "ret": 0},
+      {"op": "rl_variable_value \"keyseq-timeout\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set keyseq-timeout 100\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set keyseq-timeout\"", "ret": 0},
+      {"op": "rl_variable_value \"keyseq-timeout\"", "ret": "0"},
+      {"op": "rl_parse_and_bind \"set keyseq-timeout fast\"", "ret": 0},
+      {"op": "rl_variable_value \"keyseq-timeout\"", "ret": "0"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "active-region-colors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"active-region-start-color\"", "ret": null},
+      {"op": "rl_variable_value \"active-region-end-color\"", "ret": null},
+      {"op": "rl_parse_and_bind \"set active-region-start-color \\\"\\\\e[01;33m\\\"\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set active-region-end-color \\\"\\\\e[0m\\\"\"", "ret": 0},
+      {"op": "rl_variable_value \"active-region-start-color\"", "ret": "\\e[01;33m"},
+      {"op": "rl_variable_value \"active-region-end-color\"", "ret": "\\e[0m"},
+      {"op": "rl_parse_and_bind \"set active-region-start-color\"", "ret": 0},
+      {"op": "rl_variable_value \"active-region-start-color\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "active-region-colors-after-initialize": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"active-region-start-color\"", "ret": "\\e[7m"},
+      {"op": "rl_variable_value \"active-region-end-color\"", "ret": "\\e[27m"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "active-region-colors-control-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set active-region-start-color \\\\C-a\\\\M-b\\\\t\"", "ret": 0},
+      {"op": "rl_variable_value \"active-region-start-color\"", "ret": "\\C-a\\eb\\C-i"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "string-variable-names-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set Keyseq-Timeout 77\"", "ret": 0},
+      {"op": "rl_variable_value \"KEYSEQ-TIMEOUT\"", "ret": "77"},
+      {"op": "rl_parse_and_bind \"set COMMENT-BEGIN %\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "%"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

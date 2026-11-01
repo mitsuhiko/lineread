@@ -1,0 +1,732 @@
+# History files (histfile.c) in detail: ranges, blank lines, CRLF,
+# timestamps, multi-line entries, truncation with timestamps, errors,
+# symlinks, permissions and the line counters.
+tags: history histfile api
+--- file five.txt
+one
+two
+three
+four
+five
+
+=== read-counter
+--- script
+read_history "five.txt"
+get history_lines_read_from_file
+read_history "missing.txt"
+get history_lines_read_from_file
+
+=== read-appends-to-list
+--- script
+add_history "existing"
+read_history "five.txt"
+history_dump
+
+=== read-twice
+--- script
+read_history "five.txt"
+read_history "five.txt"
+get history_length
+
+=== range-from-zero-to-two
+--- script
+read_history_range "five.txt" 0 2
+history_dump
+get history_lines_read_from_file
+
+=== range-from-three
+--- script
+read_history_range "five.txt" 3 -1
+history_dump
+
+=== range-to-less-than-from
+--- script
+read_history_range "five.txt" 3 1
+history_dump
+
+=== range-past-end
+# with history_comment_char NUL the reference reads one byte past its
+# buffer when FROM is beyond the end of the file, so set it here
+--- script
+set history_comment_char "#"
+read_history_range "five.txt" 10 20
+history_dump
+get history_lines_read_from_file
+
+=== range-to-past-end
+--- script
+read_history_range "five.txt" 4 100
+history_dump
+
+=== range-empty-range
+--- script
+read_history_range "five.txt" 2 2
+history_dump
+
+=== range-single
+--- script
+read_history_range "five.txt" 1 2
+history_dump
+
+=== range-negative-from
+--- script
+read_history_range "five.txt" -3 2
+history_dump
+
+=== blank-lines-skipped
+--- file blanks.txt
+a
+
+b
+
+
+c
+--- script
+read_history "blanks.txt"
+history_dump
+get history_lines_read_from_file
+
+=== blank-lines-count-in-range
+--- file blanks.txt
+a
+
+b
+c
+--- script
+read_history_range "blanks.txt" 2 -1
+history_dump
+
+=== last-line-without-newline-dropped
+--- file noeol.txt noeol
+first
+last
+--- script
+read_history "noeol.txt"
+history_dump
+
+=== crlf-line-endings
+--- script
+file_write "crlf.txt" "one\r\ntwo\r\n\r\nthree\n"
+read_history "crlf.txt"
+history_dump
+
+=== lone-cr-kept
+--- script
+file_write "cr.txt" "a\rb\n\r\n"
+read_history "cr.txt"
+history_dump
+
+=== empty-file
+--- file empty.txt noeol
+--- script
+read_history "empty.txt"
+get history_lines_read_from_file
+history_dump
+
+=== only-newlines
+--- script
+file_write "nl.txt" "\n\n\n"
+read_history "nl.txt"
+get history_lines_read_from_file
+history_dump
+
+=== binary-bytes
+--- script
+file_write "bin.txt" "caf\xc3\xa9\n\xff\xfe\n\x01ctl\n"
+read_history "bin.txt"
+history_dump
+
+=== nul-byte-in-line
+--- script
+file_write "nul.txt" "ab\x00cd\nnext\n"
+read_history "nul.txt"
+history_dump
+
+=== very-long-line
+--- script
+def grow
+file_append "long.txt" "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+end
+repeat 600 grow
+file_append "long.txt" "\nshort\n"
+read_history "long.txt"
+get history_length
+history_get 2
+history_total_bytes
+
+=== many-lines
+--- script
+def grow
+file_append "many.txt" "line\n"
+end
+repeat 2000 grow
+read_history "many.txt"
+get history_length
+get history_lines_read_from_file
+history_get 2000
+
+=== read-directory-fails
+# EFTYPE on macOS, EINVAL on Linux (see the .expected.linux.json)
+--- dir adir
+--- script
+read_history "adir"
+history_dump
+
+=== read-unreadable
+--- file secret.txt mode=0000
+a
+--- script
+read_history "secret.txt"
+history_dump
+
+=== read-via-symlink
+--- symlink link.txt five.txt
+--- script
+read_history "link.txt"
+get history_length
+
+=== read-default-home-unset
+# without HOME there is no default file; (write_history/append_history
+# then return a stale errno, which is not tested)
+env: HOME
+--- script
+read_history NULL
+history_truncate_file NULL 1
+
+=== read-default-uses-home
+env: HOME=$HOME/sub
+--- file sub/.history
+from sub
+--- script
+read_history NULL
+history_dump
+
+=== write-default-file
+--- script
+add_history "w"
+write_history NULL
+file_read ".history"
+
+=== write-counter
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+write_history "w.txt"
+get history_lines_written_to_file
+append_history 2 "w.txt"
+get history_lines_written_to_file
+file_read "w.txt"
+
+=== write-empty-history
+--- script
+write_history "empty.txt"
+get history_lines_written_to_file
+file_read "empty.txt"
+file_stat "empty.txt"
+
+=== write-replaces-existing
+--- script
+add_history "new"
+write_history "five.txt"
+file_read "five.txt"
+
+=== write-new-file-mode
+--- script
+add_history "x"
+write_history "new.txt"
+file_stat "new.txt"
+
+=== write-existing-file-mode
+# writes go to a temporary file that is renamed over the original
+--- file perm.txt mode=0644
+old
+--- script
+add_history "x"
+write_history "perm.txt"
+file_stat "perm.txt"
+file_read "perm.txt"
+
+=== write-through-symlink
+--- file real.txt
+old
+--- symlink link.txt real.txt
+--- script
+add_history "via link"
+write_history "link.txt"
+file_stat "link.txt"
+file_read "real.txt"
+
+=== write-dangling-symlink
+--- symlink dangling.txt target.txt
+--- script
+add_history "x"
+write_history "dangling.txt"
+file_read "target.txt"
+
+=== write-to-directory
+--- dir adir
+--- script
+add_history "x"
+write_history "adir"
+
+=== write-missing-dir
+--- script
+add_history "x"
+write_history "nodir/x.txt"
+
+=== write-readonly-file
+--- file ro.txt mode=0444
+keep
+--- script
+add_history "x"
+append_history 1 "ro.txt"
+file_read "ro.txt"
+
+=== write-readonly-file-in-writable-dir
+# overwriting renames a temp file, so a read-only file can be replaced
+--- file ro.txt mode=0444
+keep
+--- script
+add_history "x"
+write_history "ro.txt"
+file_read "ro.txt"
+
+=== append-missing-file
+--- script
+add_history "x"
+append_history 1 "missing.txt"
+file_stat "missing.txt"
+
+=== append-more-than-length
+--- script
+add_history "a"
+add_history "b"
+append_history 10 "five.txt"
+get history_lines_written_to_file
+file_read "five.txt"
+
+=== append-zero
+--- script
+add_history "a"
+append_history 0 "five.txt"
+get history_lines_written_to_file
+file_read "five.txt"
+
+=== append-negative
+--- script
+add_history "a"
+append_history -1 "five.txt"
+get history_lines_written_to_file
+file_read "five.txt"
+
+=== write-multiline-entry
+--- script
+add_history "a\nb"
+write_history "ml.txt"
+file_read "ml.txt"
+
+=== write-timestamps
+--- script
+set history_write_timestamps 1
+add_history "one"
+add_history_time "#100"
+add_history "two"
+add_history_time ""
+add_history "three"
+add_history_time "#300"
+write_history "ts.txt"
+file_read "ts.txt"
+get history_lines_written_to_file
+
+=== write-timestamps-default-stamp-empty
+# add_history stamps entries with the history comment char, which is NUL
+# by default: such stamps are empty and not written
+--- script
+set history_write_timestamps 1
+add_history "one"
+write_history "ts.txt"
+file_read "ts.txt"
+
+=== write-timestamps-off
+--- script
+add_history "one"
+add_history_time "#100"
+write_history "ts.txt"
+file_read "ts.txt"
+
+=== append-timestamps
+--- script
+set history_write_timestamps 1
+add_history "one"
+add_history_time "#100"
+append_history 1 "five.txt"
+file_read "five.txt"
+
+=== read-timestamps-auto-comment-char
+# a file starting with #digit is read with '#' as comment char even if
+# history_comment_char is NUL; it is reset afterwards
+--- file ts.txt
+#100
+one
+#200
+two
+--- script
+read_history "ts.txt"
+history_dump
+get history_comment_char
+history_get_time 1
+
+=== read-timestamps-not-at-start
+# timestamps are only recognised when the file starts with one
+--- file ts.txt
+zero
+#100
+one
+--- script
+read_history "ts.txt"
+history_dump
+
+=== read-timestamps-not-at-start-comment-char
+--- file ts.txt
+zero
+#100
+one
+--- script
+set history_comment_char "#"
+read_history "ts.txt"
+history_dump
+
+=== read-timestamps-custom-comment-char
+--- file ts.txt
+%100
+one
+%200
+two
+--- script
+set history_comment_char "%"
+read_history "ts.txt"
+history_dump
+history_get_time 2
+
+=== read-hash-nondigit-not-timestamp
+--- file ts.txt
+#abc
+one
+--- script
+read_history "ts.txt"
+history_dump
+
+=== read-consecutive-timestamps
+--- file ts.txt
+#100
+#200
+one
+--- script
+read_history "ts.txt"
+history_dump
+
+=== read-trailing-timestamp
+--- file ts.txt
+#100
+one
+#200
+--- script
+read_history "ts.txt"
+history_dump
+get history_lines_read_from_file
+
+=== read-timestamp-then-blank-lines
+--- file ts.txt
+#100
+
+
+one
+--- script
+read_history "ts.txt"
+history_dump
+
+=== read-range-with-timestamps
+--- file ts.txt
+#100
+one
+#200
+two
+#300
+three
+--- script
+read_history_range "ts.txt" 1 -1
+history_dump
+get history_lines_read_from_file
+
+=== read-range-with-timestamps-to
+--- file ts.txt
+#100
+one
+#200
+two
+#300
+three
+--- script
+read_history_range "ts.txt" 0 2
+history_dump
+
+=== read-range-with-timestamps-from-two
+--- file ts.txt
+#100
+one
+#200
+two
+#300
+three
+--- script
+read_history_range "ts.txt" 2 3
+history_dump
+
+=== multiline-read
+--- file ml.txt
+#100
+line a
+line b
+#200
+single
+--- script
+set history_multiline_entries 1
+read_history "ml.txt"
+history_dump
+
+=== multiline-without-flag
+--- file ml.txt
+#100
+line a
+line b
+#200
+single
+--- script
+read_history "ml.txt"
+history_dump
+
+=== multiline-blank-lines-kept
+--- file ml.txt
+#100
+line a
+
+line c
+#200
+single
+--- script
+set history_multiline_entries 1
+read_history "ml.txt"
+history_dump
+
+=== multiline-enabled-by-write-timestamps
+# with history_write_timestamps set, a timestamped file enables multi-line
+# entries and increments history_multiline_entries
+--- file ml.txt
+#100
+a
+b
+--- script
+set history_write_timestamps 1
+read_history "ml.txt"
+history_dump
+get history_multiline_entries
+read_history "ml.txt"
+get history_multiline_entries
+
+=== multiline-long-continuation
+--- script
+def grow
+file_append "ml.txt" "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+end
+file_write "ml.txt" "#100\nstart\n"
+repeat 12 grow
+file_append "ml.txt" "\n"
+repeat 12 grow
+file_append "ml.txt" "\nend\n"
+set history_multiline_entries 1
+read_history "ml.txt"
+get history_length
+history_total_bytes
+
+=== multiline-first-line-without-timestamp
+--- file ml.txt
+plain
+#100
+a
+b
+--- script
+set history_multiline_entries 1
+set history_comment_char "#"
+read_history "ml.txt"
+history_dump
+
+=== multiline-roundtrip
+--- script
+set history_write_timestamps 1
+set history_comment_char "#"
+add_history "first\nsecond"
+add_history_time "#100"
+add_history "third"
+add_history_time "#200"
+write_history "rt.txt"
+file_read "rt.txt"
+clear_history
+read_history "rt.txt"
+history_dump
+
+=== truncate-counter
+--- script
+history_truncate_file "five.txt" 2
+get history_lines_written_to_file
+file_read "five.txt"
+
+=== truncate-more-than-file
+--- script
+history_truncate_file "five.txt" 10
+get history_lines_written_to_file
+file_read "five.txt"
+
+=== truncate-exact
+--- script
+history_truncate_file "five.txt" 5
+file_read "five.txt"
+history_truncate_file "five.txt" 4
+file_read "five.txt"
+
+=== truncate-negative
+--- script
+history_truncate_file "five.txt" -1
+file_read "five.txt"
+
+=== truncate-zero-counter
+--- script
+history_truncate_file "five.txt" 0
+get history_lines_written_to_file
+file_stat "five.txt"
+
+=== truncate-empty-file
+--- file empty.txt noeol
+--- script
+history_truncate_file "empty.txt" 3
+file_read "empty.txt"
+
+=== truncate-missing
+--- script
+history_truncate_file "missing.txt" 3
+get history_lines_written_to_file
+file_stat "missing.txt"
+
+=== truncate-directory
+# not a regular file: nothing happens and the result is errno (0)
+--- dir adir
+--- script
+history_truncate_file "adir" 1
+
+=== truncate-unreadable
+--- file secret.txt mode=0000
+a
+--- script
+history_truncate_file "secret.txt" 1
+
+=== truncate-no-trailing-newline
+--- file noeol.txt noeol
+a
+b
+c
+--- script
+history_truncate_file "noeol.txt" 1
+file_read "noeol.txt"
+
+=== truncate-with-timestamps
+--- file ts.txt
+#100
+one
+#200
+two
+#300
+three
+--- script
+set history_write_timestamps 1
+set history_comment_char "#"
+history_truncate_file "ts.txt" 2
+file_read "ts.txt"
+
+=== truncate-timestamps-without-flag
+--- file ts.txt
+#100
+one
+#200
+two
+#300
+three
+--- script
+set history_comment_char "#"
+history_truncate_file "ts.txt" 2
+file_read "ts.txt"
+
+=== truncate-timestamps-comment-char-unset
+--- file ts.txt
+#100
+one
+#200
+two
+#300
+three
+--- script
+history_truncate_file "ts.txt" 2
+file_read "ts.txt"
+
+=== truncate-multiline-with-timestamps
+--- file ml.txt
+#100
+a1
+a2
+#200
+b1
+b2
+--- script
+set history_write_timestamps 1
+set history_comment_char "#"
+history_truncate_file "ml.txt" 1
+file_read "ml.txt"
+
+=== truncate-via-symlink
+--- file real.txt
+1
+2
+3
+--- symlink link.txt real.txt
+--- script
+history_truncate_file "link.txt" 1
+file_stat "link.txt"
+file_read "real.txt"
+
+=== truncate-mode-of-result
+--- file perm.txt mode=0644
+1
+2
+3
+--- script
+history_truncate_file "perm.txt" 1
+file_stat "perm.txt"
+
+=== truncate-readonly-dir
+--- dir ro
+--- file ro/h.txt
+1
+2
+3
+--- script
+chmod "ro" 0555
+history_truncate_file "ro/h.txt" 1
+chmod "ro" 0755
+file_read "ro/h.txt"
+
+=== variables-defaults
+--- script
+get history_write_timestamps
+get history_multiline_entries
+get history_file_version
+get history_lines_read_from_file
+get history_lines_written_to_file

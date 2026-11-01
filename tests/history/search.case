@@ -1,0 +1,327 @@
+# History searching (histsearch.c): history_search, history_search_prefix,
+# history_search_pos.  Searches start at history_offset.
+tags: history api histsearch
+
+=== backward-from-end-clamps
+--- script
+add_history "abc"
+add_history "xbc"
+using_history
+history_search "bc" -1
+where_history
+
+=== forward-at-end-fails
+--- script
+add_history "abc"
+using_history
+history_search "abc" 1
+where_history
+
+=== backward-returns-last-offset-in-line
+# a backward search finds the rightmost occurrence within the line
+--- script
+add_history "make test make"
+using_history
+history_search "make" -1
+history_set_pos 0
+history_search "make" 1
+
+=== backward-moves-offset
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+add_history "ls"
+using_history
+history_search "make" -1
+where_history
+history_search "make" -1
+where_history
+history_set_pos 1
+history_search "make" -1
+where_history
+
+=== current-entry-matches-first
+--- script
+add_history "foo"
+add_history "bar"
+history_set_pos 1
+history_search "foo" 1
+history_search "bar" 1
+where_history
+
+=== no-match-keeps-offset
+--- script
+add_history "abc"
+add_history "def"
+history_set_pos 1
+history_search "zzz" -1
+where_history
+history_search "zzz" 1
+where_history
+
+=== empty-and-null-string
+--- script
+add_history "abc"
+using_history
+history_search "" -1
+history_search NULL -1
+history_search_prefix "" -1
+
+=== empty-history
+--- script
+history_search "a" -1
+history_search "a" 1
+history_search_prefix "a" -1
+history_search_pos "a" -1 0
+
+=== string-longer-than-line
+--- script
+add_history "ab"
+add_history "abcdef"
+add_history "ab"
+using_history
+history_search "abcd" -1
+where_history
+
+=== whole-line-match
+--- script
+add_history "exact"
+using_history
+history_search "exact" -1
+history_search_prefix "exact" -1
+
+=== case-sensitive
+--- script
+add_history "Make"
+using_history
+history_search "make" -1
+history_search_prefix "make" -1
+history_search "Make" -1
+
+=== prefix-anchored
+--- script
+add_history "git status"
+add_history "status git"
+using_history
+history_search_prefix "git" -1
+where_history
+history_search_prefix "status" -1
+where_history
+history_set_pos 0
+history_search_prefix "status" 1
+where_history
+history_search_prefix "tatus" 1
+
+=== prefix-forward
+--- script
+add_history "a1"
+add_history "b1"
+add_history "a2"
+history_set_pos 1
+history_search_prefix "a" 1
+where_history
+current_history
+
+=== search-pos-absolute
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+add_history "ls"
+using_history
+history_search_pos "make" -1 1
+where_history
+history_search_pos "make" 1 1
+where_history
+history_search_pos "make" -1 3
+history_search_pos "status" 1 2
+where_history
+
+=== search-pos-out-of-range
+--- script
+add_history "abc"
+using_history
+history_search_pos "abc" -1 5
+history_search_pos "abc" 1 -3
+where_history
+
+=== search-pos-at-length-backward
+--- script
+add_history "x1"
+add_history "x2"
+history_set_pos 0
+history_search_pos "x" -1 2
+where_history
+
+=== search-ignores-history-base
+--- script
+set history_base 100
+add_history "alpha"
+add_history "beta"
+history_search_pos "alpha" 1 0
+history_search_pos "beta" 1 1
+
+=== multibyte-search
+--- script
+add_history "grüße welt"
+using_history
+history_search "ße" -1
+history_search "welt" -1
+history_search_prefix "grü" -1
+
+=== search-in-multiline-entry
+--- script
+add_history "first\nsecond"
+using_history
+history_search "second" -1
+history_search_prefix "second" -1
+
+=== search-delimiter-chars-variable
+--- script
+get history_search_delimiter_chars
+set history_search_delimiter_chars ";&"
+get history_search_delimiter_chars
+
+=== noninc-search-ignore-case
+tags: readline
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "Make All"
+add_history "ls"
+readline "> "
+--- keys
+\M-pmake\r<dump>\r
+
+=== noninc-search-case-sensitive
+tags: readline
+--- script
+add_history "Make All"
+add_history "make it"
+add_history "ls"
+readline "> "
+--- keys
+\M-pMake\r<dump>\r
+
+=== noninc-search-anchored
+tags: readline
+--- script
+add_history "xmake"
+add_history "make it"
+add_history "ls"
+readline "> "
+--- keys
+\M-p^make\r<dump>\r
+
+=== noninc-search-anchored-ignore-case
+tags: readline
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "MAKE it"
+add_history "x make"
+readline "> "
+--- keys
+\M-p^make\r<dump>\r
+
+=== noninc-search-forward-ignore-case
+tags: readline
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "Alpha"
+add_history "beta"
+add_history "ALPHA two"
+readline "> "
+--- keys
+\M-palpha\r<dump>\M-p\r<dump>\M-nalpha\r<dump>\r
+
+=== vi-search-pattern
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "make all"
+add_history "git status"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>/m*all\r<dump>\r
+
+=== vi-search-pattern-anchored
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "x git"
+add_history "git status"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>/^g?t\r<dump>\r
+
+=== vi-search-pattern-trailing-backslash
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "a\\"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>/a\\\r<dump>\r
+
+=== vi-search-pattern-escaped-backslash
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "a\\b"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>/a\\\\\r<dump>\r
+
+=== vi-search-pattern-star-prefix
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "foo.c bar"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>/*.c\r<dump>\r
+
+=== noninc-search-ignore-case-byte-locale
+tags: readline
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "Make All"
+add_history "MAKE x"
+add_history "ls"
+readline "> "
+--- keys
+\M-p^make\r<dump>\M-pall\r<dump>\r
+
+=== vi-search-pattern-forward
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "make all"
+add_history "git status"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>kkk?l*s\r<dump>\r

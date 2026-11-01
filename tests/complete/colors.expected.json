@@ -1,0 +1,484 @@
+{
+  "default-colors-without-ls-colors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K         \u001b[01;36morphan\u001b[0m\u001b[K       archive.tar\u001b[0m\u001b[K  \u001b[01;34mdir\u001b[0m\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "empty-ls-colors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K         \u001b[01;36morphan\u001b[0m\u001b[K       archive.tar\u001b[0m\u001b[K  \u001b[01;34mdir\u001b[0m\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "basic-file-types": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[00mplain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K         \u001b[31morphan\u001b[0m\u001b[K       \u001b[00marchive.tar\u001b[0m\u001b[K  \u001b[01;34mdir\u001b[0m\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "extensions": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[35mplain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K         \u001b[01;36morphan\u001b[0m\u001b[K       \u001b[01;31marchive.tar\u001b[0m\u001b[K  \u001b[01;34mdir\u001b[0m\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "extension-later-overrides-earlier": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[36mplain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K         \u001b[01;36morphan\u001b[0m\u001b[K       archive.tar\u001b[0m\u001b[K  \u001b[01;34mdir\u001b[0m\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "extension-only-for-regular-files": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K         \u001b[01;36morphan\u001b[0m\u001b[K       archive.tar\u001b[0m\u001b[K  \u001b[01;34mdir\u001b[0m\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "normal-color": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[02mplain.txt\u001b[0m\u001b[K    \u001b[02m\u001b[m\u001b[01;32mrun.sh\u001b[0m\u001b[K       \u001b[02m\u001b[m\u001b[01;36mlink\u001b[0m\u001b[K         \u001b[02m\u001b[m\u001b[01;36morphan\u001b[0m\u001b[K       \u001b[02marchive.tar\u001b[0m\u001b[K  \u001b[02m\u001b[m\u001b[34mdir\u001b[0m\u001b[K/         \u001b[02m\u001b[m\u001b[01;36mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "end-color-indicator": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[0m\u001b[K\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K\u001b[K       \u001b[01;36mlink\u001b[0m\u001b[K\u001b[K         \u001b[01;36morphan\u001b[0m\u001b[K\u001b[K       archive.tar\u001b[0m\u001b[K\u001b[K  \u001b[34mdir\u001b[0m\u001b[K\u001b[K/         \u001b[01;36mdlink\u001b[0m\u001b[K\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "left-right-indicators": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt<0>\u001b[K    <exe>run.sh<0>\u001b[K       <01;36>link<0>\u001b[K         <01;36>orphan<0>\u001b[K       archive.tar<0>\u001b[K  <dir>dir<0>\u001b[K/         <01;36>dlink<0>\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "reset-indicator": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[7m\u001b[K    \u001b[01;32mrun.sh\u001b[7m\u001b[K       \u001b[01;36mlink\u001b[7m\u001b[K         \u001b[01;36morphan\u001b[7m\u001b[K       archive.tar\u001b[7m\u001b[K  \u001b[34mdir\u001b[7m\u001b[K/         \u001b[01;36mdlink\u001b[7m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "link-target-coloring": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[0m\u001b[K    \u001b[01;32mrun.sh\u001b[0m\u001b[K       link\u001b[0m\u001b[K         \u001b[targetmorphan\u001b[0m\u001b[K       archive.tar\u001b[0m\u001b[K  \u001b[34mdir\u001b[0m\u001b[K/         \u001b[34mdlink\u001b[0m\u001b[K/       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "orphan-and-missing": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[31morphan\u001b[0m\u001b[K        \u001b[05mmissing-file\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "missing-without-mi": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "missing-file\u001b[0m\u001b[K  \u001b[31morphan\u001b[0m\u001b[K        "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "orphan-without-or": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[36morphan\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "special-modes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[41msu\u001b[0m\u001b[K  \u001b[43mst\u001b[0m\u001b[K/ \u001b[44mow\u001b[0m\u001b[K/ \u001b[45mtw\u001b[0m\u001b[K/ "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "special-modes-uncolored": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[32mrun.sh\u001b[0m\u001b[K  \u001b[34mtw\u001b[0m\u001b[K/     "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "multi-hardlink": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[44mplain.txt\u001b[0m\u001b[K    \u001b[44mhard\u001b[0m\u001b[K         \u001b[0marchive.tar\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "fifo-and-socket": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[33mpipe\u001b[0m\u001b[K  \u001b[35msock\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "char-device": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[01;33mnull\u001b[0m\u001b[K       "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "directory-path-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[35minner.txt\u001b[0m\u001b[K      \u001b[34msub\u001b[0m\u001b[K/           "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "visible-stats-with-colors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "plain.txt\u001b[0m\u001b[K    \u001b[32mrun.sh\u001b[0m\u001b[K*      \u001b[36mlink\u001b[0m\u001b[K@        \u001b[36morphan\u001b[0m\u001b[K@      archive.tar\u001b[0m\u001b[K  \u001b[34mdir\u001b[0m\u001b[K/         \u001b[36mdlink\u001b[0m\u001b[K@       "}
+    ],
+    "screen": [],
+    "cursor": [3, 0]
+  },
+  "not-filename-completion": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[34mdir\u001b[0m\u001b[K        plain.txt\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "escapes-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[\u001b[1m\u0007\b\f\n\r\t\u000b\u007f xmdir\u001b[0m\u001b[K/    \u001b[ABJmrun.sh\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "escapes-caret": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[\u001b[1mmdir\u001b[0m\u001b[K/    \u001b[\u007f?\u0000mrun.sh\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "escapes-octal-hex-terminated": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[\u001bxmdir\u001b[0m\u001b[K/    \u001b[\u001bzmrun.sh\u001b[0m\u001b[K  \u001b[\u0000mlink\u001b[0m\u001b[K    "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "extension-with-escape": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[35mplain.txt\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "unknown-prefix-recovers": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[34mdir\u001b[0m\u001b[K/ "}
+    ],
+    "screen": [
+      "readline: LS_COLORS: unrecognized prefix: xx"
+    ],
+    "cursor": [3, 0]
+  },
+  "unknown-prefix-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[34mdir\u001b[0m\u001b[K/ "}
+    ],
+    "screen": [
+      "readline: LS_COLORS: unrecognized prefix: zz"
+    ],
+    "cursor": [3, 0]
+  },
+  "error-single-char-label": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED"]},
+      {"op": "rl_variable_value \"colored-stats\"", "ret": "off"},
+      {"op": "capture", "out": "dir/ "}
+    ],
+    "screen": [
+      "readline: unparsable value for LS_COLORS environment variable"
+    ],
+    "cursor": [3, 0]
+  },
+  "error-missing-equals": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"colored-stats\"", "ret": "off"}
+    ],
+    "screen": [
+      "readline: unparsable value for LS_COLORS environment variable"
+    ],
+    "cursor": [1, 0]
+  },
+  "error-extension-missing-equals": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"colored-stats\"", "ret": "off"}
+    ],
+    "screen": [
+      "readline: LS_COLORS: syntax error: .txtt",
+      "readline: unparsable value for LS_COLORS environment variable"
+    ],
+    "cursor": [2, 0]
+  },
+  "error-bad-caret": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"colored-stats\"", "ret": "on"}
+    ],
+    "screen": [
+      "readline: LS_COLORS: unrecognized prefix: di"
+    ],
+    "cursor": [1, 0]
+  },
+  "error-trailing-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"colored-stats\"", "ret": "on"}
+    ],
+    "screen": [
+      "readline: LS_COLORS: unrecognized prefix: di"
+    ],
+    "cursor": [1, 0]
+  },
+  "error-disables-colored-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"colored-completion-prefix\"", "ret": "off"}
+    ],
+    "screen": [
+      "readline: LS_COLORS: syntax error: .xx",
+      "readline: unparsable value for LS_COLORS environment variable"
+    ],
+    "cursor": [2, 0]
+  },
+  "parse-only-when-enabled": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"colored-stats\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "reparse-colors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[34mdir\u001b[0m\u001b[K/ "},
+      {"op": "capture", "out": "\u001b[35mdir\u001b[0m\u001b[K/ "},
+      {"op": "capture", "out": "\u001b[35mdir\u001b[0m\u001b[K/ "}
+    ],
+    "screen": [],
+    "cursor": [6, 0]
+  },
+  "reparse-colors-no-change": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[01;34mdir\u001b[0m\u001b[K/ "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-default": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[01;35mpl\u001b[0m\u001b[Kain.txt  \u001b[01;35mpl\u001b[0m\u001b[Kan       "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-custom": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[01;32mpl\u001b[0m\u001b[Kain.txt  \u001b[01;32mpl\u001b[0m\u001b[Kan       "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-with-stats": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[01;35mpl\u001b[0m\u001b[K\u001b[35main.txt\u001b[0m\u001b[K  \u001b[01;35mpl\u001b[0m\u001b[Kan\u001b[0m\u001b[K       "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-words": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[33mab\u001b[0m\u001b[Kc  \u001b[33mab\u001b[0m\u001b[Kd  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-with-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[33mpl\u001b[0m\u001b[Kain1      \u001b[33mpl\u001b[0m\u001b[Kain2      "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-no-prefix-color": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[mab\u001b[0m\u001b[Kc  \u001b[mab\u001b[0m\u001b[Kd  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-normal-color": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[02m\u001b[m\u001b[33mab\u001b[0m\u001b[Kc  \u001b[02m\u001b[m\u001b[33mab\u001b[0m\u001b[Kd  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-with-display-length": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "...X  ...Y  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-prefix-longer-than-max": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "ab  ac  "}
+    ],
+    "screen": [],
+    "cursor": [2, 0]
+  },
+  "colored-listing-in-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "archive.tar  dlink/       orphan       run.sh",
+      "dir/         link         plain.txt",
+      ">"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "archive.tar  dlink/       orphan       run.sh",
+          "dir/         link         plain.txt",
+          ">"
+        ],
+        "cursor": [3, 2]
+      }
+    ]
+  },
+  "colored-prefix-in-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> ap"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  }
+}

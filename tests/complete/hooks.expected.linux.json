@@ -1,0 +1,24 @@
+{
+  "username-generator": {
+    "exit": 0,
+    "results": [
+      {"op": "gen username \"~nosuchuser_lineread\"", "ret": []},
+      {"op": "gen username \"nosuchuser_lineread\"", "ret": []},
+      {"op": "gen username \"~roo\"", "ret": ["~root"]},
+      {"op": "gen username \"roo\"", "ret": ["root"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "username-generator-sets-filename-desired": {
+    "exit": 0,
+    "results": [
+      {"op": "gen username \"~roo\"", "ret": ["~root"]},
+      {"op": "get rl_filename_completion_desired", "ret": 1},
+      {"op": "gen username \"roo\"", "ret": ["root"]},
+      {"op": "get rl_filename_completion_desired", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

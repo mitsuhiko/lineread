@@ -1,0 +1,453 @@
+{
+  "bang-bang-empty-history": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!\"", "ret": -1, "out": "!!: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bang-bang-alone": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!\"", "ret": 1, "out": "echo one"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bang-bang-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!!!\"", "ret": 1, "out": "xx"},
+      {"op": "history_expand \"!! !!\"", "ret": 1, "out": "x x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bang-bang-adjacent-text": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"a!!b\"", "ret": 1, "out": "alsb"},
+      {"op": "history_expand \"!!-l\"", "ret": 1, "out": "l"},
+      {"op": "history_expand \"!!.txt\"", "ret": 1, "out": "ls.txt"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bang-bang-in-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"echo !! done\"", "ret": 1, "out": "echo prev done"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bang-bang-then-word-designator": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:1\"", "ret": 1, "out": "a"},
+      {"op": "history_expand \"!!$\"", "ret": 1, "out": "b"},
+      {"op": "history_expand \"!!^\"", "ret": 1, "out": "a"},
+      {"op": "history_expand \"!!*\"", "ret": 1, "out": "a b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-absolute": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!1\"", "ret": 1, "out": "first"},
+      {"op": "history_expand \"!2\"", "ret": 1, "out": "second"},
+      {"op": "history_expand \"!3\"", "ret": 1, "out": "third"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!0\"", "ret": -1, "out": "!0: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!2\"", "ret": -1, "out": "!2: event not found"},
+      {"op": "history_expand \"!100\"", "ret": -1, "out": "!100: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-with-history-base": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!10\"", "ret": 1, "out": "first"},
+      {"op": "history_expand \"!11\"", "ret": 1, "out": "second"},
+      {"op": "history_expand \"!1\"", "ret": -1, "out": "!1: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-after-stifle": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!1\"", "ret": -1, "out": "!1: event not found"},
+      {"op": "history_expand \"!2\"", "ret": 1, "out": "b"},
+      {"op": "history_expand \"!3\"", "ret": 1, "out": "c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-followed-by-text": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!1x\"", "ret": 1, "out": "firstx"},
+      {"op": "history_expand \"!1:0\"", "ret": 1, "out": "first"},
+      {"op": "history_expand \"!1 rest\"", "ret": 1, "out": "first rest"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "number-leading-zeros": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!002\"", "ret": 1, "out": "second"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "negative-number": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!-1\"", "ret": 1, "out": "c"},
+      {"op": "history_expand \"!-2\"", "ret": 1, "out": "b"},
+      {"op": "history_expand \"!-3\"", "ret": 1, "out": "a"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "negative-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!-2\"", "ret": -1, "out": "!-2: event not found"},
+      {"op": "history_expand \"!-0\"", "ret": -1, "out": "!-0: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "negative-with-base": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!-1\"", "ret": 1, "out": "b"},
+      {"op": "history_expand \"!-2\"", "ret": 1, "out": "a"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "minus-without-digit-is-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!-x\"", "ret": 1, "out": "-x flag"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make\"", "ret": 1, "out": "make test"},
+      {"op": "history_expand \"!git\"", "ret": 1, "out": "git status"},
+      {"op": "history_expand \"!m\"", "ret": 1, "out": "make test"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-not-substring": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make\"", "ret": -1, "out": "!make: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-uses-history-offset": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make\"", "ret": 1, "out": "make one"},
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "history_expand \"!make\"", "ret": 1, "out": "make two"},
+      {"op": "history_expand \"!make\"", "ret": 1, "out": "make two"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-restores-offset": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make\"", "ret": 1, "out": "make one"},
+      {"op": "where_history", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-stops-at-colon": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make:1\"", "ret": 1, "out": "all"},
+      {"op": "history_expand \"!ma:$\"", "ret": 1, "out": "install"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-stops-at-whitespace": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make rest\"", "ret": 1, "out": "make all rest"},
+      {"op": "history_expand \"!make\\trest\"", "ret": 1, "out": "make all\trest"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-stops-at-event-delimiters": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make$\"", "ret": 1, "out": "all"},
+      {"op": "history_expand \"!make^\"", "ret": 1, "out": "all"},
+      {"op": "history_expand \"!make*\"", "ret": 1, "out": "all"},
+      {"op": "history_expand \"!make%\"", "ret": 1, "out": ""},
+      {"op": "history_expand \"!make-x\"", "ret": 1, "out": "makex"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-includes-other-punctuation": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!a.b\"", "ret": 1, "out": "a.b c"},
+      {"op": "history_expand \"!a.b:1\"", "ret": 1, "out": "c"},
+      {"op": "history_expand \"!a/\"", "ret": -1, "out": "!a/: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-delimiter-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!make;rest\"", "ret": -1, "out": "!make;rest: event not found"},
+      {"op": "history_expand \"!make;rest\"", "ret": 1, "out": "make all;rest"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-not-found": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!xyz\"", "ret": -1, "out": "!xyz: event not found"},
+      {"op": "history_expand \"!xyz rest\"", "ret": -1, "out": "!xyz: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-search-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!üb\"", "ret": 1, "out": "über alles"},
+      {"op": "history_expand \"!über:1\"", "ret": 1, "out": "alles"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?commit?\"", "ret": 1, "out": "git commit -m fix"},
+      {"op": "history_expand \"!?mit\"", "ret": 1, "out": "git commit -m fix"},
+      {"op": "history_expand \"!?ls?\"", "ret": 1, "out": "ls"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-trailing-text": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?comm? more\"", "ret": 1, "out": "git commit more"},
+      {"op": "history_expand \"!?comm?:0\"", "ret": 1, "out": "git"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-without-closing-includes-rest": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?b c\"", "ret": 1, "out": "a b c"},
+      {"op": "history_expand \"!?b x\"", "ret": -1, "out": "!?b x: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-stops-at-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?b\\nnext\"", "ret": 1, "out": "abc\nnext"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-empty-reuses-last": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!??\"", "ret": -1, "out": "!??: event not found"},
+      {"op": "history_expand \"!?beta?\"", "ret": 1, "out": "alpha beta"},
+      {"op": "history_expand \"!??\"", "ret": 1, "out": "alpha beta"},
+      {"op": "history_expand \"!?\"", "ret": 1, "out": "alpha beta"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-percent-word": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?urce?\"", "ret": 1, "out": "cp source.c dest.c"},
+      {"op": "history_expand \"!?urce?%\"", "ret": 1, "out": "source.c"},
+      {"op": "history_expand \"!%\"", "ret": 1, "out": "source.c"},
+      {"op": "history_expand \"!:%\"", "ret": 1, "out": "source.c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-percent-before-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!%\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-percent-whitespace-match": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?a b?%\"", "ret": 1, "out": "a"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-not-found": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?zzz?\"", "ret": -1, "out": "!?zzz?: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!?öß?\"", "ret": 1, "out": "größe x"},
+      {"op": "history_expand \"!?öß?%\"", "ret": 1, "out": "größe"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "current-line-hash": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"a b !#\"", "ret": 1, "out": "a b a b "},
+      {"op": "history_expand \"!#\"", "ret": 1, "out": ""},
+      {"op": "history_expand \"x !# !#\"", "ret": 1, "out": "x x  x x  "}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "current-line-hash-word": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"cp file.txt !#:1\"", "ret": 1, "out": "cp file.txt file.txt"},
+      {"op": "history_expand \"mv a !#:1:r.bak\"", "ret": 1, "out": "mv a a.bak"},
+      {"op": "history_expand \"one two !#:$\"", "ret": 1, "out": "one two two"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "current-line-hash-bad-word": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"a !#:5\"", "ret": -1, "out": ":5: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "implied-previous-event": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!:1\"", "ret": 1, "out": "xf"},
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "archive.tar"},
+      {"op": "history_expand \"!^\"", "ret": 1, "out": "xf"},
+      {"op": "history_expand \"!*\"", "ret": 1, "out": "xf archive.tar"},
+      {"op": "history_expand \"!%\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-event-direct": {
+    "exit": 0,
+    "results": [
+      {"op": "get_history_event \"!!\" 0", "ret": "ls -l", "index": 2},
+      {"op": "get_history_event \"x !! y\" 2", "ret": "ls -l", "index": 4},
+      {"op": "get_history_event \"!1\" 0", "ret": "echo hello", "index": 2},
+      {"op": "get_history_event \"!-1\" 0", "ret": "ls -l", "index": 3},
+      {"op": "get_history_event \"!ec\" 0", "ret": "echo hello", "index": 3},
+      {"op": "get_history_event \"!?ll\" 0", "ret": "echo hello", "index": 4},
+      {"op": "get_history_event \"!?ell? y\" 0", "ret": "echo hello", "index": 6}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-event-not-at-bang": {
+    "exit": 0,
+    "results": [
+      {"op": "get_history_event \"abc\" 0", "ret": null, "index": 0},
+      {"op": "get_history_event \"a!!\" 0", "ret": null, "index": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-event-delimiting-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "get_history_event \"!ec\\\"rest\" 0 \"\\\"\"", "ret": "echo hello", "index": 3},
+      {"op": "get_history_event \"!ec\\\"rest\" 0", "ret": null, "index": 8},
+      {"op": "get_history_event \"!ec'rest\" 0 \"'\"", "ret": "echo hello", "index": 3}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-event-not-found-index": {
+    "exit": 0,
+    "results": [
+      {"op": "get_history_event \"!zz rest\" 0", "ret": null, "index": 3},
+      {"op": "get_history_event \"!5 rest\" 0", "ret": null, "index": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-event-empty-search": {
+    "exit": 0,
+    "results": [
+      {"op": "get_history_event \"!\" 0", "ret": null, "index": 1},
+      {"op": "get_history_event \"! x\" 0", "ret": null, "index": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substring-search-percent-match-on-space": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!? b?\"", "ret": 1, "out": "a b"},
+      {"op": "history_expand \"!? b?%\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

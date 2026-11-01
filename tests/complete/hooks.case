@@ -1,0 +1,788 @@
+# Completion hooks and application variables (readline.h): attempted
+# completion function, entry function, ignore function, display hook,
+# word break hook/characters, quote characters, special prefixes, append
+# character, suppress append/quote, completion type, invoking key,
+# found quote, quote character, mark symlink dirs, rl_completion_mode,
+# rl_complete_internal, export-completions, username completion.
+tags: complete hooks
+
+=== attempted-function-args-and-type
+--- script
+def show
+args
+get rl_completion_type
+get rl_completion_invoking_key
+get rl_completion_found_quote
+get rl_completion_quote_character
+get rl_filename_completion_desired
+get rl_filename_quoting_desired
+get rl_completion_append_character
+get rl_completion_suppress_append
+get rl_completion_mark_symlink_dirs
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+abc de\t\r
+
+=== completion-type-per-command
+--- script
+def show
+get rl_completion_type
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+zz\t\t\M-?\M-*\r
+
+=== completion-type-show-all
+--- inputrc
+set show-all-if-ambiguous on
+--- script
+def show
+get rl_completion_type
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+zz\t\r
+
+=== completion-type-show-unmodified
+--- inputrc
+set show-all-if-unmodified on
+--- script
+def show
+get rl_completion_type
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+zz\t\r
+
+=== completion-type-menu
+--- inputrc
+"\C-t": menu-complete
+"\C-o": old-menu-complete
+--- script
+def show
+get rl_completion_type
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+zz\C-t\C-o\r
+
+=== invoking-key-custom-binding
+--- inputrc
+"\C-t": complete
+"\ez": possible-completions
+"\C-y": insert-completions
+--- script
+def show
+get rl_completion_invoking_key
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+zz\C-t\ez\C-y\r
+
+=== found-quote-flags
+--- script
+def show
+get rl_completion_found_quote
+get rl_completion_quote_character
+args
+return NULL
+end
+set rl_completer_quote_characters "\"'`"
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+"ab\t\C-a\C-k'cd\t\C-a\C-k`ef\t\C-a\C-ka\\ b\t\C-a\C-k"x" y\t\r
+
+=== found-quote-reset-after-completion
+--- script
+def show
+return NULL
+end
+set rl_completer_quote_characters "\""
+set rl_attempted_completion_function script:show
+readline "> "
+get rl_completion_found_quote
+get rl_completion_quote_character
+--- keys
+"ab\t\r
+
+=== single-quote-ignores-backslash
+--- script
+def show
+args
+get rl_completion_quote_character
+return NULL
+end
+set rl_completer_quote_characters "'\""
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+'a\\'b\t\r
+
+=== closed-quote-not-open
+--- script
+def show
+args
+get rl_completion_quote_character
+return NULL
+end
+set rl_completer_quote_characters "\""
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+"ab" cd\t\r
+
+=== words-with-quotes-completed
+--- script
+complete_words "hello world" "hello there"
+set rl_completer_quote_characters "\""
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+"hello w\t<dump>\r
+
+=== attempted-returns-filename-generator
+--- file alpha.txt
+--- script
+def gen
+return filename
+end
+set rl_attempted_completion_function script:gen
+readline "> "
+--- keys
+alp\t<dump>\r
+
+=== attempted-completion-over-no-matches
+--- file alpha.txt
+--- script
+def over
+set rl_attempted_completion_over 1
+return NULL
+end
+set rl_attempted_completion_function script:over
+readline "> "
+get rl_attempted_completion_over
+--- keys
+alp\t<dump>\r
+
+=== attempted-completion-over-reset
+--- file alpha.txt
+--- script
+def over
+set rl_attempted_completion_over 1
+return NULL
+end
+set rl_attempted_completion_function script:over
+readline "> "
+set rl_attempted_completion_function NULL
+readline "> "
+--- keys
+alp\t\ralp\t\r
+
+=== completion-entry-function-words
+--- script
+complete_words apple apricot banana
+set rl_completion_entry_function words
+readline "> "
+--- keys
+ap\t<dump>\M-?<snap>\r
+
+=== completion-entry-function-empty
+--- file alpha.txt
+--- script
+set rl_completion_entry_function empty
+readline "> "
+--- keys
+alp\t<dump>\r
+
+=== completion-entry-function-username
+--- script
+set rl_completion_entry_function username
+readline "> "
+--- keys
+~nosuchuser_lineread\t<dump>\r
+
+=== username-generator
+# the password database differs: macOS lists root twice (see the
+# .expected.linux.json for Linux)
+--- script
+gen username "~nosuchuser_lineread"
+gen username "nosuchuser_lineread"
+gen username "~roo"
+gen username "roo"
+
+=== username-generator-sets-filename-desired
+--- script
+set rl_filename_completion_desired 0
+gen username "~roo"
+get rl_filename_completion_desired
+set rl_filename_completion_desired 0
+gen username "roo"
+get rl_filename_completion_desired
+
+=== append-character-custom
+--- script
+def app
+set rl_completion_append_character ":"
+end
+complete_words alpha
+set rl_attempted_completion_function script:app
+readline "> "
+--- keys
+al\t<dump>\r
+
+=== append-character-nul
+--- script
+def app
+set rl_completion_append_character 0
+end
+complete_words alpha
+set rl_attempted_completion_function script:app
+readline "> "
+--- keys
+al\t<dump>\r
+
+=== append-not-at-end-of-line
+--- script
+complete_words alpha
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+al rest\C-a\C-f\C-f\t<dump>\r
+
+=== append-reset-per-completion
+--- script
+def app
+set rl_completion_append_character ":"
+set rl_attempted_completion_function words
+end
+complete_words alpha beta
+set rl_attempted_completion_function script:app
+readline "> "
+--- keys
+al\t be\t<dump>\r
+
+=== delimiter-quote-break
+# a basic quote character that breaks the word is appended as delimiter
+--- script
+complete_words alpha
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+x "al\t<dump>\r
+
+=== special-prefixes-kept
+--- script
+def show
+args
+return NULL
+end
+set rl_special_prefixes "$@"
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+echo $HO\t\r
+
+=== special-prefixes-unset
+--- script
+def show
+args
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+echo $HO\t\r
+
+=== word-break-characters-default
+--- script
+def show
+args
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+a=b;c|d>e(f{g@h\t\r
+
+=== word-break-characters-custom
+--- script
+def show
+args
+return NULL
+end
+set rl_completer_word_break_characters ":"
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+a b:c d\t\r
+
+=== word-break-characters-empty
+--- script
+def show
+args
+return NULL
+end
+set rl_completer_word_break_characters ""
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+a b c\t\r
+
+=== word-break-hook
+--- script
+def brk
+return ":"
+end
+def show
+args
+return NULL
+end
+set rl_completion_word_break_hook script:brk
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+a b:cd\t\r
+
+=== word-break-hook-null-uses-default
+--- script
+def show
+args
+return NULL
+end
+set rl_completion_word_break_hook log
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+a b:cd\t\r
+
+=== word-at-start-of-line
+--- script
+def show
+args
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+abc\t\C-a\t\r
+
+=== word-in-middle-of-line
+--- script
+def show
+args
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+one two three\C-a\ef\ef\C-b\C-b\t\r
+
+=== char-is-quoted-with-quote-chars
+--- script
+def show
+args
+return NULL
+end
+set rl_completer_quote_characters "\""
+set rl_char_is_quoted_p backslash
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+"x" a\\ b\t\r
+
+=== mark-symlink-dirs-set-by-application
+--- symlink link subdir
+--- dir subdir
+--- script
+def mark
+set rl_completion_mark_symlink_dirs 1
+return NULL
+end
+set rl_attempted_completion_function script:mark
+readline "> "
+--- keys
+lin\t<dump>\r
+
+=== mark-symlink-dirs-default-from-variable
+--- inputrc
+set mark-symlinked-directories on
+--- symlink link subdir
+--- dir subdir
+--- script
+def show
+get rl_completion_mark_symlink_dirs
+return NULL
+end
+set rl_attempted_completion_function script:show
+readline "> "
+--- keys
+lin\t\r
+
+=== filename-completion-desired-for-words
+# matches from a custom generator are treated as filenames when the
+# application sets rl_filename_completion_desired
+--- dir somedir
+--- script
+def fn
+set rl_filename_completion_desired 1
+set rl_attempted_completion_function NULL
+end
+complete_words somedir
+set rl_completion_entry_function words
+set rl_attempted_completion_function script:fn
+readline "> "
+--- keys
+som\t<dump>\r
+
+=== full-quoting-desired-variable
+--- script
+def fq
+set rl_full_quoting_desired 1
+get rl_full_quoting_desired
+return NULL
+end
+set rl_attempted_completion_function script:fq
+readline "> "
+get rl_full_quoting_desired
+--- keys
+x\t\r
+
+=== ignore-some-completions-filenames
+--- file foo.c
+--- file foo.o
+--- file foo.h
+--- script
+ignore_words foo.o
+set rl_ignore_some_completions_function ignore_words
+readline "> "
+--- keys
+foo\t\t<snap>\r
+
+=== ignore-some-completions-log
+--- file foo.c
+--- file foo.o
+--- script
+set rl_ignore_some_completions_function log
+readline "> "
+--- keys
+foo\t\r
+
+=== ignore-some-completions-leaves-one
+--- file foo.c
+--- file foo.o
+--- script
+ignore_words foo.o
+set rl_ignore_some_completions_function ignore_words
+readline "> "
+--- keys
+fo\t<dump>\r
+
+=== ignore-some-completions-removes-all
+--- file foo.o
+--- script
+ignore_words foo.o
+set rl_ignore_some_completions_function ignore_words
+readline "> "
+--- keys
+fo\t<dump>\r
+
+=== ignore-some-completions-not-for-words
+--- script
+complete_words foo.c foo.o
+ignore_words foo.o
+set rl_attempted_completion_function words
+set rl_ignore_some_completions_function log
+readline "> "
+--- keys
+foo\t\r
+
+=== display-matches-hook-args
+--- script
+complete_words red green blue brown
+set rl_attempted_completion_function words
+set rl_completion_display_matches_hook log
+readline "> "
+--- keys
+b\t\t<snap>\r
+
+=== display-matches-hook-not-for-single
+--- script
+complete_words red
+set rl_attempted_completion_function words
+set rl_completion_display_matches_hook log
+readline "> "
+--- keys
+r\M-?<snap>\r
+
+=== display-matches-hook-custom-output
+--- script
+def show
+rl_crlf
+echo shown
+capture display_match_list
+rl_on_new_line
+end
+complete_words red green blue brown
+set rl_attempted_completion_function words
+set rl_completion_display_matches_hook script:show
+readline "> "
+--- keys
+b\M-?<snap>\r
+
+=== display-match-list-api
+--- script
+rl_initialize
+capture display_match_list "b" "blue" "brown" "black"
+capture display_match_list "" "a" "bb" "ccc"
+capture display_match_list "x" "x"
+
+=== display-match-list-api-filenames
+--- file dir/one
+--- dir dir/two
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "dir/" "dir/one" "dir/two"
+
+=== display-match-list-api-visible-stats
+--- file dir/one
+--- dir dir/two
+--- symlink dir/three one
+--- file dir/four mode=0755
+--- inputrc
+set visible-stats on
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "dir/" "dir/one" "dir/two" "dir/three" "dir/four"
+capture display_match_list "" "/" "dir/" "dir/two/"
+
+=== display-match-list-root-paths
+--- inputrc
+set visible-stats on
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "/" "/dev" "/usr"
+capture display_match_list "//" "//dev"
+
+=== completion-mode-values
+--- script
+def mode
+rl_completion_mode complete
+rl_completion_mode menu-complete
+end
+defun show-mode mode "\C-t"
+readline "> "
+--- keys
+\C-t\t\C-t\r
+
+=== completion-mode-show-all
+--- inputrc
+set show-all-if-ambiguous on
+--- script
+def mode
+rl_completion_mode complete
+end
+defun show-mode mode "\C-t"
+readline "> "
+--- keys
+\C-t\r
+
+=== completion-mode-show-unmodified
+--- inputrc
+set show-all-if-unmodified on
+--- script
+def mode
+rl_completion_mode complete
+end
+defun show-mode mode "\C-t"
+readline "> "
+--- keys
+\C-t\r
+
+=== complete-internal-what-to-do
+--- script
+def doit
+rl_complete_internal "!"
+end
+def doit2
+rl_complete_internal "@"
+end
+def doit3
+rl_complete_internal "|"
+end
+complete_words apple apricot
+set rl_attempted_completion_function words
+defun do-bang doit "\C-t"
+defun do-at doit2 "\C-y"
+defun do-bar doit3 "\C-o"
+readline "> "
+--- keys
+a\C-t<snap><dump>\C-u\C-yap\C-y<snap>\C-o<snap>\r
+
+=== complete-internal-bang-unique
+--- script
+def doit
+rl_complete_internal "!"
+end
+complete_words apple apricot
+set rl_attempted_completion_function words
+defun do-bang doit "\C-t"
+readline "> "
+--- keys
+app\C-t<dump>\r
+
+=== complete-internal-at-partial
+--- script
+def doit
+rl_complete_internal "@"
+end
+complete_words apple apricot
+set rl_attempted_completion_function words
+defun do-at doit "\C-t"
+readline "> "
+--- keys
+a\C-t<snap><dump>\r
+
+=== complete-internal-bad-value
+--- script
+def doit
+rl_complete_internal "x"
+end
+complete_words apple apricot
+set rl_attempted_completion_function words
+defun do-bad doit "\C-t"
+readline "> "
+--- keys
+a\C-t<snap>\r
+
+=== export-completions
+--- inputrc
+"\C-t": export-completions
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+x ap\C-t<snap>\r
+
+=== export-completions-no-match
+--- inputrc
+"\C-t": export-completions
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+x zz\C-t<snap>\r
+
+=== export-completions-clears-line-with-count
+--- inputrc
+"\C-t": export-completions
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+x ap\e2\C-t<snap><dump>\r
+
+=== export-completions-api
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+rl_initialize
+rl_insert_text "ap"
+capture rl_export_completions 1 0
+
+=== completion-matches-api
+--- script
+complete_words abc abd abd xyz
+rl_completion_matches "ab" words
+rl_completion_matches "" words
+rl_completion_matches "xyz" words
+rl_completion_matches "q" empty
+
+=== completion-matches-many
+--- script
+complete_words m01 m02 m03 m04 m05 m06 m07 m08 m09 m10 m11 m12 m13 m14 m15 m16 m17 m18 m19 m20 m21 m22 m23 m24 m25
+rl_completion_matches "m" words
+rl_completion_matches "m1" words
+
+=== completion-matches-case-fold-lcd
+--- inputrc
+set completion-ignore-case on
+--- script
+rl_initialize
+complete_words -i Apple APPLY apPlication
+rl_completion_matches "app" words
+rl_completion_matches "APP" words
+rl_completion_matches "xpp" words
+
+=== completion-matches-case-fold-multibyte
+--- inputrc
+set completion-ignore-case on
+--- script
+rl_initialize
+complete_words -i "Äpfel" "äpfelchen"
+rl_completion_matches "äp" words
+
+=== completion-matches-invalid-utf8
+--- script
+rl_initialize
+complete_words "a\xffb" "a\xffc"
+rl_completion_matches "a" words
+
+=== completion-matches-no-common-prefix
+--- script
+complete_words xa ya
+rl_completion_matches "" words
+complete_words -i Xa xb
+rl_completion_matches "x" words
+
+=== complete-in-callback-mode
+tags: callback
+--- script
+complete_words apple apricot avocado
+set rl_attempted_completion_function words
+callback "> "
+--- keys
+ap\t\t<snap>\r
+
+=== complete-in-callback-query
+tags: callback
+--- inputrc
+set completion-query-items 2
+--- script
+complete_words apple apricot avocado
+set rl_attempted_completion_function words
+callback "> "
+--- keys
+a\t\t<snap>\r
+
+=== completion-type-is-zero-outside
+--- script
+get rl_completion_type
+get rl_completion_append_character
+get rl_completion_suppress_append
+get rl_completion_query_items
+get rl_sort_completion_matches
+get rl_ignore_completion_duplicates
+get rl_filename_completion_desired
+get rl_filename_quoting_desired
+get rl_inhibit_completion
+get rl_completion_mark_symlink_dirs

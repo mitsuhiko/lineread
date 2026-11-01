@@ -34,6 +34,9 @@
 #include <sys/ioctl.h>
 #include <sys/select.h>
 #include <sys/stat.h>
+#include <termios.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
@@ -1935,6 +1938,15 @@ static void c_call(cmd_t *c) {
   run_block(b);
 }
 
+/* repeat N BLOCK: run BLOCK N times (e.g. to build long histories) */
+static void c_repeat(cmd_t *c) {
+  NEED(2, 2);
+  INTARG(1, count);
+  block_t *b = c->v[2] ? block_find(c->v[2]) : NULL;
+  if (!b) { rec_error(c, "no such block"); return; }
+  for (long i = 0; i < count; i++) run_block(b);
+}
+
 static void c_set(cmd_t *c) {
   if (c->n < 2 || !c->v[1]) { rec_error(c, "usage: set VAR VALUE"); return; }
   const char *name = c->v[1];
@@ -2170,6 +2182,31 @@ static void c_chmod(cmd_t *c) {
 static void c_symlink(cmd_t *c) {
   NEED(2, 2);
   if (!c->v[1] || !c->v[2] || symlink(c->v[1], c->v[2]) != 0) rec_error(c, strerror(errno));
+}
+
+/* hardlink TARGET PATH, mkfifo PATH: more file types for completion tests */
+static void c_hardlink(cmd_t *c) {
+  NEED(2, 2);
+  if (!c->v[1] || !c->v[2] || link(c->v[1], c->v[2]) != 0) rec_error(c, strerror(errno));
+}
+
+static void c_mkfifo(cmd_t *c) {
+  NEED(1, 1);
+  if (!c->v[1] || mkfifo(c->v[1], 0644) != 0) rec_error(c, strerror(errno));
+}
+
+/* mksocket PATH: a bound (and closed) unix domain socket file */
+static void c_mksocket(cmd_t *c) {
+  NEED(1, 1);
+  struct sockaddr_un sa;
+  memset(&sa, 0, sizeof sa);
+  sa.sun_family = AF_UNIX;
+  if (!c->v[1] || strlen(c->v[1]) >= sizeof sa.sun_path) { rec_error(c, "bad path"); return; }
+  strcpy(sa.sun_path, c->v[1]);
+  int fd = socket(AF_UNIX, SOCK_STREAM, 0);
+  if (fd < 0) { rec_error(c, strerror(errno)); return; }
+  if (bind(fd, (struct sockaddr *)&sa, sizeof sa) != 0) rec_error(c, strerror(errno));
+  close(fd);
 }
 
 /* readline PROMPT [COUNT|all] [addhist] */
@@ -2741,11 +2778,18 @@ static void c_sleep_ms(cmd_t *c) {
   while (nanosleep(&ts, &ts) != 0 && errno == EINTR) ;
 }
 
+/* Wait until the runner has read all terminal output before exiting: a
+   pty master may lose data that is still queued when the slave closes. */
+static void drain_tty(void) {
+  if (isatty(STDOUT_FILENO)) tcdrain(STDOUT_FILENO);
+}
+
 static void c_exit(cmd_t *c) {
   NEED(0, 1);
   long code = 0;
   if (c->n > 1 && parse_int_arg(c, 1, &code)) { rec_error(c, "bad code"); return; }
   fflush(NULL);
+  drain_tty();
   exit((int)code);
 }
 
@@ -2764,13 +2808,15 @@ typedef struct {
 static const custom_t custom_table[] = {
   {"echo", c_echo}, {"dump", c_dump}, {"dumpfull", c_dump}, {"args", c_args},
   {"return", c_return}, {"replace_arg", c_replace_arg}, {"call", c_call},
+  {"repeat", c_repeat},
   {"set", c_set}, {"get", c_get}, {"defun", c_defun}, {"signal", c_signal},
   {"raise", c_raise}, {"onsig", c_onsig}, {"complete_words", c_complete_words},
   {"ignore_words", c_ignore_words}, {"tilde_map", c_tilde_map}, {"setenv", c_setenv},
   {"unsetenv", c_unsetenv}, {"getenv", c_getenv}, {"chdir", c_chdir},
   {"file_write", c_file_write}, {"file_append", c_file_write}, {"file_read", c_file_read},
   {"file_remove", c_file_remove}, {"file_stat", c_file_stat}, {"mkdir", c_mkdir},
-  {"chmod", c_chmod}, {"symlink", c_symlink},
+  {"chmod", c_chmod}, {"symlink", c_symlink}, {"hardlink", c_hardlink}, {"mkfifo", c_mkfifo},
+  {"mksocket", c_mksocket},
   {"readline", c_readline}, {"callback", c_callback}, {"callback_install", c_callback_install},
   {"rl_callback_handler_install", c_callback_install},
   {"callback_read_char", c_callback_read_char}, {"rl_callback_read_char", c_callback_read_char},
@@ -2886,6 +2932,7 @@ int main(int argc, char **argv) {
   run_block(&blocks[0]);
 
   fflush(NULL);
+  drain_tty();
   if (results_fp != stderr) fclose(results_fp);
   return 0;
 }

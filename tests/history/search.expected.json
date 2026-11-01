@@ -1,0 +1,348 @@
+{
+  "backward-from-end-clamps": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"bc\" -1", "ret": 1},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "forward-at-end-fails": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"abc\" 1", "ret": -1},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backward-returns-last-offset-in-line": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"make\" -1", "ret": 10},
+      {"op": "history_set_pos 0", "ret": 1},
+      {"op": "history_search \"make\" 1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backward-moves-offset": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"make\" -1", "ret": 0},
+      {"op": "where_history", "ret": 2},
+      {"op": "history_search \"make\" -1", "ret": 0},
+      {"op": "where_history", "ret": 2},
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "history_search \"make\" -1", "ret": 0},
+      {"op": "where_history", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "current-entry-matches-first": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "history_search \"foo\" 1", "ret": -1},
+      {"op": "history_search \"bar\" 1", "ret": 0},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-match-keeps-offset": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "history_search \"zzz\" -1", "ret": -1},
+      {"op": "where_history", "ret": 1},
+      {"op": "history_search \"zzz\" 1", "ret": -1},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-and-null-string": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"\" -1", "ret": -1},
+      {"op": "history_search NULL -1", "ret": -1},
+      {"op": "history_search_prefix \"\" -1", "ret": -1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-history": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"a\" -1", "ret": -1},
+      {"op": "history_search \"a\" 1", "ret": -1},
+      {"op": "history_search_prefix \"a\" -1", "ret": -1},
+      {"op": "history_search_pos \"a\" -1 0", "ret": -1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "string-longer-than-line": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"abcd\" -1", "ret": 0},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "whole-line-match": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"exact\" -1", "ret": 0},
+      {"op": "history_search_prefix \"exact\" -1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "case-sensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"make\" -1", "ret": -1},
+      {"op": "history_search_prefix \"make\" -1", "ret": -1},
+      {"op": "history_search \"Make\" -1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-anchored": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search_prefix \"git\" -1", "ret": 0},
+      {"op": "where_history", "ret": 0},
+      {"op": "history_search_prefix \"status\" -1", "ret": -1},
+      {"op": "where_history", "ret": 0},
+      {"op": "history_set_pos 0", "ret": 1},
+      {"op": "history_search_prefix \"status\" 1", "ret": 0},
+      {"op": "where_history", "ret": 1},
+      {"op": "history_search_prefix \"tatus\" 1", "ret": -1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-forward": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "history_search_prefix \"a\" 1", "ret": 0},
+      {"op": "where_history", "ret": 2},
+      {"op": "current_history", "ret": {"line": "a2", "timestamp": "", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "search-pos-absolute": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search_pos \"make\" -1 1", "ret": 0},
+      {"op": "where_history", "ret": 4},
+      {"op": "history_search_pos \"make\" 1 1", "ret": 2},
+      {"op": "where_history", "ret": 4},
+      {"op": "history_search_pos \"make\" -1 3", "ret": 2},
+      {"op": "history_search_pos \"status\" 1 2", "ret": -1},
+      {"op": "where_history", "ret": 4}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "search-pos-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search_pos \"abc\" -1 5", "ret": 0},
+      {"op": "history_search_pos \"abc\" 1 -3", "ret": -1},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "search-pos-at-length-backward": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 0", "ret": 1},
+      {"op": "history_search_pos \"x\" -1 2", "ret": 1},
+      {"op": "where_history", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "search-ignores-history-base": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search_pos \"alpha\" 1 0", "ret": 0},
+      {"op": "history_search_pos \"beta\" 1 1", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multibyte-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"ße\" -1", "ret": 4},
+      {"op": "history_search \"welt\" -1", "ret": 8},
+      {"op": "history_search_prefix \"grü\" -1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "search-in-multiline-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "history_search \"second\" -1", "ret": 6},
+      {"op": "history_search_prefix \"second\" -1", "ret": -1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "search-delimiter-chars-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_search_delimiter_chars", "ret": null},
+      {"op": "get history_search_delimiter_chars", "ret": ";&"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "noninc-search-ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Make All", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Make All"}
+    ],
+    "screen": [
+      "> Make All"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-search-case-sensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Make All", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Make All"}
+    ],
+    "screen": [
+      "> Make All"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-search-anchored": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make it", "point": 0, "end": 7, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make it"}
+    ],
+    "screen": [
+      "> make it"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-search-anchored-ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "MAKE it", "point": 0, "end": 7, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "MAKE it"}
+    ],
+    "screen": [
+      "> MAKE it"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-search-forward-ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ALPHA two", "point": 0, "end": 9, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "Alpha", "point": 0, "end": 5, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ALPHA two", "point": 0, "end": 9, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ALPHA two"}
+    ],
+    "screen": [
+      "> ALPHA two"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 8, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern-anchored": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 10, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern-trailing-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern-escaped-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\\b", "point": 0, "end": 3, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\\b"}
+    ],
+    "screen": [
+      "> a\\b"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern-star-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "foo.c bar", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "foo.c bar"}
+    ],
+    "screen": [
+      "> foo.c bar"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-search-ignore-case-byte-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "MAKE x", "point": 0, "end": 6, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "Make All", "point": 5, "end": 8, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Make All"}
+    ],
+    "screen": [
+      "> Make All"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern-forward": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ls -l", "point": 0, "end": 5, "mark": 5, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ls -l"}
+    ],
+    "screen": [
+      "> ls -l"
+    ],
+    "cursor": [1, 0]
+  }
+}

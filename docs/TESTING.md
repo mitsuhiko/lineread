@@ -122,7 +122,7 @@ abc\r
 | `env: NAME=value` | environment override (repeatable); `$HOME` and `$BASE` in the value are replaced by the case directories |
 | `env: NAME` | remove NAME from the environment |
 | `timeout: SECONDS` | per-case timeout, default 10 |
-| `ignore: PATTERN...` | field paths not recorded/compared, glob syntax: `screen`, `cursor`, `snaps`, `results[*].undo`, `results[2]` |
+| `ignore: PATTERN...` | field paths not recorded/compared, glob syntax (`*` and `?` are wildcards, brackets are literal): `screen`, `cursor`, `snaps`, `results[*].undo`, `results[2]`, `results[*].size` |
 | `skip: reason` | do not run |
 | `platforms: linux darwin` | run only on these platforms |
 | `eof: on\|off` | send EOF after the last key (default on, see §5) |
@@ -361,6 +361,7 @@ commands, API signatures, variables and hooks.
 | `echo ARGS...` | record the arguments (markers) |
 | `get VAR` / `set VAR VALUE...` | read/write an exported variable or hook (below) |
 | `call BLOCK` | run a block |
+| `repeat N BLOCK` | run a block N times (long histories, big files, many funmap entries) |
 | `defun NAME BLOCK [KEY]` | `rl_add_defun(NAME, f, KEY)` where `f` runs BLOCK (up to 32) |
 | `invoke FUNCTION [COUNT] [KEY]` | call a bindable function by name (`rl_named_function`) |
 | `args` | inside a hook/defun: record its arguments |
@@ -380,7 +381,8 @@ They show up in `rl_funmap_names` and the function dumper.
 `file_write PATH CONTENT`, `file_append PATH CONTENT`, `file_read PATH`
 (→ `content` or `null` + `errno`), `file_remove PATH`, `file_stat PATH`
 (→ `exists mode type [size]`), `mkdir PATH`, `chmod PATH OCTAL`,
-`symlink TARGET PATH`, `setenv NAME VALUE`, `unsetenv NAME`, `getenv NAME`,
+`symlink TARGET PATH`, `hardlink TARGET PATH`, `mkfifo PATH`, `mksocket PATH`
+(a bound unix socket file, for file type indicators), `setenv NAME VALUE`, `unsetenv NAME`, `getenv NAME`,
 `chdir PATH`.
 
 ### Completion helpers
@@ -604,7 +606,27 @@ The same expectations must pass on macOS and Linux.
   is in cooked mode (after `rl_deprep_terminal` or `rl_cleanup_after_signal`)
   are echoed by the tty and only delivered after a newline.
 * `rl_attempted_completion_function` blocks are where per-completion
-  variables must be set.
+  variables must be set (`rl_completion_append_character`,
+  `rl_completion_suppress_quote`, ...). Application-global settings that
+  readline consults *before* calling that function
+  (`rl_completer_quote_characters`, `rl_completer_word_break_characters`,
+  `rl_filename_quote_characters`, `rl_special_prefixes`) must be set before
+  `readline`.
+* The second `TAB` only lists matches if the first one did not change the
+  line (inserting a common prefix counts as a change); use `\M-?`
+  (possible-completions) to list unconditionally.
+* Colors are not visible in screen snapshots (only characters are
+  compared). Test colored listings with
+  `capture display_match_list LCD MATCH...` after `rl_initialize` and
+  `set rl_filename_completion_desired 1`; `rl_crlf` output still goes to the
+  terminal, the match text goes to the capture.
+* `gen` and `rl_completion_matches` called outside `readline` see init file
+  settings (`completion-ignore-case` etc.) only after `rl_initialize`.
+* Error messages of the init file parser, LS_COLORS parsing and history
+  expansion go to stderr, i.e. onto the emulated screen; widen the screen
+  (`screen: 160x24`) so long paths do not wrap.
+* The driver `tcdrain`s the terminal before exiting: on macOS a pty master
+  can otherwise lose output still queued when the slave closes.
 * Prompt escapes: `"\001...\002"` mark invisible characters
   (`RL_PROMPT_START_IGNORE`/`END_IGNORE`).
 * Check a new case with `--repeat 5` and on Linux before committing.

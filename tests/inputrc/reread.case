@@ -1,0 +1,143 @@
+# rl_read_init_file / re-read-init-file: default file selection
+# (last file, $INPUTRC, ~/.inputrc), errors, re-reading at runtime.
+tags: inputrc readinit
+screen: 120x24
+
+=== read-init-file-explicit
+--- file my.inputrc
+"\C-xa": "from my"
+--- script
+rl_read_init_file "my.inputrc"
+rl_macro_dumper 1
+
+=== read-init-file-missing-returns-errno
+# (rl_read_init_file "" falls back to ~/.inputrc and then /etc/inputrc,
+# which exists on some systems: not tested)
+--- script
+rl_read_init_file "missing.inputrc"
+
+=== read-init-file-directory
+--- dir adir
+--- script
+rl_read_init_file "adir"
+
+=== read-init-file-unreadable
+--- file secret.inputrc mode=0000
+"\C-xa": "secret"
+--- script
+rl_read_init_file "secret.inputrc"
+rl_macro_dumper 1
+
+=== read-init-file-tilde
+--- file sub/t.inputrc
+"\C-xa": "tilde"
+--- script
+rl_read_init_file "~/sub/t.inputrc"
+rl_macro_dumper 1
+
+=== read-init-file-null-uses-inputrc-env
+--- inputrc
+"\C-xa": "from INPUTRC"
+--- script
+rl_read_init_file NULL
+rl_macro_dumper 1
+
+=== read-init-file-null-uses-last-file
+--- file my.inputrc
+"\C-xa": "from my"
+--- inputrc
+"\C-xb": "from INPUTRC"
+--- script
+rl_read_init_file "my.inputrc"
+rl_macro_bind '\C-xa' 'replaced' emacs
+rl_read_init_file NULL
+rl_macro_dumper 1
+
+=== read-init-file-included-file-not-remembered
+--- file inc.inputrc
+"\C-xi": "inc"
+--- file main.inputrc
+$include inc.inputrc
+--- script
+rl_read_init_file "main.inputrc"
+rl_macro_bind '\C-xi' 'x' emacs
+rl_read_init_file NULL
+rl_macro_dumper 1
+
+=== read-init-file-home-inputrc
+env: INPUTRC
+--- file .inputrc
+"\C-xh": "from home"
+--- script
+rl_read_init_file NULL
+rl_macro_dumper 1
+
+=== read-init-file-empty-inputrc-env
+env: INPUTRC=
+--- file .inputrc
+"\C-xh": "from home"
+--- script
+rl_read_init_file NULL
+rl_macro_dumper 1
+
+=== initialize-reads-home-inputrc
+env: INPUTRC
+--- file .inputrc
+set bell-style visible
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+
+=== initialize-reads-only-once
+--- inputrc
+"\C-xa": "first"
+--- script
+rl_initialize
+file_write "../inputrc" "\"\\C-xa\": \"second\"\n"
+rl_initialize
+rl_macro_dumper 1
+
+=== re-read-init-file-bindable
+tags: readline
+--- inputrc
+"\C-xa": "first"
+--- script
+def change
+file_write "../inputrc" "\"\\C-xa\": \"second\"\n"
+end
+defun change-file change "\C-t"
+readline "> "
+--- keys
+\C-xa \C-t\C-x\C-r\C-xa\r
+
+=== re-read-init-file-api
+--- inputrc
+"\C-xa": "first"
+set editing-mode emacs
+--- script
+rl_initialize
+rl_set_keymap vi-command
+rl_re_read_init_file 0 0
+rl_get_keymap
+
+=== re-read-init-file-switches-mode
+tags: readline
+--- inputrc
+"\C-xa": "first"
+--- script
+def change
+file_write "../inputrc" "set editing-mode vi\n"
+end
+defun change-file change "\C-t"
+readline "> "
+--- keys
+ab\C-t\C-x\C-r<dump>\r
+
+=== re-read-keeps-existing-bindings
+--- inputrc
+"\C-xb": "b"
+--- script
+rl_initialize
+rl_macro_bind '\C-xz' 'zz' emacs
+rl_re_read_init_file 0 0
+rl_macro_dumper 1

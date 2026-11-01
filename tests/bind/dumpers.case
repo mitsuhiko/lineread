@@ -1,0 +1,346 @@
+# Dumper functions and funmap (bind.c, funmap.c): rl_function_dumper,
+# rl_macro_dumper, rl_variable_dumper, rl_print_keybinding,
+# rl_invoking_keyseqs, rl_list_funmap_names, rl_funmap_names,
+# rl_add_funmap_entry, the macro display hook and the bindable dump-*
+# commands.
+tags: bind api dumpers
+
+=== function-dumper-readable-after-init
+--- script
+rl_initialize
+rl_function_dumper 1
+
+=== function-dumper-plain-after-init
+--- script
+rl_initialize
+rl_function_dumper 0
+
+=== function-dumper-current-keymap
+--- script
+rl_initialize
+rl_set_keymap vi-command
+rl_function_dumper 1
+
+=== function-dumper-custom-keymap
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'ab' kill-word k
+rl_bind_keyseq_in_map 'x' kill-word k
+rl_bind_keyseq_in_map '\e[1~' beginning-of-line k
+rl_set_keymap k
+rl_function_dumper 1
+rl_function_dumper 0
+
+=== print-keybinding-many-keys
+# the plain format lists at most five key sequences
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'a' kill-word k
+rl_bind_keyseq_in_map 'b' kill-word k
+rl_bind_keyseq_in_map 'c' kill-word k
+rl_bind_keyseq_in_map 'd' kill-word k
+rl_bind_keyseq_in_map 'e' kill-word k
+rl_bind_keyseq_in_map 'f' kill-word k
+rl_bind_keyseq_in_map 'g' kill-word k
+rl_print_keybinding "kill-word" k 0
+rl_print_keybinding "kill-word" k 1
+
+=== print-keybinding-exactly-five
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'a' kill-word k
+rl_bind_keyseq_in_map 'b' kill-word k
+rl_bind_keyseq_in_map 'c' kill-word k
+rl_bind_keyseq_in_map 'd' kill-word k
+rl_bind_keyseq_in_map 'e' kill-word k
+rl_print_keybinding "kill-word" k 0
+
+=== print-keybinding-single
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'a' kill-word k
+rl_print_keybinding "kill-word" k 0
+rl_print_keybinding "kill-word" k 1
+
+=== print-keybinding-unbound-and-unknown
+--- script
+keymap_new k bare
+rl_print_keybinding "kill-word" k 0
+rl_print_keybinding "kill-word" k 1
+rl_print_keybinding "no-such" k 0
+rl_print_keybinding "no-such" k 1
+
+=== print-keybinding-current-keymap
+--- script
+rl_print_keybinding "beginning-of-line" current 1
+
+=== print-keybinding-key-names
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map '\e' kill-word k
+rl_bind_keyseq_in_map '\C-a' kill-word k
+rl_bind_keyseq_in_map '\C-?' kill-word k
+rl_bind_keyseq_in_map '\\' kill-word k
+rl_bind_keyseq_in_map '"' kill-word k
+rl_bind_keyseq_in_map ' ' kill-word k
+rl_print_keybinding "kill-word" k 1
+
+=== invoking-keyseqs-high-bytes
+--- script
+keymap_new k bare
+rl_generic_bind ISFUNC "\x80" kill-word k
+rl_generic_bind ISFUNC "\x9f" kill-word k
+rl_generic_bind ISFUNC "\xa0" kill-word k
+rl_generic_bind ISFUNC "\xc3\xa4" kill-word k
+rl_generic_bind ISFUNC "\xff" kill-word k
+rl_invoking_keyseqs_in_map kill-word k
+
+=== invoking-keyseqs-nested
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'a' kill-word k
+rl_bind_keyseq_in_map 'bc' kill-word k
+rl_bind_keyseq_in_map 'bde' kill-word k
+rl_bind_keyseq_in_map '\eq' kill-word k
+rl_invoking_keyseqs_in_map kill-word k
+
+=== invoking-keyseqs-macro-pointer
+# macros are matched by pointer, so a function lookup never finds them
+--- script
+keymap_new k bare
+rl_macro_bind 'm' 'kill-word' k
+rl_invoking_keyseqs_in_map kill-word k
+
+=== invoking-keyseqs-shadowed
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'a' kill-word k
+rl_bind_keyseq_in_map 'ab' upcase-word k
+rl_invoking_keyseqs_in_map kill-word k
+rl_invoking_keyseqs_in_map upcase-word k
+
+=== invoking-keyseqs-default-emacs
+--- script
+rl_initialize
+rl_invoking_keyseqs beginning-of-line
+rl_invoking_keyseqs_in_map beginning-of-line emacs-meta
+rl_invoking_keyseqs_in_map vi-movement-mode vi-insert
+rl_invoking_keyseqs self-insert
+rl_invoking_keyseqs NULL
+
+=== macro-dumper-readable
+--- script
+rl_macro_bind '\C-xa' 'plain' emacs
+rl_macro_bind '\eb' 'meta' emacs
+rl_macro_bind '\C-x\C-yc' 'deep' emacs
+rl_macro_bind '\e[Q' 'esc seq' emacs
+rl_macro_dumper 1
+
+=== macro-dumper-plain
+--- script
+rl_macro_bind '\C-xa' 'plain' emacs
+rl_macro_bind '\eb' 'meta' emacs
+rl_macro_dumper 0
+
+=== macro-dumper-escapes-value
+--- script
+rl_macro_bind '\C-xa' '\C-a\t\n\r\a\b\f\v\e\d"\\' emacs
+rl_macro_dumper 1
+rl_macro_dumper 0
+
+=== macro-dumper-meta-value
+--- script
+rl_generic_bind ISMACR "\x18a" "\xe1\x9b\xff" emacs
+rl_macro_dumper 1
+
+=== macro-dumper-current-keymap
+--- script
+rl_macro_bind 'x' 'vi macro' vi-command
+rl_macro_bind '\C-xa' 'emacs macro' emacs
+rl_set_keymap vi-command
+rl_macro_dumper 1
+rl_set_keymap emacs
+rl_macro_dumper 1
+
+=== macro-dumper-empty
+--- script
+rl_macro_dumper 1
+rl_macro_dumper 0
+
+=== macro-dumper-high-key
+--- script
+keymap_new k bare
+rl_generic_bind ISMACR "\xe4" "x" k
+rl_generic_bind ISMACR "\x85" "y" k
+rl_set_keymap k
+rl_macro_dumper 1
+
+=== macro-display-hook
+--- script
+rl_macro_bind '\C-xa' 'one\ttwo' emacs
+rl_macro_bind '\eb' 'meta' emacs
+set rl_macro_display_hook log
+rl_macro_dumper 1
+rl_macro_dumper 0
+
+=== macro-display-hook-script
+--- script
+def show
+args
+end
+rl_macro_bind 'q' 'qq' vi-command
+rl_set_keymap vi-command
+set rl_macro_display_hook script:show
+rl_macro_dumper 1
+
+=== variable-dumper-plain-after-init
+--- script
+rl_initialize
+rl_variable_dumper 0
+
+=== list-funmap-names-sorted
+--- script
+option nodefuns
+rl_list_funmap_names
+
+=== funmap-names-with-additions
+--- script
+option nodefuns
+rl_add_funmap_entry "zzz-last" kill-word
+rl_add_funmap_entry "aaa-first" kill-word
+rl_funmap_names
+
+=== funmap-insertion-order
+--- script
+option nodefuns
+rl_add_funmap_entry "zzz-last" kill-word
+rl_add_funmap_entry "aaa-first" kill-word
+get funmap
+
+=== add-funmap-entry-returns
+--- script
+option nodefuns
+rl_initialize_funmap
+rl_add_funmap_entry "one" kill-word
+rl_add_funmap_entry "two" kill-word
+
+=== add-funmap-entry-before-init
+# adding before the default funmap is initialised puts the entry first
+--- script
+option nodefuns
+rl_add_funmap_entry "early" kill-word
+rl_initialize_funmap
+rl_add_funmap_entry "late" kill-word
+
+=== add-funmap-entry-duplicate-name
+# the first entry with a name wins in rl_named_function
+--- script
+option nodefuns
+rl_add_funmap_entry "kill-word" upcase-word
+rl_named_function "kill-word"
+rl_add_funmap_entry "dup" upcase-word
+rl_add_funmap_entry "dup" downcase-word
+rl_named_function "dup"
+rl_function_dumper 1
+
+=== funmap-alias-in-dumper
+--- script
+option nodefuns
+rl_add_funmap_entry "my-alias" beginning-of-line
+rl_initialize
+rl_print_keybinding "my-alias" emacs 1
+rl_print_keybinding "my-alias" emacs 0
+
+=== funmap-many-entries
+--- script
+option nodefuns
+def add
+rl_add_funmap_entry "generated" kill-word
+end
+repeat 100 add
+rl_add_funmap_entry "final" kill-word
+rl_named_function "final"
+
+=== dump-functions-bindable
+tags: readline
+--- script
+def setk
+rl_set_keymap k
+end
+keymap_new k bare
+rl_bind_keyseq_in_map '\C-xf' dump-functions k
+rl_bind_keyseq_in_map 'a' self-insert k
+rl_bind_keyseq_in_map '\C-m' accept-line k
+set rl_startup_hook script:setk
+readline "> "
+--- keys
+a\C-xf<snap>\r
+
+=== dump-functions-bindable-explicit-arg
+tags: readline
+--- script
+def setk
+rl_set_keymap k
+end
+keymap_new k bare
+rl_bind_keyseq_in_map '\C-xf' dump-functions k
+rl_bind_keyseq_in_map '\e1' digit-argument k
+rl_bind_keyseq_in_map 'a' self-insert k
+rl_bind_keyseq_in_map '\C-m' accept-line k
+set rl_startup_hook script:setk
+readline "> "
+--- keys
+a\e1\C-xf<snap>\r
+
+=== inputrc-binds-into-current-keymap
+# the init file is read with the application's current keymap; readline
+# then switches to the edit-mode keymap
+tags: readline
+--- inputrc
+"\C-xf": kill-word
+--- script
+keymap_new k bare
+rl_set_keymap k
+readline "> "
+rl_function_of_keyseq "\x18f" k
+rl_function_of_keyseq "\x18f" emacs
+--- keys
+a\r
+
+=== dump-macros-bindable
+tags: readline
+--- inputrc
+"\C-xm": dump-macros
+"\C-xa": "macro-a"
+--- script
+readline "> "
+--- keys
+\C-xm<snap>\e1\C-xm<snap>\r
+
+=== dump-variables-bindable
+tags: readline
+screen: 80x60
+--- inputrc
+"\C-xv": dump-variables
+--- script
+readline "> "
+--- keys
+\C-xv<snap>\r
+
+=== dump-variables-bindable-explicit-arg
+tags: readline
+screen: 80x60
+--- inputrc
+"\C-xv": dump-variables
+--- script
+readline "> "
+--- keys
+\e1\C-xv<snap>\r
+
+=== dump-functions-outside-readline
+--- script
+keymap_new k bare
+rl_bind_keyseq_in_map 'q' kill-word k
+rl_set_keymap k
+capture rl_dump_functions 1 0
+capture rl_dump_macros 1 0

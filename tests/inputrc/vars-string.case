@@ -1,0 +1,369 @@
+# String and numeric readline variables: valid, invalid and edge values
+# through `set` (rl_parse_and_bind) and rl_variable_value.
+tags: inputrc vars string
+screen: 160x24
+
+=== bell-style-values
+--- script
+rl_parse_and_bind "set bell-style none"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style audible"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style visible"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style off"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style on"
+rl_variable_value "bell-style"
+
+=== bell-style-case-insensitive
+--- script
+rl_parse_and_bind "set bell-style NONE"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style Visible"
+rl_variable_value "bell-style"
+
+=== bell-style-empty-and-invalid
+--- script
+rl_parse_and_bind "set bell-style none"
+rl_parse_and_bind "set bell-style"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style none"
+rl_parse_and_bind "set bell-style loud"
+rl_variable_value "bell-style"
+
+=== bell-style-sets-prefer-visible-bell
+--- script
+rl_parse_and_bind "set bell-style visible"
+rl_variable_value "prefer-visible-bell"
+
+=== comment-begin-values
+--- script
+rl_variable_value "comment-begin"
+rl_parse_and_bind "set comment-begin //"
+rl_variable_value "comment-begin"
+rl_parse_and_bind "set comment-begin"
+rl_variable_value "comment-begin"
+rl_variable_bind "comment-begin" NULL
+rl_variable_value "comment-begin"
+
+=== comment-begin-used-by-insert-comment
+tags: readline
+--- inputrc
+set comment-begin "// "
+--- script
+readline "> "
+--- keys
+abc\M-#
+
+=== completion-display-width-values
+--- script
+rl_parse_and_bind "set completion-display-width 40"
+rl_variable_value "completion-display-width"
+rl_parse_and_bind "set completion-display-width -5"
+rl_variable_value "completion-display-width"
+rl_parse_and_bind "set completion-display-width"
+rl_variable_value "completion-display-width"
+rl_parse_and_bind "set completion-display-width abc"
+rl_variable_value "completion-display-width"
+rl_parse_and_bind "set completion-display-width 12abc"
+rl_variable_value "completion-display-width"
+
+=== completion-prefix-display-length-values
+--- script
+rl_parse_and_bind "set completion-prefix-display-length 5"
+rl_variable_value "completion-prefix-display-length"
+rl_parse_and_bind "set completion-prefix-display-length -3"
+rl_variable_value "completion-prefix-display-length"
+rl_parse_and_bind "set completion-prefix-display-length 5"
+rl_parse_and_bind "set completion-prefix-display-length"
+rl_variable_value "completion-prefix-display-length"
+rl_parse_and_bind "set completion-prefix-display-length x"
+rl_variable_value "completion-prefix-display-length"
+
+=== completion-query-items-values
+--- script
+rl_parse_and_bind "set completion-query-items 10"
+rl_variable_value "completion-query-items"
+get rl_completion_query_items
+rl_parse_and_bind "set completion-query-items -1"
+rl_variable_value "completion-query-items"
+rl_parse_and_bind "set completion-query-items"
+rl_variable_value "completion-query-items"
+rl_parse_and_bind "set completion-query-items 0"
+rl_variable_value "completion-query-items"
+rl_parse_and_bind "set completion-query-items junk"
+rl_variable_value "completion-query-items"
+
+=== completion-query-items-application-variable
+--- script
+set rl_completion_query_items 33
+rl_variable_value "completion-query-items"
+
+=== editing-mode-values
+--- script
+rl_parse_and_bind "set editing-mode vi"
+rl_variable_value "editing-mode"
+get rl_editing_mode
+rl_get_keymap
+rl_parse_and_bind "set editing-mode emacs"
+rl_variable_value "editing-mode"
+get rl_editing_mode
+rl_get_keymap
+
+=== editing-mode-prefix-match
+# only the first two (vi) or five (emacs) characters are compared
+--- script
+rl_parse_and_bind "set editing-mode VIM"
+rl_variable_value "editing-mode"
+rl_parse_and_bind "set editing-mode emacsen"
+rl_variable_value "editing-mode"
+rl_parse_and_bind "set editing-mode Emacs"
+rl_variable_value "editing-mode"
+
+=== editing-mode-invalid
+--- script
+rl_parse_and_bind "set editing-mode vi"
+rl_parse_and_bind "set editing-mode ed"
+rl_variable_value "editing-mode"
+rl_parse_and_bind "set editing-mode"
+rl_variable_value "editing-mode"
+
+=== editing-mode-inputrc-affects-readline
+tags: readline
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+--- keys
+abc\e<pause>0<dump>\r
+
+=== emacs-mode-string-values
+--- script
+rl_variable_value "emacs-mode-string"
+rl_parse_and_bind "set emacs-mode-string E:"
+rl_variable_value "emacs-mode-string"
+rl_parse_and_bind "set emacs-mode-string \"\\e[1m@\\e[0m\""
+rl_variable_value "emacs-mode-string"
+rl_parse_and_bind "set emacs-mode-string"
+rl_variable_value "emacs-mode-string"
+rl_variable_bind "emacs-mode-string" NULL
+rl_variable_value "emacs-mode-string"
+
+=== vi-mode-strings-values
+--- script
+rl_variable_value "vi-ins-mode-string"
+rl_variable_value "vi-cmd-mode-string"
+rl_parse_and_bind "set vi-ins-mode-string +"
+rl_parse_and_bind "set vi-cmd-mode-string :"
+rl_variable_value "vi-ins-mode-string"
+rl_variable_value "vi-cmd-mode-string"
+rl_parse_and_bind "set vi-ins-mode-string \\C-a"
+rl_variable_value "vi-ins-mode-string"
+rl_parse_and_bind "set vi-ins-mode-string"
+rl_parse_and_bind "set vi-cmd-mode-string"
+rl_variable_value "vi-ins-mode-string"
+rl_variable_value "vi-cmd-mode-string"
+rl_variable_bind "vi-ins-mode-string" NULL
+rl_variable_bind "vi-cmd-mode-string" NULL
+rl_variable_value "vi-ins-mode-string"
+rl_variable_value "vi-cmd-mode-string"
+
+=== mode-string-shown-in-prompt-emacs
+tags: readline
+--- inputrc
+set show-mode-in-prompt on
+set emacs-mode-string "[E]"
+--- script
+readline "> "
+--- keys
+abc\r
+
+=== mode-string-shown-in-prompt-vi
+tags: readline
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+set vi-ins-mode-string "<I>"
+set vi-cmd-mode-string "<C>"
+--- script
+readline "> "
+--- keys
+abc<snap>\e<pause><snap>\r
+
+=== mode-string-invisible-markers
+tags: readline
+--- inputrc
+set show-mode-in-prompt on
+set emacs-mode-string "\1\e[1m\2E\1\e[0m\2 "
+--- script
+readline "> "
+--- keys
+abc<dump>\r
+
+=== mode-string-default-shown
+tags: readline
+--- inputrc
+set show-mode-in-prompt on
+--- script
+readline "> "
+--- keys
+x\r
+
+=== show-mode-in-prompt-toggle-at-runtime
+tags: readline
+--- script
+def toggle
+rl_variable_bind "show-mode-in-prompt" "on"
+end
+defun toggle-mode toggle "\C-t"
+readline "> "
+--- keys
+ab<snap>\C-t\C-l<snap>\r
+
+=== history-size-values
+--- script
+rl_parse_and_bind "set history-size 10"
+rl_variable_value "history-size"
+history_is_stifled
+get history_max_entries
+rl_parse_and_bind "set history-size -1"
+rl_variable_value "history-size"
+history_is_stifled
+rl_parse_and_bind "set history-size"
+rl_variable_value "history-size"
+rl_parse_and_bind "set history-size 0"
+rl_variable_value "history-size"
+rl_parse_and_bind "set history-size abc"
+rl_variable_value "history-size"
+
+=== history-size-truncates-history
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+rl_parse_and_bind "set history-size 2"
+history_dump
+
+=== isearch-terminators-values
+--- script
+rl_variable_value "isearch-terminators"
+rl_parse_and_bind "set isearch-terminators \"\\C-a\\C-b\""
+rl_variable_value "isearch-terminators"
+rl_parse_and_bind "set isearch-terminators 'xy'"
+rl_variable_value "isearch-terminators"
+rl_parse_and_bind "set isearch-terminators abc def"
+rl_variable_value "isearch-terminators"
+rl_parse_and_bind "set isearch-terminators \\e"
+rl_variable_value "isearch-terminators"
+
+=== isearch-terminators-variable-bind-null
+--- script
+rl_variable_bind "isearch-terminators" NULL
+rl_variable_value "isearch-terminators"
+
+=== isearch-terminators-effect
+tags: readline
+--- inputrc
+set isearch-terminators "x"
+--- script
+add_history "hello world"
+readline "> "
+--- keys
+\C-rworxZ<dump>\r
+
+=== keymap-values
+--- script
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap vi-command"
+rl_variable_value "keymap"
+rl_get_keymap
+rl_parse_and_bind "set keymap vi-move"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap vi"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap emacs-meta"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap emacs-ctlx"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap vi-insert"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap emacs-standard"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap EMACS"
+rl_variable_value "keymap"
+
+=== keymap-invalid
+--- script
+rl_parse_and_bind "set keymap vi-insert"
+rl_parse_and_bind "set keymap nosuchmap"
+rl_variable_value "keymap"
+rl_parse_and_bind "set keymap"
+rl_variable_value "keymap"
+
+=== keymap-anonymous-falls-back-to-edit-mode
+--- script
+keymap_new anon bare
+rl_set_keymap anon
+rl_variable_value "keymap"
+
+=== keymap-set-name-reported
+--- script
+keymap_new mine bare
+rl_set_keymap_name "my-map" mine
+rl_parse_and_bind "set keymap my-map"
+rl_variable_value "keymap"
+rl_parse_and_bind "\"a\": forward-char"
+rl_function_of_keyseq "a" mine
+
+=== keymap-reset-by-inputrc-end
+# readline restores the edit mode keymap after reading the init file
+--- inputrc
+set keymap vi-command
+--- script
+rl_initialize
+rl_variable_value "keymap"
+rl_get_keymap
+
+=== keyseq-timeout-values
+--- script
+rl_parse_and_bind "set keyseq-timeout 100"
+rl_variable_value "keyseq-timeout"
+rl_parse_and_bind "set keyseq-timeout -100"
+rl_variable_value "keyseq-timeout"
+rl_parse_and_bind "set keyseq-timeout 100"
+rl_parse_and_bind "set keyseq-timeout"
+rl_variable_value "keyseq-timeout"
+rl_parse_and_bind "set keyseq-timeout fast"
+rl_variable_value "keyseq-timeout"
+
+=== active-region-colors
+--- script
+rl_variable_value "active-region-start-color"
+rl_variable_value "active-region-end-color"
+rl_parse_and_bind "set active-region-start-color \"\\e[01;33m\""
+rl_parse_and_bind "set active-region-end-color \"\\e[0m\""
+rl_variable_value "active-region-start-color"
+rl_variable_value "active-region-end-color"
+rl_parse_and_bind "set active-region-start-color"
+rl_variable_value "active-region-start-color"
+
+=== active-region-colors-after-initialize
+--- script
+rl_initialize
+rl_variable_value "active-region-start-color"
+rl_variable_value "active-region-end-color"
+
+=== active-region-colors-control-chars
+--- script
+rl_parse_and_bind "set active-region-start-color \\C-a\\M-b\\t"
+rl_variable_value "active-region-start-color"
+
+=== string-variable-names-case-insensitive
+--- script
+rl_parse_and_bind "set Keyseq-Timeout 77"
+rl_variable_value "KEYSEQ-TIMEOUT"
+rl_parse_and_bind "set COMMENT-BEGIN %"
+rl_variable_value "comment-begin"
