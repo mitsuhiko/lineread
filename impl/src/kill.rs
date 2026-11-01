@@ -28,6 +28,12 @@ pub fn last_command_was_yank() -> bool {
     LAST_YANK.get() && !RING.get_mut().is_empty()
 }
 
+/// The current command does not count as a yank for a following yank-pop
+/// (vi-yank-pop cannot be repeated).
+pub fn cancel_yank() {
+    THIS_YANK.set(false);
+}
+
 /// Called after every command by the key loop.
 pub fn after_command() {
     // the kill sequence survives a command run while input is pushed back
