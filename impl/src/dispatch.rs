@@ -210,6 +210,7 @@ unsafe fn dispatch_key_in(key: c_int, map: Keymap, fallback: bool) -> c_int {
     let e = *keymap::entry(map, key as usize);
     match e.type_ {
         ISFUNC => match e.function.func {
+            Some(f) if same_fn(Some(f), rl_do_lowercase_version) => lowercase_dispatch(key, map),
             Some(f) => call_command(f, key, map),
             None => {
                 // unbound key
@@ -330,13 +331,19 @@ unsafe fn run_anyother(key: c_int, sub: Keymap, other: KEYMAP_ENTRY) -> c_int {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_do_lowercase_version(_count: c_int, key: c_int) -> c_int {
+pub unsafe extern "C" fn rl_do_lowercase_version(_count: c_int, _key: c_int) -> c_int {
+    // a marker: the dispatcher runs the lowercase key itself (called
+    // directly it does nothing, like the reference)
+    99999
+}
+
+/// A key bound to do-lowercase-version: dispatch its lowercase version.
+unsafe fn lowercase_dispatch(key: c_int, map: Keymap) -> c_int {
     let lower = (key as u8).to_ascii_lowercase() as c_int;
     if lower == key {
         crate::terminal::rl_ding();
         return 1;
     }
-    let map = rl_executing_keymap.get();
     let map = if map.is_null() { keymap::current() } else { map };
     // replace the key in the sequence
     let n = KEYSEQ_LEN.get();
