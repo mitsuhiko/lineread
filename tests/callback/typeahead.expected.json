@@ -1,0 +1,49 @@
+{
+  "plain-typeahead-then-command": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a8*5", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "a8*5"}
+    ],
+    "screen": [
+      "> a8*5",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "argument-typeahead-then-command": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a85*", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "a8*5"}
+    ],
+    "screen": [
+      "> a8*5",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "argument-typeahead-two-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "ba"}
+    ],
+    "screen": [
+      "> ba",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "readline-argument-typeahead": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a8*5", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a8*5"}
+    ],
+    "screen": [
+      "> a8*5"
+    ],
+    "cursor": [1, 0]
+  }
+}

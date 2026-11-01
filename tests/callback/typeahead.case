@@ -1,0 +1,23 @@
+# Typeahead in callback mode: self-insert takes the keys already there; after
+# a numeric argument the key that ends the typeahead waits for the next
+# rl_callback_read_char (found while fuzzing).
+tags: callback typeahead fuzz
+--- script
+callback "> " 1
+
+=== plain-typeahead-then-command
+keys: a85*\C-t<dump>\r
+
+=== argument-typeahead-then-command
+tags: numarg
+keys: \M-1a85*\C-t<dump>\r
+
+=== argument-typeahead-two-keys
+tags: numarg
+keys: \M-1ab\C-t<dump>\r
+
+=== readline-argument-typeahead
+--- script
+readline "> "
+--- keys
+\M-1a85*\C-t<dump>\r
