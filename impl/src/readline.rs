@@ -149,7 +149,29 @@ pub unsafe fn line_setup() {
     if rl_editing_mode.get() == VI_MODE {
         crate::vi::start_line_in_vi();
     }
-    if rl_already_prompted() {
+    let own_redisplay = display::rl_redisplay_function.get().map(|f| f as *const () as usize) == Some(display::rl_redisplay as *const () as usize);
+    if crate::tty::ECHOING.get() == 0 && own_redisplay {
+        // the terminal was not prepared (does not echo for us): the prompt
+        // is printed once, without its invisible parts, and nothing is
+        // redisplayed
+        if !rl_already_prompted() {
+            let p = cstr(display::rl_prompt.get());
+            let mut v = Vec::new();
+            let mut hidden = false;
+            for &b in p {
+                match b {
+                    1 => hidden = true,
+                    2 => hidden = false,
+                    _ if !hidden => v.push(b),
+                    _ => {}
+                }
+            }
+            crate::terminal::flush();
+            let out = outstream();
+            crate::util::fwrite_bytes(out, &v);
+            crate::util::fflush(out);
+        }
+    } else if rl_already_prompted() {
         display::rl_on_new_line_with_prompt();
     } else {
         display::print_prompt_prefix();
