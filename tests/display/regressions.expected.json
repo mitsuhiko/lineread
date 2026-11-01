@@ -104,5 +104,25 @@
         "cursor": [0, 8]
       }
     ]
+  },
+  "tab-after-wide-char-wrap-gap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "1234567本\tx"}
+    ],
+    "screen": [
+      "> 1234567",
+      "本      x"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 1234567",
+          "本      x"
+        ],
+        "cursor": [1, 9]
+      }
+    ]
   }
 }

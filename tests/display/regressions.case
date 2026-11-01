@@ -50,3 +50,11 @@ set byte-oriented on
 callback "日本> "
 --- keys
 al'ж6;5*w\C-atr<snap>\r
+
+=== tab-after-wide-char-wrap-gap
+tags: wrap utf8 visible
+screen: 10x5
+--- script
+readline "> "
+--- keys
+1234567本\C-v\tx<snap>\r

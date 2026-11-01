@@ -221,7 +221,9 @@ impl Lay {
     }
     /// Column counted from the start of the first row.
     fn abs_col(&self) -> usize {
-        self.rows[..self.rows.len() - 1].iter().map(row_width).sum::<usize>() + self.col
+        // completed rows count as full (a wide character that did not fit
+        // leaves a gap that counts too)
+        (self.rows.len() - 1) * self.width + self.col
     }
     fn pos(&self) -> (usize, usize) {
         (self.rows.len() - 1, self.col)
