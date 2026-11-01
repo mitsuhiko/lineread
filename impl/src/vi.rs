@@ -106,7 +106,6 @@ pub fn in_command_mode() -> bool {
 }
 
 /// Is vi replace (overstrike) mode active?
-#[allow(dead_code)]
 pub fn in_replace_mode() -> bool {
     vi_mode() && st().overstrike && !st().replace_map.is_null() && crate::keymap::current() == st().replace_map
 }
@@ -1268,7 +1267,8 @@ pub unsafe extern "C" fn rl_vi_change_case(count: c_int, key: c_int) -> c_int {
         }
         if let Some(r) = repl {
             crate::undo::rl_begin_undo_group();
-            buffer::delete(p, p + n);
+            // the original character goes to the kill ring
+            kill_range(p, p + n);
             buffer::insert_at(p, &r);
             crate::undo::rl_end_undo_group();
             set_point(p + r.len());
@@ -1594,6 +1594,7 @@ pub unsafe extern "C" fn rl_vi_fetch_history(count: c_int, key: c_int) -> c_int 
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_yank_arg(count: c_int, key: c_int) -> c_int {
+    set_last(key, count);
     // `_`: append the last word (with a count: word count-1) of the
     // previous history line, preceded by a space, and enter insert mode
     let n = if crate::numarg::rl_explicit_arg.get() != 0 { count - 1 } else { b'$' as c_int };
@@ -1774,5 +1775,11 @@ pub unsafe extern "C" fn rl_vi_search_again(_count: c_int, key: c_int) -> c_int 
     };
     // n searches back (older), N forward, whatever the last search was
     let dir = if key == b'N' as c_int { 1 } else { -1 };
-    search_history(&pat, dir)
+    let off = crate::history::history_offset.get();
+    search_history(&pat, dir);
+    if crate::history::history_offset.get() == off {
+        // a failed search again leaves point at the start
+        set_point(0);
+    }
+    0
 }

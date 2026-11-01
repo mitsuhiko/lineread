@@ -281,3 +281,48 @@ keys: ab cd\e<pause>0wD0.P<dump>\r
 === redo-kill-cw2
 tags: vi-redo kill
 keys: ab cd ef\e<pause>0cwX\e<pause>w.<pause>P<dump>\r
+
+=== failed-yank-arg-recorded
+tags: vi-yank-arg
+keys: qag\e<pause>_<dumpfull>\e<pause>.<dumpfull>\r
+
+=== tilde-kills-original-char
+tags: vi-change-case kill
+keys: abc\e<pause>0~p<dump>\r
+
+=== tilde-twice-kills
+tags: vi-change-case kill
+keys: abcd\e<pause>0~~p<dump>\r
+
+=== tilde-count-kills
+tags: vi-change-case kill numarg
+keys: abcd\e<pause>03~p<dump>\r
+
+=== tilde-digit-no-kill
+tags: vi-change-case kill
+keys: a1b\e<pause>0l~p<dump>\r
+
+=== tilde-after-x-kill
+tags: vi-change-case kill
+keys: xyz\e<pause>0x~p<dump>\r
+
+=== tilde-then-yank
+tags: vi-change-case kill
+keys: abc\e<pause>0~\C-y<dump>\r
+
+=== tilde-history-put
+tags: vi-change-case kill
+--- script
+add_history "alpha"
+readline "> "
+--- keys
+\e<pause>k~<dumpfull>p<dumpfull>\r
+
+=== replace-mode-string
+tags: vi-replace show-mode-in-prompt
+--- inputrc
+set keyseq-timeout 50
+set editing-mode vi
+set show-mode-in-prompt on
+--- keys
+abc\e<pause>0R<snap>X<snap>\e<pause><snap>\r

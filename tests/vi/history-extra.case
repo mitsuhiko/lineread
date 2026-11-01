@@ -70,3 +70,24 @@ keys: \e<pause>kkk?make\r<dumpfull>N<dumpfull>n<dumpfull>\r
 === search-N-after-slash-goes-forward
 tags: vi-search vi-search-again
 keys: \e<pause>/make\r<dumpfull>N<dumpfull>\r
+
+=== search-again-failure-moves-to-start
+tags: vi-search-again
+--- script
+readline "> "
+--- keys
+;vf\e<pause>/foo\r<dumpfull>n<dumpfull>\r
+
+=== search-again-N-failure-moves-to-start
+tags: vi-search-again
+--- script
+readline "> "
+--- keys
+;vf\e<pause>?foo\r<dumpfull>N<dumpfull>\r
+
+=== search-again-without-search
+tags: vi-search-again
+--- script
+readline "> "
+--- keys
+;vf\e<pause>n<dumpfull>\r
