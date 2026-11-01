@@ -90,6 +90,7 @@ unsafe fn initialize_everything() {
     crate::keymap::rl_set_keymap_from_edit_mode();
     crate::keymap::bind_default_keyseqs();
     crate::complete::colors::init();
+    crate::terminal::init_file_read();
     if crate::complete::rl_completer_word_break_characters.get().is_null() {
         crate::complete::rl_completer_word_break_characters.set(crate::complete::rl_basic_word_break_characters.get());
     }
