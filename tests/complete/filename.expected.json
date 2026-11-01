@@ -797,9 +797,9 @@
   "filename-rewrite-hook": {
     "exit": 0,
     "results": [
-      {"op": "gen filename \"one/ren\"", "ret": ["one/renamed", "one/renamed", "one/renamed"]},
+      {"op": "gen filename \"one/r\"", "ret": ["one/r", "one/r", "one/r"]},
       {"op": "gen filename \"one/o\"", "ret": []},
-      {"op": "gen filename \"one/\"", "ret": ["one/renamed", "one/renamed", "one/renamed"]}
+      {"op": "gen filename \"one/\"", "ret": ["one/r", "one/r", "one/r"]}
     ],
     "screen": [],
     "cursor": [0, 0]

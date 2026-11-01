@@ -374,15 +374,17 @@ readline "> "
 x a\\ b\t<dump>\r
 
 === filename-rewrite-hook
-# every directory entry is passed through the hook before matching
+# every directory entry is passed through the hook before matching (the
+# reference sizes the result by the original name, so the rewritten name
+# must not be longer than the shortest entry, ".")
 --- script
 def ren
-return "renamed"
+return "r"
 end
 mkdir "one"
 file_write "one/only" ""
 set rl_filename_rewrite_hook script:ren
-gen filename "one/ren"
+gen filename "one/r"
 gen filename "one/o"
 gen filename "one/"
 

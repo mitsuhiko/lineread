@@ -45,7 +45,10 @@ read_history_range "five.txt" 3 1
 history_dump
 
 === range-past-end
+# with history_comment_char NUL the reference reads one byte past its
+# buffer when FROM is beyond the end of the file, so set it here
 --- script
+set history_comment_char "#"
 read_history_range "five.txt" 10 20
 history_dump
 get history_lines_read_from_file
