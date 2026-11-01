@@ -289,3 +289,18 @@ fn prev_utf8_nz(buf: &[u8], seed: usize) -> usize {
     }
     0
 }
+
+/// Number of characters in `buf` (invalid or incomplete bytes count one
+/// each).
+pub fn count_chars(buf: &[u8]) -> usize {
+    if !multibyte() {
+        return buf.len();
+    }
+    let mut n = 0;
+    let mut i = 0;
+    while i < buf.len() {
+        i = next_char(buf, i);
+        n += 1;
+    }
+    n
+}
