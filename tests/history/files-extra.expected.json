@@ -1,0 +1,122 @@
+{
+  "write-history-dev-null": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"/dev/null\"", "ret": 0},
+      {"op": "get history_lines_written_to_file", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-history-dev-null": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 1 \"/dev/null\"", "ret": 0},
+      {"op": "append_history 5 \"/dev/null\"", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-history-dev-null-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"/dev/null\"", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-dev-null": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"/dev/null\" 1", "ret": 0},
+      {"op": "history_truncate_file \"/dev/null\" 0", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-history-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"adir\""},
+      {"op": "read_history_range \"adir\" 0 5"},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"adir\" 1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-history-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"adir\"", "ret": 21},
+      {"op": "append_history 1 \"adir\"", "ret": 21}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-unreadable": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"locked\" 1", "ret": 13},
+      {"op": "file_read \"locked\"", "content": "a\nb\nc\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-readonly": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"ro\" 1", "ret": 0},
+      {"op": "file_read \"ro\"", "content": "c\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-history-readonly-file": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ro\"", "ret": 0},
+      {"op": "file_read \"ro\"", "content": "new\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-history-readonly-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"rodir/hist\"", "ret": 13},
+      {"op": "file_read \"rodir/hist\"", "content": "old\n"},
+      {"op": "append_history 1 \"rodir/hist\"", "ret": 0},
+      {"op": "file_read \"rodir/hist\"", "content": "old\nnew\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-history-through-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"link\"", "ret": 0},
+      {"op": "file_read \"real\"", "content": "new\n"},
+      {"op": "file_stat \"link\"", "exists": true, "mode": "0600", "size": 4, "type": "file"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-through-symlink": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"link\" 2", "ret": 0},
+      {"op": "file_read \"real\"", "content": "3\n4\n"},
+      {"op": "file_stat \"link\"", "exists": true, "mode": "0600", "size": 4, "type": "file"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

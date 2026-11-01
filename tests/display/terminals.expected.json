@@ -1,0 +1,454 @@
+{
+  "insert-middle-vt100": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abXYZcdefgh"}
+    ],
+    "screen": [
+      "> abXYZcdefgh"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abXYcdefgh"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> abXYZcdefgh"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "delete-middle-vt100": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> adefgh"
+        ],
+        "cursor": [0, 3]
+      },
+      {
+        "screen": [
+          "> a"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "wrap-edit-vt100": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0INS56789abcdefghijklmnopqrstuvwx"}
+    ],
+    "screen": [
+      "> 0INS56789abcdefghi",
+      "jklmnopqrstuvwx"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0INS123456789abcde",
+          "fghijklmnopqrstuvwxy",
+          "z"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwx"
+        ],
+        "cursor": [1, 15]
+      }
+    ]
+  },
+  "history-replace-vt100": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "short"}
+    ],
+    "screen": [
+      "> short"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> a much longer history line"
+        ],
+        "cursor": [0, 28]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "insert-middle-vt102": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abXYZcdefgh"}
+    ],
+    "screen": [
+      "> abXYZcdefgh"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abXYcdefgh"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> abXYZcdefgh"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "delete-middle-vt102": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> adefgh"
+        ],
+        "cursor": [0, 3]
+      },
+      {
+        "screen": [
+          "> a"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "wrap-edit-vt102": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0INS56789abcdefghijklmnopqrstuvwx"}
+    ],
+    "screen": [
+      "> 0INS56789abcdefghi",
+      "jklmnopqrstuvwx"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0INS123456789abcde",
+          "fghijklmnopqrstuvwxy",
+          "z"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwx"
+        ],
+        "cursor": [1, 15]
+      }
+    ]
+  },
+  "history-replace-vt102": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "short"}
+    ],
+    "screen": [
+      "> short"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> a much longer history line"
+        ],
+        "cursor": [0, 28]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "insert-middle-ansi": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abXYZcdefgh"}
+    ],
+    "screen": [
+      "> abXYZcdefgh"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abXYcdefgh"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> abXYZcdefgh"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "delete-middle-ansi": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> adefgh"
+        ],
+        "cursor": [0, 3]
+      },
+      {
+        "screen": [
+          "> a"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "wrap-edit-ansi": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0INS56789abcdefghijklmnopqrstuvwx"}
+    ],
+    "screen": [
+      "> 0INS56789abcdefghi",
+      "jklmnopqrstuvwx"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0INS123456789abcde",
+          "fghijklmnopqrstuvwxy",
+          "z"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwx"
+        ],
+        "cursor": [1, 15]
+      }
+    ]
+  },
+  "history-replace-ansi": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "short"}
+    ],
+    "screen": [
+      "> short"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> a much longer history line"
+        ],
+        "cursor": [0, 28]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "insert-middle-linux": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abXYZcdefgh"}
+    ],
+    "screen": [
+      "> abXYZcdefgh"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abXYcdefgh"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> abXYZcdefgh"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "delete-middle-linux": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> adefgh"
+        ],
+        "cursor": [0, 3]
+      },
+      {
+        "screen": [
+          "> a"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "wrap-edit-linux": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0INS56789abcdefghijklmnopqrstuvwx"}
+    ],
+    "screen": [
+      "> 0INS56789abcdefghi",
+      "jklmnopqrstuvwx"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0INS123456789abcde",
+          "fghijklmnopqrstuvwxy",
+          "z"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 0INS56789abcdefghi",
+          "jklmnopqrstuvwx"
+        ],
+        "cursor": [1, 15]
+      }
+    ]
+  },
+  "history-replace-linux": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "short"}
+    ],
+    "screen": [
+      "> short"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> a much longer history line"
+        ],
+        "cursor": [0, 28]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  }
+}

@@ -1,0 +1,111 @@
+# Redisplay with other terminal types: insert/delete strategies differ
+# with the capabilities (vt100: none, vt102: insert mode and single-char
+# delete, ansi/linux: parameterized insert/delete).
+# Only terminal types shipped by every ncurses installation are used.
+tags: display terminal
+--- script
+readline "> "
+
+=== insert-middle-vt100
+tags: terminal insert
+env: TERM=vt100
+keys: abcdefgh\C-a\C-f\C-fXY<snap>Z<snap>\r
+
+=== delete-middle-vt100
+tags: terminal delete
+env: TERM=vt100
+keys: abcdefgh\C-a\C-f\C-d\C-d<snap>\M-d<snap>\r
+
+=== wrap-edit-vt100
+tags: terminal wrap
+env: TERM=vt100
+screen: 20x6
+keys: 0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-fINS<snap>\C-d\C-d\C-d\C-d<snap>\C-e\C-?\C-?<snap>\r
+
+=== history-replace-vt100
+tags: terminal history
+env: TERM=vt100
+--- script
+add_history "a much longer history line"
+add_history "short"
+readline "> "
+--- keys
+<up><snap><up><snap><down><snap>\r
+
+=== insert-middle-vt102
+tags: terminal insert
+env: TERM=vt102
+keys: abcdefgh\C-a\C-f\C-fXY<snap>Z<snap>\r
+
+=== delete-middle-vt102
+tags: terminal delete
+env: TERM=vt102
+keys: abcdefgh\C-a\C-f\C-d\C-d<snap>\M-d<snap>\r
+
+=== wrap-edit-vt102
+tags: terminal wrap
+env: TERM=vt102
+screen: 20x6
+keys: 0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-fINS<snap>\C-d\C-d\C-d\C-d<snap>\C-e\C-?\C-?<snap>\r
+
+=== history-replace-vt102
+tags: terminal history
+env: TERM=vt102
+--- script
+add_history "a much longer history line"
+add_history "short"
+readline "> "
+--- keys
+<up><snap><up><snap><down><snap>\r
+
+=== insert-middle-ansi
+tags: terminal insert
+env: TERM=ansi
+keys: abcdefgh\C-a\C-f\C-fXY<snap>Z<snap>\r
+
+=== delete-middle-ansi
+tags: terminal delete
+env: TERM=ansi
+keys: abcdefgh\C-a\C-f\C-d\C-d<snap>\M-d<snap>\r
+
+=== wrap-edit-ansi
+tags: terminal wrap
+env: TERM=ansi
+screen: 20x6
+keys: 0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-fINS<snap>\C-d\C-d\C-d\C-d<snap>\C-e\C-?\C-?<snap>\r
+
+=== history-replace-ansi
+tags: terminal history
+env: TERM=ansi
+--- script
+add_history "a much longer history line"
+add_history "short"
+readline "> "
+--- keys
+<up><snap><up><snap><down><snap>\r
+
+=== insert-middle-linux
+tags: terminal insert
+env: TERM=linux
+keys: abcdefgh\C-a\C-f\C-fXY<snap>Z<snap>\r
+
+=== delete-middle-linux
+tags: terminal delete
+env: TERM=linux
+keys: abcdefgh\C-a\C-f\C-d\C-d<snap>\M-d<snap>\r
+
+=== wrap-edit-linux
+tags: terminal wrap
+env: TERM=linux
+screen: 20x6
+keys: 0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-fINS<snap>\C-d\C-d\C-d\C-d<snap>\C-e\C-?\C-?<snap>\r
+
+=== history-replace-linux
+tags: terminal history
+env: TERM=linux
+--- script
+add_history "a much longer history line"
+add_history "short"
+readline "> "
+--- keys
+<up><snap><up><snap><down><snap>\r

@@ -1,0 +1,125 @@
+# History file functions on special files: character devices (no
+# truncation possible), directories, unreadable and unwritable files.
+tags: history histfile
+
+=== write-history-dev-null
+tags: write_history
+--- script
+add_history "one"
+add_history "two"
+write_history "/dev/null"
+get history_lines_written_to_file
+
+=== append-history-dev-null
+tags: append_history
+--- script
+add_history "one"
+add_history "two"
+append_history 1 "/dev/null"
+append_history 5 "/dev/null"
+
+=== write-history-dev-null-timestamps
+tags: write_history history_write_timestamps
+--- script
+set history_write_timestamps 1
+add_history "x"
+add_history_time "#1700000000"
+write_history "/dev/null"
+
+=== truncate-dev-null
+tags: history_truncate_file
+--- script
+history_truncate_file "/dev/null" 1
+history_truncate_file "/dev/null" 0
+
+=== read-history-directory
+tags: read_history
+description: the error code differs by platform (EFTYPE on macOS, EINVAL on Linux); only the unchanged history is compared
+ignore: results[0].ret results[1].ret
+--- dir adir
+--- script
+read_history "adir"
+read_history_range "adir" 0 5
+history_dump
+
+=== truncate-directory
+tags: history_truncate_file
+--- dir adir
+--- script
+history_truncate_file "adir" 1
+
+=== write-history-directory
+tags: write_history
+--- dir adir
+--- script
+add_history "x"
+write_history "adir"
+append_history 1 "adir"
+
+=== truncate-unreadable
+tags: history_truncate_file
+--- file locked mode=0200
+a
+b
+c
+--- script
+history_truncate_file "locked" 1
+chmod "locked" 0644
+file_read "locked"
+
+=== truncate-readonly
+tags: history_truncate_file
+--- file ro mode=0444
+a
+b
+c
+--- script
+history_truncate_file "ro" 1
+file_read "ro"
+
+=== write-history-readonly-file
+tags: write_history
+--- file ro mode=0444
+old
+--- script
+add_history "new"
+write_history "ro"
+file_read "ro"
+
+=== write-history-readonly-directory
+tags: write_history
+--- dir rodir
+--- file rodir/hist
+old
+--- script
+chmod "rodir" 0555
+add_history "new"
+write_history "rodir/hist"
+file_read "rodir/hist"
+append_history 1 "rodir/hist"
+file_read "rodir/hist"
+chmod "rodir" 0755
+
+=== write-history-through-symlink
+tags: write_history
+--- file real
+old
+--- symlink link real
+--- script
+add_history "new"
+write_history "link"
+file_read "real"
+file_stat "link"
+
+=== truncate-through-symlink
+tags: history_truncate_file
+--- file real
+1
+2
+3
+4
+--- symlink link real
+--- script
+history_truncate_file "link" 2
+file_read "real"
+file_stat "link"
