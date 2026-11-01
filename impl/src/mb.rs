@@ -135,3 +135,88 @@ pub fn is_word_char(buf: &[u8], i: usize) -> bool {
         None => false,
     }
 }
+
+// ---- character movement that treats zero-width characters (combining
+// marks, joiners) as part of the preceding character
+
+fn zero_width_at(buf: &[u8], i: usize) -> Option<usize> {
+    if i >= buf.len() {
+        return None;
+    }
+    match decode_at(buf, i) {
+        (Some(c), n) if c != 0 && n > 1 && wc_width(c) == 0 => Some(n),
+        _ => None,
+    }
+}
+
+/// Move `count` characters forward from `i`, skipping zero-width
+/// characters (they belong to the character before them).
+pub fn forward_chars_nz(buf: &[u8], i: usize, count: usize) -> usize {
+    if !multibyte() {
+        return (i + count).min(buf.len());
+    }
+    let mut p = i;
+    while let Some(n) = zero_width_at(buf, p) {
+        p += n;
+    }
+    let mut count = count;
+    while count > 0 && p < buf.len() {
+        let (wc, n) = decode_at(buf, p);
+        match wc {
+            None => {
+                p += 1;
+                count -= 1;
+            }
+            Some(0) => break,
+            Some(c) => {
+                p += n.max(1);
+                if wc_width(c) != 0 || n == 1 {
+                    count -= 1;
+                }
+            }
+        }
+    }
+    while let Some(n) = zero_width_at(buf, p) {
+        p += n;
+    }
+    p
+}
+
+/// The start of the last character before `seed` that has a non-zero
+/// width (invalid bytes count as characters).
+pub fn prev_char_nz(buf: &[u8], seed: usize) -> usize {
+    if !multibyte() {
+        return seed.saturating_sub(1);
+    }
+    let mut prev = 0;
+    let mut p = 0;
+    while p < seed && p < buf.len() {
+        let (wc, n) = decode_at(buf, p);
+        match wc {
+            None => {
+                prev = p;
+                p += 1;
+            }
+            Some(0) if n == 1 && buf[p] == 0 => break,
+            Some(c) => {
+                if n == 1 || wc_width(c) != 0 {
+                    prev = p;
+                }
+                p += n.max(1);
+            }
+        }
+    }
+    prev
+}
+
+/// Move `count` characters backward (see `prev_char_nz`).
+pub fn backward_chars_nz(buf: &[u8], i: usize, count: usize) -> usize {
+    let mut p = i;
+    for _ in 0..count {
+        if p == 0 {
+            break;
+        }
+        p = prev_char_nz(buf, p);
+    }
+    p
+}
