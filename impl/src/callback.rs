@@ -106,7 +106,11 @@ pub fn wait_for_key() {
         if !ON_WORKER.get() {
             return;
         }
-        if BUDGET.get() > 0 || input::internal_input_pending() {
+        // a command run by the numeric-argument loop ends the call even
+        // when it pushed input back (the reference returns from its
+        // argument callback there)
+        let after_arg = crate::dispatch::TOP_ARG_COMMAND.replace(false);
+        if BUDGET.get() > 0 || (input::internal_input_pending() && !after_arg) {
             return;
         }
         suspend(WState::Waiting);

@@ -97,6 +97,10 @@ fn is_arg_func(f: rl_command_func_t) -> bool {
         || a == crate::vi::rl_vi_arg_digit as *const () as usize
 }
 
+/// The last top-level command was a numeric-argument command (the
+/// callback interface returns after it).
+pub static TOP_ARG_COMMAND: CVar<bool> = CVar::new(false);
+
 /// Commands being executed (innermost last).
 static CMD_STACK: CVar<Vec<rl_command_func_t>> = CVar::new(Vec::new());
 
@@ -132,6 +136,9 @@ pub unsafe fn call_command_as(f: rl_command_func_t, key: c_int, exec_key: c_int,
     let nested = !CMD_STACK.get_mut().is_empty();
     let outer = nested && is_state(RL_STATE_DISPATCHING);
     let outer_disp = if nested { rl_dispatching.get() } else { 0 };
+    if !nested {
+        TOP_ARG_COMMAND.set(is_arg_func(f));
+    }
     set_state(RL_STATE_DISPATCHING);
     rl_dispatching.set(1);
     CMD_STACK.get_mut().push(f);
