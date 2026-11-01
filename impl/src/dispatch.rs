@@ -229,7 +229,8 @@ unsafe fn dispatch_key_in(key: c_int, map: Keymap, fallback: bool) -> c_int {
             Some(f) if same_fn(Some(f), rl_do_lowercase_version) => lowercase_dispatch(key, map),
             Some(f) => call_command(f, key, map),
             None => {
-                // unbound key
+                // unbound key (not part of the executing key sequence)
+                keyseq_pop();
                 unbound_key();
                 -1
             }
@@ -309,7 +310,10 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap, fallback: bool) -> c_int {
             // (pushed back into the input: a macro bound there is read
             // first)
             crate::input::unread_keys(&[next as u8]);
-            return run_anyother(key, sub, other);
+            let r = run_anyother(key, sub, other);
+            // (the shadowed binding does not count as the last command)
+            rl_last_func.set(None);
+            return r;
         }
         if fallback {
             // an enclosing prefix runs its binding; re-read from `next`

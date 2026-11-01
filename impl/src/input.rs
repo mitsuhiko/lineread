@@ -190,6 +190,12 @@ pub unsafe fn input_available(timeout_us: i64) -> bool {
     wait_readable(fd, timeout_us) > 0
 }
 
+/// Typeahead for self-insert: terminal input is waiting and nothing was
+/// pushed back into the input (pushed-back keys are dispatched one by one).
+pub unsafe fn typeahead_available() -> bool {
+    !internal_input_pending() && input_available(0)
+}
+
 /// Read one byte through rl_getc_function (no pending input, no macros).
 pub unsafe fn getc_raw() -> c_int {
     crate::callback::before_getc();
