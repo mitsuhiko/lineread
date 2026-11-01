@@ -42,8 +42,8 @@ struct ViState {
     open_groups: c_int,
     /// Replace (overstrike) mode is active.
     overstrike: bool,
-    /// Characters overwritten in replace mode (None: appended).
-    replaced: Vec<Option<Vec<u8>>>,
+    /// Characters typed in replace mode that backspace can undo.
+    replaced: c_int,
     /// Characters typed in replace mode (for `.`).
     ostext: Vec<u8>,
     /// Last character search: key (f F t T) and character.
@@ -64,7 +64,7 @@ static V: CVar<ViState> = CVar::new(ViState {
     doing_insert: false,
     open_groups: 0,
     overstrike: false,
-    replaced: Vec::new(),
+    replaced: 0,
     ostext: Vec::new(),
     cs_key: 0,
     cs_char: Vec::new(),
@@ -205,18 +205,16 @@ pub fn start_line_in_vi() {
     s.doing_insert = false;
     s.open_groups = 0;
     s.overstrike = false;
-    s.replaced.clear();
+    s.replaced = 0;
     s.marks = [-1; 26];
 }
 
 /// accept-line in vi mode.
 pub fn newline_hook() {
     let s = st();
-    if s.doing_insert {
-        s.doing_insert = false;
-        s.open_groups = 0;
-        s.overstrike = false;
-    }
+    s.doing_insert = false;
+    s.open_groups = 0;
+    s.overstrike = false;
 }
 
 /// Called after every command dispatched by the key loop: in command mode
@@ -259,23 +257,24 @@ fn done_inserting() {
         }
     };
     if s.doing_insert {
+        // c s S C R: the text typed replaces the saved insertion
         if s.overstrike {
             s.insert_text = s.ostext.clone();
         } else {
             s.insert_text = top_insert.unwrap_or_default();
         }
-        for _ in 0..s.open_groups {
-            unsafe { crate::undo::rl_end_undo_group() };
-        }
-        s.open_groups = 0;
-        s.doing_insert = false;
-        s.overstrike = false;
-        s.replaced.clear();
     } else if matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A') {
         if let Some(t) = top_insert {
             s.insert_text = t;
         }
     }
+    for _ in 0..s.open_groups {
+        unsafe { crate::undo::rl_end_undo_group() };
+    }
+    s.open_groups = 0;
+    s.doing_insert = false;
+    s.overstrike = false;
+    s.replaced = 0;
 }
 
 #[no_mangle]
@@ -296,9 +295,7 @@ pub unsafe extern "C" fn rl_vi_movement_mode(_count: c_int, _key: c_int) -> c_in
 pub unsafe extern "C" fn rl_vi_start_inserting(key: c_int, repeat: c_int, _sign: c_int) {
     set_last(key, repeat);
     crate::undo::rl_begin_undo_group();
-    let s = st();
-    s.doing_insert = true;
-    s.open_groups += 1;
+    st().open_groups += 1;
     set_keymap(crate::keymap::vi_insertion());
 }
 
@@ -995,7 +992,9 @@ unsafe fn finish_change(key: c_int, count: c_int) {
         return;
     }
     rl_vi_start_inserting(key, count, 1);
-    st().open_groups += 1;
+    let s = st();
+    s.open_groups += 1;
+    s.doing_insert = true;
 }
 
 #[no_mangle]
@@ -1205,11 +1204,30 @@ unsafe fn replace_keymap() -> Keymap {
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_replace(count: c_int, key: c_int) -> c_int {
     if redoing() {
+        // replace as many characters as the saved text has, in one change
         let t = st().insert_text.clone();
-        crate::undo::rl_begin_undo_group();
+        let mut text = Vec::new();
         for _ in 0..count.max(1) {
-            overstrike_bytes(&t, false);
+            text.extend_from_slice(&t);
         }
+        let nchars = {
+            let mut n = 0;
+            let mut i = 0;
+            while i < text.len() {
+                i += mb::char_len_at(&text, i);
+                n += 1;
+            }
+            n
+        };
+        crate::undo::rl_begin_undo_group();
+        crate::undo::rl_begin_undo_group();
+        let p = point();
+        let to = mb::forward_chars(line(), p, nchars);
+        if to > p {
+            buffer::delete(p, to);
+        }
+        buffer::insert(&text);
+        crate::undo::rl_end_undo_group();
         crate::undo::rl_end_undo_group();
         back_one();
         return 0;
@@ -1221,46 +1239,46 @@ pub unsafe extern "C" fn rl_vi_replace(count: c_int, key: c_int) -> c_int {
     s.doing_insert = true;
     s.open_groups += 1;
     s.overstrike = true;
-    s.replaced.clear();
+    s.replaced = 0;
     s.ostext.clear();
     set_keymap(m);
     0
 }
 
 /// Overwrite characters at point with `text` (character by character).
-unsafe fn overstrike_bytes(text: &[u8], record: bool) {
+unsafe fn overstrike_bytes(text: &[u8]) {
     let mut i = 0;
     while i < text.len() {
         let n = mb::char_len_at(text, i);
         let ch = &text[i..(i + n).min(text.len())];
-        overstrike_one(ch, record);
+        overstrike_one(ch);
         i += n;
     }
 }
 
-unsafe fn overstrike_one(ch: &[u8], record: bool) {
-    let p = point();
+/// Overwrite one character (one undo group, so backspace can undo it).
+unsafe fn overstrike_one(ch: &[u8]) {
+    if st().replaced == 0 {
+        // the replacement as a whole is one more group
+        crate::undo::rl_begin_undo_group();
+        st().open_groups += 1;
+    }
+    crate::undo::rl_begin_undo_group();
     buffer::insert(ch);
     let q = point();
-    let orig = if q < end() {
+    if q < end() {
         let r = mb::next_char(line(), q);
-        let o = line()[q..r].to_vec();
         buffer::delete(q, r);
-        Some(o)
-    } else {
-        None
-    };
-    let _ = p;
-    if record {
-        let s = st();
-        s.replaced.push(orig);
-        s.ostext.extend_from_slice(ch);
     }
+    crate::undo::rl_end_undo_group();
+    let s = st();
+    s.replaced += 1;
+    s.ostext.extend_from_slice(ch);
 }
 
 /// Insert text in replace mode (bracketed paste).
 pub unsafe fn overstrike_text(text: &[u8]) {
-    overstrike_bytes(text, true);
+    overstrike_bytes(text);
 }
 
 #[no_mangle]
@@ -1270,7 +1288,7 @@ pub unsafe extern "C" fn rl_vi_overstrike(count: c_int, key: c_int) -> c_int {
     }
     let ch = read_mb_rest(key as u8);
     for _ in 0..count.max(1) {
-        overstrike_one(&ch, true);
+        overstrike_one(&ch);
     }
     0
 }
@@ -1279,25 +1297,23 @@ pub unsafe extern "C" fn rl_vi_overstrike(count: c_int, key: c_int) -> c_int {
 pub unsafe extern "C" fn rl_vi_overstrike_delete(count: c_int, _key: c_int) -> c_int {
     for _ in 0..count.max(1) {
         let s = st();
-        let Some(orig) = s.replaced.pop() else {
+        if s.replaced == 0 {
             rl_ding();
             break;
-        };
+        }
+        s.replaced -= 1;
         // drop the typed character from the redo text
         if !s.ostext.is_empty() {
             let l = s.ostext.len();
             let p = mb::prev_char(&s.ostext, l);
             s.ostext.truncate(p);
         }
-        let p = point();
-        if p == 0 {
-            break;
-        }
-        let a = mb::prev_char(line(), p);
-        buffer::delete(a, p);
-        set_point(a);
-        if let Some(o) = orig {
-            buffer::insert_at(a, &o);
+        // undo the character's overwrite
+        crate::undo::rl_do_undo();
+        if st().replaced == 0 {
+            // and drop the group the first character opened
+            crate::undo::rl_do_undo();
+            st().open_groups -= 1;
         }
     }
     0
@@ -1329,12 +1345,7 @@ pub unsafe extern "C" fn rl_vi_redo(count: c_int, _key: c_int) -> c_int {
         _ => {
             let e = *crate::keymap::entry(crate::keymap::vi_movement(), (cmd as usize) & 0xff);
             match (e.type_, e.function.func) {
-                (ISFUNC, Some(f)) if !crate::dispatch::same_fn(Some(f), rl_vi_redo) => {
-                    crate::undo::rl_begin_undo_group();
-                    let r = f(count, cmd);
-                    crate::undo::rl_end_undo_group();
-                    r
-                }
+                (ISFUNC, Some(f)) if !crate::dispatch::same_fn(Some(f), rl_vi_redo) => f(count, cmd),
                 _ => {
                     rl_ding();
                     0
@@ -1428,13 +1439,29 @@ pub unsafe extern "C" fn rl_vi_fetch_history(count: c_int, key: c_int) -> c_int 
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_yank_arg(count: c_int, key: c_int) -> c_int {
-    let _ = key;
-    let r = if crate::numarg::rl_explicit_arg.get() != 0 {
-        crate::histcmds::rl_yank_nth_arg(count - 1, 0)
-    } else {
-        crate::histcmds::rl_yank_nth_arg(b'$' as c_int, 0)
-    };
-    r
+    // `_`: append the last word (with a count: word count-1) of the
+    // previous history line, preceded by a space, and enter insert mode
+    let n = if crate::numarg::rl_explicit_arg.get() != 0 { count - 1 } else { b'$' as c_int };
+    let h = crate::history::previous_history();
+    if h.is_null() {
+        rl_ding();
+        return 1;
+    }
+    let text = (*h).line;
+    crate::history::next_history();
+    let w = crate::history::expand::history_arg_extract(n, n, text);
+    if w.is_null() {
+        rl_ding();
+        return 1;
+    }
+    let word = cstr(w).to_vec();
+    cfree(w);
+    buffer::rl_mark.set(point() as c_int);
+    rl_vi_append_mode(1, key);
+    let mut t = b" ".to_vec();
+    t.extend_from_slice(&word);
+    buffer::insert(&t);
+    0
 }
 
 #[no_mangle]
