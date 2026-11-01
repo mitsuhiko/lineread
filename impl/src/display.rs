@@ -737,6 +737,7 @@ pub fn clear_arg_message() {
             rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
             let old = MESSAGE_C.replace(null_mut());
             cfree(old);
+            redisplay();
         }
     }
 }
