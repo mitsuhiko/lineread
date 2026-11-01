@@ -15,6 +15,8 @@ pub struct Term {
     pub name: Vec<u8>,
     /// terminfo string capabilities (padding stripped), by terminfo name
     pub strings: HashMap<&'static str, Vec<u8>>,
+    /// the same with padding specifications (rl_get_termcap)
+    pub raw: HashMap<&'static str, Vec<u8>>,
     pub auto_wrap: bool,
     pub eat_newline_glitch: bool,
     pub has_meta: bool,
@@ -78,6 +80,7 @@ fn load(name: &[u8]) -> Term {
     let mut t = Term {
         name: name.to_vec(),
         strings: HashMap::new(),
+        raw: HashMap::new(),
         auto_wrap: false,
         eat_newline_glitch: false,
         has_meta: false,
@@ -92,6 +95,7 @@ fn load(name: &[u8]) -> Term {
     for &c in CAPS {
         if let Some(terminfo::Value::String(v)) = db.raw(c) {
             t.strings.insert(c, strip_padding(v));
+            t.raw.insert(c, v.to_vec());
         }
     }
     let flag = |n: &str| matches!(db.raw(n), Some(terminfo::Value::True));
@@ -426,7 +430,11 @@ pub unsafe extern "C" fn rl_get_termcap(name: *const c_char) -> *mut c_char {
     static STORE: CVar<Vec<Vec<u8>>> = CVar::new(Vec::new());
     let Some(n) = cstr_opt(name) else { return null_mut() };
     let Some(&(_, ti)) = TERMCAP.iter().find(|(tc, _)| tc.as_bytes() == n) else { return null_mut() };
-    let Some(v) = cap(ti) else { return null_mut() };
+    if AUTOWRAP.get().is_none() {
+        // the terminal is not initialised yet
+        return null_mut();
+    }
+    let Some(v) = term().raw.get(ti) else { return null_mut() };
     let store = STORE.get_mut();
     let mut s = v.to_vec();
     s.push(0);
