@@ -843,10 +843,16 @@ unsafe fn domove(op: u8, count: c_int) -> Option<(c_int, c_int)> {
                 } else {
                     break;
                 }
+                let after_digit = is_digit(c);
                 set_state(RL_STATE_VIMOTION);
                 c = read_raw_key();
                 unset_state(RL_STATE_VIMOTION);
                 if c < 0 {
+                    if after_digit {
+                        // the reference accepts the line when the input
+                        // ends inside a motion count
+                        crate::readline::rl_newline(1, b'\n' as c_int);
+                    }
                     return None;
                 }
             }
