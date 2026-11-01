@@ -122,6 +122,9 @@ pub unsafe extern "C" fn rl_do_undo() -> c_int {
             }
             _ => {}
         }
+        // whoever shares the list (history entries, the saved line) now
+        // starts at the next entry
+        crate::histcmds::replace_undo_list(u, (*u).next);
         cfree((*u).text);
         cfree(u);
         if waiting_for_begin == 0 {
