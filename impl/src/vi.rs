@@ -1220,6 +1220,7 @@ pub unsafe extern "C" fn rl_vi_put(count: c_int, key: c_int) -> c_int {
         if crate::kill::rl_yank(1, key) != 0 {
             // empty kill ring: the reference aborts the command here
             SKIP_CHECK.set(true);
+            crate::commands::misc::abort_internal();
             return 1;
         }
     }
