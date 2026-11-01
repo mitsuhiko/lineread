@@ -208,6 +208,33 @@ unsafe fn resume() {
     if lr_coro_done(c) != 0 {
         STATE.set(WState::Idle);
     }
+    if ABORTED.replace(false) {
+        // the command was aborted: drop its coroutine, the line goes on in
+        // a fresh one with the next key (rl_callback_read_char returns)
+        abandon();
+        crate::dispatch::rl_last_func.set(None);
+        crate::readline::after_command();
+        crate::display::redisplay();
+        let c = lr_coro_new(STACK_SIZE, worker_resume_line, null_mut());
+        CORO.set(c);
+        STATE.set(WState::Waiting);
+    }
+}
+
+/// An abort was requested on the worker (see abort_command).
+static ABORTED: CVar<bool> = CVar::new(false);
+
+/// Running on the callback coroutine?
+pub fn on_worker() -> bool {
+    ON_WORKER.get()
+}
+
+/// Abort the running command from inside the worker, the callback
+/// equivalent of jumping back to the editing loop: the coroutine is
+/// suspended for good and abandoned.
+pub unsafe fn abort_command() {
+    ABORTED.set(true);
+    suspend(WState::Waiting);
 }
 
 #[no_mangle]
