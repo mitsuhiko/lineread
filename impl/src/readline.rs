@@ -162,6 +162,11 @@ fn rl_already_prompted() -> bool {
 
 /// Read and dispatch one key.  Returns false when the line is finished.
 pub unsafe fn line_step() -> bool {
+    // a new command: the numeric argument of the previous one is gone
+    // (it stays visible between commands, like the reference)
+    if crate::input::rl_pending_input.get() == 0 {
+        crate::numarg::reset();
+    }
     crate::dispatch::keyseq_reset();
     set_state(RL_STATE_READCMD);
     let c = crate::input::rl_read_key();
@@ -171,7 +176,7 @@ pub unsafe fn line_step() -> bool {
         return false;
     }
     crate::dispatch::dispatch_key(c, crate::keymap::current());
-    crate::numarg::reset();
+    unset_state(RL_STATE_MULTIKEY);
     after_command();
     crate::signals::rl_check_signals();
     if rl_done.get() == 0 {

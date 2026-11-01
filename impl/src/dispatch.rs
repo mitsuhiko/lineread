@@ -81,13 +81,33 @@ fn is_arg_func(f: rl_command_func_t) -> bool {
         || a == crate::vi::rl_vi_arg_digit as *const () as usize
 }
 
+/// Commands being executed (innermost last).
+static CMD_STACK: CVar<Vec<rl_command_func_t>> = CVar::new(Vec::new());
+
+/// The innermost command being executed, if any.
+pub fn current_command() -> Option<rl_command_func_t> {
+    CMD_STACK.get_mut().last().copied()
+}
+
+/// Forget the command stack (the callback coroutine running the commands
+/// was abandoned).
+pub fn reset_command_stack() {
+    CMD_STACK.get_mut().clear();
+}
+
+pub fn is_arg_command(f: rl_command_func_t) -> bool {
+    is_arg_func(f)
+}
+
 /// Run a command with the current numeric argument.
 pub unsafe fn call_command(f: rl_command_func_t, key: c_int, map: Keymap) -> c_int {
     rl_executing_keymap.set(map);
     rl_executing_key.set(key);
     set_state(RL_STATE_DISPATCHING);
     rl_dispatching.set(1);
+    CMD_STACK.get_mut().push(f);
     let r = f(crate::numarg::count(), key);
+    CMD_STACK.get_mut().pop();
     rl_dispatching.set(0);
     unset_state(RL_STATE_DISPATCHING);
     if !is_arg_func(f) {
@@ -148,9 +168,18 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap) -> c_int {
             return run_anyother(key, sub, other);
         }
     }
-    set_state(RL_STATE_MULTIKEY);
+    // callback mode shows a pending key sequence as MULTIKEY (until the
+    // sequence is complete); readline() reads the next key with MOREINPUT
+    let cb = is_state(RL_STATE_CALLBACK);
+    if cb {
+        set_state(RL_STATE_MULTIKEY);
+    } else {
+        set_state(RL_STATE_MOREINPUT);
+    }
     let next = crate::input::rl_read_key();
-    unset_state(RL_STATE_MULTIKEY);
+    if !cb {
+        unset_state(RL_STATE_MOREINPUT);
+    }
     if next < 0 {
         return -1;
     }

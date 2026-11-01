@@ -47,6 +47,8 @@ static STATE: CVar<WState> = CVar::new(WState::Idle);
 /// Reads allowed without checking for available input in this call.
 static BUDGET: CVar<c_int> = CVar::new(0);
 static LINE: CVar<*mut c_char> = CVar::new(null_mut());
+/// Suspended inside a command (not between commands).
+static IN_COMMAND: CVar<bool> = CVar::new(false);
 
 /// Yield to rl_callback_read_char (we are on the worker).
 unsafe fn suspend(st: WState) {
@@ -54,6 +56,29 @@ unsafe fn suspend(st: WState) {
     ON_WORKER.set(false);
     lr_coro_yield(CORO.get());
     ON_WORKER.set(true);
+}
+
+/// Suspend inside a command that waits for more input.  The reference's
+/// callback interface returns from such commands and resumes them on the
+/// next call, so between calls the command is not "dispatching" and it
+/// already counts as the last function: show that state while suspended.
+unsafe fn suspend_in_command() {
+    let bits = (RL_STATE_DISPATCHING | RL_STATE_MOREINPUT) as c_ulong;
+    let saved_bits = crate::readline::rl_readline_state.get() & bits;
+    let saved_disp = crate::dispatch::rl_dispatching.get();
+    let saved_last = crate::dispatch::rl_last_func.get();
+    unset_state(RL_STATE_DISPATCHING | RL_STATE_MOREINPUT);
+    crate::dispatch::rl_dispatching.set(0);
+    if let Some(f) = crate::dispatch::current_command() {
+        if !crate::dispatch::is_arg_command(f) {
+            crate::dispatch::rl_last_func.set(Some(f));
+        }
+    }
+    suspend(WState::Waiting);
+    // (state changed by the application meanwhile is kept, ours restored)
+    crate::readline::rl_readline_state.set(crate::readline::rl_readline_state.get() | saved_bits);
+    crate::dispatch::rl_dispatching.set(saved_disp);
+    crate::dispatch::rl_last_func.set(saved_last);
 }
 
 /// Before reading the next top-level key: give control back to the
@@ -84,7 +109,18 @@ pub fn before_getc() {
         if input::input_available(0) {
             return;
         }
-        suspend(WState::Waiting);
+        // reading a string (execute-named-command) blocks in the
+        // reference's callback mode
+        if is_state(RL_STATE_READSTR) {
+            return;
+        }
+        IN_COMMAND.set(true);
+        if is_state(RL_STATE_DISPATCHING) {
+            suspend_in_command();
+        } else {
+            suspend(WState::Waiting);
+        }
+        IN_COMMAND.set(false);
         BUDGET.set(BUDGET.get() - 1);
     }
 }
@@ -114,6 +150,7 @@ unsafe extern "C" fn worker(_arg: *mut c_void) {
 }
 
 unsafe fn abandon() {
+    crate::dispatch::reset_command_stack();
     let c = CORO.replace(null_mut());
     if !c.is_null() {
         GRAVEYARD.get_mut().push(c);
@@ -219,9 +256,30 @@ pub unsafe extern "C" fn rl_callback_sigcleanup() {
     if !is_state(RL_STATE_CALLBACK) {
         return;
     }
-    unset_state(RL_STATE_ISEARCH | RL_STATE_NSEARCH | RL_STATE_MULTIKEY | RL_STATE_NUMERICARG | RL_STATE_VIMOTION | RL_STATE_CHARSEARCH | RL_STATE_MOREINPUT);
-    // restart the line from scratch on the next call
-    if !CORO.get().is_null() && STATE.get() == WState::Waiting {
+    // an incremental / non-incremental search in progress: back to the
+    // normal prompt, the line stays as displayed
+    if is_state(RL_STATE_ISEARCH | RL_STATE_NSEARCH) {
+        crate::display::rl_restore_prompt();
+    }
+    unset_state(
+        RL_STATE_ISEARCH
+            | RL_STATE_NSEARCH
+            | RL_STATE_MULTIKEY
+            | RL_STATE_NUMERICARG
+            | RL_STATE_VIMOTION
+            | RL_STATE_CHARSEARCH
+            | RL_STATE_MOREINPUT
+            | RL_STATE_DISPATCHING
+            | RL_STATE_READSTR,
+    );
+    crate::dispatch::rl_dispatching.set(0);
+    // a command suspended in the middle: abandon it and continue the line
+    // with the next key
+    if !CORO.get().is_null() && STATE.get() == WState::Waiting && IN_COMMAND.get() {
+        if ON_WORKER.get() {
+            // called from inside the line itself: cannot unwind it here
+            return;
+        }
         abandon();
         let c = lr_coro_new(STACK_SIZE, worker_resume_line, null_mut());
         CORO.set(c);
