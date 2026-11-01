@@ -164,16 +164,17 @@ unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
 
 /// Read a character argument (r, f, t, m, `): None on ESC / EOF.
 unsafe fn read_char_arg() -> Option<Vec<u8>> {
-    let c = read_raw_key();
-    if c < 0 {
-        return None;
-    }
-    if c == ESC {
+    // (a bracketed paste gives its first character, the rest is input)
+    let c = crate::commands::text::read_char_arg()?;
+    if c == [ESC as u8] {
         // cancels the command; the ESC itself is then read as a key
         crate::input::rl_execute_next(ESC);
         return None;
     }
-    Some(read_mb_rest(c as u8))
+    if c.is_empty() {
+        return None;
+    }
+    Some(c)
 }
 
 /// In callback mode the reference reports a failed character command
@@ -1636,12 +1637,30 @@ pub unsafe extern "C" fn rl_vi_yank_pop(count: c_int, key: c_int) -> c_int {
         // aborts without moving point
         return crate::kill::rl_yank_pop(count, key);
     }
+    // the put text ends at point (vi put leaves point on its last char)
     if point() < end() {
         set_point(mb::next_char(line(), point()));
     }
     let r = crate::kill::rl_yank_pop(count, key);
+    if r != 0 {
+        return r;
+    }
+    // yank-pop put the next text where the old one was: put it after the
+    // cursor like `p` instead
+    let start = buffer::mark();
+    let p = point();
+    let text = line()[start.min(p)..p].to_vec();
+    buffer::delete(start.min(p), p);
+    set_point(start.min(p));
+    if point() < end() {
+        set_point(mb::next_char(line(), point()));
+    }
+    buffer::set_mark(point());
+    buffer::insert(&text);
     back_one();
-    r
+    // a second vi-yank-pop does not follow this one
+    crate::kill::cancel_yank();
+    0
 }
 
 /// The last vi search string and direction (-1 older, 1 newer).
