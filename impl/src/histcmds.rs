@@ -135,9 +135,7 @@ pub unsafe extern "C" fn rl_maybe_save_line() -> c_int {
 pub unsafe extern "C" fn rl_maybe_unsave_line() -> c_int {
     if let Some(s) = SAVED.get_mut().take() {
         buffer::set_line(&s.text);
-        if rl_undo_list.get() != s.undo {
-            crate::undo::rl_free_undo_list();
-        }
+        // (the current list belongs to the history entry it was saved in)
         rl_undo_list.set(s.undo);
         buffer::set_point(buffer::end());
         let _ = s.point;
@@ -151,15 +149,14 @@ pub unsafe extern "C" fn rl_maybe_unsave_line() -> c_int {
 pub unsafe extern "C" fn rl_maybe_replace_line() -> c_int {
     let o = history_offset.get();
     let e = history::entry_at(o);
-    if !e.is_null() && !rl_undo_list.get().is_null() && (*e).data != rl_undo_list.get() as histdata_t {
+    if !e.is_null() && (*e).data != rl_undo_list.get() as histdata_t {
         let c = c_strdup(buffer::line());
         let old = history::replace_history_entry(o, c, rl_undo_list.get() as histdata_t);
         cfree(c);
-        // the old entry's data was an undo list we no longer reference
-        let d = history::free_history_entry(old);
-        let _ = d;
+        // (the old entry's undo list may still be referenced elsewhere, e.g.
+        // by the line being edited: it is not freed here)
+        let _ = history::free_history_entry(old);
     }
-    rl_undo_list.set(null_mut());
     0
 }
 
@@ -233,10 +230,10 @@ pub unsafe extern "C" fn rl_get_previous_history(count: c_int, key: c_int) -> c_
     }
     if found.is_null() {
         rl_ding();
-        // stay where we were
-        let e = history::current_history();
-        if !e.is_null() {
-            rl_undo_list.set((*e).data as *mut UNDO_LIST);
+        // stay where we were; the edits went into the entry and the line
+        // has no undo list any more (observed)
+        if !history::current_history().is_null() {
+            rl_undo_list.set(null_mut());
         }
         return 0;
     }
