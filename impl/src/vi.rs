@@ -885,6 +885,8 @@ unsafe fn domove(op: u8, count: c_int) -> Option<(c_int, c_int)> {
 
 unsafe fn domove_with(op: u8, count: c_int, forced: Option<c_int>) -> Option<(c_int, c_int)> {
     let start = point();
+    // the mark sits at point while the motion is read
+    buffer::rl_mark.set(start as c_int);
     let mut total = count.max(1);
     let mut c;
     if let (true, Some(f)) = (redoing(), forced) {
