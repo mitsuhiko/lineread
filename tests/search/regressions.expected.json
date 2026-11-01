@@ -56,5 +56,72 @@
       ">"
     ],
     "cursor": [2, 0]
+  },
+  "noninc-nul-aborts": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "BgB", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "BgB"}
+    ],
+    "screen": [
+      "> BgB"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-escape-then-rubout": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-ctrl-w-is-unix-word-rubout": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": " ", "point": 1, "end": 1, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "'", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "'"}
+    ],
+    "screen": [
+      "> '"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-isearch-ignores-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "callback \"prompt$ \" 1", "error": "callback loop did not finish after EOF"}
+    ],
+    "screen": [
+      "(reverse-i-search)`':"
+    ],
+    "cursor": [0, 0]
+  },
+  "failed-previous-history-keeps-edits-in-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "amma", "point": 0, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "beginning-of-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 60, "executing_keyseq": "", "executing_macro": null, "history_length": 1, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "amma", "timestamp": "", "data": "<ptr>"}]}
+    ],
+    "screen": [
+      "> amma"
+    ],
+    "cursor": [1, 0]
+  },
+  "failed-previous-history-then-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "betaX", "timestamp": "", "data": "<ptr>"}]}
+    ],
+    "screen": [
+      "> betaX"
+    ],
+    "cursor": [1, 0]
   }
 }

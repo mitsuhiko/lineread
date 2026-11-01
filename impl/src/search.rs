@@ -384,6 +384,11 @@ unsafe fn isearch(count: c_int, dir: isize) -> c_int {
         let k = isearch_key();
         unset_state(RL_STATE_MOREINPUT);
         match k {
+            Key::Eof if input::is_state(RL_STATE_CALLBACK) => {
+                // the reference's callback-mode search ignores EOF (the
+                // line handler is never called)
+                continue;
+            }
             Key::Eof => {
                 unset_state(RL_STATE_ISEARCH);
                 crate::commands::text::rl_deactivate_mark();
@@ -614,25 +619,17 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
                     restore(true);
                     return Err(false);
                 }
-                let n = s.len();
-                let p = if crate::mb::multibyte() { crate::mb::prev_char(&s, n) } else { n - 1 };
-                buffer::delete(p, n);
-                buffer::rl_point.set(p as c_int);
+                crate::commands::text::rl_rubout(1, c);
             }
             0x15 => {
-                buffer::delete(0, s.len());
-                buffer::rl_point.set(0);
+                crate::kill::rl_unix_line_discard(1, c);
             }
             0x17 => {
-                let mut e = s.len();
-                while e > 0 && (s[e - 1] == b' ' || s[e - 1] == b'\t') {
-                    e -= 1;
-                }
-                while e > 0 && s[e - 1] != b' ' && s[e - 1] != b'\t' {
-                    e -= 1;
-                }
-                buffer::delete(e, s.len());
-                buffer::rl_point.set(e as c_int);
+                crate::kill::rl_unix_word_rubout(1, c);
+            }
+            0x00 => {
+                restore(true);
+                return Err(false);
             }
             0x16 | 0x11 => {
                 let k = input::rl_read_key();
@@ -649,9 +646,13 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
                 if crate::vars::enable_bracketed_paste.get() != 0 {
                     const START: &[u8] = b"\x1b[200~";
                     let t = crate::vars::keyseq_timeout.get().max(0) as i64 * 1000;
-                    while got.len() < START.len() && START.starts_with(&got) && input::input_available(t) {
+                    while got.len() < START.len() && input::input_available(t) {
                         let k = input::rl_read_key();
                         if k < 0 {
+                            break;
+                        }
+                        if START[got.len()] != k as u8 {
+                            input::unread_keys(&[k as u8]);
                             break;
                         }
                         got.push(k as u8);

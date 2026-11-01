@@ -36,3 +36,49 @@ readline "> " 2 addhist
 history_dump
 --- keys
 \C-p\C-pofk\C-rzz\C-j<dumpfull>\C-p<dumpfull>\r\r
+
+=== noninc-nul-aborts
+tags: non-incremental-forward-search-history
+--- script
+readline "> " 1
+--- keys
+\M-n<pause>\C-@BgB<dump>\r
+
+=== noninc-escape-then-rubout
+tags: non-incremental-forward-search-history
+--- script
+readline "> "
+--- keys
+\M-n\M-\C-?<dump>\C-g\r
+
+=== noninc-ctrl-w-is-unix-word-rubout
+tags: non-incremental-reverse-search-history
+--- script
+readline "> "
+--- keys
+\M-p\s'\C-w<dump>\C-g\C-y<dump>\r
+
+=== callback-isearch-ignores-eof
+tags: reverse-search-history callback eof
+--- script
+callback "prompt$ " 1
+--- keys
+\C-r
+
+=== failed-previous-history-keeps-edits-in-entry
+tags: beginning-of-history undo
+--- script
+add_history "gamma"
+readline "> " 1
+history_dump
+--- keys
+\M-<\M-b\C-d\M-<<dumpfull>
+
+=== failed-previous-history-then-eof
+tags: beginning-of-history
+--- script
+add_history "beta"
+readline "> " 1
+history_dump
+--- keys
+<up>X\M-<
