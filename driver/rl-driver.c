@@ -799,6 +799,18 @@ static int wait_for_input(void) {
     if (fd_readable(0)) return 1;
     if (eof_flag) return 0;
     if (sync_fd < 0) return 1; /* standalone: let the read block */
+    /* Block signals until pselect() so that a signal arriving after the
+       idle report (readline's own handler only sets a flag) cannot be
+       missed: pselect atomically restores the mask and returns EINTR. */
+    sigset_t all, omask;
+    sigfillset(&all);
+    sigprocmask(SIG_BLOCK, &all, &omask);
+    if (rl_pending_signal()) {
+      sigprocmask(SIG_SETMASK, &omask, NULL);
+      rl_check_signals();
+      if (!in_callback_wait && rl_signal_event_hook) (*rl_signal_event_hook)();
+      continue;
+    }
     sync_write("I %ld\n", consumed);
     fd_set fds;
     FD_ZERO(&fds);
@@ -806,9 +818,11 @@ static int wait_for_input(void) {
     int mx = 0;
     if (ctl_fd >= 0) { FD_SET(ctl_fd, &fds); if (ctl_fd > mx) mx = ctl_fd; }
     if (sigpipe_fds[0] >= 0) { FD_SET(sigpipe_fds[0], &fds); if (sigpipe_fds[0] > mx) mx = sigpipe_fds[0]; }
-    int r = select(mx + 1, &fds, NULL, NULL, NULL);
+    int r = pselect(mx + 1, &fds, NULL, NULL, NULL, &omask);
+    int err = errno;
+    sigprocmask(SIG_SETMASK, &omask, NULL);
     if (r < 0) {
-      if (errno != EINTR) die("select: %s", strerror(errno));
+      if (err != EINTR) die("select: %s", strerror(err));
       rl_check_signals();
       if (!in_callback_wait && rl_signal_event_hook) (*rl_signal_event_hook)();
       continue;
