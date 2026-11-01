@@ -1,0 +1,32 @@
+# A prefix with its own (shadowed) binding followed by a key that leads
+# nowhere: the binding runs, the key is read again (found from vi replace
+# mode ESC in callback mode).
+tags: keymap dispatch
+--- inputrc
+"ab": kill-word
+"a": self-insert
+=== cb-bound
+--- script
+callback "> " 1
+--- keys
+xa<pause>y<dumpfull>\r
+=== cb-unbound
+--- script
+callback "> " 1
+--- keys
+xa<pause>\C-^<dumpfull>\r
+=== cb-unbound-nopause
+--- script
+callback "> " 1
+--- keys
+xa\C-^<dumpfull>\r
+=== rl-unbound
+--- script
+readline "> "
+--- keys
+xa\C-^<dumpfull>\r
+=== rl-bound
+--- script
+readline "> "
+--- keys
+xay<dumpfull>\r

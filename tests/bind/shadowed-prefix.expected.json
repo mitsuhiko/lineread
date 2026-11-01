@@ -1,0 +1,60 @@
+{
+  "cb-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "xay", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 121, "executing_keyseq": "y", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "xay"}
+    ],
+    "screen": [
+      "> xay",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-unbound": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "xa", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "xa"}
+    ],
+    "screen": [
+      "> xa",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-unbound-nopause": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "xa", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "xa"}
+    ],
+    "screen": [
+      "> xa",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "rl-unbound": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "xa", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "xa"}
+    ],
+    "screen": [
+      "> xa"
+    ],
+    "cursor": [1, 0]
+  },
+  "rl-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "xay", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 121, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "xay"}
+    ],
+    "screen": [
+      "> xay"
+    ],
+    "cursor": [1, 0]
+  }
+}

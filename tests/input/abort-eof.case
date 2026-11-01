@@ -1,0 +1,31 @@
+# EOF read directly after an aborted command on a non-empty line counts as
+# the tty EOF character once (delete-char); the next EOF ends the line.
+tags: input eof abort
+--- script
+readline "> "
+dumpfull
+
+=== abort-then-eof
+keys: abcdef\C-b\C-b\C-g
+
+=== abort-key-then-eof
+keys: abcdef\C-b\C-b\C-gx
+
+=== no-abort-eof
+keys: abcdef\C-b\C-b
+
+=== failed-yank-pop-then-eof
+keys: abcdef\C-b\C-b\M-y
+
+=== abort-then-eof-at-end
+keys: abcdef\C-g
+
+=== abort-empty-line
+keys: \C-g
+
+=== callback-abort-then-eof
+--- script
+callback "> "
+dumpfull
+--- keys
+abcdef\C-b\C-b\C-g
