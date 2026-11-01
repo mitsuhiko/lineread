@@ -437,7 +437,10 @@ pub fn horizontal_mode() -> bool {
 /// visible; `<` / `>` mark text beyond the left / right edge.
 fn layout_hscroll() -> (Vec<Row>, (usize, usize)) {
     // the last column is never used
-    let sw = terminal::hscroll_width() as isize;
+    let sw = terminal::usable_width() as isize;
+    // the window shown: without auto-margins the reference uses the
+    // last column as well
+    let win = terminal::hscroll_width() as isize;
     let mut lay = Lay::new(usize::MAX / 4);
     let prompt = display_prompt_bytes();
     layout_prompt(&mut lay, &prompt);
@@ -484,7 +487,7 @@ fn layout_hscroll() -> (Vec<Row>, (usize, usize)) {
     };
     let lmargin = lmargin.max(0);
     LAST_LMARGIN.set(lmargin as usize);
-    let right = lmargin + if lmargin == 0 { invis } else { 0 } + sw;
+    let right = lmargin + if lmargin == 0 { invis } else { 0 } + win;
     let mut row: Row = Vec::new();
     let mut cursor_col = 0usize;
     let mut seen_cursor = false;
@@ -570,7 +573,10 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
     if s.cur_col == col {
         return;
     }
-    if s.cur_col >= w {
+    // at the right margin: resolve the pending wrap with a carriage
+    // return (a terminal without auto-margins is assumed to be where the
+    // characters written put it, like the reference does)
+    if s.cur_col >= w && terminal::has_auto_margins() {
         out_byte(b'\r');
         s.cur_col = 0;
     }
@@ -978,6 +984,28 @@ pub fn move_to_end() {
     SCREEN.get_mut().rows = rows;
 }
 
+/// Move to the last row of the display (the column is not changed when
+/// moving up; moving down starts a fresh row), like the reference before
+/// the final newline.
+fn move_to_last_row_only() {
+    let rows = core::mem::take(&mut SCREEN.get_mut().rows);
+    if !rows.is_empty() {
+        let mut last = rows.len() - 1;
+        if rows[last].is_empty() && last > 0 && SCREEN.get_mut().cur_col == 0 {
+            // the cursor alone on an empty last row: no extra newline
+            last -= 1;
+        }
+        let s = SCREEN.get_mut();
+        if s.cur_row > last {
+            let col = s.cur_col.min(width().saturating_sub(1));
+            move_to(&rows, last, col);
+        } else if s.cur_row < last {
+            move_to(&rows, last, 0);
+        }
+    }
+    SCREEN.get_mut().rows = rows;
+}
+
 /// accept-line: cursor after the line, then a newline.
 pub fn update_final() {
     if crate::tty::ECHOING.get() == 0 {
@@ -992,7 +1020,7 @@ pub fn update_final() {
         unsafe { rl_on_new_line() };
         return;
     }
-    move_to_end();
+    move_to_last_row_only();
     // rl_redisplay never ran (e.g. a redisplay function that draws
     // nothing): no newline
     if LINES_INITIALIZED.get() {

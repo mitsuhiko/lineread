@@ -198,5 +198,53 @@
         "cursor": [2, 8]
       }
     ]
+  },
+  "custom-redisplay-dumb-hscroll-edit": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghi"}
+    ],
+    "screen": [
+      "<89abcdefghi"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<6789abcdefg"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "<6789abcdefgh"
+        ],
+        "cursor": [0, 13]
+      },
+      {
+        "screen": [
+          "<6789abcdefghi"
+        ],
+        "cursor": [0, 14]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefg>"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "<89abcdefghi"
+        ],
+        "cursor": [0, 11]
+      },
+      {
+        "screen": [
+          "<89abcdefghi"
+        ],
+        "cursor": [0, 10]
+      }
+    ]
   }
 }

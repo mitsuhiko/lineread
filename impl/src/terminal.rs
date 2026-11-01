@@ -273,7 +273,7 @@ pub fn usable_width() -> c_int {
 
 /// Width of the horizontally scrolled line (the last column is not used).
 pub fn hscroll_width() -> c_int {
-    usable_width()
+    usable_width() + (AUTOWRAP.get() == Some(false)) as c_int
 }
 
 /// After the init file was read: horizontal scrolling on a terminal with

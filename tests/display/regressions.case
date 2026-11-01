@@ -74,3 +74,15 @@ screen: 20x6
 readline "123456789012345678901234567890123456789012345\001\e[1m\002ab\002> "
 --- keys
 <snap>x<snap>\r
+
+=== custom-redisplay-dumb-hscroll-edit
+tags: rl_redisplay_function horizontal-scroll-mode
+screen: 20x6
+--- script
+def rd
+rl_redisplay
+end
+set rl_redisplay_function script:rd
+readline "> "
+--- keys
+0123456789abcdefg<snap>h<snap>i<snap>\C-a<snap>\C-e<snap>\C-b<snap>\r
