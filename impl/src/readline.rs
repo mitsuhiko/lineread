@@ -89,6 +89,7 @@ unsafe fn initialize_everything() {
     // the edit mode decides the keymap, whatever `set keymap` said
     crate::keymap::rl_set_keymap_from_edit_mode();
     crate::keymap::bind_default_keyseqs();
+    crate::complete::colors::init();
     if crate::complete::rl_completer_word_break_characters.get().is_null() {
         crate::complete::rl_completer_word_break_characters.set(crate::complete::rl_basic_word_break_characters.get());
     }
@@ -134,6 +135,7 @@ pub unsafe fn line_setup() {
     rl_done.set(0);
     rl_eof_found.set(0);
     IN_READLINE.set(true);
+    crate::terminal::line_setup();
     crate::dispatch::rl_last_func.set(None);
     crate::histcmds::line_started();
     if let Some(h) = rl_startup_hook.get() {
