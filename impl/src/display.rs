@@ -219,12 +219,6 @@ impl Lay {
         self.rows.last_mut().unwrap().push(Cell { bytes: b, width: w as u8 });
         self.col += w;
     }
-    /// Column counted from the start of the first row.
-    fn abs_col(&self) -> usize {
-        // completed rows count as full (a wide character that did not fit
-        // leaves a gap that counts too)
-        (self.rows.len() - 1) * self.width + self.col
-    }
     fn pos(&self) -> (usize, usize) {
         (self.rows.len() - 1, self.col)
     }
@@ -294,10 +288,9 @@ fn layout_line(lay: &mut Lay, line: &[u8], point: usize) -> (usize, usize) {
             continue;
         }
         if b == b'\t' {
-            // tab stops count from the start of the line (prompt
-            // included), the blanks may continue on the next row
-            let abs = lay.abs_col();
-            let sp = (abs / 8 + 1) * 8 - abs;
+            // tab stops count from the start of the screen row, the
+            // blanks may continue on the next row
+            let sp = 8 - lay.col % 8;
             if lay.col >= lay.width {
                 lay.newline();
             }
