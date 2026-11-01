@@ -566,6 +566,9 @@ pub unsafe extern "C" fn rl_vi_back_to_indent(_count: c_int, _key: c_int) -> c_i
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_first_print(count: c_int, key: c_int) -> c_int {
+    // keep a body distinct from rl_vi_back_to_indent: identical functions
+    // may be folded into one address, and the dumpers print names by address
+    core::hint::black_box(key);
     rl_vi_back_to_indent(count, key)
 }
 
