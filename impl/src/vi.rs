@@ -1563,9 +1563,10 @@ pub unsafe extern "C" fn rl_vi_complete(_count: c_int, key: c_int) -> c_int {
         set_point(mb::next_char(line(), point()));
     }
     let r = match key as u8 {
-        b'*' => crate::complete::rl_insert_completions(0, key),
-        b'=' => crate::complete::rl_possible_completions(0, key),
-        b'\\' => crate::complete::rl_complete(0, b'\t' as c_int),
+        // (these do not set rl_completion_invoking_key)
+        b'*' => crate::complete::rl_complete_internal(b'*' as c_int),
+        b'=' => crate::complete::rl_complete_internal(b'?' as c_int),
+        b'\\' => crate::complete::rl_complete_internal(b'\t' as c_int),
         _ => crate::complete::rl_complete(0, key),
     };
     if key == b'*' as c_int || key == b'\\' as c_int {
