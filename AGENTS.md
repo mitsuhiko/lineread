@@ -1,6 +1,7 @@
 # Agent rules for lineread
 
-Read PLAN.md first.
+Read PLAN.md first. For the Rust implementation (impl/) read docs/ARCHITECTURE.md
+(module ownership, conventions) and docs/IMPLEMENTING.md.
 
 ## Clean-room rules
 
