@@ -189,7 +189,7 @@ pub unsafe extern "C" fn rl_rubout(count: c_int, key: c_int) -> c_int {
         return -1;
     }
     let l = line();
-    let from = mb::backward_chars(l, p, count as usize);
+    let from = mb::backward_chars_nz(l, p, count as usize);
     // overwrite mode (not at the end): the characters become spaces
     let overwrite = rl_insert_mode.get() == 0 && p < end();
     if overwrite {
@@ -223,7 +223,7 @@ pub unsafe extern "C" fn rl_delete(count: c_int, key: c_int) -> c_int {
         return -1;
     }
     let l = line();
-    let to = mb::forward_chars(l, p, count as usize);
+    let to = mb::forward_chars_nz(l, p, count as usize);
     if count > 1 || crate::numarg::rl_explicit_arg.get() != 0 {
         crate::kill::rl_kill_text(p as c_int, to as c_int);
     } else {

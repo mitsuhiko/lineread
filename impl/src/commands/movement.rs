@@ -64,7 +64,7 @@ pub unsafe extern "C" fn rl_forward_char(count: c_int, key: c_int) -> c_int {
             rl_ding();
             return 0;
         }
-        p = mb::next_char(l, p);
+        p = mb::forward_chars_nz(l, p, 1);
     }
     set_point(p.min(m));
     0
@@ -85,7 +85,7 @@ pub unsafe extern "C" fn rl_backward_char(count: c_int, key: c_int) -> c_int {
             rl_ding();
             break;
         }
-        p = mb::prev_char(l, p);
+        p = mb::prev_char_nz(l, p);
     }
     set_point(p);
     0
