@@ -29,4 +29,5 @@ exec docker run --rm $TTY --user "$(id -u):$(id -g)" -e HOME=/tmp \
   -v "$REPO:/work/lineread" -v "$REF_DIR:/work/lineread-ref" \
   -e LINEREAD_REF=/work/lineread-ref \
   -v "$REF_BIN:/work/lineread-ref-bin" -e LINEREAD_REF_BIN=/work/lineread-ref-bin \
+  -e CARGO_HOME=/work/lineread/impl/target/cargo-home-linux \
   -w /work/lineread "$IMAGE" "$@"
