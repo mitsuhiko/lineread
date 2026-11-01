@@ -1,0 +1,1571 @@
+{
+  "tab-unique": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "banana ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "banana "}
+    ],
+    "screen": [
+      "> banana"
+    ],
+    "cursor": [1, 0]
+  },
+  "tab-common-prefix-rings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap"
+    ],
+    "cursor": [1, 0]
+  },
+  "tab-twice-lists": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "tab-three-times-lists-again": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [4, 3]
+      }
+    ]
+  },
+  "tab-after-prefix-change-lists": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> ap"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "tab-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zz", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> zz"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "tab-empty-word-lists-all": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple      apricot    avocado    banana     blueberry  cherry",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple      apricot    avocado    banana     blueberry  cherry",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "possible-completions-key": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "b"}
+    ],
+    "screen": [
+      "> b",
+      "banana     blueberry",
+      "> b"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> b",
+          "banana     blueberry",
+          "> b"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "possible-completions-single": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ch", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ch"}
+    ],
+    "screen": [
+      "> ch",
+      "cherry",
+      "> ch"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ch",
+          "cherry",
+          "> ch"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "possible-completions-after-failed": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ch", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ch"}
+    ],
+    "screen": [
+      "> ch",
+      "cherry",
+      "> ch"
+    ],
+    "cursor": [3, 0]
+  },
+  "possible-completions-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> zz"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "possible-completions-bindable-equals": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "insert-completions": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple apricot avocado ", "point": 22, "end": 22, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple apricot avocado "}
+    ],
+    "screen": [
+      "> apple apricot avocado"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-completions-single": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cherry ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cherry "}
+    ],
+    "screen": [
+      "> cherry"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-completions-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-completions-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zz", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "show-all-if-ambiguous": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "show-all-if-ambiguous-partial": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> ap"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "show-all-if-ambiguous-unique": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "banana ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "banana "}
+    ],
+    "screen": [
+      "> banana"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> banana"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "show-all-if-unmodified-no-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "show-all-if-unmodified-with-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap"}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> ap",
+      "apple    apricot",
+      "> ap"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [2, 4]
+      },
+      {
+        "screen": [
+          "> ap",
+          "apple    apricot",
+          "> ap",
+          "apple    apricot",
+          "> ap"
+        ],
+        "cursor": [4, 4]
+      }
+    ]
+  },
+  "query-items-yes": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      },
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [3, 3]
+      }
+    ]
+  },
+  "query-items-space-is-yes": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [4, 0]
+  },
+  "query-items-no": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "query-items-rubout-is-no": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "query-items-other-key-rings": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      },
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [3, 3]
+      }
+    ]
+  },
+  "query-items-abort": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      }
+    ]
+  },
+  "query-items-exact-threshold": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "Display all 6 possibilities? (y or n)",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "Display all 6 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      }
+    ]
+  },
+  "query-items-below-threshold": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "query-items-zero-never-asks": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple      apricot    avocado    banana     blueberry  cherry",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple      apricot    avocado    banana     blueberry  cherry",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "query-items-application-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      }
+    ]
+  },
+  "print-horizontally": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "eight   eleven  five",
+      "four    nine    one",
+      "seven   six     ten",
+      "three   two",
+      ">"
+    ],
+    "cursor": [6, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "eight   eleven  five",
+          "four    nine    one",
+          "seven   six     ten",
+          "three   two",
+          ">"
+        ],
+        "cursor": [5, 2]
+      }
+    ]
+  },
+  "print-vertically": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "eight   nine    ten",
+      "eleven  one     three",
+      "five    seven   two",
+      "four    six",
+      ">"
+    ],
+    "cursor": [6, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "eight   nine    ten",
+          "eleven  one     three",
+          "five    seven   two",
+          "four    six",
+          ">"
+        ],
+        "cursor": [5, 2]
+      }
+    ]
+  },
+  "print-horizontally-single-column": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a-very-long-word-"}
+    ],
+    "screen": [
+      "> a-very-long-word-",
+      "a-very-long-word-one",
+      "a-very-long-word-two",
+      "> a-very-long-word-"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a-very-long-word-",
+          "a-very-long-word-one",
+          "a-very-long-word-two",
+          "> a-very-long-word-"
+        ],
+        "cursor": [3, 19]
+      }
+    ]
+  },
+  "exact-fit-columns": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "aaaaaa  dddddd",
+      "bbbbbb  eeeeee",
+      "cccccc  ffffff",
+      ">"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "aaaaaa  dddddd",
+          "bbbbbb  eeeeee",
+          "cccccc  ffffff",
+          ">"
+        ],
+        "cursor": [4, 2]
+      }
+    ]
+  },
+  "items-wider-than-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      "abcdefghijklmnopqrst",
+      "uvwxyz-one",
+      "abcdefghijklmnopqrst",
+      "uvwxyz-two",
+      "> abc"
+    ],
+    "cursor": [6, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc",
+          "abcdefghijklmnopqrst",
+          "uvwxyz-one",
+          "abcdefghijklmnopqrst",
+          "uvwxyz-two",
+          "> abc"
+        ],
+        "cursor": [5, 5]
+      }
+    ]
+  },
+  "completion-display-width": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple",
+      "apricot",
+      "avocado",
+      "banana",
+      "blueberry",
+      "cherry",
+      ">"
+    ],
+    "cursor": [8, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple",
+          "apricot",
+          "avocado",
+          "banana",
+          "blueberry",
+          "cherry",
+          ">"
+        ],
+        "cursor": [7, 2]
+      }
+    ]
+  },
+  "completion-display-width-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple",
+      "apricot",
+      "avocado",
+      "banana",
+      "blueberry",
+      "cherry",
+      ">"
+    ],
+    "cursor": [8, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple",
+          "apricot",
+          "avocado",
+          "banana",
+          "blueberry",
+          "cherry",
+          ">"
+        ],
+        "cursor": [7, 2]
+      }
+    ]
+  },
+  "completion-display-width-larger-than-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple      apricot    avocado    banana     blueberry  cherry",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple      apricot    avocado    banana     blueberry  cherry",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "columns-env-overwritten-by-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple      apricot    avocado    banana     blueberry  cherry",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple      apricot    avocado    banana     blueberry  cherry",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "columns-env-limits-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "apple      banana",
+      "apricot    blueberry",
+      "avocado    cherry",
+      ">"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "apple      banana",
+          "apricot    blueberry",
+          "avocado    cherry",
+          ">"
+        ],
+        "cursor": [4, 2]
+      }
+    ]
+  },
+  "prefix-display-length": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "prefix"}
+    ],
+    "screen": [
+      "> prefix",
+      "...alpha  ...beta   ...gamma",
+      "> prefix"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> prefix",
+          "...alpha  ...beta   ...gamma",
+          "> prefix"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "prefix-display-length-dot": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "common"}
+    ],
+    "screen": [
+      "> common",
+      "common ___.c  ___.h",
+      "> common"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> common",
+          "common ___.c  ___.h",
+          "> common"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "prefix-display-length-short-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "prefix"}
+    ],
+    "screen": [
+      "> prefix",
+      "prefix-alpha  prefix-beta   prefix-gamma",
+      "> prefix"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> prefix",
+          "prefix-alpha  prefix-beta   prefix-gamma",
+          "> prefix"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "prefix-display-length-match-equals-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "prefix"}
+    ],
+    "screen": [
+      "> prefix",
+      "prefix     ...-beta   ...-gamma",
+      "> prefix"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> prefix",
+          "prefix     ...-beta   ...-gamma",
+          "> prefix"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "prefix-display-length-filenames": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x dir/longprefix-"}
+    ],
+    "screen": [
+      "> x dir/longprefix-",
+      "...one  ...two",
+      "> x dir/longprefix-"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x dir/longprefix-",
+          "...one  ...two",
+          "> x dir/longprefix-"
+        ],
+        "cursor": [2, 19]
+      }
+    ]
+  },
+  "page-completions-more": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "w02  w08  w14  w20  w26  w32  w38",
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "--More--"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w01  w07  w13  w19  w25  w31  w37",
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "--More--"
+        ],
+        "cursor": [5, 8]
+      }
+    ]
+  },
+  "page-completions-space-next-page": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "w"}
+    ],
+    "screen": [
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "w06  w12  w18  w24  w30  w36",
+      "> w"
+    ],
+    "cursor": [5, 0]
+  },
+  "page-completions-return-one-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "wq"}
+    ],
+    "screen": [
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "w06  w12  w18  w24  w30  w36",
+      "> wq"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "w06  w12  w18  w24  w30  w36",
+          "> w"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "page-completions-quit": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "w"}
+    ],
+    "screen": [
+      "w02  w08  w14  w20  w26  w32  w38",
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "> w"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w01  w07  w13  w19  w25  w31  w37",
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "> w"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "page-completions-n-quits": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "w"}
+    ],
+    "screen": [
+      "w02  w08  w14  w20  w26  w32  w38",
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "> w"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w01  w07  w13  w19  w25  w31  w37",
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "> w"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "page-completions-horizontal": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "w"}
+    ],
+    "screen": [
+      "w08  w09  w10  w11  w12  w13  w14",
+      "w15  w16  w17  w18  w19  w20  w21",
+      "w22  w23  w24  w25  w26  w27  w28",
+      "w29  w30  w31  w32  w33  w34  w35",
+      "> w"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w01  w02  w03  w04  w05  w06  w07",
+          "w08  w09  w10  w11  w12  w13  w14",
+          "w15  w16  w17  w18  w19  w20  w21",
+          "w22  w23  w24  w25  w26  w27  w28",
+          "w29  w30  w31  w32  w33  w34  w35",
+          "--More--"
+        ],
+        "cursor": [5, 8]
+      }
+    ]
+  },
+  "page-completions-horizontal-quit": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "wq"}
+    ],
+    "screen": [
+      "w15  w16  w17  w18  w19  w20  w21",
+      "w22  w23  w24  w25  w26  w27  w28",
+      "w29  w30  w31  w32  w33  w34  w35",
+      "w36  w37  w38  w39  w40",
+      "> wq"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w08  w09  w10  w11  w12  w13  w14",
+          "w15  w16  w17  w18  w19  w20  w21",
+          "w22  w23  w24  w25  w26  w27  w28",
+          "w29  w30  w31  w32  w33  w34  w35",
+          "w36  w37  w38  w39  w40",
+          "> wq"
+        ],
+        "cursor": [5, 4]
+      }
+    ]
+  },
+  "page-completions-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "w"}
+    ],
+    "screen": [
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "w06  w12  w18  w24  w30  w36",
+      "> w"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "w06  w12  w18  w24  w30  w36",
+          "> w"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "page-completions-other-key-rings": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "w"}
+    ],
+    "screen": [
+      "w02  w08  w14  w20  w26  w32  w38",
+      "w03  w09  w15  w21  w27  w33  w39",
+      "w04  w10  w16  w22  w28  w34  w40",
+      "w05  w11  w17  w23  w29  w35",
+      "> w"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "w01  w07  w13  w19  w25  w31  w37",
+          "w02  w08  w14  w20  w26  w32  w38",
+          "w03  w09  w15  w21  w27  w33  w39",
+          "w04  w10  w16  w22  w28  w34  w40",
+          "w05  w11  w17  w23  w29  w35",
+          "--More--"
+        ],
+        "cursor": [5, 8]
+      }
+    ]
+  },
+  "skip-completed-text": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "bananarama", "point": 6, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bananarama"}
+    ],
+    "screen": [
+      "> bananarama"
+    ],
+    "cursor": [1, 0]
+  },
+  "skip-completed-text-off": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "bananananarama", "point": 6, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bananananarama"}
+    ],
+    "screen": [
+      "> bananananarama"
+    ],
+    "cursor": [1, 0]
+  },
+  "skip-completed-text-middle-of-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cherry pie", "point": 6, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cherry pie"}
+    ],
+    "screen": [
+      "> cherry pie"
+    ],
+    "cursor": [1, 0]
+  },
+  "disable-completion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap\t", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap\t"}
+    ],
+    "screen": [
+      "> ap"
+    ],
+    "cursor": [1, 0]
+  },
+  "disable-completion-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap\t", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap\t"}
+    ],
+    "screen": [
+      "> ap"
+    ],
+    "cursor": [1, 0]
+  },
+  "multiline-prompt-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first line\nsecond a"}
+    ],
+    "screen": [
+      "> first line",
+      "second a",
+      "apple    apricot  avocado",
+      "> first line",
+      "second a"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> first line",
+          "second a",
+          "apple    apricot  avocado",
+          "> first line",
+          "second a"
+        ],
+        "cursor": [4, 8]
+      }
+    ]
+  },
+  "long-line-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xxxxxxxxxxxxxxxxxxxxxxxxx a"}
+    ],
+    "screen": [
+      "> xxxxxxxxxxxxxxxxxx",
+      "xxxxxxx a",
+      "apple    avocado",
+      "apricot",
+      "> xxxxxxxxxxxxxxxxxx",
+      "xxxxxxx a"
+    ],
+    "cursor": [6, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> xxxxxxxxxxxxxxxxxx",
+          "xxxxxxx a",
+          "apple    avocado",
+          "apricot",
+          "> xxxxxxxxxxxxxxxxxx",
+          "xxxxxxx a"
+        ],
+        "cursor": [5, 9]
+      }
+    ]
+  },
+  "control-chars-in-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "a^Ab  a^Id  a^?c",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "a^Ab  a^Id  a^?c",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "multibyte-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "übe", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "übe"}
+    ],
+    "screen": [
+      "> übe",
+      "übel     über     überall",
+      "> übe"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> übe",
+          "übel     über     überall",
+          "> übe"
+        ],
+        "cursor": [2, 5]
+      }
+    ]
+  },
+  "wide-char-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日"}
+    ],
+    "screen": [
+      "> 日",
+      "日曜日  日本人  日本語",
+      "> 日",
+      "日曜日  日本人  日本語",
+      "> 日"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日",
+          "日曜日  日本人  日本語",
+          "> 日",
+          "日曜日  日本人  日本語",
+          "> 日"
+        ],
+        "cursor": [4, 4]
+      }
+    ]
+  },
+  "duplicates-removed": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "dup"}
+    ],
+    "screen": [
+      "> dup",
+      "dup   dupe",
+      "> dup"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> dup",
+          "dup   dupe",
+          "> dup"
+        ],
+        "cursor": [2, 5]
+      }
+    ]
+  },
+  "duplicates-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "dup"}
+    ],
+    "screen": [
+      "> dup",
+      "dup   dup   dupe",
+      "> dup"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> dup",
+          "dup   dup   dupe",
+          "> dup"
+        ],
+        "cursor": [2, 5]
+      }
+    ]
+  },
+  "unsorted-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "zeta   alpha  mu",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "zeta   alpha  mu",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "unsorted-with-duplicates-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "zeta   alpha  mu     alpha",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "zeta   alpha  mu     alpha",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "sorted-duplicates-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      "alpha  alpha  mu     zeta",
+      ">"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">",
+          "alpha  alpha  mu     zeta",
+          ">"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "exact-match-and-longer": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "app", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "app"}
+    ],
+    "screen": [
+      "> app",
+      "app    apple",
+      "> app"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> app",
+          "app    apple",
+          "> app"
+        ],
+        "cursor": [2, 5]
+      }
+    ]
+  },
+  "vi-mode-no-bell-and-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  }
+}
