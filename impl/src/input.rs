@@ -89,11 +89,33 @@ fn remaining_us() -> Option<i64> {
     })
 }
 
+/// A read was interrupted by a signal (or one is pending): fatal signals
+/// end the read (Some(READERR/EOF)), the others are processed and the
+/// application's signal event hook runs (None: read again).
+unsafe fn interrupted() -> Option<c_int> {
+    let sig = crate::signals::rl_pending_signal();
+    if sig == libc::SIGTERM || sig == libc::SIGHUP {
+        return Some(if is_state(RL_STATE_READCMD) { READERR } else { EOF });
+    }
+    crate::signals::rl_check_signals();
+    if let Some(h) = crate::signals::rl_signal_event_hook.get() {
+        h();
+    }
+    None
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_getc(stream: *mut FILE) -> c_int {
     let fd = instream_fd(stream);
     loop {
-        crate::signals::rl_check_signals();
+        // a signal that arrived since the last read counts as an
+        // interrupted read
+        if crate::signals::rl_pending_signal() != 0 {
+            if let Some(r) = interrupted() {
+                return r;
+            }
+            continue;
+        }
         if let Some(rem) = remaining_us() {
             let r = if rem == 0 { 0 } else { wait_readable(fd, rem) };
             if r == 0 {
@@ -103,13 +125,11 @@ pub unsafe extern "C" fn rl_getc(stream: *mut FILE) -> c_int {
                 set_state(RL_STATE_TIMEOUT);
                 return READERR;
             }
-            if r < 0 {
-                if *libc_errno() == libc::EINTR {
-                    if let Some(h) = crate::signals::rl_signal_event_hook.get() {
-                        h();
-                    }
-                    continue;
+            if r < 0 && *libc_errno() == libc::EINTR {
+                if let Some(r) = interrupted() {
+                    return r;
                 }
+                continue;
             }
         }
         let mut c: u8 = 0;
@@ -131,9 +151,8 @@ pub unsafe extern "C" fn rl_getc(stream: *mut FILE) -> c_int {
             return EOF;
         }
         if e == libc::EINTR {
-            crate::signals::rl_check_signals();
-            if let Some(h) = crate::signals::rl_signal_event_hook.get() {
-                h();
+            if let Some(r) = interrupted() {
+                return r;
             }
             continue;
         }

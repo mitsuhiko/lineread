@@ -230,6 +230,7 @@ static LAST_KEY: CVar<c_int> = CVar::new(0);
 /// rl_set_timeout expired while reading a key: readline returns NULL,
 /// the line buffer and the screen stay as they are.
 unsafe fn handle_timeout() {
+    crate::dispatch::rl_last_func.set(None);
     LINE_EOF.set(true);
     rl_eof_found.set(1);
     rl_done.set(1);
@@ -244,16 +245,14 @@ unsafe fn handle_eof(c: c_int) {
     buffer::ensure(0);
     *buffer::rl_line_buffer.get() = 0;
     rl_done.set(1);
-    set_state(RL_STATE_DONE);
-    if c == EOF {
-        set_state(RL_STATE_EOF);
-    }
+    set_state(RL_STATE_DONE | RL_STATE_EOF);
     display::update_final();
 }
 
 /// Finish the line: the result (malloc'd) or NULL at EOF.
 pub unsafe fn line_teardown() -> *mut c_char {
     IN_READLINE.set(false);
+    crate::commands::text::rl_deactivate_mark();
     crate::histcmds::line_finished();
     let r = if LINE_EOF.get() { null_mut() } else { c_strdup(buffer::line()) };
     LINE_EOF.set(false);
@@ -279,6 +278,9 @@ pub unsafe extern "C" fn readline(prompt: *const c_char) -> *mut c_char {
     crate::tty::prep();
     crate::signals::rl_set_signals();
     let r = readline_internal();
+    // a signal that ended the read is processed before the terminal is
+    // restored
+    crate::signals::rl_check_signals();
     crate::tty::deprep();
     crate::signals::rl_clear_signals();
     r
