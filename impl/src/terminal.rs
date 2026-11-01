@@ -131,6 +131,7 @@ pub unsafe fn init_terminal(name: Option<&[u8]>) {
     };
     let n = if n.is_empty() { b"dumb".to_vec() } else { n };
     TERM.set(Some(load(&n)));
+    line_setup();
     static NAME: CVar<Vec<u8>> = CVar::new(Vec::new());
     let mut v = n.clone();
     v.push(0);
@@ -223,11 +224,39 @@ pub fn out_cap(name: &str) -> bool {
         None => false,
     }
 }
+/// The stream terminal output goes to: `rl_outstream` as it was when
+/// readline last started a line or initialised (applications may point
+/// `rl_outstream` elsewhere temporarily, e.g. to capture a listing).
+static OUT_STREAM: CVar<*mut libc::FILE> = CVar::new(null_mut());
+
+/// Remember `rl_outstream` as the terminal stream.
+pub fn line_setup() {
+    OUT_STREAM.set(crate::readline::outstream());
+}
+
+pub fn term_stream() -> *mut libc::FILE {
+    let o = OUT_STREAM.get();
+    if o.is_null() {
+        crate::readline::outstream()
+    } else {
+        o
+    }
+}
+
+/// Screen width as used by readline (one less without auto-margins).
+pub fn screen_width() -> c_int {
+    usable_width()
+}
+
+pub fn screen_height() -> c_int {
+    SCREEN_ROWS.get()
+}
+
 pub fn flush() {
     unsafe {
         let b = OUTBUF.get_mut();
         if !b.is_empty() {
-            let o = crate::readline::outstream();
+            let o = term_stream();
             fwrite_bytes(o, b);
             b.clear();
             fflush(o);

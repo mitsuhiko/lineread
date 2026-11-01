@@ -536,11 +536,44 @@ pub fn clear_displayed() {
     s.cur_col = 0;
 }
 
+/// Forget what is on the screen: the next redisplay draws the prompt and
+/// line from the current cursor position (assumed at column 0).
+pub fn forget_screen() {
+    unsafe {
+        rl_on_new_line();
+    }
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_forced_update_display() -> c_int {
-    clear_displayed();
+    forget_screen();
     redisplay();
     0
+}
+
+/// Move the cursor to the last row of the displayed line (column kept
+/// where possible); used before printing a listing below the line.
+pub fn move_to_last_row() {
+    let rows = core::mem::take(&mut SCREEN.get_mut().rows);
+    if !rows.is_empty() {
+        let mut last = rows.len() - 1;
+        if rows[last].is_empty() && last > 0 && SCREEN.get_mut().cur_row < last {
+            last -= 1;
+        }
+        let s = SCREEN.get_mut();
+        if s.cur_row != last {
+            let col = s.cur_col.min(row_width(&rows[last]));
+            move_to(&rows, last, col);
+        }
+    }
+    SCREEN.get_mut().rows = rows;
+    terminal::flush();
+}
+
+/// Move past the end of the displayed line before writing output below.
+pub fn move_to_end_for_output() {
+    move_to_end();
+    terminal::flush();
 }
 
 #[no_mangle]
@@ -559,7 +592,8 @@ pub unsafe extern "C" fn rl_reset_line_state() -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_redraw_prompt_last_line() {
-    rl_forced_update_display();
+    clear_displayed();
+    redisplay();
 }
 
 /// Move the cursor past the end of the displayed line (before printing a
@@ -601,7 +635,8 @@ pub fn after_listing() {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_refresh_line(_count: c_int, _key: c_int) -> c_int {
-    rl_forced_update_display();
+    clear_displayed();
+    redisplay();
     0
 }
 
