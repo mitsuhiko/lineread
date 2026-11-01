@@ -1,0 +1,319 @@
+# Input layer: rl_set_timeout / rl_timeout_remaining / rl_timeout_event_hook,
+# rl_set_keyboard_input_timeout, rl_event_hook, and the library's own
+# rl_getc blocking in select (driver `option libgetc`).
+#
+# libgetc cases that send signal keys only compare results: the runner
+# learns about the signal from the driver's handler, i.e. while readline
+# is still restoring the terminal.
+#
+# Timing: cases with <sleep:MS> rely on the runner being faster than the
+# readline timeout (>= 600 ms margin); expirations are always far shorter
+# than the sleeps.
+tags: input
+
+=== timeout-expired-before-first-key
+tags: rl_set_timeout rl_timeout_event_hook
+--- script
+set rl_timeout_event_hook log
+rl_set_timeout 0 1
+readline "> "
+dumpfull
+--- keys
+abc\r
+
+=== timeout-without-hook
+tags: rl_set_timeout
+--- script
+rl_set_timeout 0 1
+readline "> "
+get rl_readline_state
+rl_set_timeout 0 0
+readline "> "
+--- keys
+abc\r
+
+=== timeout-applies-to-each-readline
+tags: rl_set_timeout
+--- script
+set rl_timeout_event_hook log
+rl_set_timeout 0 1
+readline "> "
+readline "> "
+--- keys
+abc\r
+
+=== timeout-cleared-with-zero
+tags: rl_set_timeout rl_timeout_remaining
+--- script
+rl_set_timeout 0 1
+rl_set_timeout 0 0
+readline "> "
+rl_timeout_remaining
+--- keys
+ok\r
+
+=== timeout-long-not-expired
+tags: rl_set_timeout rl_timeout_remaining
+--- script
+def r
+rl_timeout_remaining
+end
+defun rem r
+rl_bind_keyseq "\C-xr" rem
+rl_set_timeout 100 0
+readline "> "
+rl_timeout_remaining
+--- keys
+ab\C-xrc\r
+
+=== timeout-usecs-overflow
+tags: rl_set_timeout
+--- script
+set rl_timeout_event_hook log
+rl_set_timeout 0 3000000000
+rl_set_timeout 50 2500000
+readline "> "
+--- keys
+fine\r
+
+=== timeout-hook-script
+tags: rl_timeout_event_hook
+--- script
+def h
+echo timed-out
+dumpfull
+end
+set rl_timeout_event_hook script:h
+rl_set_timeout 0 1
+readline "> "
+--- keys
+x\r
+
+=== timeout-in-callback-mode
+tags: rl_set_timeout callback rl_timeout_event_hook
+--- script
+set rl_timeout_event_hook log
+rl_set_timeout 0 1
+callback "> "
+get rl_readline_state
+--- keys
+abc\r
+
+=== timeout-expires-between-keys
+tags: rl_set_timeout rl_timeout_event_hook
+timeout: 15
+--- script
+set rl_timeout_event_hook log
+rl_set_timeout 0 600000
+readline "> "
+dump
+rl_set_timeout 0 0
+readline "> "
+--- keys
+abc<sleep:1800>x\r
+
+=== timeout-libgetc-blocking-select
+tags: rl_set_timeout libgetc
+timeout: 15
+eof: off
+--- script
+option libgetc
+set rl_timeout_event_hook log
+rl_set_timeout 0 600000
+readline "> "
+dumpfull
+rl_set_timeout 0 0
+readline "> "
+--- keys
+ab<sleep:1800>z\r
+
+=== timeout-libgetc-not-reached
+tags: rl_set_timeout libgetc
+eof: off
+--- script
+option libgetc
+rl_set_timeout 30 0
+readline "> "
+--- keys
+abc\r
+
+=== libgetc-basic-readline
+tags: libgetc rl_getc
+eof: off
+--- script
+option libgetc
+readline "> "
+readline "> "
+--- keys
+first\rsec<pause>ond\r
+
+=== libgetc-sigint-interrupts-read
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc SIGINT
+eof: off
+--- script
+option libgetc
+readline "> "
+--- keys
+abc\C-cdef\r
+
+=== libgetc-sigwinch
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc SIGWINCH
+eof: off
+--- script
+option libgetc
+readline "> "
+--- keys
+abc<resize:40x10>d<snap>\r
+
+=== libgetc-signal-event-hook
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc rl_signal_event_hook
+eof: off
+--- script
+option libgetc
+set rl_signal_event_hook log
+readline "> "
+--- keys
+ab<resize:60x10>c\r
+
+=== libgetc-callback-sigint
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc callback SIGINT
+eof: off
+--- script
+option libgetc
+callback "> "
+--- keys
+xy\C-czz\r
+
+=== libgetc-callback-sigint-isearch
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc callback SIGINT isearch
+eof: off
+--- script
+option libgetc
+add_history "make all"
+callback "> "
+--- keys
+\C-rma\C-cq\r
+
+=== libgetc-catch-signals-off
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc SIGINT rl_catch_signals
+eof: off
+--- script
+option libgetc
+set rl_catch_signals 0
+readline "> "
+--- keys
+ab\C-ccd\r
+
+=== libgetc-sigtstp
+description: the signal is reported while readline still restores the terminal, so keys typed right after it may be echoed by the tty; only results are compared
+ignore: screen cursor snaps
+tags: libgetc SIGTSTP
+eof: off
+--- script
+option libgetc
+readline "> "
+--- keys
+ab\C-zc\r
+
+=== libgetc-esc-prefix-waits
+tags: libgetc keyseq-timeout
+eof: off
+--- inputrc
+set keyseq-timeout 50
+"\ez": "ZED"
+--- script
+option libgetc
+readline "> "
+--- keys
+a\e<pause>b\ez\r
+
+=== keyboard-input-timeout-returns-old
+tags: rl_set_keyboard_input_timeout
+--- script
+rl_set_keyboard_input_timeout 250
+rl_set_keyboard_input_timeout 0
+rl_set_keyboard_input_timeout -7
+rl_set_keyboard_input_timeout 100000
+
+=== keyboard-input-timeout-esc-vi
+tags: rl_set_keyboard_input_timeout vi
+--- inputrc
+set editing-mode vi
+--- script
+rl_set_keyboard_input_timeout 1000
+readline "> "
+--- keys
+abc\e<pause>0x<dump>\r
+
+=== keyboard-input-timeout-isearch-esc
+tags: rl_set_keyboard_input_timeout isearch
+--- script
+add_history "hello"
+rl_set_keyboard_input_timeout 1000
+readline "> "
+--- keys
+\C-rhel\e<pause>X<dump>\r
+
+=== event-hook-called-once-then-removed
+tags: rl_event_hook
+--- script
+def h
+echo event
+set rl_event_hook NULL
+end
+set rl_event_hook script:h
+readline "> "
+--- keys
+abc\r
+
+=== event-hook-sets-done
+tags: rl_event_hook rl_done
+--- script
+def h
+echo event
+set rl_done 1
+set rl_event_hook NULL
+end
+set rl_event_hook script:h
+readline "> "
+dumpfull
+
+=== event-hook-inserts-text
+tags: rl_event_hook
+--- script
+def h
+rl_insert_text "hooked "
+set rl_event_hook NULL
+end
+set rl_event_hook script:h
+readline "> "
+--- keys
+tail\r
+
+=== event-hook-input-available
+tags: rl_event_hook rl_input_available_hook
+--- script
+def h
+echo event
+set rl_event_hook NULL
+end
+def avail
+return 1
+end
+set rl_input_available_hook script:avail
+set rl_event_hook script:h
+readline "> "
+--- keys
+q\r

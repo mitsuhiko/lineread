@@ -387,7 +387,11 @@ def run_case(case: Case, driver: str, impl: str, trace_enabled: bool = False,
                 elif kind == "resize":
                     sess.resize(act[1], act[2])
                 elif kind == "sleep":
-                    time.sleep(act[1] / 1000.0)
+                    # keep reading the terminal while sleeping: a driver
+                    # blocked in tcdrain()/TCSADRAIN must not stall
+                    end = time.monotonic() + act[1] / 1000.0
+                    while (now := time.monotonic()) < end:
+                        sess.poll(min(0.02, end - now))
                 elif kind == "pause":
                     pass
             if not sess.timed_out:

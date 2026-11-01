@@ -1,0 +1,303 @@
+{
+  "timeout-expired-before-first-key": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 1", "ret": 0},
+      {"op": "hook", "hook": "rl_timeout_event_hook"},
+      {"op": "readline", "ret": null},
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "READCMD", "TTYCSAVED", "DONE", "TIMEOUT", "EOF"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 1, "eof_found": 1, "pending_input": 0, "mark_active": 0, "executing_key": 0, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [0, 0]
+  },
+  "timeout-without-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 1", "ret": 0},
+      {"op": "readline", "ret": null},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "READCMD", "TTYCSAVED", "DONE", "TIMEOUT", "EOF"]},
+      {"op": "rl_set_timeout 0 0", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "timeout-applies-to-each-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 1", "ret": 0},
+      {"op": "hook", "hook": "rl_timeout_event_hook"},
+      {"op": "readline", "ret": null},
+      {"op": "hook", "hook": "rl_timeout_event_hook"},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [0, 0]
+  },
+  "timeout-cleared-with-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 1", "ret": 0},
+      {"op": "rl_set_timeout 0 0", "ret": 0},
+      {"op": "readline", "ret": "ok"},
+      {"op": "rl_timeout_remaining", "ret": -1}
+    ],
+    "screen": [
+      "> ok"
+    ],
+    "cursor": [1, 0]
+  },
+  "timeout-long-not-expired": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rem r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rem", "ret": 0},
+      {"op": "rl_set_timeout 100 0", "ret": 0},
+      {"op": "rl_timeout_remaining", "ret": 1},
+      {"op": "readline", "ret": "abc"},
+      {"op": "rl_timeout_remaining", "ret": 1}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "timeout-usecs-overflow": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 3000000000", "ret": 0},
+      {"op": "rl_set_timeout 50 2500000", "ret": 0},
+      {"op": "readline", "ret": "fine"}
+    ],
+    "screen": [
+      "> fine"
+    ],
+    "cursor": [1, 0]
+  },
+  "timeout-hook-script": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 1", "ret": 0},
+      {"op": "echo", "args": ["timed-out"]},
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 0, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [0, 0]
+  },
+  "timeout-in-callback-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 1", "ret": 0},
+      {"op": "hook", "hook": "rl_timeout_event_hook"},
+      {"op": "callback", "ret": null},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "READCMD", "TTYCSAVED"]}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [0, 0]
+  },
+  "timeout-expires-between-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 600000", "ret": 0},
+      {"op": "hook", "hook": "rl_timeout_event_hook"},
+      {"op": "readline", "ret": null},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_set_timeout 0 0", "ret": 0},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> xbc"
+    ],
+    "cursor": [1, 0]
+  },
+  "timeout-libgetc-blocking-select": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 0 600000", "ret": 0},
+      {"op": "hook", "hook": "rl_timeout_event_hook"},
+      {"op": "readline", "ret": null},
+      {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "READCMD", "TTYCSAVED", "DONE", "TIMEOUT", "EOF"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 1, "eof_found": 1, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "rl_set_timeout 0 0", "ret": 0},
+      {"op": "readline", "ret": "z"}
+    ],
+    "screen": [
+      "> zb"
+    ],
+    "cursor": [1, 0]
+  },
+  "timeout-libgetc-not-reached": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_timeout 30 0", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "libgetc-basic-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first"},
+      {"op": "readline", "ret": "second"}
+    ],
+    "screen": [
+      "> first",
+      "> second"
+    ],
+    "cursor": [2, 0]
+  },
+  "libgetc-sigint-interrupts-read": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "readline", "ret": "abcdef"}
+    ]
+  },
+  "libgetc-sigwinch": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "abcd"}
+    ]
+  },
+  "libgetc-signal-event-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_signal_event_hook"},
+      {"op": "hook", "hook": "rl_signal_event_hook"},
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "abc"}
+    ]
+  },
+  "libgetc-callback-sigint": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "callback", "ret": "xyzz"}
+    ]
+  },
+  "libgetc-callback-sigint-isearch": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "callback", "ret": "make all"}
+    ]
+  },
+  "libgetc-catch-signals-off": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "readline", "ret": "abcd"}
+    ]
+  },
+  "libgetc-sigtstp": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "TSTP"},
+      {"op": "readline", "ret": "abc"}
+    ]
+  },
+  "libgetc-esc-prefix-waits": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ZEDa"}
+    ],
+    "screen": [
+      "> ZEDa"
+    ],
+    "cursor": [1, 0]
+  },
+  "keyboard-input-timeout-returns-old": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keyboard_input_timeout 250", "ret": 100000},
+      {"op": "rl_set_keyboard_input_timeout 0", "ret": 250},
+      {"op": "rl_set_keyboard_input_timeout -7", "ret": 0},
+      {"op": "rl_set_keyboard_input_timeout 100000", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyboard-input-timeout-esc-vi": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keyboard_input_timeout 1000", "ret": 100000},
+      {"op": "dump", "line": "bc", "point": 0, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bc"}
+    ],
+    "screen": [
+      "> bc"
+    ],
+    "cursor": [1, 0]
+  },
+  "keyboard-input-timeout-isearch-esc": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_keyboard_input_timeout 1000", "ret": 100000},
+      {"op": "dump", "line": "Xhello", "point": 1, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xhello"}
+    ],
+    "screen": [
+      "> Xhello"
+    ],
+    "cursor": [1, 0]
+  },
+  "event-hook-called-once-then-removed": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["event"]},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "event-hook-sets-done": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["event"]},
+      {"op": "readline", "ret": ""},
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "set-mark", "done": 1, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 0, "executing_keyseq": "\u0000", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [0, 0]
+  },
+  "event-hook-inserts-text": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_insert_text \"hooked \"", "ret": 7},
+      {"op": "readline", "ret": "hooked tail"}
+    ],
+    "screen": [
+      "> hooked tail"
+    ],
+    "cursor": [1, 0]
+  },
+  "event-hook-input-available": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["event"]},
+      {"op": "readline", "ret": "q"}
+    ],
+    "screen": [
+      "> q"
+    ],
+    "cursor": [1, 0]
+  }
+}
