@@ -313,8 +313,8 @@ pub fn bind_default_keyseqs() {
             }
         }
     }
-    if crate::vars::enable_bracketed_paste.get() != 0 {
-        b(b"\x1b[200~", rl_bracketed_paste_begin, emacs_std());
-        b(b"\x1b[200~", rl_bracketed_paste_begin, vi_insertion());
-    }
+    // bound whatever enable-bracketed-paste says (it only controls the
+    // terminal mode)
+    b(b"\x1b[200~", rl_bracketed_paste_begin, emacs_std());
+    b(b"\x1b[200~", rl_bracketed_paste_begin, vi_insertion());
 }
