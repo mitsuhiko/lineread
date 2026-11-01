@@ -230,6 +230,11 @@ pub fn start_line_in_vi() {
 
 /// accept-line in vi mode.
 pub fn newline_hook() {
+    // accepting the line ends an insertion like ESC does (its text is kept
+    // for `.` on later lines)
+    if !in_command_mode() {
+        done_inserting();
+    }
     let s = st();
     s.doing_insert = false;
     s.open_groups = 0;
@@ -284,8 +289,12 @@ fn done_inserting() {
         } else {
             s.insert_text = top_insert.unwrap_or_default();
         }
-    } else if s.initial_insert || matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A') {
-        // (the insertion a line starts with counts as an `i`)
+    } else if s.initial_insert {
+        // text typed at the start of a line counts as an `i` insertion
+        if let Some(t) = top_insert {
+            s.insert_text = t;
+        }
+    } else if matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A') {
         s.insert_text = top_insert.unwrap_or_default();
     }
     s.initial_insert = false;

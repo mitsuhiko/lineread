@@ -326,3 +326,38 @@ set editing-mode vi
 set show-mode-in-prompt on
 --- keys
 abc\e<pause>0R<snap>X<snap>\e<pause><snap>\r
+
+=== accept-keeps-initial-insert
+tags: vi-redo accept-line
+--- script
+readline "> " 2
+--- keys
+_\r\e<pause>.<dump>\r
+
+=== accept-keeps-initial-insert-text
+tags: vi-redo accept-line
+--- script
+readline "> " 2
+--- keys
+abc\r\e<pause>.<dump>\r
+
+=== accept-keeps-change-text
+tags: vi-redo vi-change-to accept-line
+--- script
+readline "> " 2
+--- keys
+abc\e<pause>0cwZ\r\e<pause>.<dump>\r
+
+=== accept-keeps-append-text
+tags: vi-redo vi-append-eol accept-line
+--- script
+readline "> " 2
+--- keys
+abc\e<pause>Axy\r\e<pause>.<dump>\r
+
+=== accept-then-insert
+tags: vi-insertion-mode accept-line
+--- script
+readline "> " 2
+--- keys
+abc\e<pause>0x\r\e<pause>i<dump>\r

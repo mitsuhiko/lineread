@@ -675,5 +675,70 @@
         "cursor": [0, 7]
       }
     ]
+  },
+  "accept-keeps-initial-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "_"},
+      {"op": "dump", "line": "_", "point": 0, "end": 1, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "_"}
+    ],
+    "screen": [
+      "> _",
+      "> _"
+    ],
+    "cursor": [2, 0]
+  },
+  "accept-keeps-initial-insert-text": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      "> abc"
+    ],
+    "cursor": [2, 0]
+  },
+  "accept-keeps-change-text": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "Z"},
+      {"op": "dump", "line": "Z", "point": 0, "end": 1, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Z"}
+    ],
+    "screen": [
+      "> Z",
+      "> Z"
+    ],
+    "cursor": [2, 0]
+  },
+  "accept-keeps-append-text": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abcxy"},
+      {"op": "dump", "line": "xy", "point": 1, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "> abcxy",
+      "> xy"
+    ],
+    "cursor": [2, 0]
+  },
+  "accept-then-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "bc"},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "> bc",
+      ">"
+    ],
+    "cursor": [2, 0]
   }
 }
