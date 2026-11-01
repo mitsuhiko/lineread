@@ -211,8 +211,8 @@ pub unsafe extern "C" fn rl_free_line_state() {
     crate::numarg::rl_numeric_arg.set(1);
     crate::numarg::rl_explicit_arg.set(0);
     crate::numarg::ARG_SIGN.set(1);
-    // a message such as "(arg: 3) " goes away
-    crate::display::clear_arg_message();
+    // a message such as "(arg: 3) " goes away (at the next redisplay)
+    crate::display::drop_message();
     if is_state(RL_STATE_MACRODEF) {
         unset_state(RL_STATE_MACRODEF);
     }
