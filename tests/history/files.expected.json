@@ -1,0 +1,131 @@
+{
+  "read-history": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"hist.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "first", "timestamp": "", "data": 0}, {"line": "second", "timestamp": "", "data": 0}, {"line": "third", "timestamp": "", "data": 0}]},
+      {"op": "get history_lines_read_from_file", "ret": 3}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-missing-file": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"missing.txt\"", "ret": 2},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-default-file": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history NULL", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "from default", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-history-range": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history_range \"hist.txt\" 1 2", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "second", "timestamp": "", "data": 0}]},
+      {"op": "read_history_range \"hist.txt\" 2 -1", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "third", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-history": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"out.txt\"", "ret": 0},
+      {"op": "file_read \"out.txt\"", "content": "one\ntwo\n"},
+      {"op": "get history_lines_written_to_file", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "append-history": {
+    "exit": 0,
+    "results": [
+      {"op": "append_history 2 \"hist.txt\"", "ret": 0},
+      {"op": "file_read \"hist.txt\"", "content": "first\nsecond\nthird\nb\nc\n"},
+      {"op": "append_history 1 \"new.txt\"", "ret": 2},
+      {"op": "file_read \"new.txt\"", "content": null, "errno": "ENOENT"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "truncate-file": {
+    "exit": 0,
+    "results": [
+      {"op": "history_truncate_file \"hist.txt\" 2", "ret": 0},
+      {"op": "file_read \"hist.txt\"", "content": "second\nthird\n"},
+      {"op": "history_truncate_file \"hist.txt\" 0", "ret": 0},
+      {"op": "file_read \"hist.txt\"", "content": ""},
+      {"op": "history_truncate_file \"missing.txt\" 1", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "timestamps-written": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ts.txt\"", "ret": 0},
+      {"op": "file_read \"ts.txt\"", "content": "#<now>\nstamped\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "timestamps-read": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ts.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "cmd one", "timestamp": "#1700000000", "data": 0}, {"line": "cmd two", "timestamp": "#1700000100", "data": 0}]},
+      {"op": "history_get_time 1", "ret": 1700000000},
+      {"op": "history_get_time 2", "ret": 1700000100}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiline-entries": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"ml.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "line a\nline b", "timestamp": "#1700000000", "data": 0}, {"line": "single", "timestamp": "#1700000100", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifled-read": {
+    "exit": 0,
+    "results": [
+      {"op": "read_history \"hist.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 2, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "second", "timestamp": "", "data": 0}, {"line": "third", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-then-read-roundtrip": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"rt.txt\"", "ret": 0},
+      {"op": "read_history \"rt.txt\"", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "with spaces  ", "timestamp": "", "data": 0}, {"line": "tab\tinside", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "write-unwritable": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"ro/file.txt\"", "ret": 13},
+      {"op": "append_history 1 \"ro/file.txt\"", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

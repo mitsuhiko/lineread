@@ -1,0 +1,116 @@
+# History files (histfile.c): read/write/append/truncate, timestamps and
+# multi-line entries.  Paths are relative to the per-case HOME (the cwd).
+tags: history histfile api
+--- file hist.txt
+first
+second
+third
+
+=== read-history
+--- script
+read_history "hist.txt"
+history_dump
+get history_lines_read_from_file
+
+=== read-missing-file
+--- script
+read_history "missing.txt"
+history_dump
+
+=== read-default-file
+--- file .history
+from default
+--- script
+read_history NULL
+history_dump
+
+=== read-history-range
+--- script
+read_history_range "hist.txt" 1 2
+history_dump
+clear_history
+read_history_range "hist.txt" 2 -1
+history_dump
+
+=== write-history
+--- script
+add_history "one"
+add_history "two"
+write_history "out.txt"
+file_read "out.txt"
+get history_lines_written_to_file
+
+=== append-history
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+append_history 2 "hist.txt"
+file_read "hist.txt"
+append_history 1 "new.txt"
+file_read "new.txt"
+
+=== truncate-file
+--- script
+history_truncate_file "hist.txt" 2
+file_read "hist.txt"
+history_truncate_file "hist.txt" 0
+file_read "hist.txt"
+history_truncate_file "missing.txt" 1
+
+=== timestamps-written
+--- script
+set history_write_timestamps 1
+set history_comment_char "#"
+add_history "stamped"
+write_history "ts.txt"
+file_read "ts.txt"
+
+=== timestamps-read
+--- file ts.txt
+#1700000000
+cmd one
+#1700000100
+cmd two
+--- script
+set history_comment_char "#"
+read_history "ts.txt"
+history_dump
+history_get_time 1
+history_get_time 2
+
+=== multiline-entries
+--- file ml.txt
+#1700000000
+line a
+line b
+#1700000100
+single
+--- script
+set history_multiline_entries 1
+set history_comment_char "#"
+read_history "ml.txt"
+history_dump
+
+=== stifled-read
+--- script
+stifle_history 2
+read_history "hist.txt"
+history_dump
+
+=== write-then-read-roundtrip
+--- script
+add_history "with spaces  "
+add_history ""
+add_history "tab	inside"
+write_history "rt.txt"
+clear_history
+read_history "rt.txt"
+history_dump
+
+=== write-unwritable
+--- dir ro mode=0555
+--- script
+add_history "x"
+write_history "ro/file.txt"
+append_history 1 "ro/file.txt"

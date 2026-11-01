@@ -21,7 +21,8 @@ TTY=""
 if [ $# -eq 0 ]; then
   set -- sh -c 'ref/build.sh && ./rlt'
 fi
-exec docker run --rm $TTY \
+# run as the invoking user: root would ignore file permissions in tests
+exec docker run --rm $TTY --user "$(id -u):$(id -g)" -e HOME=/tmp \
   -v "$REPO:/work/lineread" -v "$REF_DIR:/work/lineread-ref" \
   -e LINEREAD_REF=/work/lineread-ref \
   -w /work/lineread "$IMAGE" "$@"

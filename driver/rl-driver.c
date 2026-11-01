@@ -2823,9 +2823,28 @@ static int env_fd(const char *name) {
   return fd;
 }
 
+static void list_commands(void) {
+  printf("# driver commands (see docs/TESTING.md)\n");
+  for (size_t i = 0; i < sizeof custom_table / sizeof custom_table[0]; i++)
+    printf("%s\n", custom_table[i].name);
+  printf("# generic API calls: NAME SIGNATURE (R:ARGS, see api_t in driver/rl-driver.c)\n");
+  for (size_t i = 0; i < sizeof api_table / sizeof api_table[0]; i++)
+    printf("%s %s%s\n", api_table[i].name, api_table[i].sig, api_table[i].capture ? " (captures output)" : "");
+  printf("# variables for set/get\n");
+  for (size_t i = 0; i < sizeof var_table / sizeof var_table[0]; i++)
+    printf("%s%s\n", var_table[i].name, var_table[i].ro ? " (read-only)" : "");
+  printf("# hooks for set/get\n");
+  hooks_init();
+  for (int i = 0; i < H_COUNT; i++) printf("%s\n", hooks[i].name);
+}
+
 int main(int argc, char **argv) {
+  if (argc == 2 && strcmp(argv[1], "--commands") == 0) {
+    list_commands();
+    return 0;
+  }
   if (argc != 2) {
-    fprintf(stderr, "usage: rl-driver SCRIPT\n");
+    fprintf(stderr, "usage: rl-driver SCRIPT | --commands\n");
     return 64;
   }
   const char *res = getenv("RLD_RESULTS");
