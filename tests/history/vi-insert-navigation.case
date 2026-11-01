@@ -1,0 +1,32 @@
+=== arrow
+--- inputrc
+set editing-mode vi
+--- script
+add_history "older"
+readline "> "
+--- keys
+abc<up><dump>\r
+=== ctrlp
+--- inputrc
+set editing-mode vi
+--- script
+add_history "older"
+readline "> "
+--- keys
+abc\C-p<dump>\r
+=== long
+--- inputrc
+set editing-mode vi
+--- script
+add_history "ab"
+readline "> "
+--- keys
+abc<up><dump>\r
+=== blank
+--- inputrc
+set editing-mode vi
+--- script
+add_history "older"
+readline "> "
+--- keys
+<up><dump>\r

@@ -258,6 +258,9 @@ unsafe fn load_entry(e: *mut HIST_ENTRY) {
         buffer::rl_mark.set(end);
     } else if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
         buffer::rl_mark.set(if p == end { 0 } else { end });
+    } else {
+        // Vi insert-mode history navigation leaves the mark at the end.
+        buffer::rl_mark.set(end);
     }
 }
 
