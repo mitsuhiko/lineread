@@ -227,6 +227,7 @@ pub unsafe fn generic_bind_raw(type_: c_char, keys: &[u8], data: KmData, map: Ke
     let n = keys.len();
     // the path of (map, key) pairs leading to the final entry
     let mut path: Vec<(Keymap, usize)> = Vec::new();
+    let mut was_bound = false;
     for (i, &kb) in keys.iter().enumerate() {
         let k = kb as usize;
         let e = entry(map, k);
@@ -255,13 +256,15 @@ pub unsafe fn generic_bind_raw(type_: c_char, keys: &[u8], data: KmData, map: Ke
             }
             *a = KEYMAP_ENTRY { type_, function: d };
         } else {
+            was_bound = !(*e).is_null();
             free_entry(e);
             *e = KEYMAP_ENTRY { type_, function: data };
         }
     }
     rl_binding_keymap.set(map);
     // unbinding the last key of a submap restores the shadowed binding
-    if type_ == ISFUNC && data.func.is_none() {
+    // (only when something was bound there)
+    if type_ == ISFUNC && data.func.is_none() && was_bound {
         while let Some((pm, pk)) = path.pop() {
             let pe = entry(pm, pk);
             let sub = (*pe).function.map;

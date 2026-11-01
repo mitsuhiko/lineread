@@ -303,13 +303,16 @@ pub fn bind_default_keyseqs() {
             b(seq, *f, map);
         }
     }
-    // vi command mode: ESC followed by an unbound key does nothing
+    // vi command mode (and an insert mode whose ESC was unbound): ESC
+    // followed by an unbound key does nothing
     unsafe {
-        let esc = *vi_movement().add(27);
-        if esc.type_ == ISKMAP {
-            let sub = esc.function.map;
-            if (*sub.add(ANYOTHERKEY)).is_null() {
-                *sub.add(ANYOTHERKEY) = KEYMAP_ENTRY::func(crate::vi::vi_esc_noop);
+        for m in [vi_movement(), vi_insertion()] {
+            let esc = *m.add(27);
+            if esc.type_ == ISKMAP {
+                let sub = esc.function.map;
+                if (*sub.add(ANYOTHERKEY)).is_null() {
+                    *sub.add(ANYOTHERKEY) = KEYMAP_ENTRY::func(crate::vi::vi_esc_noop);
+                }
             }
         }
     }

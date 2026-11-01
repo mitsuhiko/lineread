@@ -244,10 +244,8 @@ fn directive(line: &[u8]) -> c_int {
     }
     if word.eq_ignore_ascii_case(b"else") {
         match st.last_mut() {
-            Some(e) => {
-                e.0 = !e.1;
-                e.1 = true;
-            }
+            // (each $else toggles the branch)
+            Some(e) => e.0 = !e.0,
             None => {
                 report_error(b"$else found without matching $if");
                 return 0;
@@ -261,10 +259,10 @@ fn directive(line: &[u8]) -> c_int {
         }
         return 0;
     }
-    if !active() {
-        return 0;
-    }
     if word.eq_ignore_ascii_case(b"include") {
+        if !active() {
+            return 0;
+        }
         let path = expand_tilde(arg);
         read_file(&path, false);
         // the reference forgets the including file's name afterwards
@@ -472,14 +470,18 @@ pub fn parse_line(line: &[u8]) -> c_int {
     let map = crate::keymap::current();
     unsafe {
         // the key sequence
+        // (a key name binds its single key: macros and prefix-meta as that
+        // byte, functions like rl_bind_key)
         let keys: Vec<u8>;
         let mut prefix_meta = false;
+        let mut name_key: Option<c_int> = None;
         if quoted {
             let close = skip_to_delim(keypart, 1, b'"');
             keys = translate_keyseq_bytes(&keypart[1..close]).0;
         } else {
             let Ok(k) = keyname_to_key(keypart) else { return 1 };
-            keys = crate::bind::single_key_seq(k);
+            keys = vec![k as u8];
+            name_key = Some(k);
             prefix_meta = value.eq_ignore_ascii_case(b"prefix-meta");
         }
         if !value.is_empty() && (value[0] == b'"' || value[0] == b'\'') {
@@ -498,7 +500,14 @@ pub fn parse_line(line: &[u8]) -> c_int {
         }
         // unknown function names unbind the key
         let f = crate::funmap::named_function(value);
-        generic_bind_raw(ISFUNC, &keys, KmData { func: f }, map);
+        match name_key {
+            Some(k) => {
+                crate::bind::rl_bind_key_in_map(k, f, map);
+            }
+            None => {
+                generic_bind_raw(ISFUNC, &keys, KmData { func: f }, map);
+            }
+        }
     }
     0
 }
