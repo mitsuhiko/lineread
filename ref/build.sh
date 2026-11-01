@@ -5,7 +5,8 @@
 #
 # Layout (REF_DIR defaults to <repo>/../lineread-ref, override with LINEREAD_REF):
 #   $REF_DIR/src          git checkout of tag readline-8.3 (or unpacked tarball)
-#   $REF_DIR/build-plain  static libs, -O1 -g
+#   $REF_DIR/build-plain  static libs, -O1 -g -fPIC (PIC so that shared objects,
+#                         e.g. a Python extension module, can link them)
 #   $REF_DIR/build-cov    static libs with clang source-based coverage
 #   $REF_DIR/build-asan   static libs with AddressSanitizer
 #   $REF_DIR/gnu-include  <readline/*.h> symlinks to the GNU headers
@@ -78,11 +79,11 @@ fetch
 gnu_headers
 what=${1:-all}
 case "$what" in
-  plain|all) build_one plain "-g -O1" "";;
+  plain|all) build_one plain "-g -O1 -fPIC" "";;
 esac
 case "$what" in
   cov|all) build_one cov "-g -O0 -fprofile-instr-generate -fcoverage-mapping" "-fprofile-instr-generate";;
 esac
 case "$what" in
-  asan|all) build_one asan "-g -O1 -fno-omit-frame-pointer -fsanitize=address,undefined" "-fsanitize=address,undefined";;
+  asan|all) build_one asan "-g -O1 -fPIC -fno-omit-frame-pointer -fsanitize=address,undefined" "-fsanitize=address,undefined";;
 esac

@@ -1,0 +1,129 @@
+{
+ "lua-basic": {
+  "exit": 0,
+  "screen": [
+   "Lua 5.4.7  Copyright (C) 1994-2024 Lua.org, PUC-Rio",
+   "> print(1+1)",
+   "2",
+   "> print(131)",
+   "131",
+   "> os.exit()"
+  ]
+ },
+ "lua-continuation": {
+  "exit": 0,
+  "screen": [
+   "Lua 5.4.7  Copyright (C) 1994-2024 Lua.org, PUC-Rio",
+   "> for i = 1, 2 do",
+   ">> print(i * 10) end",
+   "10",
+   "20",
+   "> os.exit()"
+  ]
+ },
+ "lua-word-editing": {
+  "exit": 0,
+  "screen": [
+   "Lua 5.4.7  Copyright (C) 1994-2024 Lua.org, PUC-Rio",
+   "> x = 'alpha BETA'",
+   "> print(x)",
+   "alpha BETA",
+   "> os.exit()"
+  ]
+ },
+ "py-basic": {
+  "exit": 0,
+  "screen": [
+   ">>> x = 40",
+   ">>> x + 2",
+   "42",
+   ">>> x = 40",
+   ">>> 40 * 2",
+   "80",
+   ">>> exit()"
+  ]
+ },
+ "py-complete": {
+  "exit": 0,
+  "screen": [
+   ">>> import os",
+   ">>> os.getcwd()",
+   "'$HOME'",
+   ">>> exit()"
+  ]
+ },
+ "py-emacs-editing": {
+  "exit": 0,
+  "screen": [
+   ">>> print('one two ')",
+   "one two",
+   ">>> 'abc'.upper()",
+   "'ABC'",
+   ">>> exit()"
+  ]
+ },
+ "py-history-api": {
+  "exit": 0,
+  "screen": [
+   ">>> import readline",
+   ">>> readline.clear_history(); readline.add_history('zzz = 7')",
+   ">>> zzz = 7",
+   ">>> zzz, readline.get_current_history_length()",
+   "(7, 2)",
+   ">>> exit()"
+  ]
+ },
+ "py-reverse-search": {
+  "exit": 0,
+  "screen": [
+   ">>> a = 'hello'",
+   ">>> b = 2",
+   ">>> a = 'hello'",
+   ">>> a",
+   "'hello'",
+   ">>> exit()"
+  ]
+ },
+ "sqlite-basic": {
+  "exit": 0,
+  "screen": [
+   "SQLite version 3.46.1 2024-08-13 09:16:08",
+   "Enter \".help\" for usage hints.",
+   "Connected to a transient in-memory database.",
+   "Use \".open FILENAME\" to reopen on a persistent database.",
+   "sqlite> select 1+1;",
+   "2",
+   "sqlite> select 1+2;",
+   "3",
+   "sqlite> .quit"
+  ]
+ },
+ "sqlite-continuation": {
+  "exit": 0,
+  "screen": [
+   "SQLite version 3.46.1 2024-08-13 09:16:08",
+   "Enter \".help\" for usage hints.",
+   "Connected to a transient in-memory database.",
+   "Use \".open FILENAME\" to reopen on a persistent database.",
+   "sqlite> select",
+   "   ...>   6 *",
+   "   ...>   7;",
+   "42",
+   "sqlite> .quit"
+  ]
+ },
+ "sqlite-kill-yank": {
+  "exit": 0,
+  "screen": [
+   "SQLite version 3.46.1 2024-08-13 09:16:08",
+   "Enter \".help\" for usage hints.",
+   "Connected to a transient in-memory database.",
+   "Use \".open FILENAME\" to reopen on a persistent database.",
+   "sqlite> select 'ab' || 'cd';",
+   "abcd",
+   "sqlite> select 'x';",
+   "x",
+   "sqlite> .quit"
+  ]
+ }
+}
