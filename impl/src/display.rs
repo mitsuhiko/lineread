@@ -44,12 +44,15 @@ pub struct Screen {
 
 pub static SCREEN: CVar<Screen> = CVar::new(Screen { rows: Vec::new(), cur_row: 0, cur_col: 0 });
 
-/// rl_message text replacing the prompt (None = show the prompt).
-static MESSAGE: CVar<Option<Vec<u8>>> = CVar::new(None);
+/// The expanded prompt redisplay shows (set by rl_expand_prompt, i.e. by
+/// rl_set_prompt and rl_message); None: show rl_display_prompt.
+static LOCAL_PROMPT: CVar<Option<Vec<u8>>> = CVar::new(None);
+/// rl_save_prompt storage.
+static SAVED_PROMPT: CVar<Vec<Option<Vec<u8>>>> = CVar::new(Vec::new());
+/// rl_message saved the prompt (a message is displayed).
+static MSG_SAVED: CVar<bool> = CVar::new(false);
 /// C copy of the message (rl_display_prompt points to it).
 static MESSAGE_C: CVar<*mut c_char> = CVar::new(null_mut());
-/// rl_save_prompt storage.
-static SAVED_PROMPT: CVar<Vec<(*mut c_char, *mut c_char, Option<Vec<u8>>)>> = CVar::new(Vec::new());
 
 fn row_width(r: &Row) -> usize {
     r.iter().map(|c| c.width as usize).sum()
@@ -90,16 +93,30 @@ pub fn split_prompt(p: &[u8]) -> (&[u8], &[u8]) {
     }
 }
 
+/// The whole prompt being displayed (all lines).
+pub fn full_prompt() -> Vec<u8> {
+    match LOCAL_PROMPT.get_mut() {
+        Some(p) => p.clone(),
+        None => unsafe { cstr(rl_display_prompt.get()).to_vec() },
+    }
+}
+
 /// The prompt bytes redisplay shows: the mode string and the last line of
 /// the prompt (or of the message).
 pub fn display_prompt_bytes() -> Vec<u8> {
     let mut p = Vec::new();
     unsafe {
-        if MESSAGE.get_mut().is_none() && crate::vars::show_mode_in_prompt.get() != 0 {
+        if crate::vars::mark_modified_lines.get() != 0
+            && !crate::undo::rl_undo_list.get().is_null()
+            && !crate::history::current_history().is_null()
+        {
+            p.push(b'*');
+        }
+        if !MSG_SAVED.get() && crate::vars::show_mode_in_prompt.get() != 0 {
             p.extend_from_slice(&mode_string());
         }
-        let full = cstr(rl_display_prompt.get());
-        p.extend_from_slice(split_prompt(full).1);
+        let full = full_prompt();
+        p.extend_from_slice(split_prompt(&full).1);
     }
     p
 }
@@ -108,8 +125,8 @@ pub fn display_prompt_bytes() -> Vec<u8> {
 /// when a line starts).
 pub fn print_prompt_prefix() {
     unsafe {
-        let full = cstr(rl_display_prompt.get());
-        let (prefix, _) = split_prompt(full);
+        let full = full_prompt();
+        let (prefix, _) = split_prompt(&full);
         if prefix.is_empty() {
             return;
         }
@@ -197,7 +214,7 @@ fn layout_prompt(lay: &mut Lay, prompt: &[u8]) {
             i += 1;
             continue;
         }
-        if b == RL_PROMPT_END_IGNORE {
+        if b == RL_PROMPT_END_IGNORE && invis {
             invis = false;
             i += 1;
             continue;
@@ -318,6 +335,8 @@ pub fn layout() -> (Vec<Row>, (usize, usize)) {
     let mut lay = Lay::new(width);
     let prompt = display_prompt_bytes();
     layout_prompt(&mut lay, &prompt);
+    // invisible bytes at the end of the prompt stay with the prompt
+    lay.finish();
     let line = buffer::line().to_vec();
     let point = buffer::point();
     let cursor = layout_line(&mut lay, &line, point);
@@ -689,10 +708,25 @@ pub unsafe extern "C" fn rl_set_prompt(prompt: *const c_char) -> c_int {
     let old = rl_prompt.get();
     rl_prompt.set(crate::util::c_strdup_ptr(prompt));
     cfree(old);
-    if MESSAGE.get_mut().is_none() {
-        rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
-    }
+    rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
+    rl_expand_prompt(rl_prompt.get());
     0
+}
+
+/// Visible length of a prompt as `rl_expand_prompt` counts it: bytes
+/// outside `\001..\002` (a stray `\002` counts as visible).
+fn visible_prompt_len(p: &[u8]) -> c_int {
+    let mut n = 0;
+    let mut ignoring = false;
+    for &b in p {
+        match b {
+            RL_PROMPT_START_IGNORE if !ignoring => ignoring = true,
+            RL_PROMPT_END_IGNORE if ignoring => ignoring = false,
+            _ if ignoring => {}
+            _ => n += 1,
+        }
+    }
+    n
 }
 
 /// Visible characters on the last line of a prompt.
@@ -704,29 +738,28 @@ pub fn prompt_last_line_width(p: &[u8]) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_expand_prompt(prompt: *mut c_char) -> c_int {
-    match cstr_opt(prompt) {
-        Some(p) if !p.is_empty() => prompt_last_line_width(p),
-        _ => 0,
+    let p = cstr(prompt);
+    if p.is_empty() {
+        LOCAL_PROMPT.set(None);
+        return 0;
+    }
+    LOCAL_PROMPT.set(Some(p.to_vec()));
+    match p.iter().rposition(|&c| c == b'\n') {
+        // multi-line: the length of everything up to the last newline
+        Some(i) => visible_prompt_len(&p[..=i]),
+        None => visible_prompt_len(p),
     }
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_save_prompt() {
-    SAVED_PROMPT.get_mut().push((rl_prompt.get(), rl_display_prompt.get(), MESSAGE.get_mut().take()));
-    rl_prompt.set(null_mut());
-    // the prompt string stays valid: rl_prompt is restored later
+    SAVED_PROMPT.get_mut().push(LOCAL_PROMPT.get_mut().take());
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_restore_prompt() {
-    if let Some((p, d, m)) = SAVED_PROMPT.get_mut().pop() {
-        let cur = rl_prompt.get();
-        if !cur.is_null() && cur != p {
-            cfree(cur);
-        }
-        rl_prompt.set(p);
-        rl_display_prompt.set(d);
-        MESSAGE.set(m);
+    if let Some(p) = SAVED_PROMPT.get_mut().pop() {
+        LOCAL_PROMPT.set(p);
     }
 }
 
@@ -739,22 +772,39 @@ pub unsafe extern "C" fn lr_message_str(msg: *const c_char) -> c_int {
     0
 }
 
+/// Show `m` instead of the prompt (saving the prompt the first time).
 pub fn set_message(m: &[u8]) {
     unsafe {
+        if !MSG_SAVED.get() {
+            rl_save_prompt();
+            MSG_SAVED.set(true);
+        }
         let old = MESSAGE_C.replace(c_strdup(m));
-        MESSAGE.set(Some(m.to_vec()));
         rl_display_prompt.set(MESSAGE_C.get());
         cfree(old);
+        LOCAL_PROMPT.set(Some(m.to_vec()));
+    }
+}
+
+/// Is a message shown instead of the prompt?
+pub fn message_shown() -> bool {
+    MSG_SAVED.get()
+}
+
+/// Drop the message (without redisplay).
+fn clear_message_state() {
+    unsafe {
+        rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
+        if MSG_SAVED.get() {
+            rl_restore_prompt();
+            MSG_SAVED.set(false);
+        }
     }
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_clear_message() -> c_int {
-    if MESSAGE.get_mut().take().is_some() {
-        rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
-        let old = MESSAGE_C.replace(null_mut());
-        cfree(old);
-    }
+    clear_message_state();
     redisplay();
     0
 }
@@ -779,11 +829,8 @@ pub fn clear_arg_message() {
 /// redisplay).  Returns whether there was one.
 pub fn drop_message() -> bool {
     unsafe {
-        if MESSAGE.get_mut().is_some() {
-            MESSAGE.set(None);
-            rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
-            let old = MESSAGE_C.replace(null_mut());
-            cfree(old);
+        if MSG_SAVED.get() {
+            clear_message_state();
             return true;
         }
         false
