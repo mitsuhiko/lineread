@@ -50,6 +50,7 @@ typedef struct lr_coro {
   void (*fn)(void *);
   void *arg;
   int done;
+  void *top_level; /* the coroutine's lr_top_level while suspended */
 } lr_coro;
 
 static void lr_coro_entry(void) ;
@@ -79,10 +80,17 @@ lr_coro *lr_coro_new(size_t stack_size, void (*fn)(void *), void *arg) {
   return c;
 }
 
-/* Run the coroutine until it yields or finishes. */
+#include <setjmp.h>
+static sigjmp_buf *lr_top_level;
+static void *lr_swap_top_level(void *t);
+
+/* Run the coroutine until it yields or finishes.  Each side keeps its own
+   abort target (lr_catch below). */
 void lr_coro_resume(lr_coro *c) {
   lr_coro_starting = c;
+  void *mine = lr_swap_top_level(c->top_level);
   swapcontext(&c->caller, &c->self);
+  c->top_level = lr_swap_top_level(mine);
 }
 
 /* Inside the coroutine: return to the resumer. */
@@ -96,4 +104,35 @@ void lr_coro_free(lr_coro *c) {
   if (!c) return;
   free(c->stack);
   free(c);
+}
+
+/* ------------------------------------------------------------------ */
+/* Non-local exit to the editing loop's top level (rl_abort and friends
+   leave the command that called them, like the reference).  The frames
+   jumped over are plain Rust/C frames without cleanup obligations. */
+#include <setjmp.h>
+
+int lr_catch(void (*fn)(void *), void *arg) {
+  sigjmp_buf jb;
+  sigjmp_buf *prev = lr_top_level;
+  lr_top_level = &jb;
+  if (sigsetjmp(jb, 0) == 0) {
+    fn(arg);
+    lr_top_level = prev;
+    return 0;
+  }
+  lr_top_level = prev;
+  return 1;
+}
+
+int lr_catching(void) { return lr_top_level != NULL; }
+
+static void *lr_swap_top_level(void *t) {
+  void *old = lr_top_level;
+  lr_top_level = t;
+  return old;
+}
+
+void lr_throw(void) {
+  if (lr_top_level) siglongjmp(*lr_top_level, 1);
 }

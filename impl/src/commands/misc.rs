@@ -6,8 +6,26 @@ use crate::buffer;
 use crate::input::{set_state, unset_state};
 use crate::prelude::*;
 
+extern "C" {
+    fn lr_catch(f: unsafe extern "C" fn(*mut c_void), arg: *mut c_void) -> c_int;
+    fn lr_catching() -> c_int;
+    fn lr_throw();
+}
+
+/// Run `f` so that an abort inside it returns here (true) instead of to
+/// its caller.  Used by the editing loop around each command.
+pub fn catch_abort(f: &mut dyn FnMut()) -> bool {
+    unsafe extern "C" fn tramp(arg: *mut c_void) {
+        let f = &mut *(arg as *mut &mut dyn FnMut());
+        f();
+    }
+    let mut f = f;
+    unsafe { lr_catch(tramp, &mut f as *mut &mut dyn FnMut() as *mut c_void) != 0 }
+}
+
 /// Abort the current command: ding, drop numeric argument, macros and
-/// pending state.
+/// pending state, then leave the command (back to the editing loop's
+/// top level, when there is one).
 pub fn abort_internal() {
     unsafe {
         crate::terminal::rl_ding();
@@ -16,6 +34,12 @@ pub fn abort_internal() {
     crate::kbdmacro::clear_macro_input();
     crate::input::unset_state(RL_STATE_MACRODEF | RL_STATE_MULTIKEY | RL_STATE_MOREINPUT);
     crate::display::clear_arg_message();
+    unsafe {
+        crate::input::rl_clear_pending_input();
+        if lr_catching() != 0 {
+            lr_throw();
+        }
+    }
 }
 
 #[no_mangle]

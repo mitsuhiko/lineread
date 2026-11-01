@@ -175,7 +175,12 @@ pub unsafe fn line_step() -> bool {
         handle_eof(c);
         return false;
     }
-    crate::dispatch::dispatch_key(c, crate::keymap::current());
+    if crate::commands::misc::catch_abort(&mut || {
+        crate::dispatch::dispatch_key(c, crate::keymap::current());
+    }) {
+        // the command was aborted (rl_abort and friends)
+        crate::dispatch::rl_last_func.set(None);
+    }
     unset_state(RL_STATE_MULTIKEY);
     after_command();
     crate::signals::rl_check_signals();
