@@ -16,9 +16,32 @@ struct Saved {
 }
 static SAVED: CVar<Option<Saved>> = CVar::new(None);
 
-/// Line setup: start at the end of the history list.
+/// history-preserve-point: the point remembered when moving into the
+/// history (-1: none).
+static SAVED_POINT: CVar<c_int> = CVar::new(-1);
+/// operate-and-get-next: the logical history number to show next.
+static NEXT_LINE: CVar<Option<c_int>> = CVar::new(None);
+
+/// Line setup: start at the end of the history list (or at the entry
+/// requested by operate-and-get-next).
 pub fn line_started() {
-    unsafe { history::using_history() };
+    unsafe {
+        history::using_history();
+        SAVED_POINT.set(-1);
+        if let Some(l) = NEXT_LINE.get_mut().take() {
+            let i = l - history::history_base.get();
+            if i >= 0 && i < history_length.get() {
+                goto_history(i);
+            }
+        }
+    }
+}
+
+fn remember_point() {
+    let (p, e) = (buffer::rl_point.get(), buffer::rl_end.get());
+    if SAVED_POINT.get() == -1 && (p != 0 || e != 0) {
+        SAVED_POINT.set(if p == e { -1 } else { p });
+    }
 }
 
 /// Clear `data` of entries that point to the undo list `l` (it is being
@@ -109,21 +132,50 @@ pub unsafe extern "C" fn rl_maybe_replace_line() -> c_int {
     0
 }
 
+/// The text of the line saved when moving into the history, if any.
+pub fn saved_line_text() -> Option<Vec<u8>> {
+    SAVED.get_mut().as_ref().map(|s| s.text.clone())
+}
+
+/// Move to history position `i` (0..=history_length) the way the
+/// navigation commands do: save the edited line when leaving the end of
+/// the list, keep edits of the entry being left, load the new entry (or
+/// the saved line at the end).  Point goes to the end of the line.
+pub unsafe fn goto_history(i: c_int) {
+    let len = history_length.get();
+    let i = i.clamp(0, len);
+    if history_offset.get() >= len {
+        rl_maybe_save_line();
+    }
+    rl_maybe_replace_line();
+    history_offset.set(i);
+    if i >= len {
+        rl_maybe_unsave_line();
+    } else {
+        let e = history::entry_at(i);
+        buffer::set_line(cstr((*e).line));
+        rl_undo_list.set((*e).data as *mut UNDO_LIST);
+        buffer::rl_point.set(buffer::rl_end.get());
+        if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
+            buffer::rl_mark.set(0);
+        }
+    }
+}
+
 /// Show history entry `e` as the current line.
 unsafe fn load_entry(e: *mut HIST_ENTRY) {
     buffer::set_line(cstr((*e).line));
     rl_undo_list.set((*e).data as *mut UNDO_LIST);
-    let p = if crate::vars::history_preserve_point.get() != 0 {
-        buffer::rl_point.get().min(buffer::rl_end.get())
-    } else {
-        buffer::rl_end.get()
-    };
+    let end = buffer::rl_end.get();
+    let sp = SAVED_POINT.get();
+    let p = if crate::vars::history_preserve_point.get() != 0 && sp != -1 { sp.min(end) } else { end };
     buffer::rl_point.set(p);
-    buffer::rl_mark.set(0);
     if crate::vi::in_command_mode() {
         // vi command mode: point at the start, mark at the end
         buffer::rl_point.set(0);
-        buffer::rl_mark.set(buffer::rl_end.get());
+        buffer::rl_mark.set(end);
+    } else if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
+        buffer::rl_mark.set(if p == end { 0 } else { end });
     }
 }
 
@@ -135,6 +187,7 @@ pub unsafe extern "C" fn rl_get_previous_history(count: c_int, key: c_int) -> c_
     if count == 0 || history_length.get() == 0 {
         return 0;
     }
+    remember_point();
     if history_offset.get() == history_length.get() {
         rl_maybe_save_line();
     }
@@ -168,6 +221,7 @@ pub unsafe extern "C" fn rl_get_next_history(count: c_int, key: c_int) -> c_int 
     if count == 0 {
         return 0;
     }
+    remember_point();
     rl_maybe_replace_line();
     let mut e: *mut HIST_ENTRY = null_mut();
     for _ in 0..count {
@@ -198,14 +252,26 @@ pub unsafe extern "C" fn rl_end_of_history(_count: c_int, _key: c_int) -> c_int 
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_operate_and_get_next(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_operate_and_get_next");
-    0
+pub unsafe extern "C" fn rl_operate_and_get_next(count: c_int, key: c_int) -> c_int {
+    let l = if crate::numarg::rl_explicit_arg.get() != 0 {
+        count
+    } else {
+        history::where_history() + history::history_base.get() + 1
+    };
+    NEXT_LINE.set(Some(l));
+    crate::readline::rl_newline(1, key)
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_fetch_history(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_fetch_history");
+pub unsafe extern "C" fn rl_fetch_history(count: c_int, key: c_int) -> c_int {
+    if crate::numarg::rl_explicit_arg.get() == 0 {
+        return rl_beginning_of_history(count, key);
+    }
+    let i = count - history::history_base.get();
+    if i < 0 || i >= history_length.get() {
+        return rl_beginning_of_history(count, key);
+    }
+    goto_history(i);
     0
 }
 
@@ -226,14 +292,64 @@ pub unsafe extern "C" fn rl_clear_history() {
 
 // ---- history arguments (bound in emacs; tests in tests/kill)
 
-#[no_mangle]
-pub unsafe extern "C" fn rl_yank_nth_arg(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_yank_nth_arg");
+/// Insert word `n` (history_arg_extract numbering, `'$'` = last) of the
+/// entry `skip + 1` lines before the current history position.
+unsafe fn yank_arg(n: c_int, skip: c_int) -> c_int {
+    let pos = history::where_history();
+    let idx = pos - 1 - skip;
+    let line = if idx >= 0 { history::line_at(idx) } else { None };
+    let Some(line) = line else {
+        rl_ding();
+        return -1;
+    };
+    let arg = match history::expand::arg_extract(n, n, line) {
+        Some(a) if !a.is_empty() => a,
+        _ => {
+            rl_ding();
+            return -1;
+        }
+    };
+    crate::undo::rl_begin_undo_group();
+    buffer::rl_mark.set(buffer::rl_point.get());
+    buffer::insert(&arg);
+    crate::undo::rl_end_undo_group();
     0
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_yank_last_arg(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_yank_last_arg");
-    0
+pub unsafe extern "C" fn rl_yank_nth_arg(count: c_int, _key: c_int) -> c_int {
+    yank_arg(count, 0)
+}
+
+struct LastArg {
+    skip: c_int,
+    explicit: bool,
+    count: c_int,
+    direction: c_int,
+    undo_needed: bool,
+}
+static LAST_ARG: CVar<LastArg> = CVar::new(LastArg { skip: 0, explicit: false, count: 0, direction: 1, undo_needed: false });
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_yank_last_arg(count: c_int, _key: c_int) -> c_int {
+    let st = LAST_ARG.get_mut();
+    if !crate::dispatch::same_fn(crate::dispatch::rl_last_func.get(), rl_yank_last_arg) {
+        st.skip = 0;
+        st.explicit = crate::numarg::rl_explicit_arg.get() != 0;
+        st.count = count;
+        st.direction = 1;
+    } else {
+        if st.undo_needed {
+            crate::undo::rl_do_undo();
+        }
+        if count < 0 {
+            st.direction = -st.direction;
+        }
+        st.skip = (st.skip + st.direction).max(0);
+    }
+    let n = if st.explicit { st.count } else { b'$' as c_int };
+    let skip = st.skip;
+    let r = yank_arg(n, skip);
+    LAST_ARG.get_mut().undo_needed = r == 0;
+    r
 }
