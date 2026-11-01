@@ -1,0 +1,22 @@
+# Display behaviours found by the differential fuzzer.
+tags: display
+
+=== listing-reprints-multiline-prompt
+tags: complete prompt
+screen: 33x8
+--- script
+complete_words "x"
+set rl_completion_entry_function words
+readline "two\nlines> "
+--- keys
+\M-?<snap>\r
+
+=== hscroll-long-prompt-multibyte
+tags: horizontal-scroll-mode utf8
+screen: 20x6
+--- inputrc
+set horizontal-scroll-mode on
+--- script
+readline "a much longer prompt string> "
+--- keys
+語We3<snap>\C-a<snap>\r

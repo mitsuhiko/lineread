@@ -404,14 +404,31 @@ fn layout_hscroll() -> (Vec<Row>, (usize, usize)) {
     let point = buffer::point();
     let (_, ccol) = layout_line(&mut lay, &line, point);
     let cells: Row = lay.rows.into_iter().flatten().collect();
-    let total: isize = cells.iter().map(|c| c.width as isize).sum();
-    let cpos = ccol as isize;
+    // positions are byte offsets into the displayed text, like the
+    // reference (multibyte characters count with their length)
+    let mut starts = Vec::with_capacity(cells.len());
+    let mut cols = Vec::with_capacity(cells.len());
+    let (mut b, mut c) = (0isize, 0usize);
+    for cell in &cells {
+        starts.push(b);
+        cols.push(c);
+        b += cell.bytes.len() as isize;
+        c += cell.width as usize;
+    }
+    let total_b = b;
+    // the cursor's cell: the first visible cell at its column
+    let cpos = (0..cells.len())
+        .find(|&k| cols[k] == ccol && cells[k].width > 0)
+        .map(|k| starts[k])
+        .unwrap_or(total_b);
+    let invis: isize = prompt_invisible_len(&prompt) as isize;
     let last = LAST_LMARGIN.get() as isize;
     let t = (sw / 3).max(1);
-    let phys = cpos - last;
+    let phys = cpos - if last > 0 { last } else { invis };
+    let ndisp = cpos - invis;
     let lmargin = if phys > sw - 2 {
         (cpos - 2 * t).max(0)
-    } else if cpos < sw - 2 {
+    } else if ndisp < sw - 2 {
         0
     } else if phys < 1 {
         ((cpos - 1) / t) * t
@@ -420,28 +437,50 @@ fn layout_hscroll() -> (Vec<Row>, (usize, usize)) {
     };
     let lmargin = lmargin.max(0);
     LAST_LMARGIN.set(lmargin as usize);
+    let right = lmargin + if lmargin == 0 { invis } else { 0 } + sw;
     let mut row: Row = Vec::new();
-    let mut col = 0isize;
-    let right = lmargin + sw;
-    for c in cells {
-        let w = c.width as isize;
-        if col < lmargin {
-            col += w;
+    let mut cursor_col = 0usize;
+    let mut seen_cursor = false;
+    for (k, cell) in cells.into_iter().enumerate() {
+        let st = starts[k];
+        let en = st + cell.bytes.len() as isize;
+        if en <= lmargin {
             continue;
         }
-        if col >= right {
+        if st >= right {
             break;
         }
-        if col == lmargin && lmargin > 0 && w > 0 {
+        if st == cpos && !seen_cursor {
+            cursor_col = row_width(&row);
+            seen_cursor = true;
+        }
+        if lmargin > 0 && st <= lmargin && lmargin < en {
             row.push(Cell { bytes: b"<".to_vec(), width: 1 });
-        } else if col + w >= right && right < total && w > 0 {
+        } else if right < total_b && st <= right - 1 && right - 1 < en {
             row.push(Cell { bytes: b">".to_vec(), width: 1 });
         } else {
-            row.push(c);
+            row.push(cell);
         }
-        col += w;
     }
-    (vec![row], (0, (cpos - lmargin).max(0) as usize))
+    if !seen_cursor {
+        cursor_col = row_width(&row);
+    }
+    (vec![row], (0, cursor_col))
+}
+
+/// Number of invisible bytes in a prompt (between \001 and \002).
+fn prompt_invisible_len(p: &[u8]) -> usize {
+    let mut n = 0;
+    let mut ignoring = false;
+    for &b in p {
+        match b {
+            RL_PROMPT_START_IGNORE if !ignoring => ignoring = true,
+            RL_PROMPT_END_IGNORE if ignoring => ignoring = false,
+            _ if ignoring => n += 1,
+            _ => {}
+        }
+    }
+    n
 }
 
 // ---------------------------------------------------------------- output
@@ -818,6 +857,9 @@ pub fn forget_screen() {
 #[no_mangle]
 pub unsafe extern "C" fn rl_forced_update_display() -> c_int {
     forget_screen();
+    // the lines of a multi-line prompt before its last line are printed
+    // again
+    print_prompt_prefix();
     redisplay();
     0
 }
