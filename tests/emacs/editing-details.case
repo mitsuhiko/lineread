@@ -114,3 +114,20 @@ one two\C-a\M-d<pause>Z\C-xf<pause>\C-e\C-y<dump>\r
 === overwrite-negative-count-empty-group
 tags: overwrite-mode numarg undo
 keys: abc\C-a<ins><pause>\M--<pause>x<dumpfull>\r
+
+=== kill-line-at-end-is-no-kill
+description: kill-line with nothing to kill does not continue a kill sequence
+tags: kill-line kill typeahead
+keys: one\C-a\M-d<pause>\C-k<pause>ab\C-w<pause>\C-y<dump>\r
+
+=== overwrite-rubout-tab-width-spaces
+tags: overwrite-mode backward-delete-char
+keys: ab\C-v\tc\C-b<ins><pause><bs><dumpfull>\r
+
+=== overwrite-rubout-tab-after-text
+tags: overwrite-mode backward-delete-char
+keys: abcdefghij\C-v\tc\C-b<ins><pause><bs><dump>\r
+
+=== character-search-count-beyond-matches
+tags: character-search numarg
+keys: abcabc\C-a\M-5\C-]c<dump>\M-5\M-\C-]a<dump>\r

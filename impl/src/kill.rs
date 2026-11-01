@@ -105,10 +105,9 @@ pub unsafe extern "C" fn rl_kill_line(count: c_int, key: c_int) -> c_int {
         return rl_backward_kill_line(1, key);
     }
     let p = point();
+    // (nothing to kill at the end: the command does not count as a kill)
     if p < end() {
         rl_kill_text(p as c_int, end() as c_int);
-    } else {
-        THIS_KILL.set(true);
     }
     set_point(p);
     mark_at_point();

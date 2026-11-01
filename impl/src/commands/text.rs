@@ -197,6 +197,27 @@ pub unsafe extern "C" fn rl_rubout(count: c_int, key: c_int) -> c_int {
     // point is at the end of the line
     let overwrite = rl_insert_mode.get() == 0;
     let spaces = overwrite && p < end();
+    // as many spaces as the count, a single tab its display width
+    let n_spaces = if count == 1 && &l[from..p] == b"\t" {
+        let mut c = 0;
+        let mut i = 0;
+        while i < from {
+            let j = mb::next_char(l, i);
+            if l[i] == b'\t' {
+                c = (c / 8 + 1) * 8;
+            } else {
+                c += match mb::decode_at(l, i) {
+                    (Some(wc), _) if wc < 0x20 || wc == 0x7f => 2,
+                    (Some(wc), _) => mb::wc_width(wc).max(0) as usize,
+                    _ => 1,
+                };
+            }
+            i = j;
+        }
+        8 - c % 8
+    } else {
+        count as usize
+    };
     if overwrite {
         crate::undo::rl_begin_undo_group();
     }
@@ -206,7 +227,8 @@ pub unsafe extern "C" fn rl_rubout(count: c_int, key: c_int) -> c_int {
         buffer::delete(from, p);
     }
     if spaces {
-        buffer::insert_at(from, &vec![b' '; count as usize]);
+        let n = n_spaces;
+        buffer::insert_at(from, &vec![b' '; n]);
     }
     if overwrite {
         crate::undo::rl_end_undo_group();
@@ -468,7 +490,9 @@ unsafe fn char_search(count: c_int, dir: i32) -> c_int {
         match found {
             Some(i) => p = i,
             None => {
+                // as far as the occurrences go
                 rl_ding();
+                set_point(p);
                 return -1;
             }
         }

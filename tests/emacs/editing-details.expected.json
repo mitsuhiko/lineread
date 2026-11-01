@@ -259,5 +259,50 @@
       "> abc"
     ],
     "cursor": [1, 0]
+  },
+  "kill-line-at-end-is-no-kill": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-rubout-tab-width-spaces": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab      c", "point": 2, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "OVERWRITE", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["insert", 2, 8, null], ["delete", 2, 3, "\t"], ["begin", 0, 0, null], ["insert", 0, 4, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "backward-delete-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 127, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ab      c"}
+    ],
+    "screen": [
+      "> ab      c"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-rubout-tab-after-text": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdefghij      c", "point": 10, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "abcdefghij      c"}
+    ],
+    "screen": [
+      "> abcdefghij      c"
+    ],
+    "cursor": [1, 0]
+  },
+  "character-search-count-beyond-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcabc", "point": 5, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcabc", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcabc"}
+    ],
+    "screen": [
+      "> abcabc"
+    ],
+    "cursor": [1, 0]
   }
 }
