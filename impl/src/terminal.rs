@@ -320,6 +320,7 @@ static OUT_STREAM: CVar<*mut libc::FILE> = CVar::new(null_mut());
 /// Remember `rl_outstream` as the terminal stream.
 pub fn line_setup() {
     OUT_STREAM.set(crate::readline::outstream());
+    crate::display::line_started();
 }
 
 pub fn term_stream() -> *mut libc::FILE {

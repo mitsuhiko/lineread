@@ -65,6 +65,8 @@ fn note_row() {
 /// The expanded prompt redisplay shows (set by rl_expand_prompt, i.e. by
 /// rl_set_prompt and rl_message); None: show rl_display_prompt.
 static LOCAL_PROMPT: CVar<Option<Vec<u8>>> = CVar::new(None);
+/// show-mode-in-prompt was on when the prompt was expanded.
+static MODE_SHOWN: CVar<bool> = CVar::new(false);
 /// rl_save_prompt storage.
 static SAVED_PROMPT: CVar<Vec<Option<Vec<u8>>>> = CVar::new(Vec::new());
 /// rl_message saved the prompt (a message is displayed).
@@ -130,8 +132,9 @@ pub fn display_prompt_bytes() -> Vec<u8> {
         {
             p.push(b'*');
         }
-        // (an empty prompt is not expanded: no mode string)
-        if !MSG_SAVED.get() && crate::vars::show_mode_in_prompt.get() != 0 && LOCAL_PROMPT.get_mut().is_some() {
+        // (whether the mode string is shown is decided when the prompt is
+        // expanded; an empty prompt is not expanded)
+        if !MSG_SAVED.get() && MODE_SHOWN.get() && LOCAL_PROMPT.get_mut().is_some() {
             p.extend_from_slice(&mode_string());
         }
         let full = full_prompt();
@@ -1119,6 +1122,7 @@ pub unsafe extern "C" fn rl_expand_prompt(prompt: *mut c_char) -> c_int {
         return 0;
     }
     LOCAL_PROMPT.set(Some(p.to_vec()));
+    MODE_SHOWN.set(crate::vars::show_mode_in_prompt.get() != 0);
     match p.iter().rposition(|&c| c == b'\n') {
         // multi-line: the length of everything up to the last newline
         Some(i) => visible_prompt_len(&p[..=i]),
@@ -1213,6 +1217,14 @@ pub fn drop_message() -> bool {
 }
 
 pub fn mode_string_changed() {}
+
+/// A line starts: the prompt is expanded again when show-mode-in-prompt
+/// is on (it may have been set by the init file read since).
+pub fn line_started() {
+    if crate::vars::show_mode_in_prompt.get() != 0 {
+        MODE_SHOWN.set(true);
+    }
+}
 
 /// Terminal type or size changed: the screen model is unreliable.
 pub fn screen_changed() {}
