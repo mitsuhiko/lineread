@@ -130,7 +130,9 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
         let map = crate::keymap::current();
         let defining = input::is_state(RL_STATE_MACRODEF);
         unset_state(RL_STATE_MACRODEF);
-        while input::input_available(0) {
+        // (not beyond rl_num_chars_to_read: the line ends there)
+        let limit = crate::readline::rl_num_chars_to_read.get();
+        while (limit <= 0 || crate::buffer::rl_end.get() < limit) && input::input_available(0) {
             let c = crate::input::rl_read_key();
             if c < 0 {
                 break;
