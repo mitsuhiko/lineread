@@ -24,9 +24,15 @@ pub struct Term {
 }
 
 pub static TERM: CVar<Option<Term>> = CVar::new(None);
-/// Screen size (`_rl_screenwidth` is the usable width, see `usable_width`).
-pub static SCREEN_COLS: CVar<c_int> = CVar::new(80);
-pub static SCREEN_ROWS: CVar<c_int> = CVar::new(24);
+/// Screen size: physical columns (as found), rows, and the width readline
+/// uses (one less than the columns unless the terminal has `am`+`xenl`;
+/// see `usable_width`).  0 = not determined yet.
+pub static SCREEN_COLS: CVar<c_int> = CVar::new(0);
+pub static SCREEN_ROWS: CVar<c_int> = CVar::new(0);
+static SCREEN_WIDTH: CVar<c_int> = CVar::new(0);
+/// Auto-margins usable (`am` and `xenl`); None before the terminal is
+/// initialised.
+static AUTOWRAP: CVar<Option<bool>> = CVar::new(None);
 /// Output buffer, flushed by `flush()`.
 static OUTBUF: CVar<Vec<u8>> = CVar::new(Vec::new());
 
@@ -130,10 +136,45 @@ pub unsafe fn init_terminal(name: Option<&[u8]>) {
         _ => crate::util::getenv_bytes(c"TERM").unwrap_or(b"dumb").to_vec(),
     };
     let n = if n.is_empty() { b"dumb".to_vec() } else { n };
-    TERM.set(Some(load(&n)));
+    // a custom redisplay function gets no terminal capabilities
+    let custom = !matches!(crate::display::rl_redisplay_function.get(), Some(f) if f as usize == crate::display::rl_redisplay as usize);
+    let t = if custom { load(b"") } else { load(&n) };
+    let known = !t.strings.is_empty();
+    let autowrap = t.auto_wrap && t.eat_newline_glitch;
+    let ansi = is_ansi(&n, &t);
+    TERM.set(Some(t));
     line_setup();
-    set_terminal_name(&n);
-    get_screen_size(false);
+    if rl_terminal_name.get().is_null() {
+        set_terminal_name(&n);
+    }
+    AUTOWRAP.set(Some(autowrap));
+    if SCREEN_WIDTH.get() <= 0 || SCREEN_ROWS.get() <= 0 {
+        get_screen_size(false);
+    } else if !known && !autowrap {
+        // a preset size on a terminal without capabilities
+        SCREEN_WIDTH.set((SCREEN_WIDTH.get() - 1).max(1));
+    }
+    if !ansi {
+        crate::vars::enable_bracketed_paste.set(0);
+        crate::vars::enable_active_region.set(0);
+    }
+}
+
+/// Does the terminal understand ANSI sequences (bracketed paste, region
+/// highlighting)?  Known names, else the capabilities tell.
+fn is_ansi(name: &[u8], t: &Term) -> bool {
+    const NAMES: &[&[u8]] = &[
+        b"xterm", b"rxvt", b"eterm", b"screen", b"tmux", b"vt100", b"vt102", b"vt220", b"vt320", b"ansi",
+        b"scoansi", b"cygwin", b"linux", b"konsole", b"bvterm",
+    ];
+    if t.strings.is_empty() {
+        return false;
+    }
+    if NAMES.iter().any(|p| name.starts_with(p)) {
+        return true;
+    }
+    let csi = |c: &str| t.strings.get(c).map(|v| v.starts_with(b"\x1b[")).unwrap_or(false);
+    csi("el")
 }
 
 /// Storage for rl_terminal_name when the library sets it.
@@ -200,6 +241,8 @@ pub unsafe fn get_screen_size(ignore_env: bool) {
 fn set_size(rows: c_int, cols: c_int) {
     SCREEN_ROWS.set(rows);
     SCREEN_COLS.set(cols);
+    let w = if AUTOWRAP.get() == Some(false) { cols - 1 } else { cols };
+    SCREEN_WIDTH.set(w.max(1));
 }
 
 /// Export LINES/COLUMNS (rl_change_environment).
@@ -218,13 +261,25 @@ fn export_size() {
 /// Columns usable for text: one less when the terminal cannot write the
 /// last column without wrapping (no `am`+`xenl`).
 pub fn usable_width() -> c_int {
-    let t = term();
-    let c = SCREEN_COLS.get();
-    if t.auto_wrap && t.eat_newline_glitch {
-        c
-    } else {
-        (c - 1).max(1)
+    if SCREEN_WIDTH.get() <= 0 {
+        unsafe { get_screen_size(false) };
     }
+    SCREEN_WIDTH.get().max(1)
+}
+
+/// Width of the horizontally scrolled line (the last column is not used).
+pub fn hscroll_width() -> c_int {
+    let w = usable_width();
+    if AUTOWRAP.get() == Some(true) {
+        (w - 1).max(1)
+    } else {
+        w
+    }
+}
+
+/// Does the terminal wrap automatically (`am`)?
+pub fn has_auto_margins() -> bool {
+    term().auto_wrap
 }
 
 // ---- output
@@ -269,6 +324,9 @@ pub fn screen_width() -> c_int {
 }
 
 pub fn screen_height() -> c_int {
+    if SCREEN_ROWS.get() <= 0 {
+        unsafe { get_screen_size(false) };
+    }
     SCREEN_ROWS.get()
 }
 
@@ -332,9 +390,14 @@ pub unsafe extern "C" fn rl_resize_terminal() {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_set_screen_size(rows: c_int, cols: c_int) {
-    let rows = if rows <= 0 { SCREEN_ROWS.get() } else { rows };
-    let cols = if cols <= 0 { SCREEN_COLS.get() } else { cols };
-    set_size(rows, cols);
+    if rows > 0 {
+        SCREEN_ROWS.set(rows);
+    }
+    if cols > 0 {
+        SCREEN_COLS.set(cols);
+        let w = if AUTOWRAP.get() == Some(false) { cols - 1 } else { cols };
+        SCREEN_WIDTH.set(w.max(1));
+    }
     crate::display::screen_changed();
 }
 

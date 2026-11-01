@@ -343,6 +343,75 @@ pub fn layout() -> (Vec<Row>, (usize, usize)) {
     (lay.rows, cursor)
 }
 
+// ---------------------------------------------------------------- horizontal scrolling
+
+/// Left margin (in columns) of the horizontally scrolled line.
+static LAST_LMARGIN: CVar<usize> = CVar::new(0);
+
+/// One-line display: horizontal-scroll-mode, or a terminal that cannot
+/// move the cursor up.
+pub fn horizontal_mode() -> bool {
+    crate::vars::horizontal_scroll_mode.get() != 0 || terminal::cap("cuu1").is_none()
+}
+
+/// Lay out the prompt and line as a single row scrolled so the cursor is
+/// visible; `<` / `>` mark text beyond the left / right edge.
+fn layout_hscroll() -> (Vec<Row>, (usize, usize)) {
+    // the last column is never used
+    let sw = terminal::hscroll_width() as isize;
+    let mut lay = Lay::new(usize::MAX / 4);
+    let prompt = display_prompt_bytes();
+    layout_prompt(&mut lay, &prompt);
+    lay.finish();
+    // a single row: the prompt's last line only
+    let prow = lay.rows.pop().unwrap_or_default();
+    let mut lay = Lay::new(usize::MAX / 4);
+    lay.rows[0] = prow;
+    lay.col = row_width(&lay.rows[0]);
+    let line = buffer::line().to_vec();
+    let point = buffer::point();
+    let (_, ccol) = layout_line(&mut lay, &line, point);
+    let cells: Row = lay.rows.into_iter().flatten().collect();
+    let total: isize = cells.iter().map(|c| c.width as isize).sum();
+    let cpos = ccol as isize;
+    let last = LAST_LMARGIN.get() as isize;
+    let t = (sw / 3).max(1);
+    let phys = cpos - last;
+    let lmargin = if phys > sw - 2 {
+        (cpos - 2 * t).max(0)
+    } else if cpos < sw - 2 {
+        0
+    } else if phys < 1 {
+        ((cpos - 1) / t) * t
+    } else {
+        last
+    };
+    let lmargin = lmargin.max(0);
+    LAST_LMARGIN.set(lmargin as usize);
+    let mut row: Row = Vec::new();
+    let mut col = 0isize;
+    let right = lmargin + sw;
+    for c in cells {
+        let w = c.width as isize;
+        if col < lmargin {
+            col += w;
+            continue;
+        }
+        if col >= right {
+            break;
+        }
+        if col == lmargin && lmargin > 0 && w > 0 {
+            row.push(Cell { bytes: b"<".to_vec(), width: 1 });
+        } else if col + w >= right && right < total && w > 0 {
+            row.push(Cell { bytes: b">".to_vec(), width: 1 });
+        } else {
+            row.push(c);
+        }
+        col += w;
+    }
+    (vec![row], (0, (cpos - lmargin).max(0) as usize))
+}
+
 // ---------------------------------------------------------------- output
 
 fn width() -> usize {
@@ -371,6 +440,17 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
             out_byte(b'\r');
             s.cur_col = 0;
         }
+    } else if s.cur_row + 1 == row
+        && s.cur_col >= w
+        && terminal::has_auto_margins()
+        && rows.get(row).map(|r| !r.is_empty()).unwrap_or(false)
+    {
+        // at the right margin: writing the first character of the next
+        // row wraps (the reference relies on the terminal's auto-margins)
+        let c = &rows[row][0];
+        out(&c.bytes);
+        s.cur_row = row;
+        s.cur_col = c.width as usize;
     } else if s.cur_row < row {
         out_byte(b'\r');
         for _ in 0..(row - s.cur_row) {
@@ -441,10 +521,19 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
     }
 }
 
-fn clear_eol() {
+/// Clear from the cursor to the end of the row; without the capability
+/// `n` blanks are written (the cursor moves past them).
+fn clear_eol_n(n: usize) {
     if !out_cap("el") {
-        // no capability: overwrite with blanks is left to the caller
+        for _ in 0..n {
+            out_byte(b' ');
+        }
+        SCREEN.get_mut().cur_col += n;
     }
+}
+
+fn clear_eol() {
+    clear_eol_n(0);
 }
 
 /// Bring the screen from `SCREEN.rows` to `new`, cursor at `cursor`.
@@ -477,7 +566,7 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
                 s.cur_row = r;
                 s.cur_col = 0;
             }
-            clear_eol();
+            clear_eol_n(row_width(o));
             continue;
         }
         move_to(&new, r, col);
@@ -492,7 +581,8 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
         s.cur_col += wsum;
         if row_width(o) > row_width(nrow) || (i < o.len() && row_width(o) > col + wsum) {
             if s.cur_col < w {
-                clear_eol();
+                let n = row_width(o).saturating_sub(s.cur_col);
+                clear_eol_n(n);
             }
         }
     }
@@ -508,8 +598,13 @@ pub unsafe extern "C" fn rl_redisplay() {
         return;
     }
     set_state(RL_STATE_REDISPLAYING);
-    let (rows, cursor) = layout();
-    update(rows, cursor);
+    if horizontal_mode() {
+        let (rows, cursor) = layout_hscroll();
+        update(rows, cursor);
+    } else {
+        let (rows, cursor) = layout();
+        update(rows, cursor);
+    }
     terminal::flush();
     unset_state(RL_STATE_REDISPLAYING);
 }
@@ -524,6 +619,7 @@ pub unsafe fn redisplay() {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_on_new_line() -> c_int {
+    LAST_LMARGIN.set(0);
     let s = SCREEN.get_mut();
     s.rows.clear();
     s.cur_row = 0;
