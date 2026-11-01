@@ -34,6 +34,8 @@
 #include <sys/ioctl.h>
 #include <sys/select.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/un.h>
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
@@ -2181,6 +2183,31 @@ static void c_symlink(cmd_t *c) {
   if (!c->v[1] || !c->v[2] || symlink(c->v[1], c->v[2]) != 0) rec_error(c, strerror(errno));
 }
 
+/* hardlink TARGET PATH, mkfifo PATH: more file types for completion tests */
+static void c_hardlink(cmd_t *c) {
+  NEED(2, 2);
+  if (!c->v[1] || !c->v[2] || link(c->v[1], c->v[2]) != 0) rec_error(c, strerror(errno));
+}
+
+static void c_mkfifo(cmd_t *c) {
+  NEED(1, 1);
+  if (!c->v[1] || mkfifo(c->v[1], 0644) != 0) rec_error(c, strerror(errno));
+}
+
+/* mksocket PATH: a bound (and closed) unix domain socket file */
+static void c_mksocket(cmd_t *c) {
+  NEED(1, 1);
+  struct sockaddr_un sa;
+  memset(&sa, 0, sizeof sa);
+  sa.sun_family = AF_UNIX;
+  if (!c->v[1] || strlen(c->v[1]) >= sizeof sa.sun_path) { rec_error(c, "bad path"); return; }
+  strcpy(sa.sun_path, c->v[1]);
+  int fd = socket(AF_UNIX, SOCK_STREAM, 0);
+  if (fd < 0) { rec_error(c, strerror(errno)); return; }
+  if (bind(fd, (struct sockaddr *)&sa, sizeof sa) != 0) rec_error(c, strerror(errno));
+  close(fd);
+}
+
 /* readline PROMPT [COUNT|all] [addhist] */
 static void c_readline(cmd_t *c) {
   NEED(1, 3);
@@ -2780,7 +2807,8 @@ static const custom_t custom_table[] = {
   {"unsetenv", c_unsetenv}, {"getenv", c_getenv}, {"chdir", c_chdir},
   {"file_write", c_file_write}, {"file_append", c_file_write}, {"file_read", c_file_read},
   {"file_remove", c_file_remove}, {"file_stat", c_file_stat}, {"mkdir", c_mkdir},
-  {"chmod", c_chmod}, {"symlink", c_symlink},
+  {"chmod", c_chmod}, {"symlink", c_symlink}, {"hardlink", c_hardlink}, {"mkfifo", c_mkfifo},
+  {"mksocket", c_mksocket},
   {"readline", c_readline}, {"callback", c_callback}, {"callback_install", c_callback_install},
   {"rl_callback_handler_install", c_callback_install},
   {"callback_read_char", c_callback_read_char}, {"rl_callback_read_char", c_callback_read_char},
