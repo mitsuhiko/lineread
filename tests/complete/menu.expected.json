@@ -1,0 +1,417 @@
+{
+  "cycles-through-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "avocado ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-cycles": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "avocado ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-then-backward": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "numeric-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "negative-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "avocado ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "avocado "}
+    ],
+    "screen": [
+      "> avocado"
+    ],
+    "cursor": [1, 0]
+  },
+  "large-argument-wraps": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "unique-match-completes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "banana ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "banana apple ", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "banana apple "}
+    ],
+    "screen": [
+      "> banana apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zz", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "other-command-resets": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple apple ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple apple "}
+    ],
+    "screen": [
+      "> apple apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "typing-starts-new-menu": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "applep", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "applep"}
+    ],
+    "screen": [
+      "> applep"
+    ],
+    "cursor": [1, 0]
+  },
+  "common-prefix-first": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "display-prefix-on": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "display-prefix-no-common-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "xa ", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xa "}
+    ],
+    "screen": [
+      "> xa"
+    ],
+    "cursor": [1, 0]
+  },
+  "show-all-if-ambiguous": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> apricot"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> apple"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "show-all-if-ambiguous-display-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> apple"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "show-all-too-many-items": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> a",
+      "Display all 3 possibilities? (y or n)",
+      "> a",
+      "Display all 3 possibilities? (y or n)"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 3 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      }
+    ]
+  },
+  "appends-space-for-words": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-menu": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x d1/", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "x d2/", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "x d", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x d"}
+    ],
+    "screen": [
+      "> x d"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-menu-unique-dir": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x dir/", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "x dir/x ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x dir/x "}
+    ],
+    "screen": [
+      "> x dir/x"
+    ],
+    "cursor": [1, 0]
+  },
+  "old-menu-complete": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "avocado ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "old-menu-complete-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "old-menu-complete-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zz", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "old-menu-complete-show-all": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> a",
+      "apple    apricot  avocado",
+      "> apple"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "apple    apricot  avocado",
+          "> apple"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "old-menu-complete-unique": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "banana ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "banana ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "banana "}
+    ],
+    "screen": [
+      "> banana"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-completion-entry-function": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-completion-entry-function-not-for-complete": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha-file ", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha-file "}
+    ],
+    "screen": [
+      "> alpha-file"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-entry-function-used-by-menu": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-in-vi-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apricot", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot"}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-then-accept": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-with-quote-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\"two wheels\" ", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "\"two words\" ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\"two words\" "}
+    ],
+    "screen": [
+      "> \"two words\""
+    ],
+    "cursor": [1, 0]
+  }
+}
