@@ -76,6 +76,7 @@ unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
     if !mb::multibyte() || first < 0x80 {
         return v;
     }
+    let from_macro = input::is_state(RL_STATE_MACROINPUT);
     loop {
         let (wc, n) = mb::decode_at(&v, 0);
         if wc.is_some() && n == v.len() {
@@ -88,10 +89,17 @@ unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
         if r != usize::MAX - 1 || v.len() >= 6 {
             return v;
         }
-        if !input::input_available(0) && v.len() > 1 && false {
+        // a character split across the end of macro text stays incomplete
+        if from_macro && !crate::kbdmacro::macro_input_pending() {
             return v;
         }
+        // the rest of the character is not recorded into a keyboard macro
+        let defining = input::is_state(RL_STATE_MACRODEF);
+        unset_state(RL_STATE_MACRODEF);
         let c = crate::input::rl_read_key();
+        if defining {
+            set_state(RL_STATE_MACRODEF);
+        }
         if c < 0 {
             return v;
         }
@@ -101,6 +109,12 @@ unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_insert(count: c_int, key: c_int) -> c_int {
+    self_insert(count, key, true)
+}
+
+/// self-insert; with `batch`, typeahead that is also self-insert is
+/// inserted right away.
+unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
     if count <= 0 {
         return 0;
     }
@@ -112,7 +126,7 @@ pub unsafe extern "C" fn rl_insert(count: c_int, key: c_int) -> c_int {
     self_insert_chars(&ch, 1);
     // typeahead that is also self-insert is inserted right away; those
     // keys are not recorded into a keyboard macro being defined
-    if !crate::kbdmacro::macro_input_pending() && rl_insert_mode.get() == 1 {
+    if batch && !input::is_state(RL_STATE_MACROINPUT) && rl_insert_mode.get() == 1 {
         let map = crate::keymap::current();
         let defining = input::is_state(RL_STATE_MACRODEF);
         unset_state(RL_STATE_MACRODEF);
@@ -151,10 +165,8 @@ pub unsafe extern "C" fn rl_quoted_insert(count: c_int, _key: c_int) -> c_int {
         return -1;
     }
     let ch = read_mb_rest(c as u8);
-    if count < 0 {
-        return 0;
-    }
-    insert_chars(&ch, count.max(1) as usize);
+    // a negative count inserts the character once
+    insert_chars(&ch, if count < 0 { 1 } else { count as usize });
     0
 }
 
@@ -510,9 +522,65 @@ pub unsafe extern "C" fn rl_overwrite_mode(count: c_int, _key: c_int) -> c_int {
     0
 }
 
+/// The opening bracket matching the closing one at `close` (same type,
+/// nested; quoted strings are skipped).
+fn find_matching_open(l: &[u8], close: usize) -> Option<usize> {
+    let cl = l[close];
+    let op = match cl {
+        b')' => b'(',
+        b']' => b'[',
+        b'}' => b'{',
+        _ => return None,
+    };
+    let mut depth = 1;
+    let mut i = close;
+    while i > 0 {
+        i -= 1;
+        let c = l[i];
+        if c == b'"' || c == b'\'' {
+            // skip back over the quoted string
+            loop {
+                if i == 0 {
+                    return None;
+                }
+                i -= 1;
+                if l[i] == c {
+                    break;
+                }
+            }
+        } else if c == op {
+            depth -= 1;
+            if depth == 0 {
+                return Some(i);
+            }
+        } else if c == cl {
+            depth += 1;
+        }
+    }
+    None
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_insert_close(count: c_int, key: c_int) -> c_int {
-    crate::display::insert_close(count, key, PAREN_BLINK_TIMEOUT.get())
+    if crate::numarg::rl_explicit_arg.get() != 0 || crate::vars::blink_matching_paren.get() == 0 {
+        return rl_insert(count, key);
+    }
+    self_insert(1, key, false);
+    crate::display::redisplay();
+    let p = point();
+    if p == 0 {
+        return 0;
+    }
+    let Some(m) = find_matching_open(line(), p - 1) else {
+        rl_ding();
+        return 1;
+    };
+    // show the match until the timeout expires or input arrives
+    set_point(m);
+    crate::display::redisplay();
+    input::input_available(PAREN_BLINK_TIMEOUT.get() as i64);
+    set_point(p);
+    0
 }
 
 #[no_mangle]

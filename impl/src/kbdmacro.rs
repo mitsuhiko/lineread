@@ -20,8 +20,15 @@ static CURRENT: CVar<Vec<u8>> = CVar::new(Vec::new());
 /// The last defined keyboard macro.
 static LAST: CVar<Vec<u8>> = CVar::new(Vec::new());
 
+/// Macro input may nest this deep (pushes beyond fail with an error).
+const MAX_MACRO_LEVEL: usize = 16;
+
 /// Push `text` as input (read before the terminal).
 pub fn push_macro_input(text: &[u8]) {
+    if STACK.get_mut().len() > MAX_MACRO_LEVEL {
+        crate::inputrc::report_error(b"maximum macro execution nesting level exceeded");
+        return;
+    }
     unsafe {
         let c = c_strdup(text);
         STACK.get_mut().push(MacroInput { text: text.to_vec(), pos: 0, cstr: c });
@@ -88,9 +95,12 @@ pub unsafe extern "C" fn rl_start_kbd_macro(_count: c_int, _key: c_int) -> c_int
         return 1;
     }
     if crate::numarg::rl_explicit_arg.get() != 0 {
-        // append to the last macro: replay it while recording
+        // append to the last macro: replay it while recording (the
+        // replayed keys are recorded again after the old definition)
         let last = LAST.get_mut().clone();
-        *CURRENT.get_mut() = last.clone();
+        let mut cur = last.clone();
+        cur.extend_from_slice(&last);
+        *CURRENT.get_mut() = cur;
         if !last.is_empty() {
             push_macro_input(&last);
         }
@@ -137,8 +147,58 @@ pub unsafe extern "C" fn rl_call_last_kbd_macro(count: c_int, _key: c_int) -> c_
     0
 }
 
+/// Readable form of macro text: `\C-x`, `\M-x`, `\e`, `\t`, ...
+pub fn macro_text(v: &[u8]) -> Vec<u8> {
+    fn key(k: u8, out: &mut Vec<u8>) {
+        match k {
+            0x07 => out.extend_from_slice(b"\\a"),
+            0x08 => out.extend_from_slice(b"\\b"),
+            b'\t' => out.extend_from_slice(b"\\t"),
+            b'\n' => out.extend_from_slice(b"\\n"),
+            0x0b => out.extend_from_slice(b"\\v"),
+            0x0c => out.extend_from_slice(b"\\f"),
+            b'\r' => out.extend_from_slice(b"\\r"),
+            0x1b => out.extend_from_slice(b"\\e"),
+            0x7f => out.extend_from_slice(b"\\C-?"),
+            0..=31 => {
+                out.extend_from_slice(b"\\C-");
+                let c = (k + 64).to_ascii_lowercase();
+                if c == b'\\' {
+                    out.push(b'\\');
+                }
+                out.push(c);
+            }
+            b'\\' | b'"' => {
+                out.push(b'\\');
+                out.push(k);
+            }
+            128..=255 => {
+                out.extend_from_slice(b"\\M-");
+                key(k - 128, out);
+            }
+            _ => out.push(k),
+        }
+    }
+    let mut out = Vec::new();
+    for &b in v {
+        key(b, &mut out);
+    }
+    out
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_print_last_kbd_macro(_count: c_int, _key: c_int) -> c_int {
-    todo_stub!("rl_print_last_kbd_macro");
+    let last = LAST.get_mut().clone();
+    if last.is_empty() {
+        crate::terminal::rl_ding();
+        return 0;
+    }
+    crate::display::output_before_listing();
+    let mut t = macro_text(&last);
+    t.push(b'\n');
+    crate::terminal::out(&t);
+    crate::terminal::flush();
+    crate::display::after_listing();
+    crate::display::redisplay();
     0
 }
