@@ -141,6 +141,9 @@ pub fn delete(from: usize, to: usize) -> c_int {
     }
     rl_end.set((e - (to - from)) as c_int);
     terminate();
+    if rl_mark.get() > rl_end.get() {
+        rl_mark.set(rl_end.get());
+    }
     crate::undo::record_delete(from, to, &text);
     (to - from) as c_int
 }

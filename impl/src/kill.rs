@@ -49,6 +49,13 @@ pub fn add_kill(text: &[u8], prepend: bool) {
     YANK_INDEX.set(0);
 }
 
+/// Line and word kill commands leave the mark at point in emacs mode.
+fn mark_at_point() {
+    if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
+        buffer::rl_mark.set(buffer::rl_point.get());
+    }
+}
+
 /// Kill `[from, to)`; text before point (from > to in the call) is
 /// prepended to an accumulating kill.
 #[no_mangle]
@@ -79,6 +86,7 @@ pub unsafe extern "C" fn rl_kill_line(count: c_int, key: c_int) -> c_int {
         THIS_KILL.set(true);
     }
     set_point(p);
+    mark_at_point();
     0
 }
 
@@ -94,6 +102,7 @@ pub unsafe extern "C" fn rl_backward_kill_line(count: c_int, key: c_int) -> c_in
     }
     rl_kill_text(p as c_int, 0);
     set_point(0);
+    mark_at_point();
     0
 }
 
@@ -102,6 +111,7 @@ pub unsafe extern "C" fn rl_kill_full_line(_count: c_int, _key: c_int) -> c_int 
     set_point(0);
     rl_kill_text(0, end() as c_int);
     set_point(0);
+    mark_at_point();
     0
 }
 
@@ -116,6 +126,7 @@ pub unsafe extern "C" fn rl_kill_word(count: c_int, key: c_int) -> c_int {
         rl_kill_text(p as c_int, to as c_int);
     }
     set_point(p);
+    mark_at_point();
     0
 }
 
@@ -130,6 +141,7 @@ pub unsafe extern "C" fn rl_backward_kill_word(count: c_int, key: c_int) -> c_in
         rl_kill_text(p as c_int, from as c_int);
     }
     set_point(from);
+    mark_at_point();
     0
 }
 
@@ -158,6 +170,7 @@ pub unsafe extern "C" fn rl_unix_word_rubout(count: c_int, _key: c_int) -> c_int
     let from = unix_word_start(p, count.max(1) as usize, b"");
     rl_kill_text(p as c_int, from as c_int);
     set_point(from);
+    mark_at_point();
     0
 }
 
@@ -184,6 +197,7 @@ pub unsafe extern "C" fn rl_unix_filename_rubout(count: c_int, _key: c_int) -> c
     }
     rl_kill_text(p as c_int, q as c_int);
     set_point(q);
+    mark_at_point();
     0
 }
 
@@ -196,6 +210,7 @@ pub unsafe extern "C" fn rl_unix_line_discard(_count: c_int, _key: c_int) -> c_i
     }
     rl_kill_text(p as c_int, 0);
     set_point(0);
+    mark_at_point();
     0
 }
 
