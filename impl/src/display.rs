@@ -744,6 +744,13 @@ pub fn move_to_end() {
 
 /// accept-line: cursor after the line, then a newline.
 pub fn update_final() {
+    if rl_erase_empty_line.get() != 0 && buffer::rl_point.get() == 0 && buffer::rl_end.get() == 0 {
+        // erase the prompt instead of moving to a new line
+        clear_displayed();
+        terminal::flush();
+        unsafe { rl_on_new_line() };
+        return;
+    }
     move_to_end();
     // nothing displayed (e.g. a redisplay function that draws nothing):
     // no newline
