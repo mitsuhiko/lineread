@@ -182,6 +182,7 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
         unset_state(RL_STATE_MACRODEF);
         // (not beyond rl_num_chars_to_read: the line ends there)
         let limit = crate::readline::rl_num_chars_to_read.get();
+        let mut taken = 0;
         while (limit <= 0 || crate::buffer::rl_end.get() < limit) && input::input_available(0) {
             let c = crate::input::rl_read_key();
             if c < 0 {
@@ -191,8 +192,13 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
             if e.type_ == ISFUNC && crate::dispatch::same_fn(e.function.func, rl_insert) && c < 256 {
                 let more = read_mb_rest_available(c as u8);
                 self_insert_chars(&more, 1);
+                taken += 1;
             } else {
                 crate::input::rl_execute_next(c);
+                if taken > 0 {
+                    // (the argument is used up once typeahead was taken)
+                    crate::numarg::reset();
+                }
                 break;
             }
         }
