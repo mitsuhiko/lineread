@@ -1,0 +1,479 @@
+# Key binding lines in the init file / rl_parse_and_bind: key names,
+# modifiers, quoted key sequences and their escapes, macros, errors,
+# comments, whitespace and line endings.
+tags: inputrc bindings
+screen: 160x24
+
+=== keyname-control-forms
+--- script
+rl_parse_and_bind "Control-a: forward-word"
+rl_parse_and_bind "C-b: backward-word"
+rl_parse_and_bind "CTRL-c: kill-word"
+rl_parse_and_bind "control-d: upcase-word"
+rl_function_of_keyseq "\x01" emacs
+rl_function_of_keyseq "\x02" emacs
+rl_function_of_keyseq "\x03" emacs
+rl_function_of_keyseq "\x04" emacs
+
+=== keyname-control-uppercases-letter
+--- script
+rl_parse_and_bind "C-A: forward-word"
+rl_parse_and_bind "Control-z: backward-word"
+rl_function_of_keyseq "\x01" emacs
+rl_function_of_keyseq "\x1a" emacs
+
+=== keyname-meta-forms
+--- script
+rl_parse_and_bind "Meta-a: forward-word"
+rl_parse_and_bind "M-b: backward-word"
+rl_parse_and_bind "meta-c: kill-word"
+rl_function_of_keyseq "\ea" emacs
+rl_function_of_keyseq "\eb" emacs
+rl_function_of_keyseq "\ec" emacs
+
+=== keyname-meta-control
+--- script
+rl_parse_and_bind "Meta-Control-h: backward-kill-word"
+rl_parse_and_bind "C-M-j: kill-word"
+rl_function_of_keyseq "\e\x08" emacs
+rl_function_of_keyseq "\e\x0a" emacs
+
+=== keyname-symbolic-names
+--- script
+rl_parse_and_bind "C-x: abort"
+rl_parse_and_bind "Meta-DEL: kill-word"
+rl_parse_and_bind "Meta-Rubout: upcase-word"
+rl_parse_and_bind "Meta-ESC: downcase-word"
+rl_parse_and_bind "Meta-Escape: capitalize-word"
+rl_parse_and_bind "Meta-LFD: transpose-words"
+rl_parse_and_bind "Meta-Newline: transpose-chars"
+rl_parse_and_bind "Meta-RET: forward-word"
+rl_parse_and_bind "Meta-Return: backward-word"
+rl_parse_and_bind "Meta-SPC: set-mark"
+rl_parse_and_bind "Meta-Space: exchange-point-and-mark"
+rl_parse_and_bind "Meta-Tab: tab-insert"
+rl_function_of_keyseq "\e\x7f" emacs
+rl_function_of_keyseq "\e\e" emacs
+rl_function_of_keyseq "\e\n" emacs
+rl_function_of_keyseq "\e\r" emacs
+rl_function_of_keyseq "\e " emacs
+rl_function_of_keyseq "\e\t" emacs
+
+=== keyname-plain-names
+--- script
+rl_parse_and_bind "TAB: menu-complete"
+rl_parse_and_bind "Space: forward-char"
+rl_parse_and_bind "RET: kill-line"
+rl_parse_and_bind "LFD: kill-word"
+rl_parse_and_bind "DEL: upcase-word"
+rl_parse_and_bind "ESC: abort"
+rl_function_of_keyseq "\t" emacs
+rl_function_of_keyseq " " emacs
+rl_function_of_keyseq "\r" emacs
+rl_function_of_keyseq "\n" emacs
+rl_function_of_keyseq "\x7f" emacs
+rl_function_of_keyseq "\e" emacs
+
+=== keyname-names-case-insensitive
+--- script
+rl_parse_and_bind "tab: menu-complete"
+rl_parse_and_bind "C-sPaCe: set-mark"
+rl_function_of_keyseq "\t" emacs
+rl_function_of_keyseq_len "\x00" 1 emacs
+
+=== keyname-single-char
+--- script
+rl_parse_and_bind "a: forward-word"
+rl_parse_and_bind "%: backward-word"
+rl_function_of_keyseq "a" emacs
+rl_function_of_keyseq "%" emacs
+
+=== keyname-multichar-uses-first
+# an unknown multi-character key name means its first character
+--- script
+rl_parse_and_bind "xyz: forward-word"
+rl_function_of_keyseq "x" emacs
+rl_function_of_keyseq "y" emacs
+
+=== keyname-unknown-modifier
+--- script
+rl_parse_and_bind "Super-a: forward-word"
+rl_parse_and_bind "Hyper-x-b: forward-word"
+rl_function_of_keyseq "a" emacs
+
+=== keyname-modifier-substring
+# modifier prefixes are matched anywhere in the key name
+--- script
+rl_parse_and_bind "xC-a: forward-word"
+rl_function_of_keyseq "\x01" emacs
+
+=== keyname-control-question-mark
+--- script
+rl_parse_and_bind "C-?: kill-word"
+rl_function_of_keyseq "\x7f" emacs
+
+=== keyname-whitespace-separator
+--- script
+rl_parse_and_bind "C-t forward-word"
+rl_parse_and_bind "C-y\tbackward-word"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x19" emacs
+
+=== keyname-macro
+--- script
+rl_parse_and_bind "C-t: \"inserted text\""
+rl_parse_and_bind "C-y: 'single'"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x19" emacs
+
+=== keyname-prefix-meta
+--- script
+rl_parse_and_bind "C-t: prefix-meta"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x14f" emacs
+
+=== keyname-meta-without-meta-keymap
+# Meta-x in a keymap without a meta submap
+--- script
+keymap_new bare1 bare
+rl_parse_and_bind "set keymap emacs-ctlx"
+rl_parse_and_bind "Meta-q: kill-word"
+rl_function_of_keyseq "\eq" emacs-ctlx
+rl_function_of_keyseq "\x18\eq" emacs
+
+=== keyseq-control-escapes
+--- script
+rl_parse_and_bind "\"\\C-t\": forward-word"
+rl_parse_and_bind "\"\\C-x\\C-t\": backward-word"
+rl_parse_and_bind "\"\\C-T\": kill-word"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x18\x14" emacs
+
+=== keyseq-meta-escapes
+--- script
+rl_parse_and_bind "\"\\M-q\": forward-word"
+rl_parse_and_bind "\"\\M-\\C-q\": backward-word"
+rl_parse_and_bind "\"\\C-\\M-w\": kill-word"
+rl_function_of_keyseq "\eq" emacs
+rl_function_of_keyseq "\e\x11" emacs
+rl_function_of_keyseq "\e\x17" emacs
+
+=== keyseq-backslash-escapes
+--- script
+rl_parse_and_bind "\"\\C-x\\a\": forward-word"
+rl_parse_and_bind "\"\\C-x\\b\": backward-word"
+rl_parse_and_bind "\"\\C-x\\d\": kill-word"
+rl_parse_and_bind "\"\\C-x\\f\": upcase-word"
+rl_parse_and_bind "\"\\C-x\\n\": downcase-word"
+rl_parse_and_bind "\"\\C-x\\r\": capitalize-word"
+rl_parse_and_bind "\"\\C-x\\t\": transpose-words"
+rl_parse_and_bind "\"\\C-x\\v\": transpose-chars"
+rl_parse_and_bind "\"\\C-x\\e\": set-mark"
+rl_parse_and_bind "\"\\C-x\\\\\": tab-insert"
+rl_parse_and_bind "\"\\C-x\\\"\": abort"
+rl_parse_and_bind "\"\\C-x\\'\": undo"
+rl_macro_dumper 1
+rl_function_dumper 1
+
+=== keyseq-octal-and-hex
+--- script
+rl_parse_and_bind "\"\\C-x\\101\": forward-word"
+rl_parse_and_bind "\"\\C-x\\x42\": backward-word"
+rl_parse_and_bind "\"\\C-x\\x4\": kill-word"
+rl_parse_and_bind "\"\\C-x\\7\": upcase-word"
+rl_parse_and_bind "\"\\C-x\\0101\": downcase-word"
+rl_function_of_keyseq "\x18A" emacs
+rl_function_of_keyseq "\x18B" emacs
+rl_function_of_keyseq "\x18\x04" emacs
+rl_function_of_keyseq "\x18\x07" emacs
+rl_function_of_keyseq "\x18\x081" emacs
+
+=== keyseq-unknown-escape
+--- script
+rl_parse_and_bind "\"\\C-x\\q\": forward-word"
+rl_function_of_keyseq "\x18q" emacs
+rl_function_of_keyseq "\x18\\q" emacs
+
+=== keyseq-quoted-plain-chars
+--- script
+rl_parse_and_bind "\"ab\": forward-word"
+rl_function_of_keyseq "a" emacs
+rl_function_of_keyseq "ab" emacs
+
+=== keyseq-with-colon-and-space
+--- script
+rl_parse_and_bind "\"a:b c\": forward-word"
+rl_function_of_keyseq "a:b c" emacs
+
+=== keyseq-missing-closing-quote
+--- script
+rl_parse_and_bind "\"\\C-xq: forward-word"
+rl_function_of_keyseq "\x18q" emacs
+
+=== keyseq-no-terminator
+--- script
+rl_parse_and_bind "\"\\C-xq\""
+rl_parse_and_bind "C-q"
+rl_function_of_keyseq "\x18q" emacs
+
+=== missing-key-sequence
+--- script
+rl_parse_and_bind ": forward-word"
+rl_parse_and_bind ":"
+
+=== keyseq-unknown-function-unbinds
+--- script
+rl_parse_and_bind "\"\\C-a\": no-such-function"
+rl_function_of_keyseq "\x01" emacs
+
+=== keyname-unknown-function-unbinds
+--- script
+rl_parse_and_bind "C-a: no-such-function"
+rl_function_of_keyseq "\x01" emacs
+
+=== function-name-case-insensitive
+--- script
+rl_parse_and_bind "\"\\C-t\": Forward-Word"
+rl_parse_and_bind "\"\\C-y\": BACKWARD-WORD"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x19" emacs
+
+=== function-trailing-text-ignored
+--- script
+rl_parse_and_bind "\"\\C-t\": forward-word and more"
+rl_parse_and_bind "\"\\C-y\":backward-word"
+rl_parse_and_bind "\"\\C-u\"  :   kill-word   # comment"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x19" emacs
+rl_function_of_keyseq "\x15" emacs
+
+=== equivalency-ignored
+--- script
+rl_parse_and_bind "\"\\C-t\":= forward-word"
+rl_parse_and_bind "C-y:= backward-word"
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x19" emacs
+
+=== macro-double-quoted
+--- script
+rl_parse_and_bind "\"\\C-xa\": \"hello world\""
+rl_function_of_keyseq "\x18a" emacs
+
+=== macro-single-quoted
+--- script
+rl_parse_and_bind "\"\\C-xa\": 'it is'"
+rl_function_of_keyseq "\x18a" emacs
+
+=== macro-escapes-translated
+--- script
+rl_parse_and_bind "\"\\C-xa\": \"\\C-a\\t\\e\\\\\\\"\\101\\x42\""
+rl_function_of_keyseq "\x18a" emacs
+rl_macro_dumper 1
+rl_macro_dumper 0
+
+=== macro-escaped-quote
+--- script
+rl_parse_and_bind "\"\\C-xa\": \"say \\\"hi\\\"\""
+rl_parse_and_bind "\"\\C-xb\": 'it\\'s'"
+rl_function_of_keyseq "\x18a" emacs
+rl_function_of_keyseq "\x18b" emacs
+
+=== macro-missing-closing-quote
+--- script
+rl_parse_and_bind "\"\\C-xa\": \"unterminated"
+rl_function_of_keyseq "\x18a" emacs
+
+=== macro-trailing-text
+--- script
+rl_parse_and_bind "\"\\C-xa\": \"text\" trailing"
+rl_function_of_keyseq "\x18a" emacs
+
+=== macro-empty
+--- script
+rl_parse_and_bind "\"\\C-xa\": \"\""
+rl_function_of_keyseq "\x18a" emacs
+
+=== macro-executes
+tags: readline
+--- inputrc
+"\C-xa": "hello\C-b\C-b<"
+--- script
+readline "> "
+--- keys
+\C-xa<dump>\r
+
+=== macro-calls-other-bindings
+tags: readline
+--- inputrc
+"\C-xa": "abc\C-a"
+"\C-xb": "\C-xa>"
+--- script
+readline "> "
+--- keys
+\C-xb<dump>\r
+
+=== macro-in-vi-keymap
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keymap vi-insert
+"\C-t": "macro!"
+--- script
+readline "> "
+--- keys
+\C-t<dump>\r
+
+=== bind-in-named-keymap
+--- inputrc
+set keymap vi-command
+"Q": kill-line
+Control-w: backward-kill-word
+set keymap emacs-meta
+"q": kill-word
+--- script
+rl_initialize
+rl_function_of_keyseq "Q" vi-command
+rl_function_of_keyseq "\x17" vi-command
+rl_function_of_keyseq "q" emacs-meta
+rl_function_of_keyseq "\eq" emacs
+
+=== bind-prefix-over-function
+# binding a sequence whose prefix is bound to a function keeps that
+# function as the prefix's default action
+--- script
+rl_parse_and_bind "\"\\C-ab\": kill-word"
+rl_function_of_keyseq "\x01" emacs
+rl_function_of_keyseq "\x01b" emacs
+keymap_dump emacs
+
+=== bind-function-over-prefix
+--- script
+rl_parse_and_bind "\"\\C-x\": kill-word"
+rl_function_of_keyseq "\x18" emacs
+rl_function_of_keyseq "\x18\x18" emacs
+
+=== bind-escape-sequences
+--- script
+rl_parse_and_bind "\"\\e[1;5C\": forward-word"
+rl_parse_and_bind "\"\\eOH\": beginning-of-line"
+rl_function_of_keyseq "\e[1;5C" emacs
+rl_function_of_keyseq "\eOH" emacs
+
+=== bind-utf8-key
+--- script
+rl_initialize
+rl_parse_and_bind "\"ä\": forward-word"
+rl_function_of_keyseq "\xc3\xa4" emacs
+rl_function_of_keyseq "\xc3" emacs
+
+=== bind-utf8-key-convert-meta
+# before rl_initialize convert-meta is on: the bytes of a UTF-8 character
+# are bound as meta characters
+--- script
+rl_parse_and_bind "\"ä\": forward-word"
+rl_function_of_keyseq "\xc3\xa4" emacs
+rl_invoking_keyseqs forward-word
+
+=== bind-nul-key
+--- script
+rl_parse_and_bind "\"\\C-@\": kill-word"
+rl_function_of_keyseq_len "\x00" 1 emacs
+rl_parse_and_bind "\"\\C-x\\C-@\": upcase-word"
+rl_function_of_keyseq_len "\x18\x00" 2 emacs
+
+=== bind-meta-char-in-convert-meta
+# with convert-meta on, \M-x binds ESC x
+--- script
+rl_parse_and_bind "set convert-meta on"
+rl_parse_and_bind "\"\\M-z\": kill-word"
+rl_function_of_keyseq "\ez" emacs
+rl_function_of_keyseq "\xfa" emacs
+
+=== bind-meta-char-without-convert-meta
+--- script
+rl_initialize
+rl_parse_and_bind "set convert-meta off"
+rl_parse_and_bind "\"\\M-z\": kill-word"
+rl_function_of_keyseq "\ez" emacs
+rl_function_of_keyseq "\xfa" emacs
+
+=== bind-force-meta-prefix
+--- script
+rl_initialize
+rl_parse_and_bind "set convert-meta off"
+rl_parse_and_bind "set force-meta-prefix on"
+rl_parse_and_bind "\"\\M-z\": kill-word"
+rl_function_of_keyseq "\ez" emacs
+rl_function_of_keyseq "\xfa" emacs
+
+=== comment-lines
+--- inputrc
+# a comment
+   # an indented comment
+#"\C-xa": "commented out"
+"\C-xb": "real"
+--- script
+rl_initialize
+rl_macro_dumper 1
+
+=== blank-and-whitespace-lines
+--- inputrc
+
+
+	
+"\C-xb": "real"
+--- script
+rl_initialize
+rl_macro_dumper 1
+
+=== crlf-lines
+--- script
+file_write "crlf.inputrc" "\"\\C-xa\": kill-word\r\nset bell-style none\r\n\"\\C-xb\": \"mac\"\r\n"
+rl_read_init_file "crlf.inputrc"
+rl_function_of_keyseq "\x18a" emacs
+rl_variable_value "bell-style"
+rl_function_of_keyseq "\x18b" emacs
+
+=== no-trailing-newline
+--- inputrc noeol
+"\C-xb": "last"
+--- script
+rl_initialize
+rl_macro_dumper 1
+
+=== error-line-numbers
+--- inputrc
+"\C-xa": "ok"
+
+set foo bar
+"\C-xb
+Bogus-z: kill-word
+--- script
+rl_initialize
+rl_macro_dumper 1
+
+=== parse-and-bind-return-values
+--- script
+rl_parse_and_bind ""
+rl_parse_and_bind "   "
+rl_parse_and_bind "# comment"
+rl_parse_and_bind "$if mode=emacs"
+rl_parse_and_bind "$endif"
+rl_parse_and_bind "\"\\C-xa\": kill-word"
+rl_parse_and_bind "\"unterminated"
+rl_parse_and_bind "x"
+rl_parse_and_bind "set bell-style none"
+rl_parse_and_bind "set bogus-var x"
+
+=== parse-and-bind-conditional-state
+# rl_parse_and_bind shares the conditional state across calls
+--- script
+rl_parse_and_bind "$if mode=vi"
+rl_parse_and_bind "\"\\C-xa\": kill-word"
+rl_parse_and_bind "set bell-style none"
+rl_parse_and_bind "$else"
+rl_parse_and_bind "\"\\C-xb\": kill-word"
+rl_parse_and_bind "$endif"
+rl_function_of_keyseq "\x18a" emacs
+rl_function_of_keyseq "\x18b" emacs
+rl_variable_value "bell-style"

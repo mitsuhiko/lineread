@@ -1,0 +1,687 @@
+{
+  "keyname-control-forms": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"Control-a: forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"C-b: backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"CTRL-c: kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"control-d: upcase-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x01\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x02\" emacs", "type": "func", "value": "backward-word"},
+      {"op": "rl_function_of_keyseq \"\\x03\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x04\" emacs", "type": "func", "value": "upcase-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-control-uppercases-letter": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-A: forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Control-z: backward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x01\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x1a\" emacs", "type": "func", "value": "backward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-meta-forms": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"Meta-a: forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"M-b: backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"meta-c: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\ea\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\eb\" emacs", "type": "func", "value": "backward-word"},
+      {"op": "rl_function_of_keyseq \"\\ec\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-meta-control": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"Meta-Control-h: backward-kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"C-M-j: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\e\\x08\" emacs", "type": "func", "value": "backward-kill-word"},
+      {"op": "rl_function_of_keyseq \"\\e\\x0a\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-symbolic-names": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-x: abort\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-DEL: kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-Rubout: upcase-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-ESC: downcase-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-Escape: capitalize-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-LFD: transpose-words\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-Newline: transpose-chars\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-RET: forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-Return: backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-SPC: set-mark\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-Space: exchange-point-and-mark\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-Tab: tab-insert\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\e\\x7f\" emacs", "type": "func", "value": "upcase-word"},
+      {"op": "rl_function_of_keyseq \"\\e\\e\" emacs", "type": "func", "value": "capitalize-word"},
+      {"op": "rl_function_of_keyseq \"\\e\\n\" emacs", "type": "func", "value": "transpose-chars"},
+      {"op": "rl_function_of_keyseq \"\\e\\r\" emacs", "type": "func", "value": "backward-word"},
+      {"op": "rl_function_of_keyseq \"\\e \" emacs", "type": "func", "value": "exchange-point-and-mark"},
+      {"op": "rl_function_of_keyseq \"\\e\\t\" emacs", "type": "func", "value": "tab-insert"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-plain-names": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"TAB: menu-complete\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Space: forward-char\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"RET: kill-line\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"LFD: kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"DEL: upcase-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"ESC: abort\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\t\" emacs", "type": "func", "value": "menu-complete"},
+      {"op": "rl_function_of_keyseq \" \" emacs", "type": "func", "value": "forward-char"},
+      {"op": "rl_function_of_keyseq \"\\r\" emacs", "type": "func", "value": "kill-line"},
+      {"op": "rl_function_of_keyseq \"\\n\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x7f\" emacs", "type": "func", "value": "upcase-word"},
+      {"op": "rl_function_of_keyseq \"\\e\" emacs", "type": "keymap", "value": "emacs-meta"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-names-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"tab: menu-complete\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"C-sPaCe: set-mark\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\t\" emacs", "type": "func", "value": "menu-complete"},
+      {"op": "rl_function_of_keyseq_len \"\\x00\" 1 emacs", "type": "func", "value": "set-mark"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-single-char": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"a: forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"%: backward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"%\" emacs", "type": "func", "value": "backward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-multichar-uses-first": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"xyz: forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"x\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"y\" emacs", "type": "func", "value": "self-insert"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-unknown-modifier": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"Super-a: forward-word\"", "ret": 1},
+      {"op": "rl_parse_and_bind \"Hyper-x-b: forward-word\"", "ret": 1},
+      {"op": "rl_function_of_keyseq \"a\" emacs", "type": "func", "value": "self-insert"}
+    ],
+    "screen": [
+      "readline: Super-a: unknown key modifier",
+      "readline: Hyper-x-b: unknown key modifier"
+    ],
+    "cursor": [2, 0]
+  },
+  "keyname-modifier-substring": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"xC-a: forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x01\" emacs", "type": "func", "value": "forward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-control-question-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-?: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x7f\" emacs", "type": "func", "value": "backward-delete-char"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-whitespace-separator": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-t forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"C-y\\tbackward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x19\" emacs", "type": "func", "value": "backward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-t: \\\"inserted text\\\"\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"C-y: 'single'\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "macro", "value": "inserted text"},
+      {"op": "rl_function_of_keyseq \"\\x19\" emacs", "type": "macro", "value": "single"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-prefix-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-t: prefix-meta\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "keymap", "value": "emacs-meta"},
+      {"op": "rl_function_of_keyseq \"\\x14f\" emacs", "type": "func", "value": "forward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-meta-without-meta-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set keymap emacs-ctlx\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"Meta-q: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\eq\" emacs-ctlx", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x18\\eq\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-control-escapes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-t\\\": forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\C-t\\\": backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-T\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x14\" emacs", "type": "func", "value": "backward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-meta-escapes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\M-q\\\": forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\M-\\\\C-q\\\": backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-\\\\M-w\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\eq\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\e\\x11\" emacs", "type": "func", "value": "backward-word"},
+      {"op": "rl_function_of_keyseq \"\\e\\x17\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-backslash-escapes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\a\\\": forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\b\\\": backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\d\\\": kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\f\\\": upcase-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\n\\\": downcase-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\r\\\": capitalize-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\t\\\": transpose-words\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\v\\\": transpose-chars\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\e\\\": set-mark\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\\\\\\\\": tab-insert\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\\\\"\\\": abort\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\'\\\": undo\"", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": ""},
+      {"op": "rl_function_dumper 1", "out": "\n\"\\C-g\": abort\n\"\\C-x\\\"\": abort\n\"\\e\\C-g\": abort\n\"\\C-j\": accept-line\n\"\\C-m\": accept-line\n# arrow-key-prefix (not bound)\n# backward-byte (not bound)\n\"\\C-b\": backward-char\n\"\\C-h\": backward-delete-char\n\"\\C-?\": backward-delete-char\n# backward-kill-line (not bound)\n\"\\e\\C-h\": backward-kill-word\n\"\\e\\C-?\": backward-kill-word\n\"\\C-x\\C-h\": backward-word\n\"\\eb\": backward-word\n\"\\e<\": beginning-of-history\n\"\\C-a\": beginning-of-line\n# bracketed-paste-begin (not bound)\n\"\\C-xe\": call-last-kbd-macro\n\"\\C-x\\C-m\": capitalize-word\n\"\\ec\": capitalize-word\n\"\\C-]\": character-search\n\"\\e\\C-]\": character-search-backward\n\"\\e\\C-l\": clear-display\n\"\\C-l\": clear-screen\n\"\\C-i\": complete\n\"\\e\\e\": complete\n# copy-backward-word (not bound)\n# copy-forward-word (not bound)\n# copy-region-as-kill (not bound)\n\"\\C-d\": delete-char\n# delete-char-or-list (not bound)\n\"\\e\\\\\": delete-horizontal-space\n\"\\e-\": digit-argument\n\"\\e0\": digit-argument\n\"\\e1\": digit-argument\n\"\\e2\": digit-argument\n\"\\e3\": digit-argument\n\"\\e4\": digit-argument\n\"\\e5\": digit-argument\n\"\\e6\": digit-argument\n\"\\e7\": digit-argument\n\"\\e8\": digit-argument\n\"\\e9\": digit-argument\n\"\\C-xA\": do-lowercase-version\n\"\\C-xB\": do-lowercase-version\n\"\\C-xC\": do-lowercase-version\n\"\\C-xD\": do-lowercase-version\n\"\\C-xE\": do-lowercase-version\n\"\\C-xF\": do-lowercase-version\n\"\\C-xG\": do-lowercase-version\n\"\\C-xH\": do-lowercase-version\n\"\\C-xI\": do-lowercase-version\n\"\\C-xJ\": do-lowercase-version\n\"\\C-xK\": do-lowercase-version\n\"\\C-xL\": do-lowercase-version\n\"\\C-xM\": do-lowercase-version\n\"\\C-xN\": do-lowercase-version\n\"\\C-xO\": do-lowercase-version\n\"\\C-xP\": do-lowercase-version\n\"\\C-xQ\": do-lowercase-version\n\"\\C-xR\": do-lowercase-version\n\"\\C-xS\": do-lowercase-version\n\"\\C-xT\": do-lowercase-version\n\"\\C-xU\": do-lowercase-version\n\"\\C-xV\": do-lowercase-version\n\"\\C-xW\": do-lowercase-version\n\"\\C-xX\": do-lowercase-version\n\"\\C-xY\": do-lowercase-version\n\"\\C-xZ\": do-lowercase-version\n\"\\eA\": do-lowercase-version\n\"\\eB\": do-lowercase-version\n\"\\eC\": do-lowercase-version\n\"\\eD\": do-lowercase-version\n\"\\eE\": do-lowercase-version\n\"\\eF\": do-lowercase-version\n\"\\eG\": do-lowercase-version\n\"\\eH\": do-lowercase-version\n\"\\eI\": do-lowercase-version\n\"\\eJ\": do-lowercase-version\n\"\\eK\": do-lowercase-version\n\"\\eL\": do-lowercase-version\n\"\\eM\": do-lowercase-version\n\"\\eN\": do-lowercase-version\n\"\\eO\": do-lowercase-version\n\"\\eP\": do-lowercase-version\n\"\\eQ\": do-lowercase-version\n\"\\eR\": do-lowercase-version\n\"\\eS\": do-lowercase-version\n\"\\eT\": do-lowercase-version\n\"\\eU\": do-lowercase-version\n\"\\eV\": do-lowercase-version\n\"\\eW\": do-lowercase-version\n\"\\eX\": do-lowercase-version\n\"\\eY\": do-lowercase-version\n\"\\eZ\": do-lowercase-version\n\"\\C-x\\C-j\": downcase-word\n\"\\el\": downcase-word\n# driver-dump (not bound)\n# driver-dump-full (not bound)\n# driver-snap (not bound)\n# dump-functions (not bound)\n# dump-macros (not bound)\n# dump-variables (not bound)\n# emacs-editing-mode (not bound)\n\"\\C-x)\": end-kbd-macro\n\"\\e>\": end-of-history\n\"\\C-e\": end-of-line\n\"\\C-x\\C-x\": exchange-point-and-mark\n\"\\ex\": execute-named-command\n# export-completions (not bound)\n# fetch-history (not bound)\n# forward-backward-delete-char (not bound)\n# forward-byte (not bound)\n\"\\C-f\": forward-char\n\"\\C-s\": forward-search-history\n\"\\C-x\\C-g\": forward-word\n\"\\ef\": forward-word\n# history-search-backward (not bound)\n# history-search-forward (not bound)\n# history-substring-search-backward (not bound)\n# history-substring-search-forward (not bound)\n\"\\e#\": insert-comment\n\"\\e*\": insert-completions\n\"\\C-k\": kill-line\n# kill-region (not bound)\n# kill-whole-line (not bound)\n\"\\C-x\\C-?\": kill-word\n\"\\ed\": kill-word\n# menu-complete (not bound)\n# menu-complete-backward (not bound)\n\"\\C-n\": next-history\n# next-screen-line (not bound)\n\"\\en\": non-incremental-forward-search-history\n# non-incremental-forward-search-history-again (not bound)\n\"\\ep\": non-incremental-reverse-search-history\n# non-incremental-reverse-search-history-again (not bound)\n# old-menu-complete (not bound)\n\"\\C-o\": operate-and-get-next\n# overwrite-mode (not bound)\n\"\\e=\": possible-completions\n\"\\e?\": possible-completions\n\"\\C-p\": previous-history\n# previous-screen-line (not bound)\n# print-last-kbd-macro (not bound)\n\"\\C-q\": quoted-insert\n\"\\C-v\": quoted-insert\n\"\\C-x\\C-r\": re-read-init-file\n# redraw-current-line (not bound)\n\"\\C-r\": reverse-search-history\n\"\\e\\C-r\": revert-line\n\"\\er\": revert-line\n\" \": self-insert\n\"!\": self-insert\n\"\\\"\": self-insert\n\"#\": self-insert\n\"$\": self-insert\n\"%\": self-insert\n\"&\": self-insert\n\"'\": self-insert\n\"(\": self-insert\n\")\": self-insert\n\"*\": self-insert\n\"+\": self-insert\n\",\": self-insert\n\"-\": self-insert\n\".\": self-insert\n\"/\": self-insert\n\"0\": self-insert\n\"1\": self-insert\n\"2\": self-insert\n\"3\": self-insert\n\"4\": self-insert\n\"5\": self-insert\n\"6\": self-insert\n\"7\": self-insert\n\"8\": self-insert\n\"9\": self-insert\n\":\": self-insert\n\";\": self-insert\n\"<\": self-insert\n\"=\": self-insert\n\">\": self-insert\n\"?\": self-insert\n\"@\": self-insert\n\"A\": self-insert\n\"B\": self-insert\n\"C\": self-insert\n\"D\": self-insert\n\"E\": self-insert\n\"F\": self-insert\n\"G\": self-insert\n\"H\": self-insert\n\"I\": self-insert\n\"J\": self-insert\n\"K\": self-insert\n\"L\": self-insert\n\"M\": self-insert\n\"N\": self-insert\n\"O\": self-insert\n\"P\": self-insert\n\"Q\": self-insert\n\"R\": self-insert\n\"S\": self-insert\n\"T\": self-insert\n\"U\": self-insert\n\"V\": self-insert\n\"W\": self-insert\n\"X\": self-insert\n\"Y\": self-insert\n\"Z\": self-insert\n\"[\": self-insert\n\"\\\\\": self-insert\n\"]\": self-insert\n\"^\": self-insert\n\"_\": self-insert\n\"`\": self-insert\n\"a\": self-insert\n\"b\": self-insert\n\"c\": self-insert\n\"d\": self-insert\n\"e\": self-insert\n\"f\": self-insert\n\"g\": self-insert\n\"h\": self-insert\n\"i\": self-insert\n\"j\": self-insert\n\"k\": self-insert\n\"l\": self-insert\n\"m\": self-insert\n\"n\": self-insert\n\"o\": self-insert\n\"p\": self-insert\n\"q\": self-insert\n\"r\": self-insert\n\"s\": self-insert\n\"t\": self-insert\n\"u\": self-insert\n\"v\": self-insert\n\"w\": self-insert\n\"x\": self-insert\n\"y\": self-insert\n\"z\": self-insert\n\"{\": self-insert\n\"|\": self-insert\n\"}\": self-insert\n\"~\": self-insert\n\"\\200\": self-insert\n\"\\201\": self-insert\n\"\\202\": self-insert\n\"\\203\": self-insert\n\"\\204\": self-insert\n\"\\205\": self-insert\n\"\\206\": self-insert\n\"\\207\": self-insert\n\"\\210\": self-insert\n\"\\211\": self-insert\n\"\\212\": self-insert\n\"\\213\": self-insert\n\"\\214\": self-insert\n\"\\215\": self-insert\n\"\\216\": self-insert\n\"\\217\": self-insert\n\"\\220\": self-insert\n\"\\221\": self-insert\n\"\\222\": self-insert\n\"\\223\": self-insert\n\"\\224\": self-insert\n\"\\225\": self-insert\n\"\\226\": self-insert\n\"\\227\": self-insert\n\"\\230\": self-insert\n\"\\231\": self-insert\n\"\\232\": self-insert\n\"\\233\": self-insert\n\"\\234\": self-insert\n\"\\235\": self-insert\n\"\\236\": self-insert\n\"\\237\": self-insert\n\"\\240\": self-insert\n\"\\241\": self-insert\n\"\\242\": self-insert\n\"\\243\": self-insert\n\"\\244\": self-insert\n\"\\245\": self-insert\n\"\\246\": self-insert\n\"\\247\": self-insert\n\"\\250\": self-insert\n\"\\251\": self-insert\n\"\\252\": self-insert\n\"\\253\": self-insert\n\"\\254\": self-insert\n\"\\255\": self-insert\n\"\\256\": self-insert\n\"\\257\": self-insert\n\"\\260\": self-insert\n\"\\261\": self-insert\n\"\\262\": self-insert\n\"\\263\": self-insert\n\"\\264\": self-insert\n\"\\265\": self-insert\n\"\\266\": self-insert\n\"\\267\": self-insert\n\"\\270\": self-insert\n\"\\271\": self-insert\n\"\\272\": self-insert\n\"\\273\": self-insert\n\"\\274\": self-insert\n\"\\275\": self-insert\n\"\\276\": self-insert\n\"\\277\": self-insert\n\"\\300\": self-insert\n\"\\301\": self-insert\n\"\\302\": self-insert\n\"\\303\": self-insert\n\"\\304\": self-insert\n\"\\305\": self-insert\n\"\\306\": self-insert\n\"\\307\": self-insert\n\"\\310\": self-insert\n\"\\311\": self-insert\n\"\\312\": self-insert\n\"\\313\": self-insert\n\"\\314\": self-insert\n\"\\315\": self-insert\n\"\\316\": self-insert\n\"\\317\": self-insert\n\"\\320\": self-insert\n\"\\321\": self-insert\n\"\\322\": self-insert\n\"\\323\": self-insert\n\"\\324\": self-insert\n\"\\325\": self-insert\n\"\\326\": self-insert\n\"\\327\": self-insert\n\"\\330\": self-insert\n\"\\331\": self-insert\n\"\\332\": self-insert\n\"\\333\": self-insert\n\"\\334\": self-insert\n\"\\335\": self-insert\n\"\\336\": self-insert\n\"\\337\": self-insert\n\"\\340\": self-insert\n\"\\341\": self-insert\n\"\\342\": self-insert\n\"\\343\": self-insert\n\"\\344\": self-insert\n\"\\345\": self-insert\n\"\\346\": self-insert\n\"\\347\": self-insert\n\"\\350\": self-insert\n\"\\351\": self-insert\n\"\\352\": self-insert\n\"\\353\": self-insert\n\"\\354\": self-insert\n\"\\355\": self-insert\n\"\\356\": self-insert\n\"\\357\": self-insert\n\"\\360\": self-insert\n\"\\361\": self-insert\n\"\\362\": self-insert\n\"\\363\": self-insert\n\"\\364\": self-insert\n\"\\365\": self-insert\n\"\\366\": self-insert\n\"\\367\": self-insert\n\"\\370\": self-insert\n\"\\371\": self-insert\n\"\\372\": self-insert\n\"\\373\": self-insert\n\"\\374\": self-insert\n\"\\375\": self-insert\n\"\\376\": self-insert\n\"\\377\": self-insert\n\"\\C-@\": set-mark\n\"\\C-x\\e\": set-mark\n\"\\e \": set-mark\n# skip-csi-sequence (not bound)\n\"\\C-x(\": start-kbd-macro\n\"\\C-x\\\\\": tab-insert\n\"\\e\\C-i\": tab-insert\n\"\\e&\": tilde-expand\n\"\\e~\": tilde-expand\n\"\\C-t\": transpose-chars\n\"\\C-x\\C-k\": transpose-chars\n\"\\C-x\\C-i\": transpose-words\n\"\\et\": transpose-words\n# tty-status (not bound)\n\"\\C-x\\C-u\": undo\n\"\\C-x'\": undo\n\"\\C-_\": undo\n# universal-argument (not bound)\n# unix-filename-rubout (not bound)\n\"\\C-u\": unix-line-discard\n\"\\C-w\": unix-word-rubout\n\"\\C-x\\C-l\": upcase-word\n\"\\eu\": upcase-word\n# vi-append-eol (not bound)\n# vi-append-mode (not bound)\n# vi-arg-digit (not bound)\n# vi-bWord (not bound)\n# vi-back-to-indent (not bound)\n# vi-backward-bigword (not bound)\n# vi-backward-word (not bound)\n# vi-bword (not bound)\n# vi-change-case (not bound)\n# vi-change-char (not bound)\n# vi-change-to (not bound)\n# vi-char-search (not bound)\n# vi-column (not bound)\n# vi-complete (not bound)\n# vi-delete (not bound)\n# vi-delete-to (not bound)\n# vi-eWord (not bound)\n\"\\e\\C-j\": vi-editing-mode\n\"\\e\\C-m\": vi-editing-mode\n# vi-end-bigword (not bound)\n# vi-end-word (not bound)\n# vi-eof-maybe (not bound)\n# vi-eword (not bound)\n# vi-fWord (not bound)\n# vi-fetch-history (not bound)\n# vi-first-print (not bound)\n# vi-forward-bigword (not bound)\n# vi-forward-word (not bound)\n# vi-fword (not bound)\n# vi-goto-mark (not bound)\n# vi-insert-beg (not bound)\n# vi-insertion-mode (not bound)\n# vi-match (not bound)\n# vi-movement-mode (not bound)\n# vi-next-word (not bound)\n# vi-overstrike (not bound)\n# vi-overstrike-delete (not bound)\n# vi-prev-word (not bound)\n# vi-put (not bound)\n# vi-redo (not bound)\n# vi-replace (not bound)\n# vi-rubout (not bound)\n# vi-search (not bound)\n# vi-search-again (not bound)\n# vi-set-mark (not bound)\n# vi-subst (not bound)\n# vi-tilde-expand (not bound)\n# vi-undo (not bound)\n# vi-unix-word-rubout (not bound)\n# vi-yank-arg (not bound)\n# vi-yank-pop (not bound)\n# vi-yank-to (not bound)\n\"\\C-y\": yank\n\"\\e.\": yank-last-arg\n\"\\e_\": yank-last-arg\n\"\\e\\C-y\": yank-nth-arg\n\"\\ey\": yank-pop\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-octal-and-hex": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\101\\\": forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\x42\\\": backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\x4\\\": kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\7\\\": upcase-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\0101\\\": downcase-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18A\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x18B\" emacs", "type": "func", "value": "backward-word"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x04\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x07\" emacs", "type": "func", "value": "upcase-word"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x081\" emacs", "type": "func", "value": "downcase-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-unknown-escape": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\q\\\": forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18q\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x18\\\\q\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-quoted-plain-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"ab\\\": forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a\" emacs", "type": "keymap", "value": "?anon"},
+      {"op": "rl_function_of_keyseq \"ab\" emacs", "type": "func", "value": "forward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-with-colon-and-space": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"a:b c\\\": forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a:b c\" emacs", "type": "func", "value": "forward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyseq-missing-closing-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xq: forward-word\"", "ret": 1},
+      {"op": "rl_function_of_keyseq \"\\x18q\" emacs", "type": null, "value": null}
+    ],
+    "screen": [
+      "readline: \"\\C-xq: forward-word: no closing `\"' in key binding"
+    ],
+    "cursor": [1, 0]
+  },
+  "keyseq-no-terminator": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xq\\\"\"", "ret": 1},
+      {"op": "rl_parse_and_bind \"C-q\"", "ret": 1},
+      {"op": "rl_function_of_keyseq \"\\x18q\" emacs", "type": null, "value": null}
+    ],
+    "screen": [
+      "readline: \"\\C-xq\": no key sequence terminator",
+      "readline: C-q: no key sequence terminator"
+    ],
+    "cursor": [2, 0]
+  },
+  "missing-key-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \": forward-word\"", "ret": 1},
+      {"op": "rl_parse_and_bind \":\"", "ret": 1}
+    ],
+    "screen": [
+      "readline: `: forward-word': invalid key binding: missing key sequence",
+      "readline: `:': invalid key binding: missing key sequence"
+    ],
+    "cursor": [2, 0]
+  },
+  "keyseq-unknown-function-unbinds": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-a\\\": no-such-function\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x01\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keyname-unknown-function-unbinds": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"C-a: no-such-function\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x01\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "function-name-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-t\\\": Forward-Word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-y\\\": BACKWARD-WORD\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x19\" emacs", "type": "func", "value": "backward-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "function-trailing-text-ignored": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-t\\\": forward-word and more\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-y\\\":backward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-u\\\"  :   kill-word   # comment\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x19\" emacs", "type": "func", "value": "backward-word"},
+      {"op": "rl_function_of_keyseq \"\\x15\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "equivalency-ignored": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-t\\\":= forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"C-y:= backward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "func", "value": "transpose-chars"},
+      {"op": "rl_function_of_keyseq \"\\x19\" emacs", "type": "func", "value": "yank"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-double-quoted": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": \\\"hello world\\\"\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": "hello world"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-single-quoted": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": 'it is'\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": "it is"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-escapes-translated": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": \\\"\\\\C-a\\\\t\\\\e\\\\\\\\\\\\\\\"\\\\101\\\\x42\\\"\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": "\u0001\t\u001b\\\"AB"},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"\\C-a\\C-i\\e\\\\\\\"AB\"\n"},
+      {"op": "rl_macro_dumper 0", "out": "\\C-xa outputs \\C-a\\C-i\\e\\\\\\\"AB\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-escaped-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": \\\"say \\\\\\\"hi\\\\\\\"\\\"\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xb\\\": 'it\\\\'s'\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": "say \"hi\""},
+      {"op": "rl_function_of_keyseq \"\\x18b\" emacs", "type": "macro", "value": "it's"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-missing-closing-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": \\\"unterminated\"", "ret": 1},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": null, "value": null}
+    ],
+    "screen": [
+      "readline: `\"unterminated': missing closing quote for macro"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-trailing-text": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": \\\"text\\\" trailing\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": "text"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": \\\"\\\"\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macro-executes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hel<lo", "point": 4, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hel<lo"}
+    ],
+    "screen": [
+      "> hel<lo"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-calls-other-bindings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": ">abc", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ">abc"}
+    ],
+    "screen": [
+      "> >abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-in-vi-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "macro!", "point": 6, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "macro!"}
+    ],
+    "screen": [
+      "> macro!"
+    ],
+    "cursor": [1, 0]
+  },
+  "bind-in-named-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_of_keyseq \"Q\" vi-command", "type": "func", "value": "kill-line"},
+      {"op": "rl_function_of_keyseq \"\\x17\" vi-command", "type": "func", "value": "backward-kill-word"},
+      {"op": "rl_function_of_keyseq \"q\" emacs-meta", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\eq\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-prefix-over-function": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-ab\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x01\" emacs", "type": "keymap", "value": "?anon"},
+      {"op": "rl_function_of_keyseq \"\\x01b\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "keymap_dump emacs", "ret": [["\\C-@", "func", "set-mark"], ["\\C-ab", "func", "kill-word"], ["\\C-a<any>", "func", "beginning-of-line"], ["\\C-b", "func", "backward-char"], ["\\C-d", "func", "delete-char"], ["\\C-e", "func", "end-of-line"], ["\\C-f", "func", "forward-char"], ["\\C-g", "func", "abort"], ["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "complete"], ["\\C-j", "func", "accept-line"], ["\\C-k", "func", "kill-line"], ["\\C-l", "func", "clear-screen"], ["\\C-m", "func", "accept-line"], ["\\C-n", "func", "next-history"], ["\\C-o", "func", "operate-and-get-next"], ["\\C-p", "func", "previous-history"], ["\\C-q", "func", "quoted-insert"], ["\\C-r", "func", "reverse-search-history"], ["\\C-s", "func", "forward-search-history"], ["\\C-t", "func", "transpose-chars"], ["\\C-u", "func", "unix-line-discard"], ["\\C-v", "func", "quoted-insert"], ["\\C-w", "func", "unix-word-rubout"], ["\\C-x", "keymap", "emacs-ctlx"], ["\\C-y", "func", "yank"], ["\\e", "keymap", "emacs-meta"], ["\\C-]", "func", "character-search"], ["\\C-_", "func", "undo"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-function-over-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18\" emacs", "type": "keymap", "value": "emacs-ctlx"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x18\" emacs", "type": "func", "value": "exchange-point-and-mark"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-escape-sequences": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\e[1;5C\\\": forward-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\eOH\\\": beginning-of-line\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\e[1;5C\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\eOH\" emacs", "type": "func", "value": "beginning-of-line"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-utf8-key": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"ä\\\": forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\xc3\\xa4\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\xc3\" emacs", "type": "keymap", "value": "?anon"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-utf8-key-convert-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"ä\\\": forward-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\xc3\\xa4\" emacs", "type": null, "value": null},
+      {"op": "rl_invoking_keyseqs forward-word", "ret": ["\\ef", "\\303\\244"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-nul-key": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-@\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq_len \"\\x00\" 1 emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-x\\\\C-@\\\": upcase-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq_len \"\\x18\\x00\" 2 emacs", "type": "func", "value": "upcase-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-meta-char-in-convert-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set convert-meta on\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\M-z\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\ez\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\xfa\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-meta-char-without-convert-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_parse_and_bind \"set convert-meta off\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\M-z\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\ez\" emacs", "type": null, "value": null},
+      {"op": "rl_function_of_keyseq \"\\xfa\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-force-meta-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_parse_and_bind \"set convert-meta off\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set force-meta-prefix on\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\M-z\\\": kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\ez\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\xfa\" emacs", "type": "func", "value": "kill-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"real\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "blank-and-whitespace-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"real\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "crlf-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_read_init_file \"crlf.inputrc\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": null, "value": null},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"},
+      {"op": "rl_function_of_keyseq \"\\x18b\" emacs", "type": "macro", "value": "mac\"\r"}
+    ],
+    "screen": [
+      "'eadline: crlf.inputrc: line 2: bell-style: could not set value to `none"
+    ],
+    "cursor": [1, 0]
+  },
+  "no-trailing-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xb\": \"last\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "error-line-numbers": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"ok\"\n"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 3: foo: unknown variable name",
+      "readline: $BASE/inputrc: line 4: \"\\C-xb: no closing `\"' in key binding",
+      "readline: $BASE/inputrc: line 5: Bogus-z: unknown key modifier"
+    ],
+    "cursor": [3, 0]
+  },
+  "parse-and-bind-return-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"   \"", "ret": 0},
+      {"op": "rl_parse_and_bind \"# comment\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"$if mode=emacs\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"$endif\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"unterminated\"", "ret": 1},
+      {"op": "rl_parse_and_bind \"x\"", "ret": 1},
+      {"op": "rl_parse_and_bind \"set bell-style none\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set bogus-var x\"", "ret": 1}
+    ],
+    "screen": [
+      "readline: \"unterminated: no closing `\"' in key binding",
+      "readline: x: no key sequence terminator",
+      "readline: bogus-var: unknown variable name"
+    ],
+    "cursor": [3, 0]
+  },
+  "parse-and-bind-conditional-state": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"$if mode=vi\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xa\\\": kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set bell-style none\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"$else\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xb\\\": kill-word\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"$endif\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": null, "value": null},
+      {"op": "rl_function_of_keyseq \"\\x18b\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}
