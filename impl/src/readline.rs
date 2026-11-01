@@ -207,7 +207,7 @@ pub unsafe fn line_step() -> bool {
     crate::signals::rl_check_signals();
     if rl_done.get() == 0 {
         let n = rl_num_chars_to_read.get();
-        if n > 0 && buffer::rl_end.get() >= n {
+        if n > 0 && crate::mb::count_chars(buffer::line()) >= n as usize {
             rl_done.set(1);
             set_state(RL_STATE_DONE);
             display::redisplay();
