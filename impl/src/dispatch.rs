@@ -290,7 +290,9 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap, fallback: bool) -> c_int {
     if e.is_null() && e.type_ == ISFUNC {
         if has_other {
             // run the prefix's own binding, then re-read `next`
-            crate::input::rl_execute_next(next);
+            // (pushed back into the input: a macro bound there is read
+            // first)
+            crate::input::unread_keys(&[next as u8]);
             return run_anyother(key, sub, other);
         }
         if fallback {
