@@ -73,7 +73,8 @@ fn self_insert_chars(bytes: &[u8], count: usize) {
 /// Read the rest of a multibyte character whose first byte is `first`.
 unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
     let mut v = vec![first];
-    if !mb::multibyte() || first < 0x80 {
+    if !mb::multibyte() || first < 0x80 || crate::readline::rl_num_chars_to_read.get() > 0 {
+        // (with rl_num_chars_to_read the bytes are inserted as they come)
         return v;
     }
     let from_macro = input::is_state(RL_STATE_MACROINPUT);
@@ -126,7 +127,11 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
     self_insert_chars(&ch, 1);
     // typeahead that is also self-insert is inserted right away; those
     // keys are not recorded into a keyboard macro being defined
-    if batch && !input::is_state(RL_STATE_MACROINPUT) && rl_insert_mode.get() == 1 {
+    if batch
+        && !input::is_state(RL_STATE_MACROINPUT)
+        && rl_insert_mode.get() == 1
+        && crate::readline::rl_num_chars_to_read.get() == 0
+    {
         let map = crate::keymap::current();
         let defining = input::is_state(RL_STATE_MACRODEF);
         unset_state(RL_STATE_MACRODEF);
