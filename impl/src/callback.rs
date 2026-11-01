@@ -107,7 +107,9 @@ pub fn before_getc() {
             BUDGET.set(BUDGET.get() - 1);
             return;
         }
-        if input::input_available(0) {
+        // the reference processes one key per call; only self-insert reads
+        // typeahead beyond it
+        if input::input_available(0) && is_self_insert_typeahead() {
             return;
         }
         // reading a string (execute-named-command) blocks in the
@@ -123,6 +125,13 @@ pub fn before_getc() {
         }
         IN_COMMAND.set(false);
         BUDGET.set(BUDGET.get() - 1);
+    }
+}
+
+fn is_self_insert_typeahead() -> bool {
+    match crate::dispatch::current_command() {
+        Some(f) => crate::dispatch::same_fn(Some(f), crate::commands::text::rl_insert),
+        None => false,
     }
 }
 

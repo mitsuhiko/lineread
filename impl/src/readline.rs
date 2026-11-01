@@ -304,6 +304,12 @@ pub unsafe extern "C" fn rl_newline(_count: c_int, _key: c_int) -> c_int {
         crate::vi::newline_hook();
     }
     // (no redisplay: the line is already up to date)
+    if display::rl_erase_empty_line.get() != 0 && buffer::rl_point.get() == 0 && buffer::rl_end.get() == 0 {
+        // an empty line is not finished with a newline: the next prompt
+        // replaces it
+        crate::terminal::flush();
+        return 0;
+    }
     display::update_final();
     0
 }
