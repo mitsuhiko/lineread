@@ -624,7 +624,10 @@ pub unsafe fn read_char_arg() -> Option<Vec<u8>> {
 pub unsafe extern "C" fn rl_bracketed_paste_begin(_count: c_int, _key: c_int) -> c_int {
     let buf = read_paste_body();
     let start = point();
-    if !buf.is_empty() {
+    if !buf.is_empty() && crate::vi::in_replace_mode() {
+        // vi replace mode: the pasted text overwrites
+        crate::vi::overstrike_text(&buf);
+    } else if !buf.is_empty() {
         buffer::insert(&buf);
     }
     buffer::rl_mark.set(start as c_int);
