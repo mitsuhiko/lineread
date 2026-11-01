@@ -285,9 +285,14 @@ pub unsafe extern "C" fn rl_callback_sigcleanup() {
     if !is_state(RL_STATE_CALLBACK) {
         return;
     }
-    // an incremental / non-incremental search in progress: back to the
-    // normal prompt, the line stays as displayed
-    if is_state(RL_STATE_ISEARCH | RL_STATE_NSEARCH) {
+    // an incremental search in progress: back to the normal prompt, the
+    // line stays as displayed
+    // (a non-incremental search leaves its string in place; its prompt
+    // stays visible in rl_display_prompt until the next redisplay)
+    let searching = is_state(RL_STATE_ISEARCH);
+    if searching {
+        crate::display::drop_message();
+    } else if is_state(RL_STATE_NSEARCH) {
         crate::display::rl_restore_prompt();
     }
     unset_state(
@@ -302,6 +307,9 @@ pub unsafe extern "C" fn rl_callback_sigcleanup() {
             | RL_STATE_READSTR,
     );
     crate::dispatch::rl_dispatching.set(0);
+    if searching {
+        crate::display::redisplay();
+    }
     // a command suspended in the middle: abandon it and continue the line
     // with the next key
     if !CORO.get().is_null() && STATE.get() == WState::Waiting && IN_COMMAND.get() {
