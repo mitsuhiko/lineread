@@ -156,15 +156,44 @@ pub unsafe fn call_command_as(f: rl_command_func_t, key: c_int, exec_key: c_int,
     if !outer {
         unset_state(RL_STATE_DISPATCHING);
     }
-    if !is_arg_func(f) {
+    if let Some(o) = LAST_FUNC_OVERRIDE.replace(None) {
+        rl_last_func.set(Some(o));
+    } else if !is_arg_func(f) {
         rl_last_func.set(Some(f));
     }
     r
 }
 
+/// Set by a command to report another function as rl_last_func when it
+/// returns (vi operators in callback mode report their motion).
+pub static LAST_FUNC_OVERRIDE: CVar<Option<rl_command_func_t>> = CVar::new(None);
+
 /// Dispatch `key` in `map`: the entry point for one key of the main loop
 /// (after `keyseq_reset`) and for keys inside prefixes.
 pub unsafe fn dispatch_key(key: c_int, map: Keymap) -> c_int {
+    dispatch_key_in(key, map, false)
+}
+
+/// A key sequence inside prefixes led nowhere: the keys read were pushed
+/// back for the nearest enclosing prefix with an ANYOTHERKEY binding.
+const BACKTRACK: c_int = -2;
+
+fn keyseq_pop() {
+    let n = KEYSEQ_LEN.get();
+    if n > 0 {
+        KEYSEQ_LEN.set(n - 1);
+        rl_key_sequence_length.set((n - 1) as c_int);
+        unsafe {
+            let p = rl_executing_keyseq.get();
+            if !p.is_null() {
+                *p.add(n - 1) = 0;
+            }
+        }
+    }
+}
+
+/// `fallback`: an enclosing prefix has an ANYOTHERKEY binding.
+unsafe fn dispatch_key_in(key: c_int, map: Keymap, fallback: bool) -> c_int {
     let mut map = map;
     let mut key = key;
     if key < 0 {
@@ -188,7 +217,7 @@ pub unsafe fn dispatch_key(key: c_int, map: Keymap) -> c_int {
                 -1
             }
         },
-        ISKMAP => dispatch_prefix(key, e.function.map),
+        ISKMAP => dispatch_prefix(key, e.function.map, fallback),
         ISMACR => {
             let m = cstr(e.function.macro_).to_vec();
             crate::kbdmacro::push_macro_input(&m);
@@ -205,15 +234,29 @@ unsafe fn unbound_key() {
 
 /// Inside a prefix map `sub` (reached with `key`): read the next key and
 /// resolve it, falling back to the map's ANYOTHERKEY binding.
-unsafe fn dispatch_prefix(key: c_int, sub: Keymap) -> c_int {
+unsafe fn dispatch_prefix(key: c_int, sub: Keymap, fallback: bool) -> c_int {
     let other = *sub.add(ANYOTHERKEY);
     let has_other = !other.is_null();
     if has_other {
         let t = crate::vars::keyseq_timeout.get();
-        if t > 0 && !input::input_available(t as i64 * 1000) {
-            if let (ISFUNC, Some(f)) = (other.type_, other.function.func) {
-                return call_command_as(f, key, ANYOTHERKEY as c_int, sub);
+        let vi_ins_esc = key == ESC && {
+            let e = *keymap::entry(keymap::vi_insertion(), ESC as usize);
+            e.type_ == ISKMAP && e.function.map == sub
+        };
+        if vi_ins_esc {
+            // vi insert mode: ESC with no input following (within
+            // keyseq-timeout, also in callback mode) runs the ESC binding
+            // at once as key ANYOTHERKEY
+            let wait = if t > 0 { t as i64 * 1000 } else { 0 };
+            if !input::input_available(wait) {
+                if let (ISFUNC, Some(f)) = (other.type_, other.function.func) {
+                    return call_command_as(f, key, ANYOTHERKEY as c_int, sub);
+                }
+                return run_anyother(key, sub, other);
             }
+        } else if t > 0 && !is_state(RL_STATE_CALLBACK) && !input::input_available(t as i64 * 1000) {
+            // keyseq-timeout (not in callback mode, which waits for the
+            // next key): the prefix's own binding runs
             return run_anyother(key, sub, other);
         }
     }
@@ -249,12 +292,25 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap) -> c_int {
             crate::input::rl_execute_next(next);
             return run_anyother(key, sub, other);
         }
+        if fallback {
+            // an enclosing prefix runs its binding; re-read from `next`
+            crate::input::unread_keys(&[next as u8]);
+            return BACKTRACK;
+        }
         // (the unbound key is not part of the sequence; no command ran)
         unbound_key();
         rl_last_func.set(None);
         return -1;
     }
-    dispatch_key(next, sub)
+    let r = dispatch_key_in(next, sub, fallback || has_other);
+    if r == BACKTRACK {
+        keyseq_pop();
+        crate::input::unread_keys(&[next as u8]);
+        if has_other {
+            return run_anyother(key, sub, other);
+        }
+    }
+    r
 }
 
 unsafe fn run_anyother(key: c_int, sub: Keymap, other: KEYMAP_ENTRY) -> c_int {
@@ -268,7 +324,7 @@ unsafe fn run_anyother(key: c_int, sub: Keymap, other: KEYMAP_ENTRY) -> c_int {
             crate::kbdmacro::push_macro_input(&m);
             0
         }
-        ISKMAP => dispatch_prefix(key, other.function.map),
+        ISKMAP => dispatch_prefix(key, other.function.map, false),
         _ => -1,
     }
 }
