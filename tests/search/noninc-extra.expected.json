@@ -1,0 +1,233 @@
+{
+  "noninc-ctrl-q-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-ctrl-h-rubs-out": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-ctrl-h-on-empty-aborts": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-escape-inserted": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "noninc-escape-with-bracketed-paste-enabled": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-bracketed-paste-string": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 6, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-eof-while-reading": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-c-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "echo done", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-c-locale-8bit": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "caf\udce9 noir", "point": 3, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "caf\udce9 noir"}
+    ],
+    "screen": [
+      "> caf\\351 noir"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-forward-again-without-previous": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-callback-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": null}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-callback-abort": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-search-forward-zero-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-search-backward-zero-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ma", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ma"}
+    ],
+    "screen": [
+      "> ma"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-substring-forward-zero-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-substring-backward-zero-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "te", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "te"}
+    ],
+    "screen": [
+      "> te"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-substring-forward-empty-moves-next": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "echo done", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-search-skips-identical-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 4, "end": 8, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "make it", "point": 4, "end": 7, "mark": 7, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "make all", "point": 4, "end": 8, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-substring-skips-identical-matches": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "b make", "point": 2, "end": 6, "mark": 6, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a make", "point": 2, "end": 6, "mark": 6, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a make"}
+    ],
+    "screen": [
+      "> a make"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc-active-region-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 4, "end": 10, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  }
+}

@@ -1,0 +1,140 @@
+# Non-incremental search corner cases: minibuffer editing keys, escape and
+# bracketed paste in the search string, EOF, byte locale, zero counts.
+tags: history search
+--- inputrc
+"\C-xf": history-search-forward
+"\C-xb": history-search-backward
+"\C-xs": history-substring-search-forward
+"\C-xr": history-substring-search-backward
+"\C-xn": non-incremental-forward-search-history-again
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+add_history "echo done"
+readline "> "
+
+=== noninc-ctrl-q-quotes
+tags: non-incremental-reverse-search-history quoted-insert
+signals: off
+keys: \M-pmak\C-qe<pause>\r<dump>\r
+
+=== noninc-ctrl-h-rubs-out
+tags: non-incremental-reverse-search-history
+keys: \M-pgitx\C-h\r<dump>\r
+
+=== noninc-ctrl-h-on-empty-aborts
+tags: non-incremental-reverse-search-history
+keys: abc\M-p\C-h<dump>\r
+
+=== noninc-escape-inserted
+tags: non-incremental-reverse-search-history
+keys: \M-pmake\e<pause>\r<snap><dump>\r
+
+=== noninc-escape-with-bracketed-paste-enabled
+tags: non-incremental-reverse-search-history bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+\M-pmake\e<pause>\r<dump>\r
+
+=== noninc-bracketed-paste-string
+tags: non-incremental-reverse-search-history bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+\M-p<paste-start>git st<paste-end>\r<dump>\r
+
+=== noninc-eof-while-reading
+tags: non-incremental-reverse-search-history eof
+keys: abc\M-pmak
+
+=== noninc-c-locale
+tags: non-incremental-reverse-search-history locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+keys: \M-pecho\r<dump>\r
+
+=== noninc-c-locale-8bit
+tags: non-incremental-reverse-search-history locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set convert-meta off
+set input-meta on
+--- script
+add_history "caf\xe9 noir"
+add_history "other"
+readline "> "
+--- keys
+\M-p\xe9\r<dump>\r
+
+=== noninc-forward-again-without-previous
+tags: non-incremental-forward-search-history-again
+keys: abc\C-xn<dump>\r
+
+=== noninc-callback-eof
+tags: non-incremental-reverse-search-history callback eof
+--- script
+add_history "make all"
+callback "> "
+--- keys
+\M-pmak
+
+=== noninc-callback-abort
+tags: non-incremental-reverse-search-history callback
+--- script
+add_history "make all"
+callback "> "
+--- keys
+abc\M-pmak\C-g<dump>\r
+
+=== history-search-forward-zero-count
+tags: history-search-forward numarg
+keys: \C-p\C-p\M-0\C-xf<dump>\r
+
+=== history-search-backward-zero-count
+tags: history-search-backward numarg
+keys: ma\M-0\C-xb<dump>\r
+
+=== history-substring-forward-zero-count
+tags: history-substring-search-forward numarg
+keys: \C-p\C-p\M-0\C-xs<dump>\r
+
+=== history-substring-backward-zero-count
+tags: history-substring-search-backward numarg
+keys: te\M-0\C-xr<dump>\r
+
+=== history-substring-forward-empty-moves-next
+tags: history-substring-search-forward
+keys: \C-p\C-p\C-a\C-xs<dump>\r
+
+=== history-search-skips-identical-matches
+tags: history-search-backward
+--- script
+add_history "make all"
+add_history "make all"
+add_history "make it"
+add_history "make all"
+add_history "x"
+readline "> "
+--- keys
+make\C-xb<dump>\C-xb<dump>\C-xb<dump>\r
+
+=== history-substring-skips-identical-matches
+tags: history-substring-search-backward
+--- script
+add_history "a make"
+add_history "b make"
+add_history "b make"
+add_history "x"
+readline "> "
+--- keys
+make\C-xr<dump>\C-xr<dump>\r
+
+=== noninc-active-region-match
+tags: non-incremental-reverse-search-history active-region
+--- inputrc
+set enable-active-region on
+--- keys
+\M-pstat\r<dump>\r
