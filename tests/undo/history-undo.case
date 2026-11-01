@@ -40,3 +40,15 @@ tags: callback abort
 callback "> "
 --- keys
 ab\C-g<dumpfull>c<dumpfull>\r
+
+=== undo-on-entry-updates-entry
+tags: undo-command previous-history
+keys: \C-pX<down>\C-p\C-_<down>\r
+
+=== partial-undo-on-entry-updates-entry
+tags: undo-command previous-history
+keys: \C-pX<pause>\M-b\M-uY<down>\C-p\C-_<down>\r
+
+=== revert-line-on-entry-updates-entry
+tags: revert-line previous-history
+keys: \C-pX<down>\C-p\M-r\r

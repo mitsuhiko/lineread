@@ -95,6 +95,7 @@ pub unsafe extern "C" fn rl_do_undo() -> c_int {
         return 0;
     }
     let mut waiting_for_begin = 0;
+    let entry = crate::histcmds::current_entry_sharing(rl_undo_list.get());
     set_state(RL_STATE_UNDOING);
     loop {
         let u = rl_undo_list.get();
@@ -132,6 +133,9 @@ pub unsafe extern "C" fn rl_do_undo() -> c_int {
         }
     }
     unset_state(RL_STATE_UNDOING);
+    if let Some(o) = entry {
+        crate::histcmds::entry_undone(o);
+    }
     1
 }
 

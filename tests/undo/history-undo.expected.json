@@ -93,5 +93,38 @@
       ">"
     ],
     "cursor": [1, 0]
+  },
+  "undo-on-entry-updates-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "partial-undo-on-entry-updates-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "TWOX", "timestamp": "", "data": "<ptr>"}]}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "revert-line-on-entry-updates-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "two"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 1, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> two"
+    ],
+    "cursor": [1, 0]
   }
 }
