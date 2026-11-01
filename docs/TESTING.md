@@ -20,6 +20,10 @@ Contents:
 12. [Linux (Docker)](#12-linux-docker)
 13. [Pitfalls and tips](#13-pitfalls-and-tips)
 14. [Extending the driver](#14-extending-the-driver)
+15. [Completeness audit](#15-completeness-audit)
+16. [Differential fuzzer](#16-differential-fuzzer)
+17. [Real-program smoke tier](#17-real-program-smoke-tier)
+18. [Without the GNU source (clean-room phase)](#18-without-the-gnu-source-clean-room-phase)
 
 ---
 
@@ -33,6 +37,10 @@ rlt                      runner entry point (./rlt --help)
 tests/<area>/*.case      test cases (hand written)
 tests/<area>/*.expected.json            recorded expectations (generated)
 tests/<area>/*.expected.<platform>.json per-platform overrides (generated, rare)
+tests/<area>/*.expected.ref-<platform>.json reference-quirk overrides (§6)
+tests/apps/              real-program smoke tier (§17)
+docs/AUDIT.txt           completeness audit report (§15), docs/UNTESTED.md exceptions
+docs/IMPLEMENTING.md     guide for the Rust implementation
 conformance/check.py     header/ABI conformance tier
 conformance/abi.<platform>.json         recorded header facts from GNU's headers
 ref/build.sh             builds the reference outside the repo (../lineread-ref)
@@ -40,7 +48,9 @@ docker/                  Linux image + docker/run.sh
 Makefile                 builds build/<platform>/<impl>/rl-driver
 ```
 
-The reference lives in `../lineread-ref/` (override with `LINEREAD_REF`):
+After the clean-room cut the reference exists only in compiled form in
+`../lineread-ref-bin/<platform>/` (§18). Before it, the reference lives in
+`../lineread-ref/` (override with `LINEREAD_REF`):
 `src/` (git checkout of tag `readline-8.3`), `build-plain/`, `build-cov/`,
 `build-asan/` (static `libreadline.a`), `gnu-include/` (symlinks used only to
 record the conformance data). On Linux the build directories carry a
@@ -275,8 +285,24 @@ with `--record`.
   `linux`) containing only the cases whose result on this platform differs
   from the common file, and removes overrides that became identical. When
   checking, an override replaces the common entry for that case. Use this
-  only for genuine platform differences (e.g. `~root` is `/var/root` on
-  macOS); prefer making the case portable.
+  only for genuine platform differences of the *environment* that every
+  implementation sees the same way (e.g. `~root` is `/var/root` on macOS,
+  the password database lists `root` twice); prefer making the case
+  portable. There are only two such cases.
+* `--record-ref-quirk` writes `b.expected.ref-<platform>.json`: libc quirks
+  of the *reference* on one platform that an implementation must not copy.
+  These overrides apply only to `--impl ref|cov|asan`; every other
+  implementation is compared with the common expectation on all platforms,
+  so implementers target a single behaviour. Example: vi word motions
+  classify bytes with `isalnum`; macOS treats bytes >= 0x80 as Latin-1
+  letters, glibc does not. The common expectation is glibc's (bytes >= 0x80
+  are not word characters); the macOS reference result is a ref quirk
+  (`tests/vi/motions.expected.ref-darwin.json`). To create one: record the
+  common entry on the platform with the sane behaviour, then run
+  `--record-ref-quirk` on the other.
+* When a value legitimately differs between platforms but is not the point
+  of the case (e.g. an errno value), drop it with `ignore:` and say why in
+  `description:`.
 * Fields matched by `ignore:` are dropped before recording and comparing.
   Patterns are matched against dotted paths such as `results[2].undo` or
   `snaps[0].cursor`; `*` is a wildcard, `[` `]` are literal index brackets
@@ -288,6 +314,18 @@ row, the cursor, the exit status and every snapshot row is one *field*. A case
 passes when all fields match; `fields_passed/fields_total` gives partial
 credit in the reports and the per-area percentages. Failures print the first
 mismatching field paths with expected and actual values (`--max-diff N`).
+
+**Score.** Every run ends with one line suitable for hill climbing:
+
+```
+SCORE 99.990 cases=4402/4404 fields=57036/57045 impl=rust platform=darwin
+```
+
+The score is the mean per-case credit in percent: a passing case counts 1,
+a failing case the fraction of its fields that match, an erroring case 0.
+`./rlt --score` prints only that line; `--json` has it under `"score"` next
+to the per-area and per-tag counts. The conformance tier (§11) is included
+when no paths are given.
 
 ## 7. Driver script language
 
@@ -333,7 +371,9 @@ Special records: `{"op": "readline", "ret": ...}`, `{"op": "callback",
 
 Strings are byte exact: valid UTF-8 as is, control characters escaped,
 invalid bytes as lone surrogates `\udcXX`. `HIST_ENTRY` values are
-`{"line", "timestamp", "data"}` (`data` as an integer). Timestamps and
+`{"line", "timestamp", "data"}` (`data` as an integer; readline stores undo
+lists as the data of edited entries, such heap pointers are shown as
+`"<ptr>"`). Timestamps and
 `time_t` values within two days of the current time are shown as `<now>`
 (readline stamps entries with the wall clock); this applies to `file_read`
 contents too.
@@ -374,6 +414,9 @@ commands, API signatures, variables and hooks.
 | `signal SIG record\|default\|ignore` | driver disposition for INT QUIT WINCH TSTP TERM HUP ALRM CONT TTIN TTOU USR1 USR2 |
 | `raise SIG` | `kill(getpid(), SIG)` |
 | `option nodefuns` / `option nosetlocale` | (anywhere in the main script) skip registering the driver's bindable functions / the `setlocale` call |
+| `option libgetc` | the driver's `rl_getc_function` reports idleness and then lets the library's `rl_getc` block in its own `select`/`read` (covers `rl_set_timeout` expiring while blocked, EINTR handling, signals during a read). The callback loop then calls `rl_callback_read_char` without waiting itself. Restrictions: no `<dump>`/`<dumpfull>`, EOF is not delivered (use `eof: off` and end the reading), and signal keys are reported while readline still restores the terminal, so compare only results (`ignore: screen cursor snaps`). See tests/input/timeout.case |
+| `option rlfree` | free library-allocated strings returned by API calls with `rl_free()` instead of `free()` |
+| `kill_after MS SIG` | a child process sends SIG to the driver after MS milliseconds (interrupts a read blocked in the library, with `option libgetc`) |
 | `sleep_ms N`, `exit [CODE]` | |
 
 Bindable functions registered by the driver (bind them in the inputrc or
@@ -509,17 +552,19 @@ library, so the driver does not call it.
 
 | option | |
 |---|---|
-| `--impl ref\|cov\|asan\|rust` | which build to link the driver against (default `ref`) |
+| `--impl ref\|cov\|asan\|rust\|rust-asan` | which build to link the driver against (default `ref`; `rust-asan` = Rust library, driver under ASan/UBSan) |
 | `-t TAG` / `-T TAG` | only / exclude cases with TAG (repeatable) |
 | `-k GLOB` | case name or id glob (repeatable) |
 | `-j N` | parallel jobs (default: CPU count) |
 | `--repeat N` | run every case N times; differing results are `FLAKY` |
-| `--record`, `--record-platform` | write expectations (§6) |
+| `--record`, `--record-platform`, `--record-ref-quirk` | write expectations (§6) |
 | `--show` | print actual results, snapshots and screen of every selected case |
 | `--trace` | log the runner/driver protocol and raw output (implies `-j1`) |
 | `--keep` | keep the per-case directories |
 | `--list` | list selected cases |
-| `--json` | JSON summary on stdout: counts, per-area and per-tag `passed/total/fields_passed/fields_total`, per-case status and mismatches |
+| `--json` | JSON summary on stdout: counts, `score`, per-area and per-tag `passed/total/fields_passed/fields_total`, per-case status and mismatches |
+| `--score` | print only the `SCORE` line (§6) |
+| `--audit [--audit-out FILE]` | completeness audit (§15) |
 | `-v` | list passing cases too |
 | `--coverage [--coverage-html DIR]` | coverage run (§10) |
 | `--conformance` / `--no-conformance` | include the conformance tier (default: included when no paths/filters are given) |
@@ -527,7 +572,10 @@ library, so the driver does not call it.
 
 Exit status is 1 if any case failed, errored (e.g. missing expectation) or was
 flaky. The driver binary is `build/<platform>/<impl>/rl-driver`; `IMPL=rust`
-links `impl/target/release/liblineread.a` (override `RUST_LIB=`).
+runs `cargo build --release` in `impl/` and links
+`impl/target/release/liblineread.a` (override with the environment variable
+`RUST_LIB=/path/to/lib.a`, which skips cargo). Subcommands: `./rlt fuzz`
+(§16), `./rlt apps` (§17).
 
 ## 10. Coverage
 
@@ -605,6 +653,14 @@ The same expectations must pass on macOS and Linux.
   `dump` inside a block for state in the middle of a command or hook.
 * The kill ring is not part of the public API: observe it through yanking
   (`\C-y`, `\M-y`).
+* NUL after typeahead: the reference drops a NUL byte (`\C-@`, set-mark)
+  that arrives in the same read as preceding self-inserting characters
+  (its typeahead loop treats the 0 key as "nothing"). This is a reference
+  bug; cases put `<pause>` before `\C-@` so they do not depend on it.
+* `rl_instream` can be a file (`set rl_instream file:PATH`): the driver then
+  reads it with the library's `rl_getc` without synchronisation.
+* `<sleep:MS>` keeps reading the terminal while it waits (a driver blocked
+  in `tcdrain`/`TCSADRAIN` would otherwise stall).
 * A signal key flushes the tty input queue: keys after `^C` in the same
   chunk would be lost, hence the automatic chunking. Keys sent while the tty
   is in cooked mode (after `rl_deprep_terminal` or `rl_cleanup_after_signal`)
@@ -650,3 +706,87 @@ The same expectations must pass on macOS and Linux.
   run (`--impl asan`) catches ownership bugs in implementations.
 * Keep the driver on the public API only and compile it against
   `include/readline` (the Makefile does).
+
+## 15. Completeness audit
+
+`./rlt --audit --audit-out docs/AUDIT.txt` runs the suite with the driver's
+usage trace (`RLD_TRACE`: every command, `set`/`get`, hook call, and every
+bindable function readline dispatched, resolved through the funmap including
+aliases) and counts, per case, which of these are exercised:
+
+* every name in `rl_funmap_names` (key binding, named command, `invoke`,
+  `rl_xxx COUNT KEY`; `do-lowercase-version` via upper-case meta keys);
+* every inputrc variable from `rl_variable_dumper`, with the values used
+  (static scan of inputrc sections, fixture files and scripts: `set NAME
+  VALUE`, `rl_variable_bind`, `rl_variable_value`); booleans need the
+  non-default value in 3 cases, enumerations every value, numbers and
+  strings 2 non-default values;
+* every function and variable declared in `include/readline/*.h`
+  (`conformance/abi.<platform>.json`), counting driver commands, `set`/`get`
+  of variables and hooks, hooks actually called.
+
+Anything below three cases is a gap unless listed in `docs/UNTESTED.md`
+with the reason. The committed `docs/AUDIT.txt` has the full table; keep
+it at zero gaps when adding API surface.
+
+## 16. Differential fuzzer
+
+`./rlt fuzz` (runner/lrt/fuzz.py) generates random but valid cases and runs
+each against two implementations, comparing every field:
+
+```sh
+./rlt fuzz --a ref --b rust -n 2000 --seed 1     # the real use
+./rlt fuzz --a ref --b ref -n 3000               # self-check (harness determinism)
+./rlt fuzz --a ref --b asan -n 2000              # self-check + memory errors
+./rlt fuzz --flaky 5 -n 500                      # reference only, each case 5 times
+./rlt fuzz --print 17 --seed 1                   # show the case of one iteration
+./rlt fuzz --b-driver path/to/rl-driver ...      # any driver binary
+```
+
+A case = random inputrc (editing mode, booleans, valued variables, a
+macro), prompt (plain, empty, long, multi-line, invisible escapes, UTF-8),
+screen size, history preload, completion word list or filename completion
+over fixture files, `readline` or `callback` mode, and 3-40 tokens from a
+weighted alphabet (text, UTF-8, emacs bindings, vi insert/command keys,
+`<dump>`/`<snap>` probes). Iteration `i` of seed `s` always produces the
+same case. Signal keys and slow features (paren blinking) are excluded; a
+NUL is always preceded by `<pause>` (§13).
+
+On a mismatch the tokens, then the inputrc lines, history, word list and
+fixture files are minimised (greedy delta debugging; both implementations
+are re-run each step) and a case is written to
+`tests/fuzz/fuzz-<seed>-<iteration>.case` with the first differences in a
+comment. Check it, rename it into a proper area if it shows a real
+behaviour, and record it against the reference
+(`./rlt tests/fuzz/fuzz-1-42.case --record`). Only the compiled reference
+driver/library is needed. `--json` gives a summary; exit status 1 when
+anything differed.
+
+## 17. Real-program smoke tier
+
+`tests/apps/` builds the CPython readline module, the sqlite3 shell and the
+Lua REPL against our headers and an implementation's library and drives
+them on a pty (`./rlt apps --impl ref|asan|rust`, see tests/apps/README.md).
+It is not part of the score.
+
+## 18. Without the GNU source (clean-room phase)
+
+`ref/export-bin.sh` (run once per platform before the cut, Linux via
+`docker/run.sh ref/export-bin.sh`) copies the compiled reference to
+`../lineread-ref-bin/<platform>/` (override `LINEREAD_REF_BIN`):
+
+```
+lib/plain/libreadline.a libhistory.a    -O1 -fPIC, debug info stripped
+lib/asan/libreadline.a  libhistory.a    ASan+UBSan
+rl-driver rl-driver-asan                prebuilt drivers (black-box oracle)
+MANIFEST                                provenance and sha256 sums
+```
+
+When `../lineread-ref/build-*` is absent, `make IMPL=ref|asan` links the
+current driver source against these libraries, so `./rlt`, `./rlt --impl
+asan`, recording, the fuzzer and the apps tier keep working; the driver can
+still be extended. Not available without the source: `--impl cov` /
+`--coverage`, and re-recording `conformance/abi.<platform>.json`. The
+prebuilt `rl-driver` binaries can be used directly with `--driver` /
+`--a-driver`.
+
