@@ -1,0 +1,14 @@
+#!/bin/sh
+# lineread test runner: ./rlt --help (see docs/TESTING.md)
+HERE=$(cd "$(dirname "$0")" && pwd)
+PLAT="$(uname -s | tr A-Z a-z)-$(uname -m)"
+VENV="$HERE/runner/.venv-$PLAT"
+if [ -x "$VENV/bin/python" ]; then
+  PY="$VENV/bin/python"
+elif python3 -c 'import pyte' 2>/dev/null; then
+  PY=python3
+else
+  "$HERE/runner/setup.sh" >/dev/null || exit 1
+  PY="$VENV/bin/python"
+fi
+PYTHONPATH="$HERE/runner${PYTHONPATH:+:$PYTHONPATH}" exec "$PY" -m lrt.cli "$@"
