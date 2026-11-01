@@ -18,6 +18,11 @@ static LAST_KILL: CVar<bool> = CVar::new(false);
 static THIS_YANK: CVar<bool> = CVar::new(false);
 static LAST_YANK: CVar<bool> = CVar::new(false);
 
+/// Is the kill ring empty (yank would abort)?
+pub fn kill_ring_empty() -> bool {
+    RING.get_mut().is_empty()
+}
+
 /// Was the previous command a yank (so yank-pop can work)?
 pub fn last_command_was_yank() -> bool {
     LAST_YANK.get() && !RING.get_mut().is_empty()

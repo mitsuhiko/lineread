@@ -132,6 +132,8 @@ pub fn delete(from: usize, to: usize) -> c_int {
     to = to.min(e);
     from = from.min(to);
     if from == to {
+        // an empty deletion is still recorded (observed)
+        crate::undo::record_delete(from, to, b"");
         return 0;
     }
     let text = line()[from..to].to_vec();

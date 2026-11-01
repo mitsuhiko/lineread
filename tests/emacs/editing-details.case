@@ -65,3 +65,12 @@ tags: print-last-kbd-macro
 "\C-xp": print-last-kbd-macro
 --- keys
 ab\C-x(\C-x)\C-xp<snap>\r
+
+=== numarg-not-kept-for-pushed-back-key
+description: self-insert typeahead pushes the first non-insert key back; that key runs without the argument
+tags: numarg typeahead self-insert
+keys: ab\M-3,x<bs><dumpfull>\r
+
+=== transpose-chars-single-multibyte-char
+tags: transpose-chars utf8 undo
+keys: é\C-t<dumpfull>\r

@@ -171,5 +171,27 @@
         "cursor": [2, 4]
       }
     ]
+  },
+  "numarg-not-kept-for-pushed-back-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab,,,", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["delete", 5, 6, "x"], ["insert", 2, 6, null], ["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "backward-delete-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 127, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ab,,,"}
+    ],
+    "screen": [
+      "> ab,,,"
+    ],
+    "cursor": [1, 0]
+  },
+  "transpose-chars-single-multibyte-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "é", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["delete", 0, 0, ""], ["begin", 0, 0, null], ["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "transpose-chars", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 20, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "é"}
+    ],
+    "screen": [
+      "> é"
+    ],
+    "cursor": [1, 0]
   }
 }
