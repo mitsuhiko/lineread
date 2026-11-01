@@ -1,0 +1,27 @@
+tags: reverse-search-history vi
+
+=== vi-insert-search-marks-end
+--- inputrc
+set editing-mode vi
+--- script
+add_history "make all"
+readline "> "
+--- keys
+\C-rke\C-j<dump>\r
+
+=== vi-command-search-marks-end
+--- inputrc
+set editing-mode vi
+--- script
+add_history "make all"
+readline "> "
+--- keys
+\e<pause>\C-rmak\C-j<dump>\r
+
+=== vi-search-same-line-keeps-match-mark
+--- inputrc
+set editing-mode vi
+--- script
+readline "> "
+--- keys
+make\C-rak\C-j<dump>\r

@@ -352,13 +352,12 @@ impl Isearch {
             self.restore();
             buffer::rl_point.set(point.min(buffer::end()) as c_int);
         } else {
-            let mark = buffer::rl_mark.get();
             self.restore();
             buffer::rl_point.set(self.orig_point);
             histcmds::goto_history(hp as c_int);
             buffer::rl_point.set(point.min(buffer::end()) as c_int);
             if crate::readline::rl_editing_mode.get() != crate::readline::EMACS_MODE {
-                buffer::rl_mark.set(mark.min(buffer::rl_end.get()));
+                buffer::rl_mark.set(buffer::rl_end.get());
             }
         }
     }

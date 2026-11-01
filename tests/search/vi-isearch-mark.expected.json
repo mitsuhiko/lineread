@@ -1,0 +1,35 @@
+{
+  "vi-insert-search-marks-end": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 2, "end": 8, "mark": 8, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-command-search-marks-end": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 8, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-same-line-keeps-match-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make", "point": 1, "end": 4, "mark": 3, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make"}
+    ],
+    "screen": [
+      "> make"
+    ],
+    "cursor": [1, 0]
+  }
+}
