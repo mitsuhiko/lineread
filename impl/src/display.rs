@@ -1251,64 +1251,6 @@ pub fn screen_resized() {
     }
 }
 
-// ---------------------------------------------------------------- paren blinking
-
-/// Find the opening bracket matching `closer` scanning back from `from`
-/// (quoted stretches are skipped).
-fn find_matching_open(line: &[u8], from: isize, closer: u8) -> isize {
-    let opener = match closer {
-        b']' => b'[',
-        b'}' => b'{',
-        b')' => b'(',
-        _ => return -1,
-    };
-    let quotes = unsafe { cstr(crate::complete::rl_basic_quote_characters.get()).to_vec() };
-    let mut level = 1;
-    let mut delim = 0u8;
-    let mut i = from;
-    while i > -1 {
-        let c = line[i as usize];
-        if delim != 0 && c == delim {
-            delim = 0;
-        } else if quotes.contains(&c) && c != 0 {
-            delim = c;
-        } else if delim == 0 && c == closer {
-            level += 1;
-        } else if delim == 0 && c == opener {
-            level -= 1;
-        }
-        if level == 0 {
-            break;
-        }
-        i -= 1;
-    }
-    i
-}
-
-/// insert-close: insert the bracket; with blink-matching-paren show the
-/// matching opener for `timeout_us` or until input arrives.
-pub unsafe fn insert_close(count: c_int, key: c_int, timeout_us: c_int) -> c_int {
-    // (always inserted, also in overwrite mode)
-    if crate::numarg::rl_explicit_arg.get() != 0 || crate::vars::blink_matching_paren.get() == 0 {
-        crate::commands::text::insert_chars(&[key as u8], count.max(0) as usize);
-        return 0;
-    }
-    crate::commands::text::insert_chars(&[key as u8], 1);
-    redisplay();
-    let line = buffer::line().to_vec();
-    let point = buffer::point();
-    let m = find_matching_open(&line, point as isize - 2, key as u8);
-    if m < 0 {
-        return 1;
-    }
-    let orig = buffer::rl_point.get();
-    buffer::rl_point.set(m as c_int);
-    redisplay();
-    crate::input::input_available(timeout_us as i64);
-    buffer::rl_point.set(orig);
-    0
-}
-
 // ---------------------------------------------------------------- chars
 
 #[no_mangle]
