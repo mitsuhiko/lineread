@@ -131,5 +131,32 @@
       ">"
     ],
     "cursor": [1, 0]
+  },
+  "abort-through-key-sequence-no-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED", "CALLBACK"], "undo": [["insert", 0, 1, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 41, "executing_keyseq": "\u0018)", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "a"},
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 13, "executing_keyseq": "\r", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0}
+    ],
+    "screen": [
+      "> a",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "named-command-cancelled-is-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "EOF"], "undo": [["insert", 0, 1, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "execute-named-command", "done": 0, "eof_found": 1, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "\u001bx", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "a"},
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 13, "executing_keyseq": "\r", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0}
+    ],
+    "screen": [
+      "> a",
+      "",
+      ">"
+    ],
+    "cursor": [2, 0]
   }
 }

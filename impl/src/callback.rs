@@ -213,12 +213,6 @@ unsafe fn resume() {
         // a fresh one with the next key (rl_callback_read_char returns)
         abandon();
         crate::dispatch::rl_last_func.set(None);
-        // (an aborted emacs command reached through a key sequence is a
-        // failure reported as EOF, like the reference)
-        if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE && crate::dispatch::rl_key_sequence_length.get() > 1 {
-            set_state(RL_STATE_EOF);
-            crate::readline::rl_eof_found.set(1);
-        }
         crate::readline::after_command();
         crate::display::redisplay();
         let c = lr_coro_new(STACK_SIZE, worker_resume_line, null_mut());

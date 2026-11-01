@@ -46,3 +46,12 @@ keys: a\C-xb<dumpfull>\r
 
 === empty-prompt-empty-line
 keys: \r
+
+=== abort-through-key-sequence-no-eof
+tags: yank-pop end-kbd-macro
+description: aborting commands (yank-pop without a yank, end-kbd-macro without a definition) are not failures
+keys: a\M-y\C-x)<dumpfull>\r
+
+=== named-command-cancelled-is-eof
+tags: execute-named-command
+keys: a\M-xba\C-g<dumpfull>\r
