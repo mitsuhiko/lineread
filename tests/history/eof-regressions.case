@@ -1,0 +1,39 @@
+tags: history eof
+
+=== vi-empty-replace-at-eof
+--- inputrc
+set editing-mode vi
+--- script
+add_history "foo"
+readline "> " 1
+history_dump
+--- keys
+\e<pause>kR
+
+=== vi-empty-insert-at-eof
+--- inputrc
+set editing-mode vi
+--- script
+add_history "foo"
+readline "> " 1
+history_dump
+--- keys
+\e<pause>ki
+
+=== vi-replace-edit-at-eof
+--- inputrc
+set editing-mode vi
+--- script
+add_history "foo"
+readline "> " 1
+history_dump
+--- keys
+\e<pause>kRX
+
+=== emacs-edit-at-eof
+--- script
+add_history "foo"
+readline "> " 1
+history_dump
+--- keys
+\C-px

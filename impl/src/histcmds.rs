@@ -101,7 +101,19 @@ pub fn line_finished() {
         SAVED_POINT.set(if p == e { -1 } else { p });
         let o = history_offset.get();
         let e = history::entry_at(o);
-        if !e.is_null() && !rl_undo_list.get().is_null() {
+        // An open undo group alone is not an edit.  In particular, EOF
+        // after entering vi insert/replace mode clears the line buffer but
+        // must not overwrite the unchanged history entry.
+        let mut u = rl_undo_list.get();
+        let mut edited = false;
+        while !u.is_null() {
+            if (*u).what == UNDO_INSERT || (*u).what == UNDO_DELETE {
+                edited = true;
+                break;
+            }
+            u = (*u).next;
+        }
+        if !e.is_null() && edited {
             let text = buffer::line().to_vec();
             let pt = buffer::rl_point.get();
             crate::undo::rl_revert_line(1, 0);

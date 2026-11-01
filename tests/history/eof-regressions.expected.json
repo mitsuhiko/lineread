@@ -1,0 +1,46 @@
+{
+  "vi-empty-replace-at-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "foo", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> foo"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-empty-insert-at-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "foo", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> foo"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-replace-edit-at-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> Xoo"
+    ],
+    "cursor": [1, 0]
+  },
+  "emacs-edit-at-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> foox"
+    ],
+    "cursor": [1, 0]
+  }
+}
