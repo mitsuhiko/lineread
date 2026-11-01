@@ -1060,10 +1060,12 @@ fn find_matching_open(line: &[u8], from: isize, closer: u8) -> isize {
 /// insert-close: insert the bracket; with blink-matching-paren show the
 /// matching opener for `timeout_us` or until input arrives.
 pub unsafe fn insert_close(count: c_int, key: c_int, timeout_us: c_int) -> c_int {
+    // (always inserted, also in overwrite mode)
     if crate::numarg::rl_explicit_arg.get() != 0 || crate::vars::blink_matching_paren.get() == 0 {
-        return crate::commands::text::rl_insert(count, key);
+        crate::commands::text::insert_chars(&[key as u8], count.max(0) as usize);
+        return 0;
     }
-    crate::commands::text::rl_insert(1, key);
+    crate::commands::text::insert_chars(&[key as u8], 1);
     redisplay();
     let line = buffer::line().to_vec();
     let point = buffer::point();
