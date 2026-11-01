@@ -349,3 +349,45 @@ rl_bind_keyseq "\C-xc" repl1
 readline "> " 2
 --- keys
 abc\C-xr<dumpfull>\C-_<dump>\rdef\C-xc<dumpfull>\C-_<dump>\r
+
+=== undo-negative-count
+tags: undo-command numarg
+keys: abc\M--\C-_<dump>\r
+
+=== undo-unmatched-begin-dings
+tags: rl_add_undo rl_do_undo api
+--- script
+def b
+rl_add_undo begin 0 0 NULL
+rl_do_undo
+dump
+end
+defun begin-only b
+rl_bind_keyseq "\C-xb" begin-only
+readline "> "
+--- keys
+abc\C-xb\C-_<dump>\r
+
+=== undo-with-saved-line-for-history
+tags: undo-command rl_maybe_save_line history
+--- script
+def s
+rl_maybe_save_line
+end
+defun save-line s
+rl_bind_keyseq "\C-xs" save-line
+readline "> "
+--- keys
+ab<pause>c\C-xs\C-_<dump>\C-_<dump>\r
+
+=== undo-with-saved-line-deeper
+tags: undo-command rl_maybe_save_line history
+--- script
+def s
+rl_maybe_save_line
+end
+defun save-line s
+rl_bind_keyseq "\C-xs" save-line
+readline "> "
+--- keys
+a<pause>b<pause>c\C-xs\C-b<pause>X\C-_<dump>\C-_<dump>\C-_<dump>\r

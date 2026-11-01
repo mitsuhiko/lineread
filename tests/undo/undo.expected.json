@@ -547,5 +547,62 @@
       "> cleared"
     ],
     "cursor": [2, 0]
+  },
+  "undo-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "undo-unmatched-begin-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "defun begin-only b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xb\" begin-only", "ret": 0},
+      {"op": "rl_do_undo", "ret": 1},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "undo-with-saved-line-for-history": {
+    "exit": 0,
+    "results": [
+      {"op": "defun save-line s", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xs\" save-line", "ret": 0},
+      {"op": "rl_maybe_save_line", "ret": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "undo-with-saved-line-deeper": {
+    "exit": 0,
+    "results": [
+      {"op": "defun save-line s", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xs\" save-line", "ret": 0},
+      {"op": "rl_maybe_save_line", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
   }
 }
