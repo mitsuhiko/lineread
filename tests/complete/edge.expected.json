@@ -1,0 +1,357 @@
+{
+  "ignore-case-quoted-dequoted-lcd": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": ".", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "dump", "line": "x \"with space", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space"}
+    ],
+    "screen": [
+      "> x \"with space"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-quoted-dequoted": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": ".", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "dump", "line": "x \"with space1\" ", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "dump", "line": "x \"with space2\" ", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space2\" "}
+    ],
+    "screen": [
+      "> x \"with space2\""
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-quoted-dequoted-nontrivial": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": ".", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "hook", "hook": "rl_filename_dequoting_function", "text": "with s", "quote_char": 34},
+      {"op": "dump", "line": "x \"with space1\" ", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space1\" "}
+    ],
+    "screen": [
+      "> x \"with space1\""
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-completions-in-open-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x apple apricot ", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x apple apricot "}
+    ],
+    "screen": [
+      "> x apple apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-completions-quoting-function": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"a b1 \"a b2 ", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"a b1 \"a b2 "}
+    ],
+    "screen": [
+      "> x \"a b1 \"a b2"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-completions-single-quoted": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x \"a b1 ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"a b1 "}
+    ],
+    "screen": [
+      "> x \"a b1"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-function-adds-closing-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_quoting_function", "text": "with space.txt", "match_type": 1, "quote_char": "\""},
+      {"op": "dump", "line": "x \"with space.txt\" ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"with space.txt\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quoting-function-changes-quote-char": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_quoting_function", "text": "with space.txt", "match_type": 1, "quote_char": "\""},
+      {"op": "dump", "line": "x \"'with space.txt\" ", "point": 20, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"'with space.txt\" "}
+    ],
+    "screen": [
+      "> x \"'with space.txt\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quote-found-but-no-quote-chars-needed": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x plain.txt ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x plain.txt "}
+    ],
+    "screen": [
+      "> x plain.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "skip-completed-text-replaces-rest": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "bananazz", "point": 6, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bananazz"}
+    ],
+    "screen": [
+      "> bananazz"
+    ],
+    "cursor": [1, 0]
+  },
+  "skip-completed-text-partial-overlap": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "bananaxyz", "point": 6, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bananaxyz"}
+    ],
+    "screen": [
+      "> bananaxyz"
+    ],
+    "cursor": [1, 0]
+  },
+  "directory-hook-without-trailing-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "gen filename \"x/in\"", "ret": ["subdir/inner.txt"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "directory-hook-listing-with-stats": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_directory_completion_hook", "dirname": "subdir/"},
+      {"op": "hook", "hook": "rl_directory_completion_hook", "dirname": "subdir"},
+      {"op": "hook", "hook": "rl_directory_completion_hook", "dirname": "subdir"},
+      {"op": "readline", "ret": "x subdir/"}
+    ],
+    "screen": [
+      "> x subdir/",
+      "deep/      inner.txt",
+      "> x subdir/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x subdir/",
+          "deep/      inner.txt",
+          "> x subdir/"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "stat-hook-listing-mark-directories": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_filename_stat_hook", "dirname": "subdir/deep"},
+      {"op": "hook", "hook": "rl_filename_stat_hook", "dirname": "subdir/inner.txt"},
+      {"op": "readline", "ret": "x subdir/"}
+    ],
+    "screen": [
+      "> x subdir/",
+      "deep/      inner.txt",
+      "> x subdir/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x subdir/",
+          "deep/      inner.txt",
+          "> x subdir/"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "listing-root-directory-entries": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "dev/  "},
+      {"op": "capture", "out": "dev/    "}
+    ],
+    "screen": [],
+    "cursor": [4, 0]
+  },
+  "match-ending-in-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "somedir/", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "somedir/"}
+    ],
+    "screen": [
+      "> somedir/"
+    ],
+    "cursor": [1, 0]
+  },
+  "byte-locale-ignore-case-filenames": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "gen filename \"upp\" sort", "ret": ["Upper.TXT", "upper2"]},
+      {"op": "gen filename \"UPPER.\" sort", "ret": ["Upper.TXT"]},
+      {"op": "gen filename \"x\" sort", "ret": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "byte-locale-map-case-filenames": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "gen filename \"SUB_T\" sort", "ret": ["sub-three", "sub_two"]},
+      {"op": "gen filename \"sub-t\" sort", "ret": ["sub-three", "sub_two"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "byte-locale-lcd-ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_completion_matches \"ap\" words", "ret": ["APPL", "APPLY", "Apple"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "utf8-map-case-filenames": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "gen filename \"SUB_T\" sort", "ret": ["Sub-Three", "sub_two"]},
+      {"op": "gen filename \"sub-t\" sort", "ret": ["Sub-Three", "sub_two"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "old-menu-complete-restart": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apricot apple ", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot apple "}
+    ],
+    "screen": [
+      "> apricot apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "old-menu-complete-negative-first": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "avocado ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "old-menu-complete-repeated-failure": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zz", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-repeated-failure": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zz", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zz"}
+    ],
+    "screen": [
+      "> zz"
+    ],
+    "cursor": [1, 0]
+  },
+  "menu-complete-negative-large": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-word-break-hook-returns-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "a b c", "start": 0, "end": 5},
+      {"op": "readline", "ret": "a b c"}
+    ],
+    "screen": [
+      "> a b c"
+    ],
+    "cursor": [1, 0]
+  },
+  "completion-in-vi-command-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x apricot ", "point": 10, "end": 10, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x apricot "}
+    ],
+    "screen": [
+      "> x apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-complete-star-and-equals": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x apple apricot ", "point": 16, "end": 16, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x apple apricot "}
+    ],
+    "screen": [
+      "> x ap",
+      "apple    apricot",
+      "> x apple apricot"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x ap",
+          "apple    apricot",
+          "> x ap"
+        ],
+        "cursor": [2, 5]
+      }
+    ]
+  }
+}
