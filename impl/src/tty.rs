@@ -124,7 +124,7 @@ pub unsafe extern "C" fn rl_deprep_terminal() {
         return;
     }
     if crate::vars::enable_bracketed_paste.get() != 0 && !crate::terminal::term().dumb {
-        crate::terminal::out(b"\x1b[?2004l");
+        crate::terminal::out(b"\x1b[?2004l\r");
     }
     if crate::vars::enable_keypad.get() != 0 {
         crate::terminal::out_cap("rmkx");

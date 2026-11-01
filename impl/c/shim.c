@@ -2,6 +2,10 @@
    - rl_message(const char *fmt, ...): formats with vsnprintf and hands the
      result to the Rust side (lr_message_str in src/display.rs).
    - MB_CUR_MAX is a macro (a function call on every libc). */
+#define _XOPEN_SOURCE 700
+#if defined(__APPLE__)
+#define _DARWIN_C_SOURCE
+#endif
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,3 +35,65 @@ size_t lr_mb_cur_max(void) { return MB_CUR_MAX; }
 FILE *lr_stdin(void) { return stdin; }
 FILE *lr_stdout(void) { return stdout; }
 FILE *lr_stderr(void) { return stderr; }
+
+/* ------------------------------------------------------------------ */
+/* Coroutines for the callback interface (src/callback.rs): the editing
+   loop runs on its own stack in the same thread and is suspended whenever
+   it needs input that has not arrived yet. */
+#include <ucontext.h>
+
+typedef struct lr_coro {
+  ucontext_t caller;
+  ucontext_t self;
+  void *stack;
+  size_t stack_size;
+  void (*fn)(void *);
+  void *arg;
+  int done;
+} lr_coro;
+
+static void lr_coro_entry(void) ;
+static lr_coro *lr_coro_starting;
+
+static void lr_coro_entry(void) {
+  lr_coro *c = lr_coro_starting;
+  c->fn(c->arg);
+  c->done = 1;
+  /* returns to uc_link (the caller context) */
+}
+
+lr_coro *lr_coro_new(size_t stack_size, void (*fn)(void *), void *arg) {
+  lr_coro *c = calloc(1, sizeof *c);
+  if (!c) return NULL;
+  /* malloc'd (not mmap'd) so that leak checkers scan abandoned stacks */
+  c->stack = malloc(stack_size);
+  if (!c->stack) { free(c); return NULL; }
+  c->stack_size = stack_size;
+  c->fn = fn;
+  c->arg = arg;
+  getcontext(&c->self);
+  c->self.uc_stack.ss_sp = c->stack;
+  c->self.uc_stack.ss_size = stack_size;
+  c->self.uc_link = &c->caller;
+  makecontext(&c->self, lr_coro_entry, 0);
+  return c;
+}
+
+/* Run the coroutine until it yields or finishes. */
+void lr_coro_resume(lr_coro *c) {
+  lr_coro_starting = c;
+  swapcontext(&c->caller, &c->self);
+}
+
+/* Inside the coroutine: return to the resumer. */
+void lr_coro_yield(lr_coro *c) {
+  swapcontext(&c->self, &c->caller);
+}
+
+int lr_coro_done(lr_coro *c) { return c->done; }
+
+void lr_coro_free(lr_coro *c) {
+  if (!c) return;
+  free(c->stack);
+  free(c);
+}

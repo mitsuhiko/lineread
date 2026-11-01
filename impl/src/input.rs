@@ -152,6 +152,12 @@ pub unsafe fn libc_errno() -> *mut c_int {
     }
 }
 
+/// Input queued inside the library (pushed keys, stuffed characters,
+/// macro text): reading it never blocks.
+pub fn internal_input_pending() -> bool {
+    rl_pending_input.get() != 0 || !IBUFFER.get_mut().is_empty() || crate::kbdmacro::macro_input_pending()
+}
+
 /// Is input available without blocking (within `timeout_us`)?  Considers
 /// pending/stuffed/macro input first, then the input hook or the stream.
 pub unsafe fn input_available(timeout_us: i64) -> bool {
@@ -216,7 +222,6 @@ pub unsafe fn read_key() -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_read_key() -> c_int {
-    crate::dispatch::rl_key_sequence_length.add(1);
     read_key()
 }
 

@@ -112,8 +112,6 @@ pub unsafe fn dispatch_key(key: c_int, map: Keymap) -> c_int {
             key &= 0x7f;
         }
     }
-    rl_executing_keymap.set(map);
-    rl_executing_key.set(key);
     let e = *keymap::entry(map, key as usize);
     match e.type_ {
         ISFUNC => match e.function.func {
