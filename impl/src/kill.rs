@@ -35,11 +35,11 @@ pub fn after_command() {
     LAST_YANK.set(THIS_YANK.replace(false));
 }
 
-/// The next kill starts a new kill-ring entry even if the previous command
-/// killed text (vi commands never append to the previous kill).
-pub fn start_new_kill() {
-    LAST_KILL.set(false);
-}
+/// Called by vi commands before they kill.  Nothing to do: in vi mode a
+/// kill directly after another kill replaces the kill-ring text (see
+/// add_kill; observed: `dw dw` leaves one entry), other kills get a new
+/// entry.
+pub fn start_new_kill() {}
 
 /// Add text to the kill ring: appended to (or, when `prepend`, put in
 /// front of) the last kill if the previous command killed too.
@@ -47,7 +47,10 @@ pub fn add_kill(text: &[u8], prepend: bool) {
     let ring = RING.get_mut();
     if LAST_KILL.get() && !ring.is_empty() {
         let last = ring.last_mut().unwrap();
-        if prepend {
+        if crate::readline::rl_editing_mode.get() == crate::readline::VI_MODE {
+            // vi: consecutive kills replace the text instead of growing it
+            *last = text.to_vec();
+        } else if prepend {
             let mut t = text.to_vec();
             t.extend_from_slice(last);
             *last = t;

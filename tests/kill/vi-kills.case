@@ -1,0 +1,31 @@
+# vi mode: consecutive kills replace the kill-ring text instead of
+# appending to it; separate kills get their own entries.
+tags: kill vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-e": emacs-editing-mode
+--- script
+readline "> "
+
+=== vi-consecutive-dw-replace
+tags: vi-delete-to yank-pop
+keys: one two three four\e<pause>0dw<pause>dw\C-e<pause>\C-y<dump>\M-y<dump>\r
+
+=== vi-three-dw-replace
+tags: vi-delete-to yank
+keys: one two three four\e<pause>0dwdwdw\C-e<pause>\C-y<dump>\M-y<dump>\r
+
+=== vi-separate-kills-rotate
+tags: vi-delete-to yank-pop
+keys: one two three four\e<pause>0dwwdw\C-e<pause>\C-y<dump>\M-y<dump>\M-y<dump>\r
+
+=== vi-insert-unix-word-rubout-replaces
+tags: unix-word-rubout yank
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+"\C-e": emacs-editing-mode
+--- keys
+one two three\C-w\C-w\C-e<pause>\C-y<dump>\r

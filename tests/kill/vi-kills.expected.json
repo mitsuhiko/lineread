@@ -1,0 +1,50 @@
+{
+  "vi-consecutive-dw-replace": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three four", "point": 4, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "two three four", "point": 4, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two three four"}
+    ],
+    "screen": [
+      "> two three four"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-three-dw-replace": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "three four", "point": 6, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "three four", "point": 6, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "three four"}
+    ],
+    "screen": [
+      "> three four"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-separate-kills-rotate": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three four", "point": 10, "end": 14, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "two one four", "point": 8, "end": 12, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "two three four", "point": 10, "end": 14, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two three four"}
+    ],
+    "screen": [
+      "> two three four"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-insert-unix-word-rubout-replaces": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two ", "point": 8, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two "}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  }
+}
