@@ -88,9 +88,17 @@ def write_expected(path: str, data: dict) -> None:
 
 # -- ignore patterns -------------------------------------------------------
 
+def _glob(pat: str) -> str:
+    # '[' and ']' in field paths are literal index brackets, '*' and '?'
+    # stay wildcards: results[*].undo matches results[3].undo
+    return "".join("[[]" if ch == "[" else "[]]" if ch == "]" else ch for ch in pat)
+
+
 def _path_matches(path: str, patterns: list[str]) -> bool:
     for pat in patterns:
-        if fnmatch.fnmatchcase(path, pat) or path.startswith(pat + ".") or path.startswith(pat + "["):
+        g = _glob(pat)
+        if (fnmatch.fnmatchcase(path, g) or fnmatch.fnmatchcase(path, g + ".*")
+                or fnmatch.fnmatchcase(path, g + "[[]*")):
             return True
     return False
 

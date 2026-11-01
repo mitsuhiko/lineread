@@ -1,0 +1,351 @@
+# Undo: the undo command, undo list contents, undo groups and the
+# application-level undo API.
+tags: undo
+--- script
+readline "> "
+
+=== undo-insert
+tags: undo-command
+keys: abc<pause> def<pause>\C-_<dump>\C-_<dump>\C-_<dump>\r
+
+=== undo-list-after-inserts
+tags: undo-command
+keys: a<pause>b<pause>c<dumpfull>\r
+
+=== undo-word-boundaries-group-inserts
+tags: undo-command
+keys: one two three<dumpfull>\C-_<dump>\r
+
+=== undo-delete
+tags: undo-command delete-char
+keys: abcd\C-a\C-d\C-d<dump>\C-_<dump>\C-_<dump>\r
+
+=== undo-rubout
+tags: undo-command backward-delete-char
+keys: abcd\C-?\C-?<dumpfull>\C-_<dump>\r
+
+=== undo-kill-line
+tags: undo-command kill-line
+keys: hello world\C-a\C-k<dump>\C-_<dump>\r
+
+=== undo-yank
+tags: undo-command yank
+keys: abc\C-a\C-k\C-y\C-y<dump>\C-_<dump>\r
+
+=== undo-yank-pop
+tags: undo-command yank-pop
+keys: aa<pause>\C-ubb<pause>\C-u\C-y\M-y<dumpfull>\C-_<dump>\r
+
+=== undo-transpose
+tags: undo-command transpose-chars
+keys: abc\C-t<dumpfull>\C-_<dump>\r
+
+=== undo-case
+tags: undo-command upcase-word
+keys: abc def\C-a\M-u<dumpfull>\C-_<dump>\r
+
+=== undo-with-count
+tags: undo-command numarg
+keys: a<pause>\C-?b<pause>\C-?c<pause>\M-3\C-_<dump>\r
+
+=== undo-empty-dings
+tags: undo-command
+keys: \C-_<dump>x\r
+
+=== undo-ctrl-x-ctrl-u
+tags: undo-command
+keys: abc\C-x\C-u<dump>\r
+
+=== undo-restores-point
+tags: undo-command
+keys: hello\C-a\C-d\C-e\C-_<dump>\r
+
+=== undo-all-the-way-back
+tags: undo-command
+keys: one<pause> two<pause>\C-a\M-d<pause>\C-e\C-?<pause>\C-_\C-_\C-_\C-_\C-_<dump>\r
+
+=== undo-after-history-recall
+tags: undo-command history
+--- script
+add_history "hist entry"
+readline "> "
+--- keys
+\C-pX<dump>\C-_<dump>\C-_<dump>\r
+
+=== undo-history-edits-preserved-across-moves
+tags: undo-command history
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+--- keys
+\C-p\C-?<pause>\C-p\C-n<dumpfull>\C-_<dump>\r
+
+=== undo-list-cleared-on-new-line
+tags: undo-command
+--- script
+readline "> " 2
+--- keys
+abc\r<dumpfull>\C-_<dump>x\r
+
+=== revert-line-undoes-everything
+tags: revert-line
+keys: one<pause> two<pause>\C-w\C-a\M-u<dumpfull>\M-r<dumpfull>\r
+
+=== revert-all-at-newline
+tags: revert-all-at-newline vars history
+--- inputrc
+set revert-all-at-newline on
+--- script
+add_history "first"
+add_history "second"
+readline "> "
+history_dump
+--- keys
+\C-pX\C-pY\C-n\C-n\C-p\C-p\r
+
+=== revert-all-at-newline-off
+tags: revert-all-at-newline vars history
+description: the modified entry keeps a pointer to its undo list in data; that pointer is not compared
+ignore: results[1].entries[1].data
+--- script
+add_history "first"
+add_history "second"
+readline "> "
+history_dump
+--- keys
+\C-pX\C-pY\C-n\C-n\C-p\C-p\r
+
+=== begin-end-undo-group-api
+tags: rl_begin_undo_group rl_end_undo_group api
+--- script
+def grp
+rl_begin_undo_group
+rl_insert_text "foo"
+rl_insert_text "bar"
+rl_end_undo_group
+dumpfull
+end
+defun ins-group grp
+rl_bind_keyseq "\C-xg" ins-group
+readline "> "
+--- keys
+x\C-xg\C-_<dump>\r
+
+=== nested-undo-groups
+tags: rl_begin_undo_group rl_end_undo_group api
+--- script
+def grp
+rl_begin_undo_group
+rl_insert_text "a"
+rl_begin_undo_group
+rl_insert_text "b"
+rl_end_undo_group
+rl_insert_text "c"
+rl_end_undo_group
+dumpfull
+end
+defun ins-group grp
+rl_bind_keyseq "\C-xg" ins-group
+readline "> "
+--- keys
+\C-xg\C-_<dump>\r
+
+=== add-undo-api
+tags: rl_add_undo api
+--- script
+def manual
+rl_add_undo insert 0 3 NULL
+dumpfull
+end
+defun manual-undo manual
+rl_bind_keyseq "\C-xu" manual-undo
+readline "> "
+--- keys
+abc\C-a\C-xu\C-_<dump>\r
+
+=== add-undo-delete-record
+tags: rl_add_undo api
+--- script
+def manual
+rl_add_undo delete 0 0 "XYZ"
+dumpfull
+end
+defun manual-undo manual
+rl_bind_keyseq "\C-xu" manual-undo
+readline "> "
+--- keys
+abc\C-xu\C-_<dump>\r
+
+=== do-undo-api
+tags: rl_do_undo api
+--- script
+def u
+rl_do_undo
+dump
+rl_do_undo
+dump
+end
+defun do-undo u
+rl_bind_keyseq "\C-xu" do-undo
+readline "> "
+--- keys
+ab<pause>\C-?<pause>\C-xu\r
+
+=== do-undo-empty-list
+tags: rl_do_undo api
+--- script
+def u
+rl_do_undo
+end
+defun do-undo u
+rl_bind_keyseq "\C-xu" do-undo
+readline "> "
+--- keys
+\C-xu\r
+
+=== free-undo-list-api
+tags: rl_free_undo_list api
+--- script
+def f
+rl_free_undo_list
+dumpfull
+end
+defun free-undo f
+rl_bind_keyseq "\C-xf" free-undo
+readline "> "
+--- keys
+abc\C-xf\C-_<dump>\r
+
+=== modifying-api
+tags: rl_modifying api
+--- script
+def m
+rl_modifying 0 3
+dumpfull
+end
+defun mod m
+rl_bind_keyseq "\C-xm" mod
+readline "> "
+--- keys
+abcdef\C-xm\C-a\C-d\C-d\C-d\C-_\C-_<dump>\r
+
+=== modifying-reversed-range
+tags: rl_modifying api
+--- script
+def m
+rl_modifying 4 1
+dumpfull
+end
+defun mod m
+rl_bind_keyseq "\C-xm" mod
+readline "> "
+--- keys
+abcdef\C-xm\r
+
+=== modifying-empty-range
+tags: rl_modifying api
+--- script
+def m
+rl_modifying 2 2
+dumpfull
+end
+defun mod m
+rl_bind_keyseq "\C-xm" mod
+readline "> "
+--- keys
+abcdef\C-xm\r
+
+=== insert-text-undo
+tags: rl_insert_text api
+--- script
+def i
+rl_insert_text "XY"
+end
+defun ins i
+rl_bind_keyseq "\C-xi" ins
+readline "> "
+--- keys
+ab\C-b\C-xi<dumpfull>\C-_<dump>\r
+
+=== delete-text-undo
+tags: rl_delete_text api
+--- script
+def d
+rl_delete_text 1 3
+set rl_point 1
+end
+defun del d
+rl_bind_keyseq "\C-xd" del
+readline "> "
+--- keys
+abcde\C-xd<dumpfull>\C-_<dump>\r
+
+=== undo-group-ended-unbalanced
+tags: rl_begin_undo_group api
+--- script
+def b
+rl_begin_undo_group
+rl_insert_text "q"
+end
+defun beg b
+rl_bind_keyseq "\C-xb" beg
+readline "> "
+--- keys
+x\C-xby<dumpfull>\C-_<dump>\r
+
+=== undo-in-callback-mode
+tags: undo-command callback
+--- script
+callback "> "
+--- keys
+abc<pause> def\C-_<dump>\r
+
+=== undo-list-variable-null-outside-readline
+tags: rl_undo_list
+--- script
+get rl_undo_list
+readline "> "
+get rl_undo_list
+--- keys
+abc\r
+
+=== undo-overwrite-mode-group
+tags: undo-command overwrite-mode
+keys: abcdef\C-a<ins>X<pause>Y<pause>Z<dumpfull>\C-_<dump>\r
+
+=== undo-kill-region
+tags: undo-command kill-region
+--- inputrc
+"\C-xr": kill-region
+--- keys
+abcdef\C-a\C-f\C-@\C-f\C-f\C-xr<dump>\C-_<dump>\r
+
+=== undo-tab-insert
+tags: undo-command tab-insert
+keys: a\M-\t<pause>\C-_<dump>\r
+
+=== undo-delete-horizontal-space
+tags: undo-command delete-horizontal-space
+keys: a    b\C-b\M-\\\C-_<dump>\r
+
+=== undo-quoted-insert
+tags: undo-command quoted-insert
+keys: a\C-v\C-a\C-_<dump>\r
+
+=== undo-rl-replace-line
+tags: rl_replace_line api
+--- script
+def r
+rl_replace_line "replaced" 0
+end
+def r1
+rl_replace_line "cleared" 1
+end
+defun repl r
+defun repl1 r1
+rl_bind_keyseq "\C-xr" repl
+rl_bind_keyseq "\C-xc" repl1
+readline "> " 2
+--- keys
+abc\C-xr<dumpfull>\C-_<dump>\rdef\C-xc<dumpfull>\C-_<dump>\r
