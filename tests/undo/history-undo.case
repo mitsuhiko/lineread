@@ -1,0 +1,42 @@
+# Undo lists and history navigation: which entries keep an undo list.
+tags: undo history
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+history_dump
+
+=== next-history-at-end-keeps-undo
+tags: next-history
+keys: ab<pause>c<down><dumpfull>\C-_<dump>\r
+
+=== end-of-history-at-end-keeps-undo
+tags: end-of-history
+keys: ab<pause>c\M-><dumpfull>\C-_<dump>\r
+
+=== edited-entry-end-of-history
+tags: end-of-history previous-history
+keys: \C-p\C-pX\M->\r
+
+=== failed-previous-history-then-end
+tags: previous-history end-of-history
+keys: \C-p\C-pX\C-p\M->\r
+
+=== failed-previous-history-then-next
+tags: previous-history next-history
+keys: \C-p\C-pX\C-p\C-n\M->\r
+
+=== failed-previous-history-then-accept
+tags: previous-history
+keys: \C-p\C-pX\C-p<dumpfull>\r
+
+=== edited-entry-accept-reverts
+tags: previous-history
+keys: \C-pX\C-p\C-n\r
+
+=== callback-abort-continues-line
+tags: callback abort
+--- script
+callback "> "
+--- keys
+ab\C-g<dumpfull>c<dumpfull>\r
