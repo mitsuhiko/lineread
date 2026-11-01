@@ -134,7 +134,12 @@ pub fn display_prompt_bytes() -> Vec<u8> {
             p.extend_from_slice(&mode_string());
         }
         let full = full_prompt();
-        p.extend_from_slice(split_prompt(&full).1);
+        if MSG_SAVED.get() {
+            // a message is shown whole (newlines included)
+            p.extend_from_slice(&full);
+        } else {
+            p.extend_from_slice(split_prompt(&full).1);
+        }
     }
     p
 }
@@ -142,6 +147,9 @@ pub fn display_prompt_bytes() -> Vec<u8> {
 /// Print the lines of a multi-line prompt before its last line (done once
 /// when a line starts).
 pub fn print_prompt_prefix() {
+    if MSG_SAVED.get() {
+        return;
+    }
     unsafe {
         let full = full_prompt();
         let (prefix, _) = split_prompt(&full);
@@ -247,7 +255,8 @@ fn layout_prompt(lay: &mut Lay, prompt: &[u8]) {
             continue;
         }
         if b == b'\n' {
-            lay.newline();
+            // (only in messages: written as is, counted as one column)
+            lay.put(b"\n", 1);
             i += 1;
             continue;
         }
@@ -530,6 +539,30 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
     }
 }
 
+/// Open `n` blank columns at the cursor (the rest of the row moves right).
+fn insert_columns(n: usize) {
+    match terminal::cap_param("ich", n as i32) {
+        Some(seq) => out(&seq),
+        None => {
+            for _ in 0..n {
+                out_cap("ich1");
+            }
+        }
+    }
+}
+
+/// Delete `n` columns at the cursor (the rest of the row moves left).
+fn delete_columns(n: usize) {
+    match terminal::cap_param("dch", n as i32) {
+        Some(seq) => out(&seq),
+        None => {
+            for _ in 0..n {
+                out_cap("dch1");
+            }
+        }
+    }
+}
+
 /// Clear from the cursor to the end of the row; without the capability
 /// `n` blanks are written (the cursor moves past them).
 fn clear_eol_n(n: usize) {
@@ -574,17 +607,13 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
     let n = old.len().max(new.len()).min(wend);
     for r in wtop..n {
         let empty = Vec::new();
-        let o = old.get(r).unwrap_or(&empty);
+        let mut o: Row = old.get(r).cloned().unwrap_or_default();
+        let mut patched_wide = false;
         let nr = new.get(r);
         let nrow = nr.unwrap_or(&empty);
-        if o == nrow && r < old.len() {
+        if o == *nrow && r < old.len() {
             continue;
         }
-        let mut i = 0;
-        while i < o.len() && i < nrow.len() && o[i] == nrow[i] {
-            i += 1;
-        }
-        let col: usize = nrow[..i].iter().map(|c| c.width as usize).sum();
         if r >= new.len() {
             // row no longer used: clear it
             move_to(&new, r.min(new.len().max(1) - 1), 0);
@@ -598,21 +627,69 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
                 s.cur_col = 0;
             }
             note_row();
-            clear_eol_n(row_width(o));
+            clear_eol_n(row_width(&o));
             continue;
         }
         {
             let s = SCREEN.get_mut();
-            if s.cur_row + 1 == r && s.cur_col >= w && terminal::has_auto_margins() && i < nrow.len() {
-                // at the right margin: the next character written wraps
-                // (the reference relies on the terminal's auto-margins)
+            if s.cur_row + 1 == r && s.cur_col >= w && terminal::has_auto_margins() && !nrow.is_empty() {
+                // at the right margin: writing the row's first character
+                // wraps (the reference relies on the terminal's
+                // auto-margins); the old row now starts with it
+                out(&nrow[0].bytes);
                 s.cur_row = r;
-                s.cur_col = 0;
-                if col > 0 {
-                    out(&nrow[0].bytes);
-                    s.cur_col = nrow[0].width as usize;
-                }
+                s.cur_col = nrow[0].width as usize;
                 note_row();
+                if o.is_empty() {
+                    o.push(nrow[0].clone());
+                } else if o[0].width == nrow[0].width {
+                    o[0] = nrow[0].clone();
+                } else {
+                    // a wide character was overwritten: the rest of the
+                    // old row is not where it was
+                    patched_wide = true;
+                    o[0] = nrow[0].clone();
+                }
+            }
+        }
+        let o = &o;
+        let mut i = 0;
+        while i < o.len() && i < nrow.len() && o[i] == nrow[i] {
+            i += 1;
+        }
+        let col: usize = nrow[..i].iter().map(|c| c.width as usize).sum();
+        // common suffix: insert or delete characters instead of rewriting
+        // the rest of the row (like the reference)
+        let mut j = 0;
+        while j < o.len() - i.min(o.len()) && j < nrow.len() - i && o[o.len() - 1 - j] == nrow[nrow.len() - 1 - j] {
+            j += 1;
+        }
+        if j > 0 && r < old.len() && new.len() <= old.len() && !patched_wide {
+            let omid: usize = o[i..o.len() - j].iter().map(|c| c.width as usize).sum();
+            let nmid: usize = nrow[i..nrow.len() - j].iter().map(|c| c.width as usize).sum();
+            // (the reference deletes only when it writes at least half as
+            // many columns as it deletes)
+            let can = if nmid > omid {
+                terminal::cap("ich").is_some() || (terminal::cap("ich1").is_some() && 2 * nmid >= nmid - omid)
+            } else if nmid < omid {
+                (terminal::cap("dch").is_some() || terminal::cap("dch1").is_some()) && 2 * nmid >= omid - nmid
+            } else {
+                true
+            };
+            if can && row_width(nrow) <= w {
+                move_to(&new, r, col);
+                if nmid > omid {
+                    insert_columns(nmid - omid);
+                } else if nmid < omid {
+                    delete_columns(omid - nmid);
+                }
+                let mut buf = Vec::new();
+                for c in &nrow[i..nrow.len() - j] {
+                    buf.extend_from_slice(&c.bytes);
+                }
+                out(&buf);
+                SCREEN.get_mut().cur_col += nmid;
+                continue;
             }
         }
         move_to(&new, r, col);
