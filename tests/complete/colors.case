@@ -1,0 +1,359 @@
+# Colored completion listings (colors.c, parse-colors.c): colored-stats
+# with LS_COLORS file type indicators and extensions, colored prefixes,
+# LS_COLORS parsing (escapes, errors).  Colors are invisible on the
+# emulated screen, so the listing is captured from rl_outstream with
+# rl_display_match_list (byte exact).
+tags: complete colors
+--- inputrc
+set colored-stats on
+--- file plain.txt
+--- file archive.tar
+--- file run.sh mode=0755
+--- dir dir
+--- symlink link plain.txt
+--- symlink dlink dir
+--- symlink orphan nowhere
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "plain.txt" "archive.tar" "run.sh" "dir" "link" "dlink" "orphan"
+
+=== default-colors-without-ls-colors
+env: LS_COLORS
+
+=== empty-ls-colors
+env: LS_COLORS=
+
+=== basic-file-types
+env: LS_COLORS=di=01;34:ln=01;36:ex=01;32:fi=00:or=31
+
+=== extensions
+env: LS_COLORS=*.txt=35:*.tar=01;31
+
+=== extension-later-overrides-earlier
+env: LS_COLORS=*.txt=35:*.txt=36
+
+=== extension-only-for-regular-files
+env: LS_COLORS=*.sh=33:*dir=32
+
+=== normal-color
+env: LS_COLORS=no=02:di=34
+
+=== end-color-indicator
+env: LS_COLORS=ec=\e[0m\e[K:di=34
+
+=== left-right-indicators
+env: LS_COLORS=lc=<:rc=>:di=dir:ex=exe
+
+=== reset-indicator
+env: LS_COLORS=rs=7:di=34
+
+=== link-target-coloring
+env: LS_COLORS=ln=target:di=34
+
+=== orphan-and-missing
+env: LS_COLORS=or=31:mi=05
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "orphan" "missing-file"
+
+=== missing-without-mi
+env: LS_COLORS=or=31
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "missing-file" "orphan"
+
+=== orphan-without-or
+env: LS_COLORS=ln=36
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "orphan"
+
+=== special-modes
+# (setgid is not tested: whether a user may set it depends on the
+# directory's group, which differs between platforms)
+env: LS_COLORS=su=41:st=43:ow=44:tw=45:ex=32
+--- file su mode=4755
+--- dir st mode=1755
+--- dir ow mode=0777
+--- dir tw mode=1777
+--- script
+chmod "su" 04755
+chmod "st" 01755
+chmod "ow" 0777
+chmod "tw" 01777
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "su" "st" "ow" "tw"
+
+=== special-modes-uncolored
+# indicators set to 0 or 00 count as uncolored and fall back
+env: LS_COLORS=su=0:sg=00:st=:ow=0:tw=00:ex=32:di=34
+--- script
+chmod "run.sh" 04755
+mkdir "tw"
+chmod "tw" 01777
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "run.sh" "tw"
+
+=== multi-hardlink
+env: LS_COLORS=mh=44:fi=0
+--- script
+hardlink "plain.txt" "hard"
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "plain.txt" "hard" "archive.tar"
+
+=== fifo-and-socket
+env: LS_COLORS=pi=33:so=35
+--- script
+mkfifo "pipe"
+mksocket "sock"
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "pipe" "sock"
+
+=== char-device
+env: LS_COLORS=cd=01;33
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "/dev/" "/dev/null"
+
+=== directory-path-prefix
+env: LS_COLORS=di=34:*.txt=35
+--- file dir/inner.txt
+--- dir dir/sub
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "dir/" "dir/inner.txt" "dir/sub"
+
+=== visible-stats-with-colors
+env: LS_COLORS=di=34:ex=32:ln=36
+--- inputrc
+set colored-stats on
+set visible-stats on
+
+=== not-filename-completion
+env: LS_COLORS=di=34
+--- script
+rl_initialize
+set rl_filename_completion_desired 0
+capture display_match_list "" "dir" "plain.txt"
+
+=== escapes-backslash
+env: LS_COLORS=di=\e[1m\a\b\f\n\r\t\v\?\_x:ex=\101\x42\x4a
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir" "run.sh"
+
+=== escapes-caret
+env: LS_COLORS=di=^[[1m:ex=^?^@
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir" "run.sh"
+
+=== escapes-octal-hex-terminated
+env: LS_COLORS=di=\33x:ex=\x1bz:ln=\0
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir" "run.sh" "link"
+
+=== extension-with-escape
+env: LS_COLORS=*\x2etxt=35
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "plain.txt"
+
+=== unknown-prefix-recovers
+env: LS_COLORS=xx=1:di=34
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir"
+
+=== unknown-prefix-at-end
+env: LS_COLORS=di=34:zz=1
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir"
+
+=== error-single-char-label
+env: LS_COLORS=d
+--- script
+rl_initialize
+get rl_readline_state
+rl_variable_value "colored-stats"
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir"
+
+=== error-missing-equals
+env: LS_COLORS=di34
+--- script
+rl_initialize
+rl_variable_value "colored-stats"
+
+=== error-extension-missing-equals
+env: LS_COLORS=*.txt
+--- script
+rl_initialize
+rl_variable_value "colored-stats"
+
+=== error-bad-caret
+env: LS_COLORS=di=^1
+--- script
+rl_initialize
+rl_variable_value "colored-stats"
+
+=== error-trailing-backslash
+env: LS_COLORS=di=34\
+--- script
+rl_initialize
+rl_variable_value "colored-stats"
+
+=== error-disables-colored-prefix
+env: LS_COLORS=*.x
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+rl_variable_value "colored-completion-prefix"
+
+=== parse-only-when-enabled
+# LS_COLORS is only read at initialisation when a color option is on
+env: LS_COLORS=di
+--- inputrc
+set colored-stats off
+--- script
+rl_initialize
+rl_variable_value "colored-stats"
+
+=== reparse-colors
+env: LS_COLORS=di=34
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir"
+setenv LS_COLORS "di=35"
+rl_reparse_colors
+capture display_match_list "" "dir"
+rl_reparse_colors
+capture display_match_list "" "dir"
+
+=== reparse-colors-no-change
+env: LS_COLORS
+--- script
+rl_initialize
+rl_reparse_colors
+set rl_filename_completion_desired 1
+capture display_match_list "" "dir"
+
+=== colored-prefix-default
+env: LS_COLORS=di=34
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "pl" "plain.txt" "plan"
+
+=== colored-prefix-custom
+env: LS_COLORS=*readline-colored-completion-prefix=01;32:so=35
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "pl" "plain.txt" "plan"
+
+=== colored-prefix-with-stats
+env: LS_COLORS=*.txt=35
+--- inputrc
+set colored-completion-prefix on
+set colored-stats on
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "pl" "plain.txt" "plan"
+
+=== colored-prefix-words
+env: LS_COLORS=so=33
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+capture display_match_list "ab" "abc" "abd"
+
+=== colored-prefix-with-directory
+env: LS_COLORS=so=33:di=34
+--- inputrc
+set colored-completion-prefix on
+--- file dir/plain1
+--- file dir/plain2
+--- script
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "dir/pl" "dir/plain1" "dir/plain2"
+
+=== colored-prefix-no-prefix-color
+env: LS_COLORS=so=:di=34
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+capture display_match_list "ab" "abc" "abd"
+
+=== colored-prefix-normal-color
+env: LS_COLORS=no=02:so=33
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+capture display_match_list "ab" "abc" "abd"
+
+=== colored-prefix-with-display-length
+# completion-prefix-display-length takes precedence over coloring
+env: LS_COLORS=so=33
+--- inputrc
+set colored-completion-prefix on
+set completion-prefix-display-length 2
+--- script
+rl_initialize
+capture display_match_list "abcdef" "abcdefX" "abcdefY"
+
+=== colored-prefix-longer-than-max
+env: LS_COLORS=so=33
+--- inputrc
+set colored-completion-prefix on
+--- script
+rl_initialize
+capture display_match_list "abcdefgh" "ab" "ac"
+
+=== colored-listing-in-readline
+# the colored listing during readline: compare the screen text only
+env: LS_COLORS=di=34:ex=32
+--- script
+readline "> "
+--- keys
+\t\t<snap>\r
+
+=== colored-prefix-in-readline
+env: LS_COLORS=so=33
+--- inputrc
+set colored-completion-prefix on
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+ap\t\t<snap>\r
