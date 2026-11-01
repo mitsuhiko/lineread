@@ -1,0 +1,218 @@
+{
+  "whitespace": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a b\"", "ret": ["a", "b"]},
+      {"op": "history_tokenize \"  a   b  \"", "ret": ["a", "b"]},
+      {"op": "history_tokenize \"a\\tb\\nc\"", "ret": ["a", "b", "c"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "empty-and-blank": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"\"", "ret": null},
+      {"op": "history_tokenize \" \\t \"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "single-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a 'b c' d\"", "ret": ["a", "'b c'", "d"]},
+      {"op": "history_tokenize \"'a''b'\"", "ret": ["'a''b'"]},
+      {"op": "history_tokenize \"x'y z'w\"", "ret": ["x'y z'w"]},
+      {"op": "history_tokenize \"'unterminated quote\"", "ret": ["'unterminated quote"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "double-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a \\\"b c\\\" d\"", "ret": ["a", "\"b c\"", "d"]},
+      {"op": "history_tokenize \"\\\"a \\\\\\\" b\\\"\"", "ret": ["\"a \\\" b\""]},
+      {"op": "history_tokenize \"\\\"unterminated\"", "ret": ["\"unterminated"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backquotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a `b c` d\"", "ret": ["a", "`b c`", "d"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a\\\\ b c\"", "ret": ["a\\ b", "c"]},
+      {"op": "history_tokenize \"a\\\\\"", "ret": ["a\\"]},
+      {"op": "history_tokenize \"'a\\\\' b\"", "ret": ["'a\\'", "b"]},
+      {"op": "history_tokenize \"\\\"a\\\\$b\\\" c\"", "ret": ["\"a\\$b\"", "c"]},
+      {"op": "history_tokenize \"\\\"a\\\\x b\\\" c\"", "ret": ["\"a\\x b\"", "c"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backslash-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a\\\\\\nb c\"", "ret": ["a\\\nb", "c"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "pipes-and-lists": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a|b\"", "ret": ["a", "|", "b"]},
+      {"op": "history_tokenize \"a||b\"", "ret": ["a", "||", "b"]},
+      {"op": "history_tokenize \"a&&b\"", "ret": ["a", "&&", "b"]},
+      {"op": "history_tokenize \"a;b\"", "ret": ["a", ";", "b"]},
+      {"op": "history_tokenize \"a;;b\"", "ret": ["a", ";;", "b"]},
+      {"op": "history_tokenize \"a&b\"", "ret": ["a", "&", "b"]},
+      {"op": "history_tokenize \"a |& b\"", "ret": ["a", "|", "&", "b"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "redirections": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a>b\"", "ret": ["a", ">", "b"]},
+      {"op": "history_tokenize \"a>>b\"", "ret": ["a", ">>", "b"]},
+      {"op": "history_tokenize \"a<b\"", "ret": ["a", "<", "b"]},
+      {"op": "history_tokenize \"a<<EOF\"", "ret": ["a", "<<", "EOF"]},
+      {"op": "history_tokenize \"a<<-EOF\"", "ret": ["a", "<<-", "EOF"]},
+      {"op": "history_tokenize \"a<<<word\"", "ret": ["a", "<<<", "word"]},
+      {"op": "history_tokenize \"a>|b\"", "ret": ["a", ">|", "b"]},
+      {"op": "history_tokenize \"a&>b\"", "ret": ["a", "&>", "b"]},
+      {"op": "history_tokenize \"a<>b\"", "ret": ["a", "<", ">", "b"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "fd-redirections": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a 2>err\"", "ret": ["a", "2>", "err"]},
+      {"op": "history_tokenize \"a 2>&1\"", "ret": ["a", "2>&1"]},
+      {"op": "history_tokenize \"a >&2\"", "ret": ["a", ">&2"]},
+      {"op": "history_tokenize \"a <&0\"", "ret": ["a", "<&0"]},
+      {"op": "history_tokenize \"a 2>&-\"", "ret": ["a", "2>&-"]},
+      {"op": "history_tokenize \"a 3>&2-\"", "ret": ["a", "3>&2-"]},
+      {"op": "history_tokenize \"a 10>x\"", "ret": ["a", "10>", "x"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "digits-in-words": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"abc123 456\"", "ret": ["abc123", "456"]},
+      {"op": "history_tokenize \"123abc\"", "ret": ["123abc"]},
+      {"op": "history_tokenize \"42\"", "ret": ["42"]},
+      {"op": "history_tokenize \"x 42\"", "ret": ["x", "42"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "parens": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"(a)\"", "ret": ["(", "a", ")"]},
+      {"op": "history_tokenize \"a (b c) d\"", "ret": ["a", "(", "b", "c", ")", "d"]},
+      {"op": "history_tokenize \"f()\"", "ret": ["f", "(", ")"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "command-substitution": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"echo $(a b) c\"", "ret": ["echo", "$(a b)", "c"]},
+      {"op": "history_tokenize \"echo $(a (b) c) d\"", "ret": ["echo", "$(a (b) c)", "d"]},
+      {"op": "history_tokenize \"echo $(\"", "ret": ["echo", "$", "("]},
+      {"op": "history_tokenize \"echo $(x\"", "ret": ["echo", "$(x"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "process-substitution": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"diff <(ls a) >(cat)\"", "ret": ["diff", "<(ls a)", ">(cat)"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "extglob": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"ls @(a|b) !(c) +(d) ?(e) *(f)\"", "ret": ["ls", "@(a|b)", "!(c)", "+(d)", "?(e)", "*(f)"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quotes-inside-words": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a=\\\"b c\\\" d\"", "ret": ["a=\"b c\"", "d"]},
+      {"op": "history_tokenize \"--opt='x y'\"", "ret": ["--opt='x y'"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "custom-word-delimiters": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a,b c\"", "ret": ["a", ",", "b", "c"]},
+      {"op": "history_tokenize \"a;b\"", "ret": ["a;b"]},
+      {"op": "history_tokenize \"a,,b\"", "ret": ["a", ",,", "b"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "custom-word-delimiters-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a b c\"", "ret": ["a b c"]},
+      {"op": "history_tokenize \"a;b\"", "ret": ["a;b"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a #b\"", "ret": ["a"]},
+      {"op": "history_tokenize \"#all\"", "ret": null},
+      {"op": "history_tokenize \"a#b\"", "ret": ["a#b"]},
+      {"op": "history_tokenize \"a '#b'\"", "ret": ["a", "'#b'"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"ä ö|ü\"", "ret": ["ä", "ö", "|", "ü"]},
+      {"op": "history_tokenize \"'日本 語' x\"", "ret": ["'日本 語'", "x"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "many-words": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 w20 w21 w22 w23 w24 w25\"", "ret": ["w1", "w2", "w3", "w4", "w5", "w6", "w7", "w8", "w9", "w10", "w11", "w12", "w13", "w14", "w15", "w16", "w17", "w18", "w19", "w20", "w21", "w22", "w23", "w24", "w25"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

@@ -1,0 +1,441 @@
+{
+  "quick-subst-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^foo^bar\"", "ret": 1, "out": "echo bar foo"},
+      {"op": "history_expand \"^foo^bar^\"", "ret": 1, "out": "echo bar foo"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-trailing-text": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^foo^bar^ baz\"", "ret": 1, "out": "echo bar baz"},
+      {"op": "history_expand \"^foo^bar^:p\"", "ret": 2, "out": "echo bar"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-empty-rhs": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^foo^\"", "ret": 1, "out": "echo "},
+      {"op": "history_expand \"^ foo\"", "ret": 1, "out": "echo"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-empty-lhs": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^^x\"", "ret": -1, "out": ":s^^x: no previous substitution"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-not-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \" ^foo^bar\"", "ret": 0, "out": " ^foo^bar"},
+      {"op": "history_expand \"x^foo^bar\"", "ret": 0, "out": "x^foo^bar"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-failed": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^zzz^bar\"", "ret": -1, "out": ":s^zzz^bar: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-empty-history": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^a^b\"", "ret": -1, "out": "!!: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-ampersand": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^foo^<&>\"", "ret": 1, "out": "echo <foo>"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-custom-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"%foo%bar\"", "ret": 1, "out": "echo bar"},
+      {"op": "history_expand \"^foo^bar\"", "ret": 0, "out": "^foo^bar"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-with-squote-state": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^foo^bar\"", "ret": 0, "out": "^foo^bar"},
+      {"op": "history_expand \"^foo^bar\"", "ret": 1, "out": "echo bar"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-subst-then-bang": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^foo^bar^ !!\"", "ret": 1, "out": "echo bar echo foo"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "single-quotes-default-expand": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"'!!'\"", "ret": 1, "out": "'prev'"},
+      {"op": "history_expand \"echo '!!' x\"", "ret": 1, "out": "echo 'prev' x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "single-quotes-inhibit": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"'!!'\"", "ret": 0, "out": "'!!'"},
+      {"op": "history_expand \"echo '!!' !!\"", "ret": 1, "out": "echo '!!' prev"},
+      {"op": "history_expand \"'unterminated !!\"", "ret": 0, "out": "'unterminated !!"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "single-quotes-inside-double-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\"'!!'\\\"\"", "ret": 1, "out": "\"'prev'\""},
+      {"op": "history_expand \"\\\"a\\\" '!!'\"", "ret": 0, "out": "\"a\" '!!'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "double-quotes-expand": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\"!!\\\"\"", "ret": 1, "out": "\"prev\""},
+      {"op": "history_expand \"\\\"!!\\\"\"", "ret": 1, "out": "\"prev\""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "double-quote-after-bang": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\"x!\\\"\"", "ret": 0, "out": "\"x!\""},
+      {"op": "history_expand \"\\\"x!\\\"\"", "ret": 0, "out": "\"x!\""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "escaped-double-quote-in-dquote": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\"a\\\\\\\"b\\\" '!!'\"", "ret": 0, "out": "\"a\\\"b\" '!!'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "dollar-single-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"$'a\\\\'!!' !!\"", "ret": 1, "out": "$'a\\'!!' prev"},
+      {"op": "history_expand \"'a\\\\'!!' !!\"", "ret": 1, "out": "'a\\'prev' !!"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backslash-escapes-bang": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\\!!\"", "ret": 0, "out": "\\!!"},
+      {"op": "history_expand \"a\\\\!b\"", "ret": 0, "out": "a\\!b"},
+      {"op": "history_expand \"\\\\\\\\!!\"", "ret": 1, "out": "\\\\prev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backslash-escapes-bang-inhibit-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\\!!\"", "ret": 0, "out": "\\!!"},
+      {"op": "history_expand \"\\\\'!!\"", "ret": 1, "out": "\\'prev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "backslash-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"abc\\\\\"", "ret": 0, "out": "abc\\"},
+      {"op": "history_expand \"!! \\\\\"", "ret": 1, "out": "prev \\"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bang-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"abc!\"", "ret": 0, "out": "abc!"},
+      {"op": "history_expand \"!\"", "ret": 0, "out": "!"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-expand-chars-default": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_no_expand_chars", "ret": " \t\n\r="},
+      {"op": "history_expand \"! a\"", "ret": 0, "out": "! a"},
+      {"op": "history_expand \"!\\tb\"", "ret": 0, "out": "!\tb"},
+      {"op": "history_expand \"!\\nc\"", "ret": 0, "out": "!\nc"},
+      {"op": "history_expand \"!\\rd\"", "ret": 0, "out": "!\rd"},
+      {"op": "history_expand \"a!=b\"", "ret": 0, "out": "a!=b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-expand-chars-custom": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!x\"", "ret": 0, "out": "!x"},
+      {"op": "history_expand \"! a\"", "ret": -1, "out": "!: event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-expand-chars-paren": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!(foo)\"", "ret": -1, "out": "!(foo): event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "expansion-char-custom": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"@@\"", "ret": 1, "out": "prev"},
+      {"op": "history_expand \"!!\"", "ret": 0, "out": "!!"},
+      {"op": "history_expand \"@-1\"", "ret": 1, "out": "prev"},
+      {"op": "history_expand \"a\\\\@@\"", "ret": 0, "out": "a\\@@"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "expansion-char-nul-disables": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!\"", "ret": 0, "out": "!!"},
+      {"op": "history_expand \"^a^b\"", "ret": 0, "out": "^a^b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-char-stops-expansion": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"# !!\"", "ret": 0, "out": "# !!"},
+      {"op": "history_expand \"a #!!\"", "ret": 0, "out": "a #!!"},
+      {"op": "history_expand \"a#!!\"", "ret": 1, "out": "a#prev"},
+      {"op": "history_expand \"!! #!!\"", "ret": 1, "out": "prev #!!"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-char-in-double-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\"#\\\" !!\"", "ret": 1, "out": "\"#\" prev"},
+      {"op": "history_expand \"\\\"# !!\\\"\"", "ret": 1, "out": "\"# prev\""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-char-after-delimiter": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"a;#!!\"", "ret": 0, "out": "a;#!!"},
+      {"op": "history_expand \"a|#!!\"", "ret": 0, "out": "a|#!!"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-char-not-in-tokenize": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a b #c d\"", "ret": ["a", "b"]},
+      {"op": "history_tokenize \"a b#c d\"", "ret": ["a", "b#c", "d"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-delimiters-custom": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_word_delimiters", "ret": " \t\n;&()|<>"},
+      {"op": "history_expand \"a:#!!\"", "ret": 0, "out": "a:#!!"},
+      {"op": "history_expand \"a #!!\"", "ret": 1, "out": "a #prev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quoting-state-single": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"abc' !!\"", "ret": 1, "out": "abc' prev"},
+      {"op": "history_expand \"abc !!\"", "ret": 0, "out": "abc !!"},
+      {"op": "history_expand \"abc'\"", "ret": 0, "out": "abc'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quoting-state-single-no-inhibit": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"abc' !!\"", "ret": 1, "out": "abc' prev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quoting-state-double": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"a!\\\" b\"", "ret": 0, "out": "a!\" b"},
+      {"op": "history_expand \"a\\\" '!!'\"", "ret": 0, "out": "a\" '!!'"},
+      {"op": "history_expand \"!!\\\"\"", "ret": 1, "out": "prev\""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quoting-state-double-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!pr\\\" x\"", "ret": 1, "out": "prev\" x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quoting-state-single-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!pr' x\"", "ret": 1, "out": "prev' x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-function-args": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "a !! b", "index": 2},
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "a !!", "index": 2},
+      {"op": "history_expand \"a !! b\"", "ret": 1, "out": "a prev b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-function-selective": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "!! x !!", "index": 0},
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "!!", "index": 0},
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "prev x !!", "index": 7},
+      {"op": "history_expand \"!! x !!\"", "ret": 1, "out": "prev x prev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-function-inhibits": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!\"", "ret": 0, "out": "!!"},
+      {"op": "history_expand \"a !$ b\"", "ret": 0, "out": "a !$ b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-function-not-called-for-quick-subst": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "!!", "index": 0},
+      {"op": "history_expand \"^foo^bar\"", "ret": 1, "out": "echo bar"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-function-log": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "x !-1", "index": 2},
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "x !-", "index": 2},
+      {"op": "history_expand \"x !-1\"", "ret": 1, "out": "x prev"},
+      {"op": "history_expand \"x !-1\"", "ret": 1, "out": "x prev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multibyte-around-bang": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"ä!!ö\"", "ret": 1, "out": "äprevö"},
+      {"op": "history_expand \"日本 !! 語\"", "ret": 1, "out": "日本 prev 語"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multibyte-byte-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\xc3\\xa4!!\"", "ret": 1, "out": "äprev"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "invalid-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\xff!!\\xfe\"", "ret": 1, "out": "\udcffprev\udcfe"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "long-result": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!! !! !! !! !! !!\"", "ret": 1, "out": "0123456789012345678901234567890123456789012345678901234567890123456789 0123456789012345678901234567890123456789012345678901234567890123456789 0123456789012345678901234567890123456789012345678901234567890123456789 0123456789012345678901234567890123456789012345678901234567890123456789 0123456789012345678901234567890123456789012345678901234567890123456789 0123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-bang-returns-copy": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"plain text\"", "ret": 0, "out": "plain text"},
+      {"op": "history_expand \"\"", "ret": 0, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "error-message-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"text before !zzz after\"", "ret": -1, "out": "!zzz: event not found"},
+      {"op": "history_expand \"x !!:5 y\"", "ret": -1, "out": ":5: bad word specifier"},
+      {"op": "history_expand \"x !!:s/q/r/ y\"", "ret": -1, "out": ":s/q/r/: substitution failed"},
+      {"op": "history_expand \"x !!:Q y\"", "ret": -1, "out": "Q: unrecognized history modifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

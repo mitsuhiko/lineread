@@ -1,0 +1,354 @@
+# History expansion: quick substitution, quoting, backslashes, comment
+# character, no-expand characters, custom expansion characters,
+# history_quoting_state and history_inhibit_expansion_function.
+tags: histexpand api
+
+=== quick-subst-basic
+tags: quicksubst
+--- script
+add_history "echo foo foo"
+history_expand "^foo^bar"
+history_expand "^foo^bar^"
+
+=== quick-subst-trailing-text
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand "^foo^bar^ baz"
+history_expand "^foo^bar^:p"
+
+=== quick-subst-empty-rhs
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand "^foo^"
+history_expand "^ foo"
+
+=== quick-subst-empty-lhs
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand "^^x"
+
+=== quick-subst-not-at-start
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand " ^foo^bar"
+history_expand "x^foo^bar"
+
+=== quick-subst-failed
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand "^zzz^bar"
+
+=== quick-subst-empty-history
+tags: quicksubst
+--- script
+history_expand "^a^b"
+
+=== quick-subst-ampersand
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand "^foo^<&>"
+
+=== quick-subst-custom-char
+tags: quicksubst
+--- script
+add_history "echo foo"
+set history_subst_char "%"
+history_expand "%foo%bar"
+history_expand "^foo^bar"
+
+=== quick-subst-with-squote-state
+tags: quicksubst
+--- script
+add_history "echo foo"
+set history_quoting_state "'"
+set history_quotes_inhibit_expansion 1
+history_expand "^foo^bar"
+set history_quotes_inhibit_expansion 0
+history_expand "^foo^bar"
+
+=== quick-subst-then-bang
+tags: quicksubst
+--- script
+add_history "echo foo"
+history_expand "^foo^bar^ !!"
+
+=== single-quotes-default-expand
+--- script
+add_history "prev"
+history_expand "'!!'"
+history_expand "echo '!!' x"
+
+=== single-quotes-inhibit
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+history_expand "'!!'"
+history_expand "echo '!!' !!"
+history_expand "'unterminated !!"
+
+=== single-quotes-inside-double-quotes
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+history_expand "\"'!!'\""
+history_expand "\"a\" '!!'"
+
+=== double-quotes-expand
+--- script
+add_history "prev"
+history_expand "\"!!\""
+set history_quotes_inhibit_expansion 1
+history_expand "\"!!\""
+
+=== double-quote-after-bang
+# with history_quotes_inhibit_expansion, !" inside double quotes is literal
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+history_expand "\"x!\""
+set history_quotes_inhibit_expansion 0
+history_expand "\"x!\""
+
+=== escaped-double-quote-in-dquote
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+history_expand "\"a\\\"b\" '!!'"
+
+=== dollar-single-quote
+# with history_quotes_inhibit_expansion, $'...' allows \' inside
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+history_expand "$'a\\'!!' !!"
+history_expand "'a\\'!!' !!"
+
+=== backslash-escapes-bang
+--- script
+add_history "prev"
+history_expand "\\!!"
+history_expand "a\\!b"
+history_expand "\\\\!!"
+
+=== backslash-escapes-bang-inhibit-quotes
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+history_expand "\\!!"
+history_expand "\\'!!"
+
+=== backslash-at-end
+--- script
+add_history "prev"
+history_expand "abc\\"
+history_expand "!! \\"
+
+=== bang-at-end
+--- script
+add_history "prev"
+history_expand "abc!"
+history_expand "!"
+
+=== no-expand-chars-default
+--- script
+add_history "prev"
+get history_no_expand_chars
+history_expand "! a"
+history_expand "!\tb"
+history_expand "!\nc"
+history_expand "!\rd"
+history_expand "a!=b"
+
+=== no-expand-chars-custom
+--- script
+add_history "prev"
+set history_no_expand_chars "x"
+history_expand "!x"
+history_expand "! a"
+
+=== no-expand-chars-paren
+# '(' is not in the default no-expand set: !( is a failed search
+--- script
+add_history "prev"
+history_expand "!(foo)"
+
+=== expansion-char-custom
+--- script
+add_history "prev"
+set history_expansion_char "@"
+history_expand "@@"
+history_expand "!!"
+history_expand "@-1"
+history_expand "a\\@@"
+
+=== expansion-char-nul-disables
+--- script
+add_history "prev"
+set history_expansion_char 0
+history_expand "!!"
+history_expand "^a^b"
+
+=== comment-char-stops-expansion
+--- script
+add_history "prev"
+set history_comment_char "#"
+history_expand "# !!"
+history_expand "a #!!"
+history_expand "a#!!"
+history_expand "!! #!!"
+
+=== comment-char-in-double-quotes
+--- script
+add_history "prev"
+set history_comment_char "#"
+history_expand "\"#\" !!"
+set history_quotes_inhibit_expansion 1
+history_expand "\"# !!\""
+
+=== comment-char-after-delimiter
+--- script
+add_history "prev"
+set history_comment_char "#"
+history_expand "a;#!!"
+history_expand "a|#!!"
+
+=== comment-char-not-in-tokenize
+--- script
+set history_comment_char "#"
+history_tokenize "a b #c d"
+history_tokenize "a b#c d"
+
+=== word-delimiters-custom
+--- script
+add_history "prev"
+get history_word_delimiters
+set history_comment_char "#"
+set history_word_delimiters ":"
+history_expand "a:#!!"
+history_expand "a #!!"
+
+=== quoting-state-single
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+set history_quoting_state "'"
+history_expand "abc' !!"
+history_expand "abc !!"
+history_expand "abc'"
+
+=== quoting-state-single-no-inhibit
+--- script
+add_history "prev"
+set history_quoting_state "'"
+history_expand "abc' !!"
+
+=== quoting-state-double
+--- script
+add_history "prev"
+set history_quotes_inhibit_expansion 1
+set history_quoting_state "\""
+history_expand "a!\" b"
+history_expand "a\" '!!'"
+history_expand "!!\""
+
+=== quoting-state-double-search
+# inside double quotes a closing quote ends a !string search
+--- script
+add_history "prev"
+using_history
+set history_quotes_inhibit_expansion 1
+set history_quoting_state "\""
+history_expand "!pr\" x"
+
+=== quoting-state-single-search
+--- script
+add_history "prev"
+using_history
+set history_quoting_state "'"
+history_expand "!pr' x"
+
+=== inhibit-function-args
+--- script
+def chk
+args
+end
+add_history "prev"
+set history_inhibit_expansion_function script:chk
+history_expand "a !! b"
+
+=== inhibit-function-selective
+# the hook sees the expanded text so far plus the candidate
+--- script
+def nobrace
+args
+return 0
+end
+add_history "prev"
+set history_inhibit_expansion_function script:nobrace
+history_expand "!! x !!"
+
+=== inhibit-function-inhibits
+--- script
+def yes
+return 1
+end
+add_history "prev"
+set history_inhibit_expansion_function script:yes
+history_expand "!!"
+history_expand "a !$ b"
+
+=== inhibit-function-not-called-for-quick-subst
+--- script
+add_history "echo foo"
+set history_inhibit_expansion_function log
+history_expand "^foo^bar"
+
+=== inhibit-function-log
+--- script
+add_history "prev"
+set history_inhibit_expansion_function log
+history_expand "x !-1"
+set history_inhibit_expansion_function NULL
+history_expand "x !-1"
+
+=== multibyte-around-bang
+--- script
+add_history "prev"
+history_expand "ä!!ö"
+history_expand "日本 !! 語"
+
+=== multibyte-byte-locale
+env: LC_CTYPE=C
+env: LC_ALL=C
+--- script
+add_history "prev"
+history_expand "\xc3\xa4!!"
+
+=== invalid-utf8
+--- script
+add_history "prev"
+history_expand "\xff!!\xfe"
+
+=== long-result
+--- script
+add_history "0123456789012345678901234567890123456789012345678901234567890123456789"
+history_expand "!! !! !! !! !! !!"
+
+=== no-bang-returns-copy
+--- script
+history_expand "plain text"
+history_expand ""
+
+=== error-message-prefix
+--- script
+add_history "abc"
+history_expand "text before !zzz after"
+history_expand "x !!:5 y"
+history_expand "x !!:s/q/r/ y"
+history_expand "x !!:Q y"

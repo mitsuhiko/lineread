@@ -1,0 +1,137 @@
+# history_tokenize: shell-like word splitting used by word designators.
+tags: histexpand api tokenize
+
+=== whitespace
+--- script
+history_tokenize "a b"
+history_tokenize "  a   b  "
+history_tokenize "a\tb\nc"
+
+=== empty-and-blank
+--- script
+history_tokenize ""
+history_tokenize " \t "
+
+=== single-quotes
+--- script
+history_tokenize "a 'b c' d"
+history_tokenize "'a''b'"
+history_tokenize "x'y z'w"
+history_tokenize "'unterminated quote"
+
+=== double-quotes
+--- script
+history_tokenize "a \"b c\" d"
+history_tokenize "\"a \\\" b\""
+history_tokenize "\"unterminated"
+
+=== backquotes
+--- script
+history_tokenize "a `b c` d"
+
+=== backslash
+--- script
+history_tokenize "a\\ b c"
+history_tokenize "a\\"
+history_tokenize "'a\\' b"
+history_tokenize "\"a\\$b\" c"
+history_tokenize "\"a\\x b\" c"
+
+=== backslash-newline
+--- script
+history_tokenize "a\\\nb c"
+
+=== pipes-and-lists
+--- script
+history_tokenize "a|b"
+history_tokenize "a||b"
+history_tokenize "a&&b"
+history_tokenize "a;b"
+history_tokenize "a;;b"
+history_tokenize "a&b"
+history_tokenize "a |& b"
+
+=== redirections
+--- script
+history_tokenize "a>b"
+history_tokenize "a>>b"
+history_tokenize "a<b"
+history_tokenize "a<<EOF"
+history_tokenize "a<<-EOF"
+history_tokenize "a<<<word"
+history_tokenize "a>|b"
+history_tokenize "a&>b"
+history_tokenize "a<>b"
+
+=== fd-redirections
+--- script
+history_tokenize "a 2>err"
+history_tokenize "a 2>&1"
+history_tokenize "a >&2"
+history_tokenize "a <&0"
+history_tokenize "a 2>&-"
+history_tokenize "a 3>&2-"
+history_tokenize "a 10>x"
+
+=== digits-in-words
+--- script
+history_tokenize "abc123 456"
+history_tokenize "123abc"
+history_tokenize "42"
+history_tokenize "x 42"
+
+=== parens
+--- script
+history_tokenize "(a)"
+history_tokenize "a (b c) d"
+history_tokenize "f()"
+
+=== command-substitution
+--- script
+history_tokenize "echo $(a b) c"
+history_tokenize "echo $(a (b) c) d"
+history_tokenize "echo $("
+history_tokenize "echo $(x"
+
+=== process-substitution
+--- script
+history_tokenize "diff <(ls a) >(cat)"
+
+=== extglob
+--- script
+history_tokenize "ls @(a|b) !(c) +(d) ?(e) *(f)"
+
+=== quotes-inside-words
+--- script
+history_tokenize "a=\"b c\" d"
+history_tokenize "--opt='x y'"
+
+=== custom-word-delimiters
+--- script
+set history_word_delimiters " ,"
+history_tokenize "a,b c"
+history_tokenize "a;b"
+history_tokenize "a,,b"
+
+=== custom-word-delimiters-empty
+--- script
+set history_word_delimiters ""
+history_tokenize "a b c"
+history_tokenize "a;b"
+
+=== comment-char
+--- script
+set history_comment_char "#"
+history_tokenize "a #b"
+history_tokenize "#all"
+history_tokenize "a#b"
+history_tokenize "a '#b'"
+
+=== multibyte
+--- script
+history_tokenize "ä ö|ü"
+history_tokenize "'日本 語' x"
+
+=== many-words
+--- script
+history_tokenize "w1 w2 w3 w4 w5 w6 w7 w8 w9 w10 w11 w12 w13 w14 w15 w16 w17 w18 w19 w20 w21 w22 w23 w24 w25"
