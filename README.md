@@ -83,4 +83,7 @@ It can minimize mismatches into reproducible cases. More detail: [implementation
 
 ## License
 
-The Rust package metadata declares `MIT OR Apache-2.0`. License text files have not yet been added to this repository.
+Licensed under either of the following, at your option:
+
+- [MIT License](LICENSE-MIT)
+- [Apache License, Version 2.0](LICENSE-APACHE)
