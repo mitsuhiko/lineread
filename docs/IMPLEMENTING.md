@@ -55,9 +55,15 @@ impl/target/release/liblineread.a   what the driver links (IMPL=rust)
 * Toolchain: stable Rust, clang, ncurses (the `terminfo` crate is planned
   for capabilities; `-lncurses` stays on the link line for now). Platforms:
   macOS arm64 and Linux aarch64 (`docker/run.sh` provides the Linux
-  environment with the repo and `../lineread-ref-bin` mounted; the Docker
-  image does not contain Rust — install rustup in the container or mount a
-  Linux toolchain, e.g. `docker/run.sh sh -c 'curl ... | sh && ...'`).
+  environment with the repo and `../lineread-ref-bin` mounted, clang and a
+  stable Rust toolchain; use a separate target directory there, e.g.
+  `docker/run.sh sh -c 'CARGO_TARGET_DIR=build/linux-target RUST_LIB=...'`
+  or just `docker/run.sh ./rlt --impl rust`, which builds into
+  `impl/target` — run `cargo clean` when switching platforms, or set
+  `CARGO_TARGET_DIR` and `RUST_LIB` accordingly).
+* The wiring was verified with a stand-in crate that bundles the reference
+  library into `liblineread.a`: it scores 100 on Linux and 99.99 on macOS
+  (the two vi ref-quirk cases, see below).
 
 ## Running the score
 

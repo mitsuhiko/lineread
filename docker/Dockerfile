@@ -6,5 +6,10 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt /tmp/requirements.txt
 RUN python3 -m venv /opt/venv && /opt/venv/bin/pip install -q -r /tmp/requirements.txt
-ENV PATH=/opt/venv/bin:$PATH CC=clang
+# Rust toolchain for the implementation (impl/); world-writable so that the
+# container can run as the invoking user
+ENV RUSTUP_HOME=/opt/rust/rustup CARGO_HOME=/opt/rust/cargo
+RUN curl -fsSL https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path \
+    && chmod -R a+rwX /opt/rust
+ENV PATH=/opt/venv/bin:/opt/rust/cargo/bin:$PATH CC=clang
 WORKDIR /work/lineread
