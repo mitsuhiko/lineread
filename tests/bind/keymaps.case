@@ -1,0 +1,295 @@
+# Keymap API (keymaps.c, bind.c): creation, copying, emptiness, naming,
+# current keymap, edit-mode keymaps, freeing.
+tags: bind api keymaps
+
+=== bare-keymap-is-empty
+--- script
+keymap_new b bare
+rl_empty_keymap b
+keymap_dump b
+
+=== full-keymap-contents
+--- script
+keymap_new f full
+rl_empty_keymap f
+keymap_dump f
+
+=== copy-keymap-is-shallow
+# copies share submaps with the original
+--- script
+keymap_new c copy emacs
+rl_function_of_keyseq "\x18\x18" c
+rl_bind_keyseq_in_map '\C-x\C-x' kill-word c
+rl_function_of_keyseq "\x18\x18" emacs
+rl_bind_key_in_map "a" kill-word c
+rl_function_of_keyseq "a" emacs
+
+=== copy-keymap-macros-shared
+--- script
+keymap_new src bare
+rl_macro_bind 'm' 'macro' src
+keymap_new dst copy src
+rl_function_of_keyseq "m" dst
+
+=== empty-keymap-checks
+--- script
+rl_empty_keymap emacs
+rl_empty_keymap emacs-ctlx
+keymap_new b bare
+rl_bind_key_in_map "a" kill-word b
+rl_empty_keymap b
+rl_unbind_key_in_map "a" b
+rl_empty_keymap b
+
+=== empty-keymap-ignores-anyotherkey
+--- script
+keymap_new top bare
+rl_bind_keyseq_in_map 'a' kill-word top
+rl_bind_keyseq_in_map 'ab' upcase-word top
+rl_function_of_keyseq "a" top
+rl_unbind_key_in_map "a" top
+rl_empty_keymap top
+
+=== empty-keymap-macro-entry
+--- script
+keymap_new b bare
+rl_macro_bind 'x' 'y' b
+rl_empty_keymap b
+
+=== builtin-keymap-names
+--- script
+rl_get_keymap_by_name "emacs"
+rl_get_keymap_by_name "emacs-standard"
+rl_get_keymap_by_name "emacs-meta"
+rl_get_keymap_by_name "emacs-ctlx"
+rl_get_keymap_by_name "vi"
+rl_get_keymap_by_name "vi-move"
+rl_get_keymap_by_name "vi-command"
+rl_get_keymap_by_name "vi-insert"
+rl_get_keymap_by_name "EMACS-META"
+rl_get_keymap_by_name "Vi-Insert"
+rl_get_keymap_by_name ""
+rl_get_keymap_by_name "emacs-"
+
+=== keymap-name-of-builtins
+--- script
+rl_get_keymap_name emacs
+rl_get_keymap_name emacs-meta
+rl_get_keymap_name emacs-ctlx
+rl_get_keymap_name vi-command
+rl_get_keymap_name vi-insert
+
+=== keymap-name-of-anonymous
+--- script
+keymap_new b bare
+rl_get_keymap_name b
+
+=== set-keymap-name-new
+--- script
+keymap_new b bare
+rl_set_keymap_name "mine" b
+rl_get_keymap_name b
+rl_get_keymap_by_name "mine"
+rl_get_keymap_by_name "MINE"
+
+=== set-keymap-name-rename
+--- script
+keymap_new b bare
+rl_set_keymap_name "first" b
+rl_set_keymap_name "second" b
+rl_get_keymap_name b
+rl_get_keymap_by_name "first"
+rl_get_keymap_by_name "second"
+
+=== set-keymap-name-reassign
+--- script
+keymap_new b1 bare
+keymap_new b2 bare
+rl_set_keymap_name "shared" b1
+rl_set_keymap_name "shared" b2
+rl_get_keymap_name b1
+rl_get_keymap_name b2
+
+=== set-keymap-name-builtin-rejected
+--- script
+keymap_new b bare
+rl_set_keymap_name "emacs" b
+rl_set_keymap_name "vi-insert" b
+rl_set_keymap_name "newname" emacs
+rl_set_keymap_name "newname" vi-command
+rl_get_keymap_name emacs
+rl_get_keymap_name b
+
+=== set-keymap-name-several
+--- script
+keymap_new a bare
+keymap_new b bare
+keymap_new c bare
+rl_set_keymap_name "ka" a
+rl_set_keymap_name "kb" b
+rl_set_keymap_name "kc" c
+rl_get_keymap_by_name "ka"
+rl_get_keymap_by_name "kb"
+rl_get_keymap_by_name "kc"
+
+=== named-keymap-in-inputrc
+--- script
+keymap_new b bare
+rl_set_keymap_name "custom" b
+rl_parse_and_bind "set keymap custom"
+rl_parse_and_bind "\"x\": kill-word"
+rl_parse_and_bind "set keymap emacs"
+rl_function_of_keyseq "x" b
+rl_function_of_keyseq "x" emacs
+
+=== get-set-keymap
+--- script
+rl_get_keymap
+rl_set_keymap vi-command
+rl_get_keymap
+rl_set_keymap NULL
+rl_get_keymap
+
+=== set-keymap-from-edit-mode
+--- script
+rl_set_keymap vi-command
+rl_set_keymap_from_edit_mode
+rl_get_keymap
+set rl_editing_mode 0
+rl_set_keymap_from_edit_mode
+rl_get_keymap
+rl_get_keymap_name_from_edit_mode
+set rl_editing_mode 1
+rl_get_keymap_name_from_edit_mode
+
+=== edit-mode-name-unknown-mode
+--- script
+set rl_editing_mode 7
+rl_get_keymap_name_from_edit_mode
+rl_set_keymap vi-command
+rl_set_keymap_from_edit_mode
+rl_get_keymap
+
+=== discard-keymap
+--- script
+keymap_new top bare
+rl_bind_keyseq_in_map 'abc' kill-word top
+rl_macro_bind 'm' 'macro' top
+rl_discard_keymap top
+echo discarded
+
+=== free-keymap
+--- script
+keymap_new top bare
+rl_bind_keyseq_in_map 'xy' kill-word top
+rl_macro_bind 'm' 'macro' top
+rl_free_keymap top
+echo freed
+
+=== keymap-dump-emacs-default
+--- script
+keymap_dump emacs
+
+=== keymap-dump-emacs-after-initialize
+--- script
+rl_initialize
+keymap_dump emacs
+
+=== keymap-dump-emacs-meta
+--- script
+rl_initialize
+keymap_dump emacs-meta
+
+=== keymap-dump-emacs-ctlx
+--- script
+rl_initialize
+keymap_dump emacs-ctlx
+
+=== keymap-dump-vi-command
+--- script
+rl_initialize
+keymap_dump vi-command
+
+=== keymap-dump-vi-insert
+--- script
+rl_initialize
+keymap_dump vi-insert
+
+=== keymap-dump-c-locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+rl_initialize
+keymap_dump emacs
+
+=== tty-special-chars-bound
+# rl_initialize binds the tty's erase/kill/werase/lnext characters
+--- script
+rl_initialize
+readline "> "
+rl_function_of_keyseq "\x7f" emacs
+rl_function_of_keyseq "\x15" emacs
+rl_function_of_keyseq "\x17" emacs
+rl_function_of_keyseq "\x16" emacs
+rl_function_of_keyseq "\x7f" vi-insert
+rl_function_of_keyseq "\x15" vi-insert
+rl_function_of_keyseq "\x17" vi-insert
+--- keys
+x\r
+
+=== tty-special-chars-not-bound
+--- inputrc
+set bind-tty-special-chars off
+--- script
+rl_bind_key "\C-w" kill-word
+readline "> "
+rl_function_of_keyseq "\x17" emacs
+--- keys
+x\r
+
+=== tty-set-default-bindings
+--- script
+rl_initialize
+keymap_new k bare
+rl_tty_set_default_bindings k
+keymap_dump k
+rl_tty_unset_default_bindings k
+keymap_dump k
+
+=== keymap-variable-executing
+tags: readline
+--- script
+def show
+get rl_executing_keymap
+get rl_executing_key
+get rl_executing_keyseq
+get rl_key_sequence_length
+end
+defun show-km show
+rl_bind_keyseq '\C-xs' show-km
+readline "> "
+--- keys
+\C-xs\r
+
+=== tty-special-chars-not-bound-variable
+--- script
+rl_variable_bind "bind-tty-special-chars" "off"
+rl_bind_key "\C-w" kill-word
+readline "> "
+rl_function_of_keyseq "\x17" emacs
+--- keys
+x\r
+
+=== tty-unset-default-bindings-after-readline
+--- script
+readline "> "
+keymap_new k bare
+rl_tty_set_default_bindings k
+keymap_dump k
+rl_tty_unset_default_bindings k
+keymap_dump k
+rl_tty_unset_default_bindings emacs
+rl_function_of_keyseq "\x17" emacs
+rl_function_of_keyseq "\x15" emacs
+--- keys
+x\r
