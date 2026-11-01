@@ -107,7 +107,13 @@ unsafe fn complete_name(name: &mut Vec<u8>) {
 /// Show the minibuffer: the prompt followed by `!` and the name.
 unsafe fn show_minibuffer(prefix: &[u8], name: &[u8]) {
     crate::display::set_message(prefix);
-    buffer::set_line(name);
+    // the name is edited in the line buffer (with its own undo list)
+    let cur = buffer::line();
+    let same = cur.iter().zip(name.iter()).take_while(|(a, b)| a == b).count();
+    if same < cur.len() {
+        buffer::delete(same, cur.len());
+    }
+    buffer::insert_at(same, &name[same..]);
     buffer::set_point(name.len());
     crate::display::redisplay();
 }
@@ -178,9 +184,12 @@ unsafe fn read_command_name_inner() -> Option<Vec<u8>> {
 pub unsafe extern "C" fn rl_execute_named_command(count: c_int, key: c_int) -> c_int {
     let saved = buffer::line().to_vec();
     let (p, m) = (buffer::rl_point.get(), buffer::rl_mark.get());
+    let saved_undo = crate::undo::rl_undo_list.replace(null_mut());
     crate::display::clear_arg_message();
+    buffer::set_line(b"");
     let name = read_command_name();
     crate::display::clear_arg_message();
+    crate::undo::free_list(crate::undo::rl_undo_list.replace(saved_undo));
     buffer::set_line(&saved);
     buffer::rl_point.set(p);
     buffer::rl_mark.set(m);
