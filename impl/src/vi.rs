@@ -1478,14 +1478,145 @@ pub unsafe extern "C" fn rl_vi_yank_pop(count: c_int, key: c_int) -> c_int {
     r
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn rl_vi_search(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_vi_search");
+/// The last vi search string and direction (-1 older, 1 newer).
+static SEARCH: CVar<Option<(Vec<u8>, c_int)>> = CVar::new(None);
+
+/// Read a search string in the line buffer (the prompt shows the last
+/// line of the prompt followed by `pchar`).  The line, point, mark and undo
+/// list are restored afterwards.  None when aborted.
+unsafe fn read_search_string(pchar: u8) -> Option<Vec<u8>> {
+    let saved = line().to_vec();
+    let (sp, sm) = (buffer::rl_point.get(), buffer::rl_mark.get());
+    let saved_undo = crate::undo::rl_undo_list.replace(null_mut());
+    set_state(RL_STATE_NSEARCH);
+    let prompt = cstr(crate::display::rl_prompt.get()).to_vec();
+    let mut msg = crate::display::split_prompt(&prompt).1.to_vec();
+    msg.push(pchar);
+    crate::display::set_message(&msg);
+    buffer::set_line(b"");
+    set_point(0);
+    buffer::rl_mark.set(0);
+    let result = loop {
+        crate::display::redisplay();
+        let c = read_raw_key();
+        if c < 0 {
+            break None;
+        }
+        let p = point();
+        match c {
+            7 => break None,
+            127 | 8 => {
+                if end() == 0 {
+                    break None;
+                }
+                if p > 0 {
+                    let a = mb::prev_char(line(), p);
+                    buffer::delete(a, p);
+                    set_point(a);
+                }
+            }
+            21 => {
+                buffer::delete(0, p);
+                set_point(0);
+            }
+            23 => {
+                let l = line();
+                let mut a = p;
+                while a > 0 && is_ws(l[a - 1]) {
+                    a -= 1;
+                }
+                while a > 0 && !is_ws(l[a - 1]) {
+                    a -= 1;
+                }
+                buffer::delete(a, p);
+                set_point(a);
+            }
+            22 => {
+                let q = read_raw_key();
+                if q >= 0 {
+                    buffer::insert(&read_mb_rest(q as u8));
+                }
+            }
+            13 | 10 => break Some(line().to_vec()),
+            _ => {
+                buffer::insert(&read_mb_rest(c as u8));
+            }
+        }
+    };
+    unset_state(RL_STATE_NSEARCH);
+    crate::display::clear_arg_message();
+    let l = crate::undo::rl_undo_list.replace(saved_undo);
+    crate::undo::free_list(l);
+    buffer::set_line(&saved);
+    buffer::rl_point.set(sp);
+    buffer::rl_mark.set(sm);
+    result
+}
+
+fn search_matches(line: &[u8], pat: &[u8]) -> bool {
+    if let Some(rest) = pat.strip_prefix(b"^") {
+        return line.starts_with(rest);
+    }
+    pat.is_empty() || line.windows(pat.len()).any(|w| w == pat)
+}
+
+/// Search the history from the current entry in `dir` and show the match.
+unsafe fn search_history(pat: &[u8], dir: c_int) -> c_int {
+    use crate::history::{history_length, history_offset, line_at};
+    let off = history_offset.get();
+    let len = history_length.get();
+    let mut i = off;
+    loop {
+        i += dir;
+        if i < 0 || i >= len {
+            rl_ding();
+            return 0;
+        }
+        if line_at(i).is_some_and(|l| search_matches(l, pat)) {
+            break;
+        }
+    }
+    if i < off {
+        crate::histcmds::rl_get_previous_history(off - i, 0);
+    } else {
+        crate::histcmds::rl_get_next_history(i - off, 0);
+    }
     0
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_vi_search_again(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_vi_search_again");
-    0
+pub unsafe extern "C" fn rl_vi_search(_count: c_int, key: c_int) -> c_int {
+    let dir = match key as u8 {
+        b'/' => -1,
+        b'?' => 1,
+        _ => {
+            rl_ding();
+            return 0;
+        }
+    };
+    let Some(mut pat) = read_search_string(key as u8) else {
+        crate::display::redisplay();
+        return 0;
+    };
+    if pat.is_empty() {
+        match SEARCH.get_mut() {
+            Some((p, _)) => pat = p.clone(),
+            None => {
+                rl_ding();
+                return 0;
+            }
+        }
+    }
+    SEARCH.set(Some((pat.clone(), dir)));
+    search_history(&pat, dir)
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_vi_search_again(_count: c_int, key: c_int) -> c_int {
+    let Some((pat, dir)) = SEARCH.get_mut().clone() else {
+        rl_ding();
+        return 0;
+    };
+    let dir = if key == b'N' as c_int { -dir } else { dir };
+    search_history(&pat, dir)
 }
