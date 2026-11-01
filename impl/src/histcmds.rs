@@ -221,7 +221,7 @@ pub unsafe extern "C" fn rl_clear_history() {
             (*e).data = null_mut();
         }
     }
-    history::clear_history();
+    history::clear_entries();
 }
 
 // ---- history arguments (bound in emacs; tests in tests/kill)

@@ -288,6 +288,12 @@ pub unsafe extern "C" fn replace_history_entry(which: c_int, line: *const c_char
 
 #[no_mangle]
 pub unsafe extern "C" fn clear_history() {
+    clear_entries();
+    history_base.set(1);
+}
+
+/// Free every entry (history_base is kept: rl_clear_history).
+pub unsafe fn clear_entries() {
     let h = THE_HISTORY.get();
     for i in 0..history_length.get() {
         free_entry(*h.add(i as usize));
@@ -295,7 +301,6 @@ pub unsafe extern "C" fn clear_history() {
     }
     history_length.set(0);
     history_offset.set(0);
-    history_base.set(1);
 }
 
 #[no_mangle]
