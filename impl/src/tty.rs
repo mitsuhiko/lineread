@@ -98,10 +98,9 @@ pub unsafe extern "C" fn rl_prep_terminal(meta_flag: c_int) {
     let mut n = t;
     n.c_lflag &= !(libc::ICANON | libc::ECHO);
     n.c_iflag &= !(libc::ICRNL | libc::INLCR);
+    // eight-bit input: never strip; without it the tty setting is kept
     if meta_flag != 0 {
         n.c_iflag &= !libc::ISTRIP;
-    } else {
-        n.c_iflag |= libc::ISTRIP;
     }
     n.c_cc[libc::VMIN] = 1;
     n.c_cc[libc::VTIME] = 0;

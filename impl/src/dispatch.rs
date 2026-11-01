@@ -121,8 +121,22 @@ pub unsafe fn call_command(f: rl_command_func_t, key: c_int, map: Keymap) -> c_i
     set_state(RL_STATE_DISPATCHING);
     rl_dispatching.set(1);
     CMD_STACK.get_mut().push(f);
+    let susp = crate::callback::suspensions();
     let r = f(crate::numarg::count(), key);
     CMD_STACK.get_mut().pop();
+    // (vi mode: vi.rs decides which failures count)
+    if r < 0
+        && is_state(RL_STATE_CALLBACK)
+        && crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE
+        && (rl_key_sequence_length.get() > 1 || crate::callback::suspensions() != susp)
+    {
+        // the reference's callback interface reports a failure of a
+        // command reached through a key sequence or continued with more
+        // input as end of file (the line goes on; one more newline at
+        // its end)
+        set_state(RL_STATE_EOF);
+        crate::readline::rl_eof_found.set(1);
+    }
     rl_dispatching.set(outer_disp);
     if !outer {
         unset_state(RL_STATE_DISPATCHING);
@@ -217,8 +231,9 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap) -> c_int {
             crate::input::rl_execute_next(next);
             return run_anyother(key, sub, other);
         }
-        keyseq_push(next);
+        // (the unbound key is not part of the sequence; no command ran)
         unbound_key();
+        rl_last_func.set(None);
         return -1;
     }
     dispatch_key(next, sub)

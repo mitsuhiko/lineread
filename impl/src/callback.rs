@@ -62,7 +62,16 @@ unsafe fn suspend(st: WState) {
 /// callback interface returns from such commands and resumes them on the
 /// next call, so between calls the command is not "dispatching" and it
 /// already counts as the last function: show that state while suspended.
+/// Number of suspensions inside commands so far (dispatch uses it to see
+/// whether a command waited for more input).
+static SUSPENSIONS: CVar<u64> = CVar::new(0);
+
+pub fn suspensions() -> u64 {
+    SUSPENSIONS.get()
+}
+
 unsafe fn suspend_in_command() {
+    SUSPENSIONS.set(SUSPENSIONS.get() + 1);
     // (a key sequence leading to the command is complete by then)
     let bits = (RL_STATE_DISPATCHING | RL_STATE_MOREINPUT | RL_STATE_MULTIKEY) as c_ulong;
     let saved_bits = crate::readline::rl_readline_state.get() & bits;
