@@ -138,6 +138,10 @@ unsafe fn handle_signal(sig: c_int) {
                 f(sig);
             }
         }
+        // the signal is not re-sent: tell the application here
+        if let Some(h) = rl_signal_event_hook.get() {
+            h();
+        }
     } else {
         if sig == libc::SIGINT {
             rl_free_line_state();
