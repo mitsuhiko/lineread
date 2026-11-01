@@ -52,3 +52,7 @@ keys: \C-pX<pause>\M-b\M-uY<down>\C-p\C-_<down>\r
 === revert-line-on-entry-updates-entry
 tags: revert-line previous-history
 keys: \C-pX<down>\C-p\M-r\r
+
+=== failed-previous-history-unedited-keeps-undo
+tags: previous-history undo
+keys: \C-pX<down>\C-p<pause>\C-p<dumpfull>\r
