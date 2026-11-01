@@ -171,5 +171,10 @@ pub unsafe extern "C" fn rl_revert_line(_count: c_int, _key: c_int) -> c_int {
     while !rl_undo_list.get().is_null() {
         rl_do_undo();
     }
+    if crate::readline::rl_editing_mode.get() == crate::readline::VI_MODE {
+        // vi `U`: point and mark at the start of the restored line
+        buffer::rl_point.set(0);
+        buffer::rl_mark.set(0);
+    }
     0
 }
