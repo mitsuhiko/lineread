@@ -641,7 +641,7 @@ pub unsafe extern "C" fn rl_alphabetic(c: c_int) -> c_int {
 
 /// Read the body of a bracketed paste (after `ESC [ 2 0 0 ~`) up to the
 /// closing `ESC [ 2 0 1 ~`; CRs become newlines.
-unsafe fn read_paste_body() -> Vec<u8> {
+pub unsafe fn read_paste_body() -> Vec<u8> {
     const END: &[u8] = b"\x1b[201~";
     let mut buf: Vec<u8> = Vec::new();
     set_state(RL_STATE_MOREINPUT);
@@ -728,10 +728,7 @@ pub unsafe fn read_char_arg() -> Option<Vec<u8>> {
 pub unsafe extern "C" fn rl_bracketed_paste_begin(_count: c_int, _key: c_int) -> c_int {
     let buf = read_paste_body();
     let start = point();
-    if !buf.is_empty() && crate::vi::in_replace_mode() {
-        // vi replace mode: the pasted text overwrites
-        crate::vi::overstrike_text(&buf);
-    } else if !buf.is_empty() {
+    if !buf.is_empty() {
         buffer::insert(&buf);
     }
     buffer::rl_mark.set(start as c_int);
