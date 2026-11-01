@@ -10,7 +10,7 @@ ignore: screen cursor
 --- script
 option libgetc
 signal TERM record
-kill_after 400 TERM
+kill_after 1500 TERM
 readline "> "
 get rl_readline_state
 --- keys
@@ -23,7 +23,7 @@ ignore: screen cursor
 --- script
 option libgetc
 signal HUP record
-kill_after 400 HUP
+kill_after 1500 HUP
 readline "> "
 --- keys
 xy
@@ -31,40 +31,40 @@ xy
 === libgetc-sigalrm-during-read
 tags: libgetc SIGALRM
 eof: off
-timeout: 15
+timeout: 20
 ignore: screen cursor
 --- script
 option libgetc
 signal ALRM record
-kill_after 300 ALRM
+kill_after 1500 ALRM
 readline "> "
 --- keys
-ab<sleep:1200>c\r
+ab<sleep:3500>c\r
 
 === libgetc-sigusr1-ignored-by-readline
 tags: libgetc
 eof: off
-timeout: 15
+timeout: 20
 --- script
 option libgetc
 signal USR1 record
-kill_after 300 USR1
+kill_after 1500 USR1
 readline "> "
 --- keys
-ab<sleep:1200>c\r
+ab<sleep:3500>c\r
 
 === libgetc-sigusr1-signal-event-hook
 tags: libgetc rl_signal_event_hook
 eof: off
-timeout: 15
+timeout: 20
 --- script
 option libgetc
 signal USR1 record
 set rl_signal_event_hook log
-kill_after 300 USR1
+kill_after 1500 USR1
 readline "> "
 --- keys
-ab<sleep:1200>c\r
+ab<sleep:3500>c\r
 
 === libgetc-callback-sigterm
 tags: libgetc callback SIGTERM
@@ -73,7 +73,7 @@ ignore: screen cursor
 --- script
 option libgetc
 signal TERM record
-kill_after 400 TERM
+kill_after 1500 TERM
 callback "> "
 get rl_readline_state
 --- keys

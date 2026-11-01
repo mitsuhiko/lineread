@@ -7,7 +7,7 @@
 # is still restoring the terminal.
 #
 # Timing: cases with <sleep:MS> rely on the runner being faster than the
-# readline timeout (>= 600 ms margin); expirations are always far shorter
+# readline timeout (>= 1.5 s margin, also under ASan and load); expirations are always far shorter
 # than the sleeps.
 tags: input
 
@@ -101,31 +101,31 @@ abc\r
 
 === timeout-expires-between-keys
 tags: rl_set_timeout rl_timeout_event_hook
-timeout: 15
+timeout: 20
 --- script
 set rl_timeout_event_hook log
-rl_set_timeout 0 600000
+rl_set_timeout 1 500000
 readline "> "
 dump
 rl_set_timeout 0 0
 readline "> "
 --- keys
-abc<sleep:1800>x\r
+abc<sleep:4500>x\r
 
 === timeout-libgetc-blocking-select
 tags: rl_set_timeout libgetc
-timeout: 15
+timeout: 20
 eof: off
 --- script
 option libgetc
 set rl_timeout_event_hook log
-rl_set_timeout 0 600000
+rl_set_timeout 1 500000
 readline "> "
 dumpfull
 rl_set_timeout 0 0
 readline "> "
 --- keys
-ab<sleep:1800>z\r
+ab<sleep:4500>z\r
 
 === timeout-libgetc-not-reached
 tags: rl_set_timeout libgetc

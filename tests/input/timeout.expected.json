@@ -109,7 +109,7 @@
   "timeout-expires-between-keys": {
     "exit": 0,
     "results": [
-      {"op": "rl_set_timeout 0 600000", "ret": 0},
+      {"op": "rl_set_timeout 1 500000", "ret": 0},
       {"op": "hook", "hook": "rl_timeout_event_hook"},
       {"op": "readline", "ret": null},
       {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
@@ -124,7 +124,7 @@
   "timeout-libgetc-blocking-select": {
     "exit": 0,
     "results": [
-      {"op": "rl_set_timeout 0 600000", "ret": 0},
+      {"op": "rl_set_timeout 1 500000", "ret": 0},
       {"op": "hook", "hook": "rl_timeout_event_hook"},
       {"op": "readline", "ret": null},
       {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "READCMD", "TTYCSAVED", "DONE", "TIMEOUT", "EOF"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 1, "eof_found": 1, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
