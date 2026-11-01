@@ -1439,6 +1439,10 @@ pub unsafe extern "C" fn rl_vi_yank_arg(count: c_int, key: c_int) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_yank_pop(count: c_int, key: c_int) -> c_int {
+    if !crate::kill::last_command_was_yank() {
+        // aborts without moving point
+        return crate::kill::rl_yank_pop(count, key);
+    }
     if point() < end() {
         set_point(mb::next_char(line(), point()));
     }
