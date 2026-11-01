@@ -1,0 +1,517 @@
+{
+  "previous-history-once": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "third three", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "previous-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 16, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 2},
+      {"op": "readline", "ret": "third three"}
+    ],
+    "screen": [
+      "> third three"
+    ],
+    "cursor": [1, 0]
+  },
+  "previous-history-to-start-and-beyond": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> first one"
+    ],
+    "cursor": [1, 0]
+  },
+  "previous-history-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"}
+    ],
+    "screen": [
+      "> second two"
+    ],
+    "cursor": [1, 0]
+  },
+  "previous-history-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"}
+    ],
+    "screen": [
+      "> second two"
+    ],
+    "cursor": [1, 0]
+  },
+  "previous-history-up-arrow": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "third three", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "third three"}
+    ],
+    "screen": [
+      "> third three"
+    ],
+    "cursor": [1, 0]
+  },
+  "next-history-back-to-current": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dumpfull", "line": "typed", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 5, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "next-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 14, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 3},
+      {"op": "readline", "ret": "typed"}
+    ],
+    "screen": [
+      "> typed"
+    ],
+    "cursor": [1, 0]
+  },
+  "next-history-at-end-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "next-history-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "third three", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "third three"}
+    ],
+    "screen": [
+      "> third three"
+    ],
+    "cursor": [1, 0]
+  },
+  "next-history-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> first one"
+    ],
+    "cursor": [1, 0]
+  },
+  "beginning-of-history": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "beginning-of-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 60, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> first one"
+    ],
+    "cursor": [1, 0]
+  },
+  "end-of-history": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "typed", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 5, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "end-of-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 62, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 3},
+      {"op": "readline", "ret": "typed"}
+    ],
+    "screen": [
+      "> typed"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-point-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "third three", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "third three"}
+    ],
+    "screen": [
+      "> third three"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-preserve-point": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdefgh", "point": 4, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "third three", "point": 4, "end": 11, "mark": 11, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "second two", "point": 4, "end": 10, "mark": 10, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdefgh", "point": 8, "end": 8, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdefgh"}
+    ],
+    "screen": [
+      "> abcdefgh"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-preserve-point-short-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a long history line", "point": 6, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a long history line", "point": 6, "end": 19, "mark": 19, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a long history line"}
+    ],
+    "screen": [
+      "> a long history line"
+    ],
+    "cursor": [1, 0]
+  },
+  "modified-history-line-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "third threeX", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "third threeX", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "third threeX"}
+    ],
+    "screen": [
+      "> third threeX"
+    ],
+    "cursor": [1, 0]
+  },
+  "modified-history-line-returned-not-saved": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "second two MOD"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 1, "entries": [{"line": "first one", "timestamp": "", "data": 0}, {"line": "second two", "timestamp": "", "data": 0}]},
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> second two MOD",
+      "> first one"
+    ],
+    "cursor": [2, 0]
+  },
+  "modified-history-mark-modified-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "third threeX"}
+    ],
+    "screen": [
+      "*> third threeX"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "*> third threeX"
+        ],
+        "cursor": [0, 15]
+      },
+      {
+        "screen": [
+          "> second two"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "*> third threeX"
+        ],
+        "cursor": [0, 15]
+      }
+    ]
+  },
+  "mark-modified-lines-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "third threeX"}
+    ],
+    "screen": [
+      "> third threeX"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> third threeX"
+        ],
+        "cursor": [0, 14]
+      },
+      {
+        "screen": [
+          "> second two"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "> third threeX"
+        ],
+        "cursor": [0, 14]
+      }
+    ]
+  },
+  "current-line-saved-while-browsing": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "draft", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "draft"}
+    ],
+    "screen": [
+      "> draft"
+    ],
+    "cursor": [1, 0]
+  },
+  "empty-history-previous": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "fetch-history-with-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"}
+    ],
+    "screen": [
+      "> second two"
+    ],
+    "cursor": [1, 0]
+  },
+  "fetch-history-no-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> first one"
+    ],
+    "cursor": [1, 0]
+  },
+  "fetch-history-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> first one"
+    ],
+    "cursor": [1, 0]
+  },
+  "fetch-history-negative": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "first one"}
+    ],
+    "screen": [
+      "> first one"
+    ],
+    "cursor": [1, 0]
+  },
+  "fetch-history-history-base": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "b", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "b"}
+    ],
+    "screen": [
+      "> b"
+    ],
+    "cursor": [1, 0]
+  },
+  "operate-and-get-next": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first one"},
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"},
+      {"op": "dump", "line": "third three", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "third three"},
+      {"op": "history_dump", "base": 1, "length": 6, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "first one", "timestamp": "", "data": 0}, {"line": "second two", "timestamp": "", "data": 0}, {"line": "third three", "timestamp": "", "data": 0}, {"line": "first one", "timestamp": "", "data": 0}, {"line": "second two", "timestamp": "", "data": 0}, {"line": "third three", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> first one",
+      "> second two",
+      "> third three"
+    ],
+    "cursor": [3, 0]
+  },
+  "operate-and-get-next-with-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first one"},
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"}
+    ],
+    "screen": [
+      "> first one",
+      "> second two"
+    ],
+    "cursor": [2, 0]
+  },
+  "operate-and-get-next-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "new"},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "> new",
+      ">"
+    ],
+    "cursor": [2, 0]
+  },
+  "operate-and-get-next-stifled": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "two"},
+      {"op": "dump", "line": "three", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "three"}
+    ],
+    "screen": [
+      "> two",
+      "> three"
+    ],
+    "cursor": [2, 0]
+  },
+  "history-across-readline-calls": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a1"},
+      {"op": "readline", "ret": "b2"},
+      {"op": "dump", "line": "a1", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a1"}
+    ],
+    "screen": [
+      "> a1",
+      "> b2",
+      "> a1"
+    ],
+    "cursor": [3, 0]
+  },
+  "history-navigation-in-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "first one", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "second two"}
+    ],
+    "screen": [
+      "> second two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-display-long-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a much longer line that wraps around"}
+    ],
+    "screen": [
+      "> a much longer line",
+      " that wraps around"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a much longer line",
+          " that wraps around"
+        ],
+        "cursor": [1, 18]
+      },
+      {
+        "screen": [
+          "> short"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> a much longer line",
+          " that wraps around"
+        ],
+        "cursor": [1, 18]
+      }
+    ]
+  },
+  "history-undo-list-per-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "third three", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"}
+    ],
+    "screen": [
+      "> second two"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-save-unsave-line-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun save-line s", "ret": 0},
+      {"op": "defun unsave-line u", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xs\" save-line", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xu\" unsave-line", "ret": 0},
+      {"op": "rl_maybe_save_line", "ret": 0},
+      {"op": "dump", "line": "temporary", "point": 5, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_maybe_unsave_line", "ret": 0},
+      {"op": "dump", "line": "draft", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "draft"}
+    ],
+    "screen": [
+      "> draft"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-replace-line-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun repl-line r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" repl-line", "ret": 0},
+      {"op": "rl_maybe_replace_line", "ret": 0},
+      {"op": "dump", "line": "origX", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "origX"},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "orig", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> origX"
+    ],
+    "cursor": [1, 0]
+  },
+  "get-previous-history-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun prev2 p", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" prev2", "ret": 0},
+      {"op": "rl_get_previous_history 2 0", "ret": 0},
+      {"op": "dump", "line": "second two", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second two"}
+    ],
+    "screen": [
+      "> second two"
+    ],
+    "cursor": [1, 0]
+  },
+  "beginning-of-history-api-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_beginning_of_history 1 0", "ret": 0},
+      {"op": "dump", "line": "x1", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_end_of_history 1 0", "ret": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

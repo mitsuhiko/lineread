@@ -1,0 +1,284 @@
+# History navigation inside readline: previous/next-history,
+# beginning/end-of-history, fetch-history, operate-and-get-next,
+# modified history lines, history-preserve-point.
+tags: history navigation
+--- script
+add_history "first one"
+add_history "second two"
+add_history "third three"
+readline "> "
+
+=== previous-history-once
+tags: previous-history
+keys: \C-p<dumpfull>\r
+
+=== previous-history-to-start-and-beyond
+tags: previous-history
+keys: \C-p\C-p\C-p<dump>\C-p<dump>\r
+
+=== previous-history-count
+tags: previous-history numarg
+keys: \M-2\C-p<dump>\r
+
+=== previous-history-negative-count
+tags: previous-history numarg
+keys: \C-p\C-p\C-p\M--\C-p<dump>\r
+
+=== previous-history-up-arrow
+tags: previous-history
+keys: <up><up><dump><down><dump>\r
+
+=== next-history-back-to-current
+tags: next-history
+keys: typed\C-p\C-p<dump>\C-n\C-n<dumpfull>\r
+
+=== next-history-at-end-dings
+tags: next-history
+keys: abc\C-n<dump>\r
+
+=== next-history-count
+tags: next-history numarg
+keys: \C-p\C-p\C-p\M-2\C-n<dump>\r
+
+=== next-history-negative-count
+tags: next-history numarg
+keys: \M--\M-2\C-n<dump>\r
+
+=== beginning-of-history
+tags: beginning-of-history
+keys: abc\M-<<dumpfull>\r
+
+=== end-of-history
+tags: end-of-history
+keys: typed\M-<\M-><dumpfull>\r
+
+=== history-point-at-end
+tags: previous-history
+keys: abc\C-a\C-p<dump>\r
+
+=== history-preserve-point
+tags: previous-history history-preserve-point vars
+--- inputrc
+set history-preserve-point on
+--- keys
+abcdefgh\C-a\C-f\C-f\C-f\C-f<dump>\C-p<dump>\C-p<dump>\C-n\C-n<dump>\r
+
+=== history-preserve-point-short-line
+tags: previous-history history-preserve-point vars
+--- inputrc
+set history-preserve-point on
+--- script
+add_history "ab"
+add_history "a long history line"
+readline "> "
+--- keys
+\C-p\C-a\M-f\M-f<dump>\C-p<dump>\C-n<dump>\r
+
+=== modified-history-line-kept
+tags: previous-history
+keys: \C-pX\C-p\C-n<dump>\C-n<dump>\C-p<dump>\r
+
+=== modified-history-line-returned-not-saved
+tags: previous-history
+--- script
+add_history "first one"
+add_history "second two"
+readline "> "
+history_dump
+using_history
+readline "> "
+--- keys
+\C-p MOD\r\C-p\C-p<dump>\r
+ignore: results[1].entries[*].data
+
+=== modified-history-mark-modified-lines
+tags: mark-modified-lines vars display
+--- inputrc
+set mark-modified-lines on
+--- keys
+\C-pX<snap>\C-p<snap>\C-n<snap>\r
+
+=== mark-modified-lines-off
+tags: mark-modified-lines vars display
+--- keys
+\C-pX<snap>\C-p<snap>\C-n<snap>\r
+
+=== current-line-saved-while-browsing
+tags: previous-history next-history
+keys: draft\C-p\C-p\C-n\C-n<dump>\r
+
+=== empty-history-previous
+tags: previous-history
+--- script
+readline "> "
+--- keys
+abc\C-p<dump>\M-<<dump>\r
+
+=== fetch-history-with-arg
+tags: fetch-history
+--- inputrc
+"\C-xf": fetch-history
+--- keys
+\M-2\C-xf<dump>\r
+
+=== fetch-history-no-arg
+tags: fetch-history
+--- inputrc
+"\C-xf": fetch-history
+--- keys
+abc\C-xf<dump>\r
+
+=== fetch-history-out-of-range
+tags: fetch-history
+--- inputrc
+"\C-xf": fetch-history
+--- keys
+\M-9\C-xf<dump>\r
+
+=== fetch-history-negative
+tags: fetch-history
+--- inputrc
+"\C-xf": fetch-history
+--- keys
+\M--\M-1\C-xf<dump>\r
+
+=== fetch-history-history-base
+tags: fetch-history
+--- inputrc
+"\C-xf": fetch-history
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+set history_base 10
+readline "> "
+--- keys
+\M-1\M-1\C-xf<dump>\r
+
+=== operate-and-get-next
+tags: operate-and-get-next
+--- script
+add_history "first one"
+add_history "second two"
+add_history "third three"
+readline "> " 3 addhist
+history_dump
+--- keys
+\C-p\C-p\C-p\C-o<dump>\C-o<dump>\r
+
+=== operate-and-get-next-with-arg
+tags: operate-and-get-next numarg
+--- script
+add_history "first one"
+add_history "second two"
+add_history "third three"
+readline "> " 2 addhist
+--- keys
+\C-p\C-p\C-p\M-2\C-o<dump>\r
+
+=== operate-and-get-next-at-end
+tags: operate-and-get-next
+--- script
+readline "> " 2 addhist
+--- keys
+new\C-o<dump>\r
+
+=== operate-and-get-next-stifled
+tags: operate-and-get-next
+--- script
+add_history "one"
+add_history "two"
+add_history "three"
+stifle_history 3
+readline "> " 2 addhist
+--- keys
+\C-p\C-p\C-o<dump>\r
+
+=== history-across-readline-calls
+tags: previous-history
+--- script
+readline "> " 3 addhist
+--- keys
+a1\rb2\r\C-p\C-p<dump>\r
+
+=== history-navigation-in-callback
+tags: previous-history callback
+--- script
+add_history "first one"
+add_history "second two"
+callback "> "
+--- keys
+\C-p\C-p<dump>\C-n<dump>\r
+
+=== history-display-long-entry
+tags: previous-history display
+screen: 20x6
+--- script
+add_history "short"
+add_history "a much longer line that wraps around"
+readline "> "
+--- keys
+\C-p<snap>\C-p<snap>\C-n<snap>\r
+
+=== history-undo-list-per-entry
+tags: previous-history undo
+keys: \C-pA\C-pB\C-n\C-_<dump>\C-p\C-_<dump>\r
+
+=== maybe-save-unsave-line-api
+tags: rl_maybe_save_line rl_maybe_unsave_line api
+--- script
+def s
+rl_maybe_save_line
+rl_replace_line "temporary" 0
+end
+def u
+rl_maybe_unsave_line
+end
+defun save-line s
+defun unsave-line u
+rl_bind_keyseq "\C-xs" save-line
+rl_bind_keyseq "\C-xu" unsave-line
+readline "> "
+--- keys
+draft\C-xs<dump>\C-xu<dump>\r
+
+=== maybe-replace-line-api
+tags: rl_maybe_replace_line api
+--- script
+add_history "orig"
+def r
+rl_maybe_replace_line
+end
+defun repl-line r
+rl_bind_keyseq "\C-xr" repl-line
+readline "> "
+history_dump
+--- keys
+\C-pX\C-xr\C-n\C-p<dump>\r
+ignore: results[*].entries[*].data
+
+=== get-previous-history-api
+tags: rl_get_previous_history api
+--- script
+add_history "first one"
+add_history "second two"
+add_history "third three"
+def p
+rl_get_previous_history 2 0
+end
+defun prev2 p
+rl_bind_keyseq "\C-xp" prev2
+readline "> "
+--- keys
+\C-xp<dump>\r
+
+=== beginning-of-history-api-outside
+tags: rl_beginning_of_history api
+--- script
+add_history "x1"
+add_history "x2"
+rl_initialize
+rl_beginning_of_history 1 0
+dump
+rl_end_of_history 1 0
+dump
