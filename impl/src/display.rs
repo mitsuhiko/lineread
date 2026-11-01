@@ -682,18 +682,6 @@ pub unsafe extern "C" fn rl_clear_display(_count: c_int, _key: c_int) -> c_int {
     0
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn rl_previous_screen_line(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_previous_screen_line");
-    0
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn rl_next_screen_line(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_next_screen_line");
-    0
-}
-
 // ---------------------------------------------------------------- prompts
 
 #[no_mangle]

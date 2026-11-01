@@ -204,3 +204,59 @@ pub unsafe extern "C" fn rl_arrow_keys(count: c_int, _key: c_int) -> c_int {
         }
     }
 }
+
+/// Screen position (row, column) of buffer index `i` in the current layout.
+fn screen_pos(i: usize) -> (usize, usize) {
+    let saved = buffer::rl_point.get();
+    buffer::rl_point.set(i as c_int);
+    let (_, pos) = crate::display::layout();
+    buffer::rl_point.set(saved);
+    pos
+}
+
+/// The last character boundary whose screen position is at or before
+/// (row, col).
+fn index_at(row: usize, col: usize) -> usize {
+    let l = line();
+    let mut best = 0;
+    let mut i = 0;
+    loop {
+        if screen_pos(i) <= (row, col) {
+            best = i;
+        } else {
+            break;
+        }
+        if i >= l.len() {
+            break;
+        }
+        i = mb::next_char(l, i);
+    }
+    best
+}
+
+/// Move to the same column on the previous screen line (the start of
+/// the line from the first one).  The count is ignored (observed).
+#[no_mangle]
+pub unsafe extern "C" fn rl_previous_screen_line(_count: c_int, _key: c_int) -> c_int {
+    let (row, col) = screen_pos(point());
+    if row == 0 {
+        set_point(0);
+        return 0;
+    }
+    set_point(index_at(row - 1, col));
+    0
+}
+
+/// Move to the same column on the next screen line (the end of the line
+/// from the last one).  The count is ignored (observed).
+#[no_mangle]
+pub unsafe extern "C" fn rl_next_screen_line(_count: c_int, _key: c_int) -> c_int {
+    let (row, col) = screen_pos(point());
+    let (last_row, _) = screen_pos(end());
+    if row >= last_row {
+        set_point(end());
+        return 0;
+    }
+    set_point(index_at(row + 1, col));
+    0
+}
