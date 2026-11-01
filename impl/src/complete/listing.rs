@@ -271,12 +271,18 @@ unsafe fn get_y_or_n(for_pager: bool) -> Result<c_int, ()> {
 /// `--More--`: returns the new line count, or None to stop.
 unsafe fn pager(lines: c_int) -> Result<Option<c_int>, ()> {
     write_listing(b"--More--");
+    let sigs = crate::signals::SIGNALS_HANDLED.get();
     let r = get_y_or_n(true)?;
+    let interrupted = crate::signals::SIGNALS_HANDLED.get() != sigs;
     // erase the prompt line
     terminal::out_byte(b'\r');
     terminal::out_cap("el");
     terminal::out_byte(b'\r');
     terminal::flush();
+    if interrupted {
+        // a signal arrived while waiting: stop the listing
+        return Ok(None);
+    }
     Ok(match r {
         0 => None,
         2 => Some(lines - 1),
