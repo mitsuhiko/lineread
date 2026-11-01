@@ -12,7 +12,7 @@ pub static rl_deprep_term_function: CVar<Option<rl_voidfunc_t>> = CVar::new(Some
 /// Saved terminal settings (from the last prep).
 static SAVED: CVar<Option<libc::termios>> = CVar::new(None);
 /// Whether the terminal echoes (readline echoes itself while prepped).
-pub static ECHOING: CVar<c_int> = CVar::new(1);
+pub static ECHOING: CVar<c_int> = CVar::new(0);
 /// The terminal's ECHOCTL flag at the last prep (signal characters are
 /// echoed as `^C` only then).
 static ECHOCTL: CVar<bool> = CVar::new(false);

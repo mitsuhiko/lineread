@@ -347,7 +347,8 @@ pub fn flush() {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_ding() -> c_int {
-    if crate::readline::initialized() {
+    // (rings only once the terminal was prepped with echoing, else -1)
+    if crate::tty::ECHOING.get() != 0 {
         match crate::vars::bell_style.get() {
             crate::vars::BELL_NONE => {}
             crate::vars::BELL_VISIBLE => {
