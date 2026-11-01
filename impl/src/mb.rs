@@ -188,6 +188,9 @@ pub fn prev_char_nz(buf: &[u8], seed: usize) -> usize {
     if !multibyte() {
         return seed.saturating_sub(1);
     }
+    if utf8_locale() {
+        return prev_utf8_nz(buf, seed.min(buf.len()));
+    }
     let mut prev = 0;
     let mut p = 0;
     while p < seed && p < buf.len() {
@@ -219,4 +222,70 @@ pub fn backward_chars_nz(buf: &[u8], i: usize, count: usize) -> usize {
         p = prev_char_nz(buf, p);
     }
     p
+}
+
+/// Is the current locale's codeset UTF-8?
+pub fn utf8_locale() -> bool {
+    unsafe {
+        let p = libc::nl_langinfo(libc::CODESET);
+        if p.is_null() {
+            return false;
+        }
+        let c = core::ffi::CStr::from_ptr(p).to_bytes();
+        c.eq_ignore_ascii_case(b"UTF-8") || c.eq_ignore_ascii_case(b"utf8")
+    }
+}
+
+/// Start of the UTF-8 character before `p` judged by the bytes only
+/// (continuation bytes belong to the lead byte before them).
+fn utf8_char_start_before(buf: &[u8], p: usize) -> usize {
+    let mut q = p - 1;
+    let b = buf[q];
+    if b < 0x80 {
+        return q;
+    }
+    let save = q;
+    let mut b = b;
+    if b & 0xc0 == 0x80 {
+        while q > 0 {
+            q -= 1;
+            b = buf[q];
+            if b & 0xc0 != 0x80 {
+                break;
+            }
+        }
+    }
+    if b & 0xc0 == 0xc0 {
+        q
+    } else {
+        save
+    }
+}
+
+/// UTF-8 `prev_char_nz`: zero-width characters are skipped; an invalid
+/// lead byte after another non-ASCII byte goes with the character before
+/// it (as the reference behaves).
+fn prev_utf8_nz(buf: &[u8], seed: usize) -> usize {
+    let mut p = seed;
+    while p > 0 {
+        let q = utf8_char_start_before(buf, p);
+        let b = buf[q];
+        if b < 0x80 || b & 0xc0 != 0xc0 {
+            return q;
+        }
+        match decode_at(buf, q) {
+            (None, _) => {
+                if q > 0 && buf[q - 1] >= 0x80 {
+                    return utf8_char_start_before(buf, q);
+                }
+                return q;
+            }
+            (Some(c), _) if wc_width(c) == 0 => {
+                p = q;
+                continue;
+            }
+            _ => return q,
+        }
+    }
+    0
 }
