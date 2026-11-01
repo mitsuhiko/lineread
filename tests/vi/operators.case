@@ -1,0 +1,431 @@
+# vi operators: d, c, y with motions and counts; dd/cc/yy; D C Y; x X
+# s S r ~ p P.
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== dw
+tags: vi-delete-to
+keys: one two three\e<pause>0dw<dump>\r
+
+=== dw-at-last-word
+tags: vi-delete-to
+keys: one two\e<pause>0wdw<dump>\r
+
+=== dW
+tags: vi-delete-to
+keys: a.b c.d e\e<pause>0dW<dump>\r
+
+=== de
+tags: vi-delete-to
+keys: one two three\e<pause>0de<dump>\r
+
+=== dE
+tags: vi-delete-to
+keys: a.b c.d\e<pause>0dE<dump>\r
+
+=== db
+tags: vi-delete-to
+keys: one two three\e<pause>db<dump>\r
+
+=== dB
+tags: vi-delete-to
+keys: a.b c.d\e<pause>dB<dump>\r
+
+=== d-dollar
+tags: vi-delete-to
+keys: one two three\e<pause>0wd$<dump>\r
+
+=== d-zero
+tags: vi-delete-to
+keys: one two three\e<pause>0wwd0<dump>\r
+
+=== d-caret
+tags: vi-delete-to
+keys:   one two\e<pause>d^<dump>\r
+
+=== dh-dl
+tags: vi-delete-to
+keys: abcdef\e<pause>0lldh<dump>dl<dump>\r
+
+=== d-space
+tags: vi-delete-to
+keys: abcdef\e<pause>0d\s<dump>\r
+
+=== dd
+tags: vi-delete-to
+keys: one two\e<pause>0wdd<dump>\r
+
+=== dd-count
+tags: vi-delete-to numarg
+keys: one two\e<pause>2dd<dump>\r
+
+=== d-count-w
+tags: vi-delete-to numarg
+keys: a b c d e\e<pause>0d3w<dump>\r
+
+=== count-d-w
+tags: vi-delete-to numarg
+keys: a b c d e\e<pause>02dw<dump>\r
+
+=== count-d-count-w
+tags: vi-delete-to numarg
+keys: a b c d e f g\e<pause>02d2w<dump>\r
+
+=== d-f
+tags: vi-delete-to vi-char-search
+keys: abc-def-ghi\e<pause>0df-<dump>\r
+
+=== d-t
+tags: vi-delete-to vi-char-search
+keys: abc-def-ghi\e<pause>0dt-<dump>\r
+
+=== d-F
+tags: vi-delete-to vi-char-search
+keys: abc-def-ghi\e<pause>dF-<dump>\r
+
+=== d-T
+tags: vi-delete-to vi-char-search
+keys: abc-def-ghi\e<pause>dT-<dump>\r
+
+=== d-f-not-found
+tags: vi-delete-to vi-char-search
+keys: abcdef\e<pause>0dfz<dump>\r
+
+=== d-semicolon
+tags: vi-delete-to vi-char-search
+keys: a-b-c-d\e<pause>0f-0d;<dump>\r
+
+=== d-percent
+tags: vi-delete-to vi-match
+keys: x(a b)y\e<pause>0ld%<dump>\r
+
+=== d-pipe
+tags: vi-delete-to vi-column
+keys: abcdefgh\e<pause>d3|<dump>\r
+
+=== d-invalid-motion
+tags: vi-delete-to
+keys: abcdef\e<pause>0dq<dump>\r
+
+=== d-escape-cancels
+tags: vi-delete-to
+keys: abcdef\e<pause>0d\e<pause><dump>\r
+
+=== d-to-mark
+tags: vi-delete-to vi-goto-mark
+keys: one two three\e<pause>0wmawwd`a<dump>\r
+
+=== dw-utf8
+tags: vi-delete-to utf8
+keys: héllo wörld\e<pause>0dw<dump>\r
+
+=== D
+tags: vi-delete-to
+keys: one two three\e<pause>0wD<dump>\r
+
+=== D-count
+tags: vi-delete-to numarg
+keys: one two\e<pause>0w2D<dump>\r
+
+=== cw-like-ce
+tags: vi-change-to
+keys: one two three\e<pause>0cwXX\e<pause><dump>\r
+
+=== cw-on-whitespace
+tags: vi-change-to
+keys: one   two\e<pause>0ellcwX\e<pause><dump>\r
+
+=== cW
+tags: vi-change-to
+keys: a.b c.d\e<pause>0cWX\e<pause><dump>\r
+
+=== ce
+tags: vi-change-to
+keys: one two\e<pause>0ceX\e<pause><dump>\r
+
+=== cb
+tags: vi-change-to
+keys: one two\e<pause>cbX\e<pause><dump>\r
+
+=== c-dollar
+tags: vi-change-to
+keys: one two three\e<pause>0wc$X\e<pause><dump>\r
+
+=== c-zero
+tags: vi-change-to
+keys: one two\e<pause>0wc0X\e<pause><dump>\r
+
+=== cc
+tags: vi-change-to
+keys: one two\e<pause>ccnew\e<pause><dump>\r
+
+=== cc-count
+tags: vi-change-to numarg
+keys: one two\e<pause>3ccX\e<pause><dump>\r
+
+=== c-count-w
+tags: vi-change-to numarg
+keys: a b c d\e<pause>0c2wX\e<pause><dump>\r
+
+=== c-f
+tags: vi-change-to vi-char-search
+keys: abc-def\e<pause>0cf-X\e<pause><dump>\r
+
+=== c-t
+tags: vi-change-to vi-char-search
+keys: abc-def\e<pause>0ct-X\e<pause><dump>\r
+
+=== c-escape-cancels
+tags: vi-change-to
+keys: abc\e<pause>0c\e<pause><dump>\r
+
+=== C
+tags: vi-change-to
+keys: one two\e<pause>0wCX\e<pause><dump>\r
+
+=== c-mode-is-insert
+tags: vi-change-to
+keys: one two\e<pause>0cw<dumpfull>\e<pause>\r
+
+=== yw-p
+tags: vi-yank-to vi-put
+keys: one two\e<pause>0yw$p<dump>\r
+
+=== yw-cursor-stays
+tags: vi-yank-to
+keys: one two\e<pause>0wyw<dump>\r
+
+=== yb-moves-cursor
+tags: vi-yank-to
+keys: one two\e<pause>yb<dump>p<dump>\r
+
+=== ye
+tags: vi-yank-to
+keys: one two\e<pause>0yeP<dump>\r
+
+=== y-dollar
+tags: vi-yank-to
+keys: one two\e<pause>0wy$0P<dump>\r
+
+=== yy
+tags: vi-yank-to
+keys: one two\e<pause>0yyP<dump>\r
+
+=== Y
+tags: vi-yank-to
+keys: one two\e<pause>0wYP<dump>\r
+
+=== y-f
+tags: vi-yank-to vi-char-search
+keys: abc-def\e<pause>0yf-$p<dump>\r
+
+=== y-count
+tags: vi-yank-to numarg
+keys: a b c d\e<pause>0y2w$p<dump>\r
+
+=== y-escape-cancels
+tags: vi-yank-to
+keys: abc\e<pause>0y\e<pause><dump>\r
+
+=== p-after
+tags: vi-put
+keys: abc\e<pause>0x<pause>p<dump>\r
+
+=== P-before
+tags: vi-put
+keys: abc\e<pause>0x<pause>P<dump>\r
+
+=== p-count
+tags: vi-put numarg
+keys: abc\e<pause>0x<pause>3p<dump>\r
+
+=== P-count
+tags: vi-put numarg
+keys: abc\e<pause>$x<pause>03P<dump>\r
+
+=== p-empty-kill-ring
+tags: vi-put
+keys: abc\e<pause>p<dump>\r
+
+=== p-on-empty-line
+tags: vi-put
+keys: abc\e<pause>dd<pause>p<dump>\r
+
+=== p-after-dw
+tags: vi-put vi-delete-to
+keys: one two\e<pause>0dw<pause>p<dump>\r
+
+=== x
+tags: vi-delete
+keys: abcd\e<pause>0x<dump>x<dump>\r
+
+=== x-count
+tags: vi-delete numarg
+keys: abcdef\e<pause>03x<dump>\r
+
+=== x-count-past-end
+tags: vi-delete numarg
+keys: abcdef\e<pause>0ll9x<dump>\r
+
+=== x-at-end
+tags: vi-delete
+keys: abc\e<pause>x<dump>x<dump>x<dump>x<dump>\r
+
+=== x-empty-line
+tags: vi-delete
+keys: \e<pause>x<dump>\r
+
+=== x-utf8
+tags: vi-delete utf8
+keys: aé日b\e<pause>0lx<dump>x<dump>\r
+
+=== X
+tags: vi-rubout
+keys: abcd\e<pause>X<dump>X<dump>\r
+
+=== X-count
+tags: vi-rubout numarg
+keys: abcdef\e<pause>3X<dump>\r
+
+=== X-at-start
+tags: vi-rubout
+keys: abc\e<pause>0X<dump>\r
+
+=== X-utf8
+tags: vi-rubout utf8
+keys: aé日b\e<pause>X<dump>X<dump>\r
+
+=== x-then-p-swaps
+tags: vi-delete vi-put
+keys: ab\e<pause>0x<pause>p<dump>\r
+
+=== s
+tags: vi-subst
+keys: abcd\e<pause>0sX\e<pause><dump>\r
+
+=== s-count
+tags: vi-subst numarg
+keys: abcdef\e<pause>03sX\e<pause><dump>\r
+
+=== S
+tags: vi-subst
+keys: abc def\e<pause>SX\e<pause><dump>\r
+
+=== s-at-end
+tags: vi-subst
+keys: abc\e<pause>sX\e<pause><dump>\r
+
+=== r
+tags: vi-change-char
+keys: abcd\e<pause>0rX<dump>\r
+
+=== r-count
+tags: vi-change-char numarg
+keys: abcdef\e<pause>03rX<dump>\r
+
+=== r-count-too-large
+tags: vi-change-char numarg
+keys: abc\e<pause>05rX<dump>\r
+
+=== r-escape-cancels
+tags: vi-change-char
+keys: abc\e<pause>0r\e<pause><dump>\r
+
+=== r-utf8
+tags: vi-change-char utf8
+keys: abc\e<pause>0ré<dump>lr日<dump>\r
+
+=== r-on-wide-char
+tags: vi-change-char utf8
+keys: 日本\e<pause>0rx<dump>\r
+
+=== r-control-char
+tags: vi-change-char
+keys: abc\e<pause>0r\C-v\C-a<dump>\r
+
+=== tilde
+tags: vi-change-case
+keys: hello\e<pause>0~<dump>~~<dump>\r
+
+=== tilde-count
+tags: vi-change-case numarg
+keys: hello World\e<pause>08~<dump>\r
+
+=== tilde-non-letters
+tags: vi-change-case
+keys: a1-B\e<pause>0~~~~<dump>\r
+
+=== tilde-utf8
+tags: vi-change-case utf8
+keys: éÉß\e<pause>0~~~<dump>\r
+
+=== tilde-at-end
+tags: vi-change-case
+keys: ab\e<pause>~<dump>\r
+
+=== underscore-yank-arg
+tags: vi-yank-arg
+--- script
+add_history "cmd alpha beta"
+readline "> "
+--- keys
+x \e<pause>_<dump>\r
+
+=== underscore-yank-arg-count
+tags: vi-yank-arg numarg
+--- script
+add_history "cmd alpha beta"
+readline "> "
+--- keys
+x \e<pause>1_<dump>\r
+
+=== vi-yank-pop
+tags: vi-yank-pop
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-y": vi-yank-pop
+--- keys
+aa\e<pause>dd<pause>abb\e<pause>dd<pause>p<dump>\C-y<dump>\r
+
+=== vi-delete-to-api
+tags: vi-delete-to api
+--- script
+def d
+rl_vi_delete_to 1 "d"
+end
+defun del d
+rl_bind_keyseq_in_map "\C-x" del vi-command
+readline "> "
+--- keys
+one two\e<pause>0\C-xw<dump>\r
+
+
+=== vi-bracktype-api
+tags: rl_vi_bracktype api
+--- script
+rl_vi_bracktype "("
+rl_vi_bracktype ")"
+rl_vi_bracktype "["
+rl_vi_bracktype "]"
+rl_vi_bracktype "{"
+rl_vi_bracktype "}"
+rl_vi_bracktype "x"
+
+=== vi-check-api
+tags: rl_vi_check api
+--- script
+def c
+rl_vi_check
+dump
+end
+defun chk c
+rl_bind_keyseq_in_map "\C-x" chk vi-insert
+readline "> "
+--- keys
+abc\C-x\r

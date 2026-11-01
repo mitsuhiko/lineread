@@ -1,0 +1,216 @@
+# vi command-mode motions.
+tags: vi movement
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== h-l
+tags: backward-char forward-char
+keys: abcdef\e<pause>h<dump>hh<dump>l<dump>\r
+
+=== h-at-start-dings
+tags: backward-char
+keys: abc\e<pause>0h<dump>\r
+
+=== l-at-end-stays
+tags: forward-char
+keys: abc\e<pause>l<dump>\r
+
+=== h-l-counts
+tags: backward-char forward-char numarg
+keys: abcdefgh\e<pause>4h<dump>2l<dump>9l<dump>\r
+
+=== space-and-backspace
+tags: forward-char backward-char
+keys: abcdef\e<pause>0\s\s<dump>\C-?<dump>\C-h<dump>\r
+
+=== zero-caret-dollar
+tags: beginning-of-line vi-first-print end-of-line
+keys:    abc def\e<pause>0<dump>^<dump>$<dump>\r
+
+=== dollar-with-count
+tags: end-of-line numarg
+keys: abc\e<pause>03$<dump>\r
+
+=== pipe-column
+tags: vi-column
+keys: abcdefgh\e<pause>4|<dump>|<dump>20|<dump>\r
+
+=== w-word
+tags: vi-next-word vi-fword
+keys: one two.three  four\e<pause>0w<dump>w<dump>w<dump>w<dump>w<dump>\r
+
+=== w-at-end
+tags: vi-next-word
+keys: one two\e<pause>0ww<dump>w<dump>\r
+
+=== w-count
+tags: vi-next-word numarg
+keys: a b c d e\e<pause>03w<dump>\r
+
+=== W-bigword
+tags: vi-next-word vi-fWord
+keys: a.b c.d  e-f\e<pause>0W<dump>W<dump>W<dump>\r
+
+=== b-word
+tags: vi-prev-word vi-bword
+keys: one two.three  four\e<pause>b<dump>b<dump>b<dump>b<dump>b<dump>\r
+
+=== B-bigword
+tags: vi-prev-word vi-bWord
+keys: a.b c.d  e-f\e<pause>B<dump>B<dump>B<dump>\r
+
+=== b-count
+tags: vi-prev-word numarg
+keys: a b c d e\e<pause>3b<dump>\r
+
+=== e-word-end
+tags: vi-end-word vi-eword
+keys: one two.three  four\e<pause>0e<dump>e<dump>e<dump>e<dump>e<dump>\r
+
+=== E-bigword-end
+tags: vi-end-word vi-eWord
+keys: a.b c.d  e-f\e<pause>0E<dump>E<dump>E<dump>\r
+
+=== e-count
+tags: vi-end-word numarg
+keys: ab cd ef\e<pause>02e<dump>\r
+
+=== word-motions-punct-runs
+tags: vi-next-word vi-prev-word vi-end-word
+keys: foo(); bar\e<pause>0w<dump>w<dump>e<dump>b<dump>\r
+
+=== word-motions-single-chars
+tags: vi-next-word
+keys: a b c\e<pause>0w<dump>e<dump>e<dump>\r
+
+=== f-F-t-T
+tags: vi-char-search
+keys: a-b-c-d-e\e<pause>0f-<dump>2f-<dump>F-<dump>t-<dump>T-<dump>\r
+
+=== semicolon-comma-repeat
+tags: vi-char-search
+keys: a-b-c-d-e\e<pause>0f-;<dump>;<dump>,<dump>,<dump>\r
+
+=== t-repeat-semicolon
+tags: vi-char-search
+keys: a-b-c-d-e\e<pause>0t-<dump>;<dump>;<dump>\r
+
+=== T-repeat-comma
+tags: vi-char-search
+keys: a-b-c-d-e\e<pause>T-<dump>,<dump>,<dump>\r
+
+=== f-not-found
+tags: vi-char-search
+keys: abc\e<pause>0fz<dump>\r
+
+=== semicolon-without-previous
+tags: vi-char-search
+keys: abc\e<pause>0;<dump>\r
+
+=== f-count-too-large
+tags: vi-char-search numarg
+keys: a-b-c\e<pause>05f-<dump>\r
+
+=== f-escape-cancels
+tags: vi-char-search
+keys: a-b-c\e<pause>0f\e<pause><dump>\r
+
+=== f-utf8-char
+tags: vi-char-search utf8
+keys: aébécé\e<pause>0fé<dump>;<dump>Fé<dump>\r
+
+=== percent-match-parens
+tags: vi-match
+keys: (a [b {c} d] e)\e<pause>0%<dump>%<dump>\r
+
+=== percent-from-inside
+tags: vi-match
+keys: x(a[b]c)y\e<pause>0l%<dump>\r
+
+=== percent-search-forward-for-bracket
+tags: vi-match
+keys: ab (cd) ef\e<pause>0%<dump>\r
+
+=== percent-no-bracket
+tags: vi-match
+keys: abc\e<pause>0%<dump>\r
+
+=== percent-unbalanced
+tags: vi-match
+keys: ((ab)\e<pause>0%<dump>\r
+
+=== percent-brackets-and-braces
+tags: vi-match
+keys: {[()]}\e<pause>0l%<dump>l%<dump>\r
+
+=== caret-first-print
+tags: vi-first-print vi-back-to-indent
+keys:   \t x y\e<pause>^<dump>\r
+
+=== caret-all-blank
+tags: vi-first-print
+keys:     \e<pause>0^<dump>\r
+
+=== arrow-keys-in-command-mode
+tags: backward-char forward-char
+keys: abcd\e<pause><left><dump><right><dump><home><dump><end><dump>\r
+
+=== motion-count-and-numeric-prompt
+tags: numarg display
+keys: abcdefgh\e<pause>12<snap>h<dump>\r
+
+=== count-zero-is-bol
+tags: numarg beginning-of-line
+keys: abcdefghijkl\e<pause>10l<dump>\r
+
+=== vi-column-api
+tags: vi-column api
+--- script
+def c
+rl_vi_column 3 0
+end
+defun col c
+rl_bind_keyseq_in_map "\C-x" col vi-command
+readline "> "
+--- keys
+abcdef\e<pause>\C-x<dump>\r
+
+=== vi-fword-bword-eword-bindable
+tags: vi-fword vi-bword vi-eword vi-fWord vi-bWord vi-eWord
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-a": vi-fword
+"\C-b": vi-bword
+"\C-e": vi-eword
+"\C-f": vi-fWord
+"\C-g": vi-bWord
+"\C-h": vi-eWord
+--- keys
+a.b c.d e\e<pause>0\C-a<dump>\C-e<dump>\C-b<dump>\C-f<dump>\C-h<dump>\C-g<dump>\r
+
+=== vi-forward-backward-word-names
+tags: vi-forward-word vi-backward-word vi-forward-bigword vi-backward-bigword vi-end-bigword
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-a": vi-forward-word
+"\C-b": vi-backward-word
+"\C-e": vi-forward-bigword
+"\C-f": vi-backward-bigword
+"\C-g": vi-end-bigword
+--- keys
+a.b c.d e\e<pause>0\C-a<dump>\C-e<dump>\C-g<dump>\C-f<dump>\C-b<dump>\r
+
+=== word-motions-utf8
+tags: vi-next-word vi-end-word utf8
+keys: héllo wörld 日本 x\e<pause>0w<dump>w<dump>e<dump>b<dump>\r
+
+=== big-word-motions-utf8
+tags: vi-next-word utf8
+keys: hé.llo wö-rld\e<pause>0W<dump>E<dump>B<dump>\r

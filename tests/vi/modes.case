@@ -1,0 +1,389 @@
+# vi mode: switching between insert and command mode, insertion
+# commands, mode strings in the prompt, keymaps.
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== starts-in-insert-mode
+tags: vi-insertion-mode
+keys: <dumpfull>abc\r
+
+=== escape-moves-cursor-left
+tags: vi-movement-mode
+keys: abc\e<pause><dump>\r
+
+=== escape-at-start-of-line
+tags: vi-movement-mode
+keys: \e<pause><dump>\r
+
+=== escape-twice-dings
+tags: vi-movement-mode
+keys: abc\e<pause>\e<pause><dump>\r
+
+=== insert-i
+tags: vi-insertion-mode
+keys: abc\e<pause>iX\e<pause><dump>\r
+
+=== insert-a
+tags: vi-append-mode
+keys: abc\e<pause>0aX\e<pause><dump>\r
+
+=== insert-a-on-empty-line
+tags: vi-append-mode
+keys: \e<pause>aX<dump>\r
+
+=== insert-A
+tags: vi-append-eol
+keys: abc\e<pause>0AX<dump>\r
+
+=== insert-I
+tags: vi-insert-beg
+keys:   abc\e<pause>IX<dump>\r
+
+=== insert-key-in-command-mode
+tags: vi-insertion-mode
+keys: abc\e<pause>0<ins>X<dump>\r
+
+=== insert-count-i
+tags: vi-insertion-mode numarg
+keys: \e<pause>3iab\e<pause><dump>\r
+
+=== insert-count-a
+tags: vi-append-mode numarg
+keys: x\e<pause>2a-=\e<pause><dump>\r
+
+=== insert-count-A
+tags: vi-append-eol numarg
+keys: x\e<pause>0 3Ayz\e<pause><dump>\r
+
+=== insert-count-I
+tags: vi-insert-beg numarg
+keys: x\e<pause>2Iq\e<pause><dump>\r
+
+=== insert-mode-keymap-name
+tags: keymap
+keys: a<dumpfull>\e<pause><dumpfull>\r
+
+=== command-mode-accept-line
+tags: accept-line
+keys: abc\e<pause>0\r
+
+=== command-mode-ctrl-j
+tags: accept-line
+keys: abc\e<pause>\n
+
+=== accept-resets-to-insert-mode
+tags: vi-insertion-mode
+--- script
+readline "> " 2
+--- keys
+one\e<pause>\rtwo<dump>\r
+
+=== show-mode-in-prompt-insert
+tags: show-mode-in-prompt vi-ins-mode-string display
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+--- keys
+ab<snap>\e<pause><snap>i<snap>\r
+
+=== show-mode-in-prompt-custom-strings
+tags: show-mode-in-prompt vi-ins-mode-string vi-cmd-mode-string display
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+set vi-ins-mode-string "[I]"
+set vi-cmd-mode-string "[N]"
+--- keys
+ab<snap>\e<pause><snap>\r
+
+=== show-mode-in-prompt-invisible-escapes
+tags: show-mode-in-prompt vi-cmd-mode-string display
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+set vi-ins-mode-string "\1\e[1m\2+\1\e[0m\2"
+set vi-cmd-mode-string "\1\e[7m\2:\1\e[0m\2"
+--- keys
+ab<snap>\e<pause>0<snap>\r
+
+=== show-mode-in-prompt-emacs
+tags: show-mode-in-prompt emacs-mode-string display
+--- inputrc
+set show-mode-in-prompt on
+--- keys
+ab<snap>\r
+
+=== show-mode-in-prompt-emacs-custom
+tags: show-mode-in-prompt emacs-mode-string display
+--- inputrc
+set show-mode-in-prompt on
+set emacs-mode-string "E>"
+--- keys
+ab<snap>\M-\C-j<snap>\e<pause><snap>\r
+
+=== show-mode-in-prompt-multiline-prompt
+tags: show-mode-in-prompt display
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+--- script
+readline "first\nsecond> "
+--- keys
+ab<snap>\e<pause><snap>\r
+
+=== show-mode-in-prompt-empty-string
+tags: show-mode-in-prompt display
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+set vi-ins-mode-string ""
+--- keys
+ab<snap>\e<pause><snap>\r
+
+=== mode-string-variable-values
+tags: vi-cmd-mode-string vars
+--- inputrc
+set vi-cmd-mode-string "\1\e[1m\2CMD\1\e[0m\2"
+--- script
+rl_initialize
+rl_variable_value vi-cmd-mode-string
+rl_variable_value vi-ins-mode-string
+rl_variable_value emacs-mode-string
+rl_variable_bind vi-ins-mode-string "INS"
+rl_variable_value vi-ins-mode-string
+
+=== keymap-vi-move-alias
+tags: keymap vi-move
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-move
+"z": end-of-line
+--- keys
+abc\e<pause>0z<dump>\r
+
+=== keymap-vi-command-binding
+tags: keymap vi-command
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"q": "iQUOTE\e"
+--- keys
+abc\e<pause>0q<pause><dump>\r
+
+=== keymap-vi-insert-binding
+tags: keymap vi-insert
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-insert
+"\C-a": beginning-of-line
+--- keys
+abc\C-aX<dump>\r
+
+=== vi-movement-mode-bound-in-insert
+tags: vi-movement-mode
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+"jk": vi-movement-mode
+--- keys
+abcjk<pause>0x<dump>\r
+
+=== vi-insert-mode-keys-prefix-timeout
+tags: vi-movement-mode keyseq-timeout
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+"jk": vi-movement-mode
+--- keys
+abj<pause>c<dump>\r
+
+=== editing-mode-switch-via-variable
+tags: editing-mode vars
+--- script
+rl_variable_bind editing-mode vi
+readline "> "
+get rl_editing_mode
+rl_variable_bind editing-mode emacs
+readline "> "
+get rl_editing_mode
+--- inputrc
+--- keys
+abc\e<pause>0x<dump>\rabc\C-ax<dump>\r
+
+=== rl-editing-mode-variable
+tags: rl_editing_mode
+--- script
+get rl_editing_mode
+readline "> "
+get rl_editing_mode
+--- keys
+\r
+
+=== vi-editing-mode-command-from-emacs
+tags: vi-editing-mode
+--- inputrc
+set keyseq-timeout 50
+--- keys
+abc\M-\C-j\e<pause>0x<dump>\r
+
+=== vi-emacs-roundtrip-keeps-line
+tags: vi-editing-mode emacs-editing-mode
+--- inputrc
+set keyseq-timeout 50
+set keymap vi-command
+"\C-e": emacs-editing-mode
+--- keys
+hello\M-\C-j\e<pause>\C-e<dump>\C-a\C-k<dump>\r
+
+=== vi-insertion-mode-api
+tags: vi-insertion-mode api
+--- script
+def i
+rl_vi_insertion_mode 1 "i"
+end
+defun ins i
+rl_bind_keyseq_in_map "\C-x" ins vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xZ<dump>\r
+
+=== vi-movement-mode-api
+tags: vi-movement-mode api
+--- script
+def m
+rl_vi_movement_mode 1 0
+end
+defun mov m
+rl_bind_keyseq_in_map "\C-x" mov vi-insert
+readline "> "
+--- keys
+abc\C-x0x<dump>\r
+
+=== vi-start-inserting-api
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "c" 1 "c"
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause><dump>.<dump>\r
+
+=== insert-mode-ctrl-w
+tags: vi-unix-word-rubout
+keys: one two\C-w<dump>\C-w<dump>\r
+
+=== insert-mode-ctrl-w-after-insert-start
+tags: vi-unix-word-rubout
+keys: one two\e<pause>A three\C-w\C-w<dump>\r
+
+=== insert-mode-ctrl-u
+tags: unix-line-discard
+keys: one two\C-b\C-b\C-u<dump>\r
+
+=== insert-mode-rubout
+tags: backward-delete-char
+keys: abc\C-?\C-h<dump>\r
+
+=== insert-mode-rubout-past-insert-start
+tags: backward-delete-char
+keys: abc\e<pause>ad\C-?\C-?<dump>\r
+
+=== insert-mode-ctrl-v
+tags: quoted-insert
+keys: a\C-v\C-bc<dump>\r
+
+=== insert-mode-ctrl-t
+tags: transpose-chars
+keys: abc\C-t<dump>\r
+
+=== insert-mode-ctrl-y
+tags: yank
+keys: abc\C-u\C-y\C-y<dump>\r
+
+=== insert-mode-arrow-keys
+tags: backward-char forward-char
+keys: abc<left><left>X<right>Y<dump>\r
+
+=== insert-mode-tab-completes
+tags: complete
+--- script
+complete_words alpha
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+al\t<dump>\r
+
+=== insert-mode-ctrl-d-eof-empty
+tags: vi-eof-maybe
+--- script
+readline "> " 2
+--- keys
+\C-d
+
+=== insert-mode-ctrl-d-non-empty
+tags: vi-eof-maybe
+keys: abc\C-a\C-d<dump>\r
+
+=== command-mode-ctrl-d-eof
+tags: vi-eof-maybe
+--- keys
+abc\e<pause>\C-d<dump>\r
+
+=== command-mode-ctrl-d-empty
+tags: vi-eof-maybe
+--- keys
+\e<pause>\C-d
+
+=== insert-comment-hash
+tags: insert-comment
+--- script
+readline "> "
+--- keys
+echo x\e<pause>#
+
+=== insert-comment-hash-already-commented
+tags: insert-comment
+keys: #echo x\e<pause>#
+
+=== insert-comment-hash-with-count
+tags: insert-comment numarg
+keys: #echo x\e<pause>1#
+
+=== vi-overstrike-mode-R-backspace
+tags: vi-overstrike vi-overstrike-delete
+keys: abcdef\e<pause>0lRXYZ\C-?\C-?<dump>\C-?\C-?<dump>\e<pause><dump>\r
+
+=== vi-overstrike-past-end
+tags: vi-overstrike
+keys: ab\e<pause>0RWXYZ\e<pause><dump>\r
+
+=== vi-overstrike-count
+tags: vi-overstrike numarg
+keys: abcdef\e<pause>02Rxy\e<pause><dump>\r
+
+=== vi-overstrike-undo
+tags: vi-overstrike vi-undo
+keys: abcdef\e<pause>0RXYZ\e<pause>u<dump>\r
+
+=== vi-overstrike-redo
+tags: vi-overstrike vi-redo
+keys: abcdefgh\e<pause>0RXY\e<pause>ll.<dump>\r
+
+=== vi-replace-mode-keymap
+tags: vi-replace
+keys: abc\e<pause>0R<dumpfull>\e<pause>\r
