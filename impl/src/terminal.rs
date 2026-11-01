@@ -137,7 +137,7 @@ pub unsafe fn init_terminal(name: Option<&[u8]>) {
     };
     let n = if n.is_empty() { b"dumb".to_vec() } else { n };
     // a custom redisplay function gets no terminal capabilities
-    let custom = !matches!(crate::display::rl_redisplay_function.get(), Some(f) if f as usize == crate::display::rl_redisplay as usize);
+    let custom = !matches!(crate::display::rl_redisplay_function.get(), Some(f) if f as usize == crate::display::rl_redisplay as *const () as usize);
     let t = if custom { load(b"") } else { load(&n) };
     let known = !t.strings.is_empty();
     let autowrap = t.auto_wrap && t.eat_newline_glitch;

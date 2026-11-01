@@ -440,17 +440,6 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
             out_byte(b'\r');
             s.cur_col = 0;
         }
-    } else if s.cur_row + 1 == row
-        && s.cur_col >= w
-        && terminal::has_auto_margins()
-        && rows.get(row).map(|r| !r.is_empty()).unwrap_or(false)
-    {
-        // at the right margin: writing the first character of the next
-        // row wraps (the reference relies on the terminal's auto-margins)
-        let c = &rows[row][0];
-        out(&c.bytes);
-        s.cur_row = row;
-        s.cur_col = c.width as usize;
     } else if s.cur_row < row {
         out_byte(b'\r');
         for _ in 0..(row - s.cur_row) {
@@ -568,6 +557,19 @@ fn update(new: Vec<Row>, cursor: (usize, usize)) {
             }
             clear_eol_n(row_width(o));
             continue;
+        }
+        {
+            let s = SCREEN.get_mut();
+            if s.cur_row + 1 == r && s.cur_col >= w && terminal::has_auto_margins() && i < nrow.len() {
+                // at the right margin: the next character written wraps
+                // (the reference relies on the terminal's auto-margins)
+                s.cur_row = r;
+                s.cur_col = 0;
+                if col > 0 {
+                    out(&nrow[0].bytes);
+                    s.cur_col = nrow[0].width as usize;
+                }
+            }
         }
         move_to(&new, r, col);
         let mut buf = Vec::new();
