@@ -1,0 +1,314 @@
+# Binding and keymap API functions with few cases elsewhere; each binding
+# is also exercised by pressing the key.
+tags: bind api
+
+=== bind-key-if-unbound-effect
+tags: rl_bind_key_if_unbound
+--- script
+rl_bind_key_if_unbound "\C-o" upcase-word
+rl_bind_key_if_unbound "\C-a" end-of-line
+readline "> "
+--- keys
+abc def\C-a\C-o<dump>\r
+
+=== bind-key-if-unbound-shadowed-prefix
+tags: rl_bind_key_if_unbound
+--- script
+rl_bind_key_if_unbound "\C-x" forward-char
+rl_function_of_keyseq "\x18" emacs
+rl_bind_key_if_unbound "\C-g" forward-char
+rl_function_of_keyseq "\x07" emacs
+
+=== bind-key-if-unbound-in-vi-map
+tags: rl_bind_key_if_unbound_in_map vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+rl_bind_key_if_unbound_in_map "\C-o" end-of-line vi-command
+rl_bind_key_if_unbound_in_map "h" end-of-line vi-command
+readline "> "
+--- keys
+abcdef\e<pause>0\C-o<dump>h<dump>\r
+
+=== bind-key-if-unbound-in-map-returns
+tags: rl_bind_key_if_unbound_in_map
+--- script
+rl_bind_key_if_unbound_in_map "\C-o" kill-line emacs
+rl_bind_key_if_unbound_in_map "\C-o" backward-char emacs
+rl_function_of_keyseq "\x0f" emacs
+rl_bind_key_if_unbound_in_map "\M-z" kill-line emacs
+rl_function_of_keyseq "\ez" emacs
+
+=== bind-keyseq-if-unbound-in-map-effect
+tags: rl_bind_keyseq_if_unbound_in_map
+--- script
+rl_bind_keyseq_if_unbound_in_map "\C-x\C-o" upcase-word emacs
+rl_bind_keyseq_if_unbound_in_map "\C-x\C-u" upcase-word emacs
+readline "> "
+--- keys
+one two\C-a\C-x\C-o<dump>\C-x\C-u<dump>\r
+
+=== bind-keyseq-if-unbound-in-map-vi-insert
+tags: rl_bind_keyseq_if_unbound_in_map vi
+--- inputrc
+set editing-mode vi
+--- script
+rl_bind_keyseq_if_unbound_in_map "\C-xa" beginning-of-line vi-insert
+rl_bind_keyseq_if_unbound_in_map "\C-w" beginning-of-line vi-insert
+readline "> "
+--- keys
+abc def\C-xaX<dump>\C-w<dump>\r
+
+=== set-key-effect
+tags: rl_set_key
+--- script
+rl_set_key "\C-xq" upcase-word emacs
+rl_set_key "\eq" downcase-word emacs
+readline "> "
+--- keys
+abc DEF\C-a\C-xq<dump>\eq<dump>\r
+
+=== set-key-in-vi-map
+tags: rl_set_key vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+rl_set_key "\C-xq" end-of-line vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xq<dump>\r
+
+=== set-key-overrides-prefix
+tags: rl_set_key
+--- script
+rl_set_key "\C-x" kill-line emacs
+rl_function_of_keyseq "\x18" emacs
+rl_function_of_keyseq "\x18\x18" emacs
+readline "> "
+--- keys
+abcdef\C-a\C-f\C-x<pause>X<dump>\r
+
+=== unbind-command-in-map-effect
+tags: rl_unbind_command_in_map
+--- script
+rl_unbind_command_in_map "beginning-of-line" emacs
+readline "> "
+--- keys
+abc\C-ax<home><dump>\r
+
+=== unbind-command-in-map-meta
+tags: rl_unbind_command_in_map
+--- script
+rl_unbind_command_in_map "backward-word" emacs-meta
+rl_invoking_keyseqs backward-word
+readline "> "
+--- keys
+one two\M-b<dump>\r
+
+=== untranslate-keyseq-meta-and-controls
+tags: rl_untranslate_keyseq
+--- script
+rl_untranslate_keyseq 0
+rl_untranslate_keyseq 9
+rl_untranslate_keyseq 13
+rl_untranslate_keyseq 31
+rl_untranslate_keyseq 128
+rl_untranslate_keyseq 129
+rl_untranslate_keyseq 155
+rl_untranslate_keyseq 255
+
+=== untranslate-keyseq-printables
+tags: rl_untranslate_keyseq
+--- script
+rl_untranslate_keyseq "a"
+rl_untranslate_keyseq "Z"
+rl_untranslate_keyseq "'"
+rl_untranslate_keyseq "~"
+rl_untranslate_keyseq -1
+
+=== trim-arg-from-keyseq-meta-digits
+tags: rl_trim_arg_from_keyseq
+--- script
+rl_trim_arg_from_keyseq "\e1\e2\C-f" 5 emacs
+rl_trim_arg_from_keyseq "\e-\C-f" 3 emacs
+rl_trim_arg_from_keyseq "\C-f" 1 emacs
+rl_trim_arg_from_keyseq "\e5" 2 emacs
+
+=== trim-arg-from-keyseq-universal
+tags: rl_trim_arg_from_keyseq
+--- script
+rl_trim_arg_from_keyseq "\x15\x15\C-f" 3 emacs
+rl_trim_arg_from_keyseq "\x154\C-b" 3 emacs
+rl_trim_arg_from_keyseq "\x15-\C-b" 3 emacs
+rl_trim_arg_from_keyseq "\x15" 1 emacs
+
+=== trim-arg-from-keyseq-vi
+tags: rl_trim_arg_from_keyseq vi
+--- script
+rl_trim_arg_from_keyseq "3w" 2 vi-command
+rl_trim_arg_from_keyseq "12dw" 4 vi-command
+rl_trim_arg_from_keyseq "0" 1 vi-command
+rl_trim_arg_from_keyseq "x" 1 vi-command
+
+=== funmap-names-sorted-and-defun
+tags: rl_funmap_names funmap
+--- script
+option nodefuns
+def f
+echo f
+end
+defun zz-custom f
+defun aa-custom f
+rl_funmap_names
+get funmap
+
+=== funmap-names-after-add-entry
+tags: rl_funmap_names rl_add_funmap_entry
+--- script
+option nodefuns
+rl_add_funmap_entry "Mixed-Case" forward-char
+rl_add_funmap_entry "forward-char" backward-char
+rl_funmap_names
+rl_named_function "forward-char"
+rl_named_function "mixed-case"
+
+=== list-funmap-names-output
+tags: rl_list_funmap_names
+--- script
+option nodefuns
+rl_list_funmap_names
+
+=== list-funmap-names-with-defuns
+tags: rl_list_funmap_names
+--- script
+option nodefuns
+def f
+echo f
+end
+defun my-command f
+rl_add_funmap_entry "another-name" forward-char
+rl_list_funmap_names
+
+=== initialize-funmap-idempotent
+tags: rl_initialize_funmap funmap
+--- script
+option nodefuns
+rl_initialize_funmap
+rl_initialize_funmap
+get funmap
+
+=== initialize-funmap-after-add
+tags: rl_initialize_funmap rl_add_funmap_entry
+--- script
+option nodefuns
+rl_add_funmap_entry "early-entry" forward-char
+rl_initialize_funmap
+rl_named_function "early-entry"
+rl_named_function "forward-char"
+
+=== funmap-variable-order
+tags: funmap
+--- script
+def f
+echo f
+end
+defun added-late f
+get funmap
+
+=== make-keymap-full-is-self-insert
+tags: rl_make_keymap
+--- script
+keymap_new full full
+keymap_dump full
+rl_function_of_keyseq "a" full
+rl_function_of_keyseq "\x01" full
+rl_function_of_keyseq "\xe9" full
+
+=== make-keymap-use-for-editing
+tags: rl_make_keymap rl_set_keymap
+--- script
+keymap_new mine full
+rl_bind_key_in_map "\C-b" backward-char mine
+rl_bind_key_in_map "\r" accept-line mine
+rl_set_keymap mine
+readline "> "
+--- keys
+abc\C-bX\C-a\r
+
+=== free-keymap-full
+tags: rl_free_keymap rl_make_keymap
+--- script
+keymap_new f full
+rl_bind_keyseq_in_map "\C-xz" kill-line f
+rl_function_of_keyseq "\x18z" f
+rl_free_keymap f
+rl_function_of_keyseq "\x18z" emacs
+
+=== free-keymap-bare-with-submap
+tags: rl_free_keymap rl_make_bare_keymap
+--- script
+keymap_new b bare
+rl_bind_keyseq_in_map "\C-x\C-y" kill-line b
+rl_bind_keyseq_in_map "\eq" kill-line b
+keymap_dump b
+rl_free_keymap b
+
+=== discard-keymap-and-reuse
+tags: rl_discard_keymap
+--- script
+keymap_new d full
+rl_bind_keyseq_in_map "\C-xa" kill-line d
+rl_discard_keymap d
+keymap_new e bare
+rl_bind_keyseq_in_map "\C-xa" kill-line e
+keymap_dump e
+rl_discard_keymap e
+
+=== discard-keymap-copy
+tags: rl_discard_keymap rl_copy_keymap
+--- script
+keymap_new c copy emacs-ctlx
+rl_function_of_keyseq "\x05" c
+rl_discard_keymap c
+rl_function_of_keyseq "\x05" emacs-ctlx
+
+=== binding-keymap-after-parse
+tags: rl_binding_keymap
+--- script
+get rl_binding_keymap
+rl_parse_and_bind "set keymap vi-insert"
+get rl_binding_keymap
+rl_parse_and_bind "\"\C-xa\": kill-line"
+get rl_binding_keymap
+rl_parse_and_bind "set keymap emacs-ctlx"
+get rl_binding_keymap
+
+=== binding-keymap-after-init-file
+tags: rl_binding_keymap
+--- file rc
+set keymap vi-command
+"q": end-of-line
+--- script
+get rl_binding_keymap
+rl_read_init_file "rc"
+get rl_binding_keymap
+rl_initialize
+get rl_binding_keymap
+
+=== binding-keymap-in-bound-function
+tags: rl_binding_keymap rl_executing_keymap
+--- inputrc
+set keymap emacs-meta
+"z": driver-dump
+--- script
+def show
+get rl_binding_keymap
+get rl_executing_keymap
+end
+defun show-maps show
+rl_bind_keyseq "\C-xs" show-maps
+readline "> "
+--- keys
+\C-xs\r

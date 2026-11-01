@@ -59,7 +59,7 @@
   "exchange-point-and-mark-mark-past-end": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "hel", "point": 0, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hel", "point": 3, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
       {"op": "readline", "ret": "hel"}
     ],
     "screen": [

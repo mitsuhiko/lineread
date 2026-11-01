@@ -106,28 +106,28 @@ tags: kill-region set-mark
 --- inputrc
 "\C-xr": kill-region
 --- keys
-hello big world\C-a\M-f\C-@\M-f<dump>\C-xr<dump>\C-e\C-y<dump>\r
+hello big world\C-a\M-f<pause>\C-@\M-f<dump>\C-xr<dump>\C-e\C-y<dump>\r
 
 === kill-region-mark-after-point
 tags: kill-region set-mark
 --- inputrc
 "\C-xr": kill-region
 --- keys
-abcdef\C-b\C-@\C-a\C-f\C-xr<dump>\C-y<dump>\r
+abcdef\C-b<pause>\C-@\C-a\C-f\C-xr<dump>\C-y<dump>\r
 
 === copy-region-as-kill
 tags: copy-region-as-kill
 --- inputrc
 "\C-xc": copy-region-as-kill
 --- keys
-hello world\C-a\C-@\M-f\C-xc<dump>\C-e\C-y<dump>\r
+hello world\C-a<pause>\C-@\M-f\C-xc<dump>\C-e\C-y<dump>\r
 
 === copy-region-empty
 tags: copy-region-as-kill
 --- inputrc
 "\C-xc": copy-region-as-kill
 --- keys
-abc\C-@\C-xc\C-y<dump>\r
+abc<pause>\C-@\C-xc\C-y<dump>\r
 
 === copy-forward-word
 tags: copy-forward-word
@@ -273,7 +273,7 @@ tags: kill-region
 --- inputrc
 "\C-xr": kill-region
 --- keys
-abc\C-@\C-xr<dump>\r
+abc<pause>\C-@\C-xr<dump>\r
 
 === typeahead-insert-keeps-kill-chain
 description: quirk: characters inserted as one typeahead batch do not reset rl_last_func, so two kills separated by such typing are merged

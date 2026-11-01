@@ -1,0 +1,924 @@
+{
+  "forward-backward-aliases": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_backward 2 0", "ret": 0},
+      {"op": "dump", "line": "abcdef", "point": 1, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_forward 1 0", "ret": 0},
+      {"op": "dump", "line": "abcdef", "point": 2, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_backward -3 0", "ret": 0},
+      {"op": "dump", "line": "abcdef", "point": 5, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-backward-aliases-bounds": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_forward 10 0", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_backward 99 0", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-backward-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_backward 1 0", "ret": 0},
+      {"op": "dump", "line": "aéü", "point": 3, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_forward 1 0", "ret": 0},
+      {"op": "dump", "line": "aéü", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aéü"}
+    ],
+    "screen": [
+      "> aéü"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-close-no-blink": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_insert_close 1 \")\"", "ret": 0},
+      {"op": "rl_insert_close 2 \"]\"", "ret": 0},
+      {"op": "dump", "line": "(a)]]", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(a)]]"}
+    ],
+    "screen": [
+      "> (a)]]"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-close-blink-matching": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_insert_close 1 \")\"", "ret": 0},
+      {"op": "dump", "line": "f(a, b)", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "f(a, b)"}
+    ],
+    "screen": [
+      "> f(a, b)"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-close-blink-no-match": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_insert_close 1 \"}\"", "ret": 1},
+      {"op": "dump", "line": "abc}", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc}"}
+    ],
+    "screen": [
+      "> abc}"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-close-blink-explicit-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_insert_close 3 \")\"", "ret": 0},
+      {"op": "dump", "line": "(()))", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(()))"}
+    ],
+    "screen": [
+      "> (()))"
+    ],
+    "cursor": [1, 0]
+  },
+  "stop-restart-output": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_stop_output 1 0", "ret": 0},
+      {"op": "rl_restart_output 1 0", "ret": 0},
+      {"op": "rl_insert_text \"X\"", "ret": 1},
+      {"op": "readline", "ret": "abXc"}
+    ],
+    "screen": [
+      "> abXc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abXc"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "stop-restart-output-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_stop_output 1 0", "ret": 0},
+      {"op": "rl_restart_output 1 0", "ret": 0},
+      {"op": "rl_restart_output 1 0", "ret": 0},
+      {"op": "readline", "ret": "xyz"}
+    ],
+    "screen": [
+      "> xyz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> xyz"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "restart-output-alone": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_restart_output 1 0", "ret": 0},
+      {"op": "readline", "ret": "ok"}
+    ],
+    "screen": [
+      "> ok"
+    ],
+    "cursor": [1, 0]
+  },
+  "do-lowercase-version-direct-call": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_do_lowercase_version 1 \"A\"", "ret": 99999},
+      {"op": "rl_do_lowercase_version 0 0", "ret": 99999}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "alphabetic-classes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_alphabetic \"a\"", "ret": 1},
+      {"op": "rl_alphabetic \"Z\"", "ret": 1},
+      {"op": "rl_alphabetic \"5\"", "ret": 1},
+      {"op": "rl_alphabetic \"_\"", "ret": 0},
+      {"op": "rl_alphabetic \"-\"", "ret": 0},
+      {"op": "rl_alphabetic \" \"", "ret": 0},
+      {"op": "rl_alphabetic \".\"", "ret": 0},
+      {"op": "rl_alphabetic 233", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "alphabetic-c-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_alphabetic \"a\"", "ret": 1},
+      {"op": "rl_alphabetic 233", "ret": 0},
+      {"op": "rl_alphabetic 0", "ret": 0},
+      {"op": "rl_alphabetic \"/\"", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "character-len-classes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_character_len \"a\" 0", "ret": 1},
+      {"op": "rl_character_len \"\\t\" 0", "ret": 8},
+      {"op": "rl_character_len \"\\t\" 3", "ret": 5},
+      {"op": "rl_character_len \"\\t\" 8", "ret": 8},
+      {"op": "rl_character_len 1 0", "ret": 2},
+      {"op": "rl_character_len 127 0", "ret": 2},
+      {"op": "rl_character_len 200 0", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "character-len-output-meta-off": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_character_len 200 0", "ret": 4},
+      {"op": "rl_character_len 255 0", "ret": 4},
+      {"op": "rl_character_len \"\\e\" 0", "ret": 2}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "show-char-outputs": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_show_char \"a\"", "ret": 1},
+      {"op": "capture", "out": "a"},
+      {"op": "rl_show_char 1", "ret": 3},
+      {"op": "capture", "out": "C-A"},
+      {"op": "rl_show_char 127", "ret": 3},
+      {"op": "capture", "out": "C-?"},
+      {"op": "rl_show_char \"\\t\"", "ret": 1},
+      {"op": "capture", "out": "\t"},
+      {"op": "rl_show_char 200", "ret": 1},
+      {"op": "capture", "out": "\udcc8"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "show-char-output-meta-off": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_show_char 200", "ret": 3},
+      {"op": "capture", "out": "M-H"},
+      {"op": "rl_show_char 129", "ret": 5},
+      {"op": "capture", "out": "M-C-A"},
+      {"op": "rl_show_char 255", "ret": 5},
+      {"op": "capture", "out": "M-C-?"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "copy-text-ranges": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_copy_text 0 3", "ret": "hel"},
+      {"op": "rl_copy_text 4 99", "ret": "o world"},
+      {"op": "rl_copy_text 5 2", "ret": "llo"},
+      {"op": "rl_copy_text 2 2", "ret": ""},
+      {"op": "readline", "ret": "hello world"}
+    ],
+    "screen": [
+      "> hello world"
+    ],
+    "cursor": [1, 0]
+  },
+  "copy-text-free-with-rl-free": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_copy_text 1 4", "ret": "bcd"},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "rl-free-library-strings": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~/x\"", "ret": "$HOME/x"},
+      {"op": "history_tokenize \"a 'b c' d\"", "ret": ["a", "'b c'", "d"]},
+      {"op": "rl_filename_completion_function \"\" 0", "error": "unknown command"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "rl-free-null": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract 5 6 \"a b\"", "ret": null},
+      {"op": "tilde_expand_word \"plain\"", "ret": "plain"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "mark-active-keep": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 1, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "mark-active-keep-across-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "defun keep b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xk\" keep", "ret": 0},
+      {"op": "defun showm m", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xm\" showm", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 0},
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "> hello"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> hello"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "mark-active-deactivate": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "mark-deactivate-without-region": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 0},
+      {"op": "rl_mark_active_p", "ret": 1},
+      {"op": "rl_mark_active_p", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "ding-from-command": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_ding", "ret": 0},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "ding-bell-none": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_ding", "ret": -1},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "ding-before-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_ding", "ret": -1},
+      {"op": "rl_ding", "ret": -1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "discard-argument-resets": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "dump", "label": "before", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 5, "insert_mode": 1},
+      {"op": "rl_discard_argument", "ret": 0},
+      {"op": "dump", "label": "after", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "discard-argument-in-numarg-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_discard_argument", "ret": 0},
+      {"op": "dump", "line": "abcd", "point": 3, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "discard-argument-no-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_discard_argument", "ret": 0},
+      {"op": "dump", "line": "x", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "undo-groups-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_begin_undo_group", "ret": 0},
+      {"op": "rl_insert_text \"one \"", "ret": 4},
+      {"op": "rl_insert_text \"two \"", "ret": 4},
+      {"op": "rl_end_undo_group", "ret": 0},
+      {"op": "rl_insert_text \"three\"", "ret": 5},
+      {"op": "dumpfull", "line": "one two three", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [["insert", 8, 13, null], ["end", 0, 0, null], ["insert", 4, 8, null], ["insert", 0, 4, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 116, "executing_keyseq": "\u0018t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "one two ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "undo-group-end-without-begin": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_end_undo_group", "ret": 0},
+      {"op": "rl_insert_text \"x\"", "ret": 1},
+      {"op": "rl_end_undo_group", "ret": 0},
+      {"op": "dumpfull", "line": "ax", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["insert", 1, 2, null], ["end", 0, 0, null], ["insert", 0, 1, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 116, "executing_keyseq": "\u0018t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "undo-group-nested": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_begin_undo_group", "ret": 0},
+      {"op": "rl_insert_text \"A\"", "ret": 1},
+      {"op": "rl_begin_undo_group", "ret": 0},
+      {"op": "rl_insert_text \"B\"", "ret": 1},
+      {"op": "rl_end_undo_group", "ret": 0},
+      {"op": "rl_insert_text \"C\"", "ret": 1},
+      {"op": "rl_end_undo_group", "ret": 0},
+      {"op": "dumpfull", "line": "ABC", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["insert", 2, 3, null], ["end", 0, 0, null], ["insert", 1, 2, null], ["begin", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 116, "executing_keyseq": "\u0018t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "free-undo-list-in-command": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "dumpfull", "line": "abc ", "point": 4, "end": 4, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "unix-word-rubout", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 116, "executing_keyseq": "\u0018t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "abc ", "point": 4, "end": 4, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc "}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "free-undo-list-history-line": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "dump", "line": "older", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "older", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "older"}
+    ],
+    "screen": [
+      "> older"
+    ],
+    "cursor": [1, 0]
+  },
+  "free-undo-list-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "get rl_undo_list", "ret": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "extend-line-buffer-keeps-text": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "dump", "line": "start", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_insert_text \" more\"", "ret": 5},
+      {"op": "readline", "ret": "start more"}
+    ],
+    "screen": [
+      "> start more"
+    ],
+    "cursor": [1, 0]
+  },
+  "extend-line-buffer-small": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "extend-line-buffer-then-long-input": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "readline", "ret": "0123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [
+      "> 0123456789012345678901234567890123456789012345678901234567890123456789"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-save-unsave-roundtrip": {
+    "exit": 0,
+    "results": [
+      {"op": "defun sv save", "ret": 0},
+      {"op": "defun rs restore", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xs\" sv", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rs", "ret": 0},
+      {"op": "rl_maybe_save_line", "ret": 0},
+      {"op": "dump", "line": "temporary", "point": 4, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_maybe_unsave_line", "ret": 0},
+      {"op": "dumpfull", "line": "mine", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [["insert", 0, 4, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "sv", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 114, "executing_keyseq": "\u0018r", "executing_macro": null, "history_length": 1, "history_base": 1, "history_pos": 1},
+      {"op": "readline", "ret": "mine"}
+    ],
+    "screen": [
+      "> mine"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-unsave-without-save-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rs restore", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rs", "ret": 0},
+      {"op": "rl_maybe_unsave_line", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-unsave-after-history-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rs restore", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rs", "ret": 0},
+      {"op": "rl_maybe_unsave_line", "ret": 0},
+      {"op": "dump", "line": "typed", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "typed"}
+    ],
+    "screen": [
+      "> typed"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-replace-line-updates-history": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_maybe_replace_line", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 1, "entries": [{"line": "one", "timestamp": ""}, {"line": "twoX", "timestamp": ""}]},
+      {"op": "readline", "ret": "twoX"}
+    ],
+    "screen": [
+      "> twoX"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-replace-line-not-in-history": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_maybe_replace_line", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 1, "entries": [{"line": "one", "timestamp": "", "data": 0}]},
+      {"op": "readline", "ret": "fresh"}
+    ],
+    "screen": [
+      "> fresh"
+    ],
+    "cursor": [1, 0]
+  },
+  "maybe-replace-line-unchanged": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_maybe_replace_line", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]},
+      {"op": "dump", "line": "two", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> two"
+    ],
+    "cursor": [1, 0]
+  },
+  "save-restore-state-point-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_save_state 0", "ret": 0},
+      {"op": "dumpfull", "line": "original", "point": 1, "end": 8, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [["insert", 0, 8, null]], "prompt": "p> ", "display_prompt": "p> ", "last_func": "forward-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 116, "executing_keyseq": "\u0018t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "rl_restore_state 0", "ret": 0},
+      {"op": "dumpfull", "line": "original", "point": 2, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"], "undo": [["insert", 0, 8, null]], "prompt": "p> ", "display_prompt": "p> ", "last_func": "forward-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 116, "executing_keyseq": "\u0018t", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "original"}
+    ],
+    "screen": [
+      "p> original"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "p> original"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "save-restore-state-pending-numarg": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_save_state 1", "ret": 0},
+      {"op": "rl_restore_state 1", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 7, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "save-restore-state-keymap": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_save_state 2", "ret": 0},
+      {"op": "get rl_editing_mode", "ret": 1},
+      {"op": "rl_restore_state 2", "ret": 0},
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "save-restore-state-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_save_state 0", "ret": 0},
+      {"op": "rl_restore_state 0", "ret": 0},
+      {"op": "rl_save_state 1", "ret": 0},
+      {"op": "readline", "ret": "x"},
+      {"op": "rl_restore_state 1", "ret": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-bracktype-all": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_vi_bracktype \"(\"", "ret": 1},
+      {"op": "rl_vi_bracktype \")\"", "ret": -1},
+      {"op": "rl_vi_bracktype \"[\"", "ret": 2},
+      {"op": "rl_vi_bracktype \"]\"", "ret": -2},
+      {"op": "rl_vi_bracktype \"{\"", "ret": 3},
+      {"op": "rl_vi_bracktype \"}\"", "ret": -3},
+      {"op": "rl_vi_bracktype \"<\"", "ret": 0},
+      {"op": "rl_vi_bracktype 0", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "vi-check-backs-up": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_vi_check", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_vi_check", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-check-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_vi_check", "ret": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "q"}
+    ],
+    "screen": [
+      "> q"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-check-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_vi_check", "ret": 0},
+      {"op": "dump", "line": "aé", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé"}
+    ],
+    "screen": [
+      "> aé"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-insertion-mode-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xt\" t vi-command", "ret": 0},
+      {"op": "rl_vi_insertion_mode 1 \"i\"", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "Xabc", "point": 1, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xabc"}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-insertion-mode-show-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xt\" t vi-command", "ret": 0},
+      {"op": "rl_vi_insertion_mode 1 \"a\"", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "(ins)> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(cmd)> abc"
+        ],
+        "cursor": [0, 9]
+      },
+      {
+        "screen": [
+          "(ins)> abc"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "vi-insertion-mode-from-emacs": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_vi_insertion_mode 1 \"i\"", "ret": 0},
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ab\u0001", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab\u0001"}
+    ],
+    "screen": [
+      "> ab^A"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-start-inserting-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xt\" t vi-command", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-start-inserting-redo": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xt\" t vi-command", "ret": 0},
+      {"op": "dump", "line": "ZabZc", "point": 0, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ZabZc"}
+    ],
+    "screen": [
+      "> ZabZc"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-start-inserting-count": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xt\" t vi-command", "ret": 0},
+      {"op": "dump", "line": "abx", "point": 1, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abx"}
+    ],
+    "screen": [
+      "> abx"
+    ],
+    "cursor": [1, 0]
+  }
+}

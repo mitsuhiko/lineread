@@ -115,21 +115,21 @@ tags: copy-region-as-kill
 --- inputrc
 "\C-xc": copy-region-as-kill
 --- keys
-hello world\C-a\C-@\M-f\C-xc\C-e \C-y<dump>\r
+hello world\C-a<pause>\C-@\M-f\C-xc\C-e \C-y<dump>\r
 
 === copy-region-as-kill-reversed
 tags: copy-region-as-kill
 --- inputrc
 "\C-xc": copy-region-as-kill
 --- keys
-hello world\C-@\M-b\C-xc\C-a\C-y<dump>\r
+hello world<pause>\C-@\M-b\C-xc\C-a\C-y<dump>\r
 
 === copy-region-as-kill-empty-region
 tags: copy-region-as-kill
 --- inputrc
 "\C-xc": copy-region-as-kill
 --- keys
-abc\C-@\C-xc\C-y<dump>\r
+abc<pause>\C-@\C-xc\C-y<dump>\r
 
 === copy-region-as-kill-no-mark
 tags: copy-region-as-kill

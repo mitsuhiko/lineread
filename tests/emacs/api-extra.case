@@ -1,0 +1,815 @@
+# Application-callable functions with few cases elsewhere, called from
+# bound functions (defun) inside readline so their effect on the line,
+# the undo list and the display can be observed.
+tags: emacs api
+
+=== forward-backward-aliases
+tags: rl_forward rl_backward
+--- script
+def b
+rl_backward 2 0
+dump
+rl_forward 1 0
+dump
+rl_backward -3 0
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abcdef\C-a\C-f\C-f\C-f\C-xt\r
+
+=== forward-backward-aliases-bounds
+tags: rl_forward rl_backward
+--- script
+def b
+rl_forward 10 0
+dump
+rl_backward 99 0
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-a\C-xt\r
+
+=== forward-backward-utf8
+tags: rl_forward rl_backward utf8
+--- script
+def b
+rl_backward 1 0
+dump
+rl_forward 1 0
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+aéü\C-xt\r
+
+=== insert-close-no-blink
+tags: rl_insert_close
+--- script
+def b
+rl_insert_close 1 ")"
+rl_insert_close 2 "]"
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+(a\C-xt\r
+
+=== insert-close-blink-matching
+tags: rl_insert_close blink-matching-paren
+--- inputrc
+set blink-matching-paren on
+--- script
+rl_set_paren_blink_timeout 1000
+def b
+rl_insert_close 1 ")"
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+f(a, b\C-xt\r
+
+=== insert-close-blink-no-match
+tags: rl_insert_close blink-matching-paren
+--- inputrc
+set blink-matching-paren on
+--- script
+rl_set_paren_blink_timeout 1000
+def b
+rl_insert_close 1 "}"
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-xt\r
+
+=== insert-close-blink-explicit-arg
+tags: rl_insert_close blink-matching-paren
+--- inputrc
+set blink-matching-paren on
+--- script
+rl_set_paren_blink_timeout 1000
+def b
+set rl_explicit_arg 1
+rl_insert_close 3 ")"
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+((\C-xt\r
+
+=== stop-restart-output
+tags: rl_stop_output rl_restart_output
+--- script
+def b
+rl_stop_output 1 0
+rl_restart_output 1 0
+rl_insert_text "X"
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+ab\C-xtc<snap>\r
+
+=== stop-restart-output-bound
+tags: rl_stop_output rl_restart_output
+--- script
+def b
+rl_restart_output 1 0
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+rl_initialize
+rl_stop_output 1 0
+rl_restart_output 1 0
+readline "> "
+--- keys
+xy\C-xtz<snap>\r
+
+=== restart-output-alone
+tags: rl_restart_output
+--- script
+rl_initialize
+rl_restart_output 1 0
+readline "> "
+--- keys
+ok\r
+
+=== do-lowercase-version-direct-call
+tags: rl_do_lowercase_version
+--- script
+rl_initialize
+rl_do_lowercase_version 1 "A"
+rl_do_lowercase_version 0 0
+
+=== alphabetic-classes
+tags: rl_alphabetic
+--- script
+rl_alphabetic "a"
+rl_alphabetic "Z"
+rl_alphabetic "5"
+rl_alphabetic "_"
+rl_alphabetic "-"
+rl_alphabetic " "
+rl_alphabetic "."
+rl_alphabetic 233
+
+=== alphabetic-c-locale
+tags: rl_alphabetic
+env: LC_ALL=C
+--- script
+rl_alphabetic "a"
+rl_alphabetic 233
+rl_alphabetic 0
+rl_alphabetic "/"
+
+=== character-len-classes
+tags: rl_character_len
+--- script
+rl_initialize
+rl_character_len "a" 0
+rl_character_len "\t" 0
+rl_character_len "\t" 3
+rl_character_len "\t" 8
+rl_character_len 1 0
+rl_character_len 127 0
+rl_character_len 200 0
+
+=== character-len-output-meta-off
+tags: rl_character_len output-meta
+--- inputrc
+set output-meta off
+--- script
+rl_initialize
+rl_character_len 200 0
+rl_character_len 255 0
+rl_character_len "\e" 0
+
+=== show-char-outputs
+tags: rl_show_char
+--- script
+rl_initialize
+capture rl_show_char "a"
+capture rl_show_char 1
+capture rl_show_char 127
+capture rl_show_char "\t"
+capture rl_show_char 200
+
+=== show-char-output-meta-off
+tags: rl_show_char output-meta
+--- inputrc
+set output-meta off
+--- script
+rl_initialize
+capture rl_show_char 200
+capture rl_show_char 129
+capture rl_show_char 255
+
+=== copy-text-ranges
+tags: rl_copy_text
+--- script
+def b
+rl_copy_text 0 3
+rl_copy_text 4 99
+rl_copy_text 5 2
+rl_copy_text 2 2
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+hello world\C-xt\r
+
+=== copy-text-free-with-rl-free
+tags: rl_copy_text rl_free
+--- script
+option rlfree
+def b
+rl_copy_text 1 4
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abcdef\C-xt\r
+
+=== rl-free-library-strings
+tags: rl_free
+--- script
+option rlfree
+tilde_expand "~/x"
+history_tokenize "a 'b c' d"
+rl_filename_completion_function "" 0
+
+=== rl-free-null
+tags: rl_free
+--- script
+option rlfree
+history_arg_extract 5 6 "a b"
+tilde_expand_word "plain"
+
+=== mark-active-keep
+tags: rl_keep_mark_active rl_activate_mark rl_mark_active_p
+--- inputrc
+set enable-active-region on
+--- script
+def b
+rl_activate_mark
+rl_keep_mark_active
+rl_mark_active_p
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc<pause>\C-@\C-a\C-xt<dump>\C-f<dump>\r
+
+=== mark-active-keep-across-motion
+tags: rl_keep_mark_active
+--- inputrc
+set enable-active-region on
+--- script
+def b
+rl_keep_mark_active
+end
+defun keep b
+rl_bind_keyseq "\C-xk" keep
+def m
+rl_mark_active_p
+end
+defun showm m
+rl_bind_keyseq "\C-xm" showm
+readline "> "
+--- keys
+hello\C-a<pause>\C-@\C-f\C-xk\C-xm\C-f\C-xm<snap>\r
+
+=== mark-active-deactivate
+tags: rl_deactivate_mark rl_mark_active_p
+--- inputrc
+set enable-active-region on
+--- script
+def b
+rl_mark_active_p
+rl_deactivate_mark
+rl_mark_active_p
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc<pause>\C-@\C-a\C-xt<snap>\r
+
+=== mark-deactivate-without-region
+tags: rl_deactivate_mark
+--- script
+rl_initialize
+rl_deactivate_mark
+rl_mark_active_p
+rl_activate_mark
+rl_mark_active_p
+rl_deactivate_mark
+rl_mark_active_p
+
+=== ding-from-command
+tags: rl_ding bell-style
+--- inputrc
+set bell-style visible
+--- script
+def b
+rl_ding
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+ab\C-xt<snap>\r
+
+=== ding-bell-none
+tags: rl_ding bell-style
+--- inputrc
+set bell-style none
+--- script
+rl_initialize
+rl_ding
+readline "> "
+--- keys
+x\r
+
+=== ding-before-init
+tags: rl_ding
+--- script
+rl_ding
+rl_ding
+
+=== discard-argument-resets
+tags: rl_discard_argument numarg
+--- script
+def b
+dump before
+rl_discard_argument
+dump after
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\M-5\C-xt\C-b<dump>\r
+
+=== discard-argument-in-numarg-callback
+tags: rl_discard_argument numarg callback
+--- script
+def b
+rl_discard_argument
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+callback "> "
+--- keys
+abcd\M-3\C-xt\C-b<dump>\r
+
+=== discard-argument-no-arg
+tags: rl_discard_argument
+--- script
+def b
+rl_discard_argument
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+x\C-xt\r
+
+=== undo-groups-api
+tags: rl_begin_undo_group rl_end_undo_group rl_do_undo
+--- script
+def b
+rl_begin_undo_group
+rl_insert_text "one "
+rl_insert_text "two "
+rl_end_undo_group
+rl_insert_text "three"
+dumpfull
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+\C-xt\C-_<dump>\C-_<dump>\r
+
+=== undo-group-end-without-begin
+tags: rl_end_undo_group
+--- script
+def b
+rl_end_undo_group
+rl_insert_text "x"
+rl_end_undo_group
+dumpfull
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+a\C-xt\C-_<dump>\r
+
+=== undo-group-nested
+tags: rl_begin_undo_group rl_end_undo_group
+--- script
+def b
+rl_begin_undo_group
+rl_insert_text "A"
+rl_begin_undo_group
+rl_insert_text "B"
+rl_end_undo_group
+rl_insert_text "C"
+rl_end_undo_group
+dumpfull
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+\C-xt\C-_<dump>\r
+
+=== free-undo-list-in-command
+tags: rl_free_undo_list
+--- script
+def b
+rl_free_undo_list
+dumpfull
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc def\C-w\C-xt\C-_<dump>\r
+
+=== free-undo-list-history-line
+tags: rl_free_undo_list history
+--- script
+add_history "older"
+def b
+rl_free_undo_list
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+<up>X\C-xt<down><up><dump>\C-_<dump>\r
+
+=== free-undo-list-outside
+tags: rl_free_undo_list
+--- script
+rl_initialize
+rl_free_undo_list
+get rl_undo_list
+
+=== extend-line-buffer-keeps-text
+tags: rl_extend_line_buffer
+--- script
+def b
+rl_extend_line_buffer 5000
+dump
+rl_insert_text " more"
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+start\C-xt\r
+
+=== extend-line-buffer-small
+tags: rl_extend_line_buffer
+--- script
+def b
+rl_extend_line_buffer 0
+rl_extend_line_buffer 1
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-xt\r
+
+=== extend-line-buffer-then-long-input
+tags: rl_extend_line_buffer
+--- script
+rl_initialize
+rl_extend_line_buffer 300
+readline "> "
+--- keys
+0123456789012345678901234567890123456789012345678901234567890123456789\r
+
+=== maybe-save-unsave-roundtrip
+tags: rl_maybe_save_line rl_maybe_unsave_line
+--- script
+add_history "hist"
+def save
+rl_maybe_save_line
+rl_replace_line "temporary" 0
+end
+def restore
+rl_maybe_unsave_line
+dumpfull
+end
+defun sv save
+defun rs restore
+rl_bind_keyseq "\C-xs" sv
+rl_bind_keyseq "\C-xr" rs
+readline "> "
+--- keys
+mine\C-xs<dump>\C-xr\r
+
+=== maybe-unsave-without-save-dings
+tags: rl_maybe_unsave_line
+--- script
+def restore
+rl_maybe_unsave_line
+dump
+end
+defun rs restore
+rl_bind_keyseq "\C-xr" rs
+readline "> "
+--- keys
+abc\C-xr\r
+
+=== maybe-unsave-after-history-motion
+tags: rl_maybe_unsave_line history
+--- script
+add_history "older"
+def restore
+rl_maybe_unsave_line
+dump
+end
+defun rs restore
+rl_bind_keyseq "\C-xr" rs
+readline "> "
+--- keys
+typed<up>\C-xr\r
+
+=== maybe-replace-line-updates-history
+tags: rl_maybe_replace_line history
+ignore: results[*].entries[*].data
+--- script
+add_history "one"
+add_history "two"
+def b
+rl_maybe_replace_line
+history_dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+<up>X\C-xt\r
+
+=== maybe-replace-line-not-in-history
+tags: rl_maybe_replace_line
+--- script
+add_history "one"
+def b
+rl_maybe_replace_line
+history_dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+fresh\C-xt\r
+
+=== maybe-replace-line-unchanged
+tags: rl_maybe_replace_line history
+--- script
+add_history "one"
+add_history "two"
+def b
+rl_maybe_replace_line
+history_dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+<up><up>\C-xt<down><dump>\r
+
+=== save-restore-state-point-mark
+tags: rl_save_state rl_restore_state
+--- script
+def b
+rl_save_state 0
+set rl_point 1
+set rl_mark 3
+dumpfull
+rl_restore_state 0
+dumpfull
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "p> "
+--- keys
+original\C-a\C-f\C-f\C-xt<snap>\r
+
+=== save-restore-state-pending-numarg
+tags: rl_save_state rl_restore_state numarg
+--- script
+def b
+rl_save_state 1
+set rl_numeric_arg 7
+set rl_explicit_arg 1
+rl_restore_state 1
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-xt\C-b<dump>\r
+
+=== save-restore-state-keymap
+tags: rl_save_state rl_restore_state vi
+--- script
+def b
+rl_save_state 2
+rl_set_keymap vi-insert
+get rl_editing_mode
+rl_restore_state 2
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+ab\C-xtc\C-a<dump>\r
+
+=== save-restore-state-outside
+tags: rl_save_state rl_restore_state
+--- script
+rl_initialize
+rl_save_state 0
+rl_restore_state 0
+rl_save_state 1
+readline "> "
+rl_restore_state 1
+dump
+--- keys
+x\r
+
+=== vi-bracktype-all
+tags: rl_vi_bracktype vi
+--- script
+rl_vi_bracktype "("
+rl_vi_bracktype ")"
+rl_vi_bracktype "["
+rl_vi_bracktype "]"
+rl_vi_bracktype "{"
+rl_vi_bracktype "}"
+rl_vi_bracktype "<"
+rl_vi_bracktype 0
+
+=== vi-check-backs-up
+tags: rl_vi_check vi
+--- script
+def b
+rl_vi_check
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-xt\C-a\C-xt\r
+
+=== vi-check-empty-line
+tags: rl_vi_check vi
+--- script
+def b
+rl_vi_check
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+\C-xtq\r
+
+=== vi-check-utf8
+tags: rl_vi_check vi utf8
+--- script
+def b
+rl_vi_check
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+aé\C-xt\r
+
+=== vi-insertion-mode-api
+tags: rl_vi_insertion_mode vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def b
+rl_vi_insertion_mode 1 "i"
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+rl_bind_keyseq_in_map "\C-xt" t vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xtX<dump>\r
+
+=== vi-insertion-mode-show-mode
+tags: rl_vi_insertion_mode vi show-mode-in-prompt
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+--- script
+def b
+rl_vi_insertion_mode 1 "a"
+end
+defun t b
+rl_bind_keyseq_in_map "\C-xt" t vi-command
+readline "> "
+--- keys
+abc\e<pause><snap>\C-xt<snap>\r
+
+=== vi-insertion-mode-from-emacs
+tags: rl_vi_insertion_mode
+--- script
+def b
+rl_vi_insertion_mode 1 "i"
+dump
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+ab\C-xt\C-a<dump>\r
+
+=== vi-start-inserting-api
+tags: rl_vi_start_inserting vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def b
+rl_vi_start_inserting "a" 1 1
+dump
+end
+defun t b
+rl_bind_keyseq_in_map "\C-xt" t vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xtXY\e<pause>u<dump>\r
+
+=== vi-start-inserting-redo
+tags: rl_vi_start_inserting vi redo
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def b
+rl_vi_start_inserting "i" 1 1
+end
+defun t b
+rl_bind_keyseq_in_map "\C-xt" t vi-command
+readline "> "
+--- keys
+abc\e<pause>\C-xtZ\e<pause>0.<dump>\r
+
+=== vi-start-inserting-count
+tags: rl_vi_start_inserting vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def b
+rl_vi_start_inserting "i" 3 1
+end
+defun t b
+rl_bind_keyseq_in_map "\C-xt" t vi-command
+readline "> "
+--- keys
+x\e<pause>\C-xtab\e<pause><dump>\r

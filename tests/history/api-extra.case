@@ -1,0 +1,151 @@
+# History API functions and variables with few cases elsewhere.
+tags: history api
+
+=== alloc-entry-fields
+tags: alloc_history_entry free_history_entry
+--- script
+alloc_history_entry "some line" "#1700000000"
+alloc_history_entry "x" ""
+alloc_history_entry "multi\nline" "#0"
+
+=== copy-entry-preserves-timestamp-and-data
+tags: copy_history_entry
+--- script
+add_history "first"
+add_history_time "#1700000000"
+add_history "second"
+replace_history_entry 1 "second!" 77
+copy_history_entry 1
+copy_history_entry 2
+copy_history_entry 3
+
+=== copy-entry-after-remove
+tags: copy_history_entry remove_history free_history_entry
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+remove_history 0
+copy_history_entry 1
+copy_history_entry 2
+history_dump
+
+=== free-entry-returns-data
+tags: free_history_entry remove_history replace_history_entry
+--- script
+add_history "a"
+add_history "b"
+replace_history_entry 0 "A" 1234
+remove_history 0
+remove_history 0
+remove_history 0
+history_dump
+
+=== rl-clear-history-empties-list
+tags: rl_clear_history
+--- script
+add_history "one"
+add_history "two"
+rl_clear_history
+history_dump
+add_history "three"
+history_dump
+
+=== rl-clear-history-after-editing
+tags: rl_clear_history
+ignore: results[0].entries[*].data
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+rl_clear_history
+history_dump
+readline "> "
+--- keys
+<up>EDIT<up>\r<up><dump>\r
+
+=== rl-clear-history-stifled
+tags: rl_clear_history stifle_history
+--- script
+stifle_history 2
+add_history "a"
+add_history "b"
+add_history "c"
+rl_clear_history
+history_dump
+add_history "d"
+history_dump
+
+=== history-offset-variable
+tags: history_offset
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+get history_offset
+history_set_pos 1
+get history_offset
+set history_offset 0
+current_history
+next_history
+get history_offset
+
+=== history-offset-after-readline
+tags: history_offset
+--- script
+add_history "a"
+add_history "b"
+readline "> "
+get history_offset
+using_history
+get history_offset
+--- keys
+<up><up>\r
+
+=== history-offset-past-end
+tags: history_offset
+--- script
+add_history "a"
+set history_offset 5
+current_history
+previous_history
+get history_offset
+
+=== max-input-history-tracks-stifle
+tags: max_input_history stifle_history
+--- script
+stifle_history 3
+get max_input_history
+unstifle_history
+get max_input_history
+stifle_history 0
+get max_input_history
+
+=== max-input-history-set-directly
+tags: max_input_history
+--- script
+set max_input_history 2
+add_history "a"
+add_history "b"
+add_history "c"
+history_dump
+get history_max_entries
+
+=== history-file-version-default
+tags: history_file_version
+--- script
+get history_file_version
+set history_file_version 2
+get history_file_version
+write_history "h"
+file_read "h"
+
+=== history-file-version-timestamps
+tags: history_file_version history_write_timestamps
+--- script
+set history_file_version 0
+set history_write_timestamps 1
+add_history "x"
+add_history_time "#1700000000"
+write_history "h"
+file_read "h"

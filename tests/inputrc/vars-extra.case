@@ -1,0 +1,311 @@
+# Behaviour of inputrc variables with few behavioural cases elsewhere:
+# disable-completion, echo-control-characters, enable-keypad,
+# enable-meta-key, match-hidden-files, page-completions,
+# revert-all-at-newline.
+tags: inputrc vars
+--- script
+readline "> "
+
+=== disable-completion-tab-inserts
+tags: disable-completion
+--- inputrc
+set disable-completion on
+--- script
+complete_words apple apricot
+set rl_completion_entry_function words
+readline "> "
+--- keys
+ap\t<dump>\r
+
+=== disable-completion-possible-completions
+tags: disable-completion
+--- inputrc
+set disable-completion on
+--- script
+complete_words apple apricot
+set rl_completion_entry_function words
+readline "> "
+--- keys
+ap\M-?<dump>\M-*<dump>\r
+
+=== disable-completion-menu-complete
+tags: disable-completion menu-complete
+--- inputrc
+set disable-completion on
+"\C-n": menu-complete
+--- script
+complete_words apple apricot
+set rl_completion_entry_function words
+readline "> "
+--- keys
+ap\C-n<dump>\r
+
+=== disable-completion-toggle-at-runtime
+tags: disable-completion
+--- script
+complete_words apple
+set rl_completion_entry_function words
+def off
+rl_variable_bind disable-completion on
+end
+defun dcoff off
+rl_bind_keyseq "\C-xo" dcoff
+readline "> "
+--- keys
+ap\t\C-xoap\t<dump>\r
+
+=== echo-control-characters-off-sigquit
+tags: echo-control-characters signals
+--- inputrc
+set echo-control-characters off
+--- keys
+abc\x1c<snap>\r
+
+=== echo-control-characters-on-sigquit
+tags: echo-control-characters signals
+--- inputrc
+set echo-control-characters on
+--- keys
+abc\x1c<snap>\r
+
+=== echo-control-characters-off-callback
+tags: echo-control-characters signals callback
+--- inputrc
+set echo-control-characters off
+--- script
+callback "> "
+--- keys
+abc\C-c<snap>\r
+
+=== echo-control-characters-off-sigtstp
+tags: echo-control-characters signals
+--- inputrc
+set echo-control-characters off
+--- keys
+xy\C-z<snap>\r
+
+=== enable-keypad-arrows-app-mode
+tags: enable-keypad
+--- inputrc
+set enable-keypad on
+--- keys
+abcdef<left><left><left><dump><right><dump>\r
+
+=== enable-keypad-history-arrows
+tags: enable-keypad history
+--- inputrc
+set enable-keypad on
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+--- keys
+<up><dump><up><dump><down><dump>\r
+
+=== enable-keypad-off-normal-mode
+tags: enable-keypad
+--- inputrc
+set enable-keypad off
+--- keys
+abc<left><dump><home><dump>\r
+
+=== enable-keypad-two-lines
+tags: enable-keypad
+--- inputrc
+set enable-keypad on
+--- script
+readline "> "
+readline "> "
+--- keys
+a<left>b\rc<left>d<dump>\r
+
+=== enable-meta-key-off-esc-prefix-still-works
+tags: enable-meta-key meta
+--- inputrc
+set enable-meta-key off
+--- keys
+one two\M-b\M-b<dump>\M-d<dump>\r
+
+=== enable-meta-key-off-eight-bit-input
+tags: enable-meta-key meta
+--- inputrc
+set enable-meta-key off
+set input-meta on
+set output-meta on
+--- keys
+caf\u{e9}<dump>\r
+
+=== enable-meta-key-on-convert-meta
+tags: enable-meta-key meta
+--- inputrc
+set enable-meta-key on
+set convert-meta on
+--- keys
+one two\M-b<dump>\r
+
+=== match-hidden-files-off-tab-listing
+tags: match-hidden-files complete
+--- inputrc
+set match-hidden-files off
+--- file .profile
+x
+--- file .hidden2
+x
+--- file visible
+x
+--- file vista
+x
+--- script
+readline "> "
+--- keys
+cat \t\t<snap>\r
+
+=== match-hidden-files-off-explicit-dot
+tags: match-hidden-files complete
+--- inputrc
+set match-hidden-files off
+--- file .profile
+x
+--- file .hidden2
+x
+--- file visible
+x
+--- script
+readline "> "
+--- keys
+cat .\t\t<snap>\r
+
+=== match-hidden-files-on-lists-dotfiles
+tags: match-hidden-files complete
+--- inputrc
+set match-hidden-files on
+--- file .profile
+x
+--- file .hidden2
+x
+--- file visible
+x
+--- script
+readline "> "
+--- keys
+cat \t\t<snap>\r
+
+=== match-hidden-files-off-generator
+tags: match-hidden-files complete
+--- inputrc
+set match-hidden-files off
+--- file .dot
+x
+--- file plain
+x
+--- dir sub
+--- file sub/.inner
+x
+--- file sub/outer
+x
+--- script
+rl_initialize
+gen filename "" sort
+gen filename "sub/" sort
+gen filename "sub/." sort
+
+=== page-completions-off-long-list
+tags: page-completions complete
+screen: 40x6
+--- inputrc
+set page-completions off
+set completion-query-items 0
+--- script
+complete_words a01 a02 a03 a04 a05 a06 a07 a08 a09 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 a24 a25 a26 a27 a28 a29 a30
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\M-?<snap>x<dump>\r
+
+=== page-completions-off-query
+tags: page-completions complete
+screen: 40x6
+--- inputrc
+set page-completions off
+set completion-query-items 5
+--- script
+complete_words a01 a02 a03 a04 a05 a06 a07 a08 a09 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 a24 a25 a26 a27 a28 a29 a30
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\M-?<snap>y<snap>\r
+
+=== page-completions-off-horizontal
+tags: page-completions complete print-completions-horizontally
+screen: 40x6
+--- inputrc
+set page-completions off
+set print-completions-horizontally on
+--- script
+complete_words a01 a02 a03 a04 a05 a06 a07 a08 a09 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 a24 a25 a26 a27 a28 a29 a30
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\M-?<snap>\r
+
+=== revert-all-at-newline-on
+tags: revert-all-at-newline history
+--- inputrc
+set revert-all-at-newline on
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+history_dump
+--- keys
+<up>X<up>Y<down><down>new\r
+
+=== revert-all-at-newline-off
+tags: revert-all-at-newline history
+ignore: results[1].entries[*].data
+--- inputrc
+set revert-all-at-newline off
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+history_dump
+readline "> "
+--- keys
+<up>X<up>Y<down><down>new\r<up><up><dump>\r
+
+=== revert-all-at-newline-on-accept-edited
+tags: revert-all-at-newline history
+--- inputrc
+set revert-all-at-newline on
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+history_dump
+readline "> "
+--- keys
+<up><up>Z\r<up><up><dump>\r
+
+=== revert-all-at-newline-on-undo-list
+tags: revert-all-at-newline history undo
+--- inputrc
+set revert-all-at-newline on
+--- script
+add_history "alpha"
+readline "> "
+readline "> "
+--- keys
+<up>\C-a\C-dB<down>first\r<up><dump>\C-_<dump>\r
+
+=== revert-all-at-newline-on-callback
+tags: revert-all-at-newline history callback
+--- inputrc
+set revert-all-at-newline on
+--- script
+add_history "one"
+add_history "two"
+callback "> "
+history_dump
+--- keys
+<up>X<up>Y<down>\r

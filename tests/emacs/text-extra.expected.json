@@ -237,7 +237,7 @@
   "exchange-point-and-mark-mark-past-end": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "aef", "point": 0, "end": 3, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aef", "point": 3, "end": 3, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
       {"op": "readline", "ret": "aef"}
     ],
     "screen": [

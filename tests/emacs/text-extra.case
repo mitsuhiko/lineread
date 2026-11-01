@@ -128,7 +128,7 @@ abcabc\M-2\M-\C-]b<dump>\r
 
 === exchange-point-and-mark-mark-past-end
 tags: exchange-point-and-mark set-mark
-keys: abcdef\C-@\C-b\C-b\C-?\C-?\C-?\C-x\C-x<dump>\r
+keys: abcdef<pause>\C-@\C-b\C-b\C-?\C-?\C-?\C-x\C-x<dump>\r
 
 === exchange-point-and-mark-no-mark
 tags: exchange-point-and-mark

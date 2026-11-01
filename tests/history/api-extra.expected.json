@@ -1,0 +1,153 @@
+{
+  "alloc-entry-fields": {
+    "exit": 0,
+    "results": [
+      {"op": "alloc_history_entry \"some line\" \"#1700000000\"", "ret": {"line": "some line", "timestamp": "#1700000000", "data": 0}},
+      {"op": "alloc_history_entry \"x\" \"\"", "ret": {"line": "x", "timestamp": "", "data": 0}},
+      {"op": "alloc_history_entry \"multi\\nline\" \"#0\"", "ret": {"line": "multi\nline", "timestamp": "#0", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "copy-entry-preserves-timestamp-and-data": {
+    "exit": 0,
+    "results": [
+      {"op": "replace_history_entry 1 \"second!\" 77", "ret": {"line": "second", "timestamp": "", "data": 0}},
+      {"op": "copy_history_entry 1", "ret": {"line": "first", "timestamp": "#1700000000", "data": 0}},
+      {"op": "copy_history_entry 2", "ret": {"line": "second!", "timestamp": "", "data": 77}},
+      {"op": "copy_history_entry 3", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "copy-entry-after-remove": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history 0", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "copy_history_entry 1", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "copy_history_entry 2", "ret": {"line": "c", "timestamp": "", "data": 0}},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "free-entry-returns-data": {
+    "exit": 0,
+    "results": [
+      {"op": "replace_history_entry 0 \"A\" 1234", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "remove_history 0", "ret": {"line": "A", "timestamp": "", "data": 1234}},
+      {"op": "remove_history 0", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "remove_history 0", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "rl-clear-history-empties-list": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "three", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "rl-clear-history-after-editing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "> one",
+      ">"
+    ],
+    "cursor": [2, 0]
+  },
+  "rl-clear-history-stifled": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 2, "length": 0, "max": 2, "stifled": 1, "pos": 0, "entries": []},
+      {"op": "history_dump", "base": 2, "length": 1, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "d", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-offset-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_offset", "ret": 0},
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "get history_offset", "ret": 1},
+      {"op": "current_history", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "next_history", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "get history_offset", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-offset-after-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"},
+      {"op": "get history_offset", "ret": 0},
+      {"op": "get history_offset", "ret": 2}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-offset-past-end": {
+    "exit": 0,
+    "results": [
+      {"op": "current_history", "ret": null},
+      {"op": "previous_history", "ret": null},
+      {"op": "get history_offset", "ret": 4}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "max-input-history-tracks-stifle": {
+    "exit": 0,
+    "results": [
+      {"op": "get max_input_history", "ret": 3},
+      {"op": "unstifle_history", "ret": 3},
+      {"op": "get max_input_history", "ret": 3},
+      {"op": "get max_input_history", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "max-input-history-set-directly": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}, {"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]},
+      {"op": "get history_max_entries", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-file-version-default": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_file_version", "ret": 1},
+      {"op": "get history_file_version", "ret": 2},
+      {"op": "write_history \"h\"", "ret": 0},
+      {"op": "file_read \"h\"", "content": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-file-version-timestamps": {
+    "exit": 0,
+    "results": [
+      {"op": "write_history \"h\"", "ret": 0},
+      {"op": "file_read \"h\"", "content": "#1700000000\nx\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

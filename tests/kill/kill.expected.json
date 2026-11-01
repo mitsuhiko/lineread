@@ -304,11 +304,11 @@
   "copy-region-empty": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "abcabc", "point": 6, "end": 6, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
-      {"op": "readline", "ret": "abcabc"}
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
     ],
     "screen": [
-      "> abcabc"
+      "> abc"
     ],
     "cursor": [1, 0]
   },
@@ -597,11 +597,11 @@
   "kill-region-with-mark-at-zero-length": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
-      {"op": "readline", "ret": ""}
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
     ],
     "screen": [
-      ">"
+      "> abc"
     ],
     "cursor": [1, 0]
   },

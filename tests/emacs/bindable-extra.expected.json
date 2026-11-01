@@ -188,22 +188,22 @@
   "copy-region-as-kill-reversed": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "hello hello world", "point": 6, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
-      {"op": "readline", "ret": "hello hello world"}
+      {"op": "dump", "line": "worldhello world", "point": 5, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "worldhello world"}
     ],
     "screen": [
-      "> hello hello world"
+      "> worldhello world"
     ],
     "cursor": [1, 0]
   },
   "copy-region-as-kill-empty-region": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "abcabc", "point": 6, "end": 6, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
-      {"op": "readline", "ret": "abcabc"}
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
     ],
     "screen": [
-      "> abcabc"
+      "> abc"
     ],
     "cursor": [1, 0]
   },

@@ -1,0 +1,440 @@
+{
+  "disable-completion-tab-inserts": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap\t", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ap\t"}
+    ],
+    "screen": [
+      "> ap"
+    ],
+    "cursor": [1, 0]
+  },
+  "disable-completion-possible-completions": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apple apricot ", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple apricot "}
+    ],
+    "screen": [
+      "> ap",
+      "apple    apricot",
+      "> apple apricot"
+    ],
+    "cursor": [3, 0]
+  },
+  "disable-completion-menu-complete": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple "}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "disable-completion-toggle-at-runtime": {
+    "exit": 0,
+    "results": [
+      {"op": "defun dcoff off", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xo\" dcoff", "ret": 0},
+      {"op": "rl_variable_bind disable-completion on", "ret": 0},
+      {"op": "dump", "line": "apple ap\t", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple ap\t"}
+    ],
+    "screen": [
+      "> apple ap"
+    ],
+    "cursor": [1, 0]
+  },
+  "echo-control-characters-off-sigquit": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "QUIT"},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 0]
+      }
+    ]
+  },
+  "echo-control-characters-on-sigquit": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "QUIT"},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc^\\"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc^\\"
+        ],
+        "cursor": [0, 0]
+      }
+    ]
+  },
+  "echo-control-characters-off-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "callback", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "echo-control-characters-off-sigtstp": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "TSTP"},
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "> xy"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> xy"
+        ],
+        "cursor": [0, 0]
+      }
+    ]
+  },
+  "enable-keypad-arrows-app-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 3, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdef", "point": 4, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "enable-keypad-history-arrows": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "two", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> two"
+    ],
+    "cursor": [1, 0]
+  },
+  "enable-keypad-off-normal-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "enable-keypad-two-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ba"},
+      {"op": "dump", "line": "dc", "point": 1, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "dc"}
+    ],
+    "screen": [
+      "> ba",
+      "> dc"
+    ],
+    "cursor": [2, 0]
+  },
+  "enable-meta-key-off-esc-prefix-still-works": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 0, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": " two", "point": 0, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": " two"}
+    ],
+    "screen": [
+      ">  two"
+    ],
+    "cursor": [1, 0]
+  },
+  "enable-meta-key-off-eight-bit-input": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "café", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "café"}
+    ],
+    "screen": [
+      "> café"
+    ],
+    "cursor": [1, 0]
+  },
+  "enable-meta-key-on-convert-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 4, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "match-hidden-files-off-tab-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "cat vis"}
+    ],
+    "screen": [
+      "> cat vis"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> cat vis"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "match-hidden-files-off-explicit-dot": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "cat ."}
+    ],
+    "screen": [
+      "> cat .",
+      "./        ../       .hidden2  .profile",
+      "> cat ."
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> cat .",
+          "./        ../       .hidden2  .profile",
+          "> cat ."
+        ],
+        "cursor": [2, 7]
+      }
+    ]
+  },
+  "match-hidden-files-on-lists-dotfiles": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "cat "}
+    ],
+    "screen": [
+      "> cat",
+      ".hidden2  .profile  visible",
+      "> cat"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> cat",
+          ".hidden2  .profile  visible",
+          "> cat"
+        ],
+        "cursor": [2, 6]
+      }
+    ]
+  },
+  "match-hidden-files-off-generator": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "gen filename \"\" sort", "ret": ["plain", "sub"]},
+      {"op": "gen filename \"sub/\" sort", "ret": ["sub/outer"]},
+      {"op": "gen filename \"sub/.\" sort", "ret": ["sub/.", "sub/..", "sub/.inner"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "page-completions-off-long-list": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ax", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ax"}
+    ],
+    "screen": [
+      "a02  a07  a12  a17  a22  a27",
+      "a03  a08  a13  a18  a23  a28",
+      "a04  a09  a14  a19  a24  a29",
+      "a05  a10  a15  a20  a25  a30",
+      "> ax"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "a01  a06  a11  a16  a21  a26",
+          "a02  a07  a12  a17  a22  a27",
+          "a03  a08  a13  a18  a23  a28",
+          "a04  a09  a14  a19  a24  a29",
+          "a05  a10  a15  a20  a25  a30",
+          "> a"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "page-completions-off-query": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "a02  a07  a12  a17  a22  a27",
+      "a03  a08  a13  a18  a23  a28",
+      "a04  a09  a14  a19  a24  a29",
+      "a05  a10  a15  a20  a25  a30",
+      "> a"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 30 possibilities? (y or n)"
+        ],
+        "cursor": [1, 38]
+      },
+      {
+        "screen": [
+          "a01  a06  a11  a16  a21  a26",
+          "a02  a07  a12  a17  a22  a27",
+          "a03  a08  a13  a18  a23  a28",
+          "a04  a09  a14  a19  a24  a29",
+          "a05  a10  a15  a20  a25  a30",
+          "> a"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "page-completions-off-horizontal": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "a08  a09  a10  a11  a12  a13  a14",
+      "a15  a16  a17  a18  a19  a20  a21",
+      "a22  a23  a24  a25  a26  a27  a28",
+      "a29  a30",
+      "> a"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "a01  a02  a03  a04  a05  a06  a07",
+          "a08  a09  a10  a11  a12  a13  a14",
+          "a15  a16  a17  a18  a19  a20  a21",
+          "a22  a23  a24  a25  a26  a27  a28",
+          "a29  a30",
+          "> a"
+        ],
+        "cursor": [5, 3]
+      }
+    ]
+  },
+  "revert-all-at-newline-on": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "new"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> new"
+    ],
+    "cursor": [1, 0]
+  },
+  "revert-all-at-newline-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "new"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "oneY", "timestamp": ""}, {"line": "twoX", "timestamp": ""}]},
+      {"op": "dump", "line": "oneY", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "oneY"}
+    ],
+    "screen": [
+      "> new",
+      "> oneY"
+    ],
+    "cursor": [2, 0]
+  },
+  "revert-all-at-newline-on-accept-edited": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "oneZ"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]},
+      {"op": "dump", "line": "one", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one"}
+    ],
+    "screen": [
+      "> oneZ",
+      "> one"
+    ],
+    "cursor": [2, 0]
+  },
+  "revert-all-at-newline-on-undo-list": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first"},
+      {"op": "dump", "line": "alpha", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "alpha", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha"}
+    ],
+    "screen": [
+      "> first",
+      "> alpha"
+    ],
+    "cursor": [2, 0]
+  },
+  "revert-all-at-newline-on-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "twoX"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> twoX",
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

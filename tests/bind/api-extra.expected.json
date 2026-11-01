@@ -1,0 +1,374 @@
+{
+  "bind-key-if-unbound-effect": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key_if_unbound \"\\C-o\" upcase-word", "ret": 1},
+      {"op": "rl_bind_key_if_unbound \"\\C-a\" end-of-line", "ret": 1},
+      {"op": "readline", "ret": "abc def"}
+    ],
+    "screen": [
+      "> abc def"
+    ],
+    "cursor": [1, 0]
+  },
+  "bind-key-if-unbound-shadowed-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key_if_unbound \"\\C-x\" forward-char", "ret": 1},
+      {"op": "rl_function_of_keyseq \"\\x18\" emacs", "type": "keymap", "value": "emacs-ctlx"},
+      {"op": "rl_bind_key_if_unbound \"\\C-g\" forward-char", "ret": 1},
+      {"op": "rl_function_of_keyseq \"\\x07\" emacs", "type": "func", "value": "abort"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-key-if-unbound-in-vi-map": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key_if_unbound_in_map \"\\C-o\" end-of-line vi-command", "ret": 0},
+      {"op": "rl_bind_key_if_unbound_in_map \"h\" end-of-line vi-command", "ret": 1},
+      {"op": "dump", "line": "abcdef", "point": 5, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdef", "point": 4, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "bind-key-if-unbound-in-map-returns": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key_if_unbound_in_map \"\\C-o\" kill-line emacs", "ret": 1},
+      {"op": "rl_bind_key_if_unbound_in_map \"\\C-o\" backward-char emacs", "ret": 1},
+      {"op": "rl_function_of_keyseq \"\\x0f\" emacs", "type": "func", "value": "operate-and-get-next"},
+      {"op": "rl_bind_key_if_unbound_in_map \"\\M-z\" kill-line emacs", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\ez\" emacs", "type": "func", "value": "kill-line"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-keyseq-if-unbound-in-map-effect": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_if_unbound_in_map \"\\C-x\\C-o\" upcase-word emacs", "ret": 0},
+      {"op": "rl_bind_keyseq_if_unbound_in_map \"\\C-x\\C-u\" upcase-word emacs", "ret": 1},
+      {"op": "dump", "line": "ONE two", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "bind-keyseq-if-unbound-in-map-vi-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_if_unbound_in_map \"\\C-xa\" beginning-of-line vi-insert", "ret": 0},
+      {"op": "rl_bind_keyseq_if_unbound_in_map \"\\C-w\" beginning-of-line vi-insert", "ret": 1},
+      {"op": "dump", "line": "Xabc def", "point": 1, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc def", "point": 0, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc def"}
+    ],
+    "screen": [
+      "> abc def"
+    ],
+    "cursor": [1, 0]
+  },
+  "set-key-effect": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_key \"\\C-xq\" upcase-word emacs", "ret": 0},
+      {"op": "rl_set_key \"\\eq\" downcase-word emacs", "ret": 0},
+      {"op": "dump", "line": "ABC DEF", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ABC def", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ABC def"}
+    ],
+    "screen": [
+      "> ABC def"
+    ],
+    "cursor": [1, 0]
+  },
+  "set-key-in-vi-map": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_key \"\\C-xq\" end-of-line vi-command", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "set-key-overrides-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_key \"\\C-x\" kill-line emacs", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18\" emacs", "type": "keymap", "value": "emacs-ctlx"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x18\" emacs", "type": "func", "value": "exchange-point-and-mark"},
+      {"op": "dump", "line": "aX", "point": 2, "end": 2, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aX"}
+    ],
+    "screen": [
+      "> aX"
+    ],
+    "cursor": [1, 0]
+  },
+  "unbind-command-in-map-effect": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_unbind_command_in_map \"beginning-of-line\" emacs", "ret": 1},
+      {"op": "dump", "line": "abcx", "point": 0, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcx"}
+    ],
+    "screen": [
+      "> abcx"
+    ],
+    "cursor": [1, 0]
+  },
+  "unbind-command-in-map-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_unbind_command_in_map \"backward-word\" emacs-meta", "ret": 1},
+      {"op": "rl_invoking_keyseqs backward-word", "ret": null},
+      {"op": "dump", "line": "one two", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "untranslate-keyseq-meta-and-controls": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_untranslate_keyseq 0", "ret": "\\C-@"},
+      {"op": "rl_untranslate_keyseq 9", "ret": "\\C-i"},
+      {"op": "rl_untranslate_keyseq 13", "ret": "\\C-m"},
+      {"op": "rl_untranslate_keyseq 31", "ret": "\\C-_"},
+      {"op": "rl_untranslate_keyseq 128", "ret": "\\M-\\C-@"},
+      {"op": "rl_untranslate_keyseq 129", "ret": "\\M-\\C-a"},
+      {"op": "rl_untranslate_keyseq 155", "ret": "\\M-\\e"},
+      {"op": "rl_untranslate_keyseq 255", "ret": "\\M-\\C-?"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "untranslate-keyseq-printables": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_untranslate_keyseq \"a\"", "ret": "a"},
+      {"op": "rl_untranslate_keyseq \"Z\"", "ret": "Z"},
+      {"op": "rl_untranslate_keyseq \"'\"", "ret": "'"},
+      {"op": "rl_untranslate_keyseq \"~\"", "ret": "~"},
+      {"op": "rl_untranslate_keyseq -1", "ret": "\\M-\\C-?"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "trim-arg-from-keyseq-meta-digits": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_trim_arg_from_keyseq \"\\e1\\e2\\C-f\" 5 emacs", "ret": 4},
+      {"op": "rl_trim_arg_from_keyseq \"\\e-\\C-f\" 3 emacs", "ret": 2},
+      {"op": "rl_trim_arg_from_keyseq \"\\C-f\" 1 emacs", "ret": 0},
+      {"op": "rl_trim_arg_from_keyseq \"\\e5\" 2 emacs", "ret": -1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "trim-arg-from-keyseq-universal": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_trim_arg_from_keyseq \"\\x15\\x15\\C-f\" 3 emacs", "ret": 0},
+      {"op": "rl_trim_arg_from_keyseq \"\\x154\\C-b\" 3 emacs", "ret": 0},
+      {"op": "rl_trim_arg_from_keyseq \"\\x15-\\C-b\" 3 emacs", "ret": 0},
+      {"op": "rl_trim_arg_from_keyseq \"\\x15\" 1 emacs", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "trim-arg-from-keyseq-vi": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_trim_arg_from_keyseq \"3w\" 2 vi-command", "ret": 1},
+      {"op": "rl_trim_arg_from_keyseq \"12dw\" 4 vi-command", "ret": 2},
+      {"op": "rl_trim_arg_from_keyseq \"0\" 1 vi-command", "ret": 0},
+      {"op": "rl_trim_arg_from_keyseq \"x\" 1 vi-command", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-names-sorted-and-defun": {
+    "exit": 0,
+    "results": [
+      {"op": "defun zz-custom f", "ret": 0},
+      {"op": "defun aa-custom f", "ret": 0},
+      {"op": "rl_funmap_names", "ret": ["aa-custom", "abort", "accept-line", "arrow-key-prefix", "backward-byte", "backward-char", "backward-delete-char", "backward-kill-line", "backward-kill-word", "backward-word", "beginning-of-history", "beginning-of-line", "bracketed-paste-begin", "call-last-kbd-macro", "capitalize-word", "character-search", "character-search-backward", "clear-display", "clear-screen", "complete", "copy-backward-word", "copy-forward-word", "copy-region-as-kill", "delete-char", "delete-char-or-list", "delete-horizontal-space", "digit-argument", "do-lowercase-version", "downcase-word", "dump-functions", "dump-macros", "dump-variables", "emacs-editing-mode", "end-kbd-macro", "end-of-history", "end-of-line", "exchange-point-and-mark", "execute-named-command", "export-completions", "fetch-history", "forward-backward-delete-char", "forward-byte", "forward-char", "forward-search-history", "forward-word", "history-search-backward", "history-search-forward", "history-substring-search-backward", "history-substring-search-forward", "insert-comment", "insert-completions", "kill-line", "kill-region", "kill-whole-line", "kill-word", "menu-complete", "menu-complete-backward", "next-history", "next-screen-line", "non-incremental-forward-search-history", "non-incremental-forward-search-history-again", "non-incremental-reverse-search-history", "non-incremental-reverse-search-history-again", "old-menu-complete", "operate-and-get-next", "overwrite-mode", "possible-completions", "previous-history", "previous-screen-line", "print-last-kbd-macro", "quoted-insert", "re-read-init-file", "redraw-current-line", "reverse-search-history", "revert-line", "self-insert", "set-mark", "skip-csi-sequence", "start-kbd-macro", "tab-insert", "tilde-expand", "transpose-chars", "transpose-words", "tty-status", "undo", "universal-argument", "unix-filename-rubout", "unix-line-discard", "unix-word-rubout", "upcase-word", "vi-append-eol", "vi-append-mode", "vi-arg-digit", "vi-bWord", "vi-back-to-indent", "vi-backward-bigword", "vi-backward-word", "vi-bword", "vi-change-case", "vi-change-char", "vi-change-to", "vi-char-search", "vi-column", "vi-complete", "vi-delete", "vi-delete-to", "vi-eWord", "vi-editing-mode", "vi-end-bigword", "vi-end-word", "vi-eof-maybe", "vi-eword", "vi-fWord", "vi-fetch-history", "vi-first-print", "vi-forward-bigword", "vi-forward-word", "vi-fword", "vi-goto-mark", "vi-insert-beg", "vi-insertion-mode", "vi-match", "vi-movement-mode", "vi-next-word", "vi-overstrike", "vi-overstrike-delete", "vi-prev-word", "vi-put", "vi-redo", "vi-replace", "vi-rubout", "vi-search", "vi-search-again", "vi-set-mark", "vi-subst", "vi-tilde-expand", "vi-undo", "vi-unix-word-rubout", "vi-yank-arg", "vi-yank-pop", "vi-yank-to", "yank", "yank-last-arg", "yank-nth-arg", "yank-pop", "zz-custom"]},
+      {"op": "get funmap", "ret": ["zz-custom", "aa-custom", "abort", "accept-line", "arrow-key-prefix", "backward-byte", "backward-char", "backward-delete-char", "backward-kill-line", "backward-kill-word", "backward-word", "beginning-of-history", "beginning-of-line", "bracketed-paste-begin", "call-last-kbd-macro", "capitalize-word", "character-search", "character-search-backward", "clear-display", "clear-screen", "complete", "copy-backward-word", "copy-forward-word", "copy-region-as-kill", "delete-char", "delete-char-or-list", "delete-horizontal-space", "digit-argument", "do-lowercase-version", "downcase-word", "dump-functions", "dump-macros", "dump-variables", "emacs-editing-mode", "end-kbd-macro", "end-of-history", "end-of-line", "exchange-point-and-mark", "execute-named-command", "export-completions", "fetch-history", "forward-backward-delete-char", "forward-byte", "forward-char", "forward-search-history", "forward-word", "history-search-backward", "history-search-forward", "history-substring-search-backward", "history-substring-search-forward", "insert-comment", "insert-completions", "kill-whole-line", "kill-line", "kill-region", "kill-word", "menu-complete", "menu-complete-backward", "next-history", "next-screen-line", "non-incremental-forward-search-history", "non-incremental-reverse-search-history", "non-incremental-forward-search-history-again", "non-incremental-reverse-search-history-again", "old-menu-complete", "operate-and-get-next", "overwrite-mode", "possible-completions", "previous-history", "previous-screen-line", "print-last-kbd-macro", "quoted-insert", "re-read-init-file", "redraw-current-line", "reverse-search-history", "revert-line", "self-insert", "set-mark", "skip-csi-sequence", "start-kbd-macro", "tab-insert", "tilde-expand", "transpose-chars", "transpose-words", "tty-status", "undo", "universal-argument", "unix-filename-rubout", "unix-line-discard", "unix-word-rubout", "upcase-word", "yank", "yank-last-arg", "yank-nth-arg", "yank-pop", "vi-append-eol", "vi-append-mode", "vi-arg-digit", "vi-back-to-indent", "vi-backward-bigword", "vi-backward-word", "vi-bWord", "vi-bword", "vi-change-case", "vi-change-char", "vi-change-to", "vi-char-search", "vi-column", "vi-complete", "vi-delete", "vi-delete-to", "vi-eWord", "vi-editing-mode", "vi-end-bigword", "vi-end-word", "vi-eof-maybe", "vi-eword", "vi-fWord", "vi-fetch-history", "vi-first-print", "vi-forward-bigword", "vi-forward-word", "vi-fword", "vi-goto-mark", "vi-insert-beg", "vi-insertion-mode", "vi-match", "vi-movement-mode", "vi-next-word", "vi-overstrike", "vi-overstrike-delete", "vi-prev-word", "vi-put", "vi-redo", "vi-replace", "vi-rubout", "vi-search", "vi-search-again", "vi-set-mark", "vi-subst", "vi-tilde-expand", "vi-undo", "vi-unix-word-rubout", "vi-yank-arg", "vi-yank-pop", "vi-yank-to"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-names-after-add-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"Mixed-Case\" forward-char", "ret": 145},
+      {"op": "rl_add_funmap_entry \"forward-char\" backward-char", "ret": 146},
+      {"op": "rl_funmap_names", "ret": ["Mixed-Case", "abort", "accept-line", "arrow-key-prefix", "backward-byte", "backward-char", "backward-delete-char", "backward-kill-line", "backward-kill-word", "backward-word", "beginning-of-history", "beginning-of-line", "bracketed-paste-begin", "call-last-kbd-macro", "capitalize-word", "character-search", "character-search-backward", "clear-display", "clear-screen", "complete", "copy-backward-word", "copy-forward-word", "copy-region-as-kill", "delete-char", "delete-char-or-list", "delete-horizontal-space", "digit-argument", "do-lowercase-version", "downcase-word", "dump-functions", "dump-macros", "dump-variables", "emacs-editing-mode", "end-kbd-macro", "end-of-history", "end-of-line", "exchange-point-and-mark", "execute-named-command", "export-completions", "fetch-history", "forward-backward-delete-char", "forward-byte", "forward-char", "forward-char", "forward-search-history", "forward-word", "history-search-backward", "history-search-forward", "history-substring-search-backward", "history-substring-search-forward", "insert-comment", "insert-completions", "kill-line", "kill-region", "kill-whole-line", "kill-word", "menu-complete", "menu-complete-backward", "next-history", "next-screen-line", "non-incremental-forward-search-history", "non-incremental-forward-search-history-again", "non-incremental-reverse-search-history", "non-incremental-reverse-search-history-again", "old-menu-complete", "operate-and-get-next", "overwrite-mode", "possible-completions", "previous-history", "previous-screen-line", "print-last-kbd-macro", "quoted-insert", "re-read-init-file", "redraw-current-line", "reverse-search-history", "revert-line", "self-insert", "set-mark", "skip-csi-sequence", "start-kbd-macro", "tab-insert", "tilde-expand", "transpose-chars", "transpose-words", "tty-status", "undo", "universal-argument", "unix-filename-rubout", "unix-line-discard", "unix-word-rubout", "upcase-word", "vi-append-eol", "vi-append-mode", "vi-arg-digit", "vi-bWord", "vi-back-to-indent", "vi-backward-bigword", "vi-backward-word", "vi-bword", "vi-change-case", "vi-change-char", "vi-change-to", "vi-char-search", "vi-column", "vi-complete", "vi-delete", "vi-delete-to", "vi-eWord", "vi-editing-mode", "vi-end-bigword", "vi-end-word", "vi-eof-maybe", "vi-eword", "vi-fWord", "vi-fetch-history", "vi-first-print", "vi-forward-bigword", "vi-forward-word", "vi-fword", "vi-goto-mark", "vi-insert-beg", "vi-insertion-mode", "vi-match", "vi-movement-mode", "vi-next-word", "vi-overstrike", "vi-overstrike-delete", "vi-prev-word", "vi-put", "vi-redo", "vi-replace", "vi-rubout", "vi-search", "vi-search-again", "vi-set-mark", "vi-subst", "vi-tilde-expand", "vi-undo", "vi-unix-word-rubout", "vi-yank-arg", "vi-yank-pop", "vi-yank-to", "yank", "yank-last-arg", "yank-nth-arg", "yank-pop"]},
+      {"op": "rl_named_function \"forward-char\"", "ret": "forward-char"},
+      {"op": "rl_named_function \"mixed-case\"", "ret": "forward-char"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "list-funmap-names-output": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_list_funmap_names", "out": "abort\naccept-line\narrow-key-prefix\nbackward-byte\nbackward-char\nbackward-delete-char\nbackward-kill-line\nbackward-kill-word\nbackward-word\nbeginning-of-history\nbeginning-of-line\nbracketed-paste-begin\ncall-last-kbd-macro\ncapitalize-word\ncharacter-search\ncharacter-search-backward\nclear-display\nclear-screen\ncomplete\ncopy-backward-word\ncopy-forward-word\ncopy-region-as-kill\ndelete-char\ndelete-char-or-list\ndelete-horizontal-space\ndigit-argument\ndo-lowercase-version\ndowncase-word\ndump-functions\ndump-macros\ndump-variables\nemacs-editing-mode\nend-kbd-macro\nend-of-history\nend-of-line\nexchange-point-and-mark\nexecute-named-command\nexport-completions\nfetch-history\nforward-backward-delete-char\nforward-byte\nforward-char\nforward-search-history\nforward-word\nhistory-search-backward\nhistory-search-forward\nhistory-substring-search-backward\nhistory-substring-search-forward\ninsert-comment\ninsert-completions\nkill-line\nkill-region\nkill-whole-line\nkill-word\nmenu-complete\nmenu-complete-backward\nnext-history\nnext-screen-line\nnon-incremental-forward-search-history\nnon-incremental-forward-search-history-again\nnon-incremental-reverse-search-history\nnon-incremental-reverse-search-history-again\nold-menu-complete\noperate-and-get-next\noverwrite-mode\npossible-completions\nprevious-history\nprevious-screen-line\nprint-last-kbd-macro\nquoted-insert\nre-read-init-file\nredraw-current-line\nreverse-search-history\nrevert-line\nself-insert\nset-mark\nskip-csi-sequence\nstart-kbd-macro\ntab-insert\ntilde-expand\ntranspose-chars\ntranspose-words\ntty-status\nundo\nuniversal-argument\nunix-filename-rubout\nunix-line-discard\nunix-word-rubout\nupcase-word\nvi-append-eol\nvi-append-mode\nvi-arg-digit\nvi-bWord\nvi-back-to-indent\nvi-backward-bigword\nvi-backward-word\nvi-bword\nvi-change-case\nvi-change-char\nvi-change-to\nvi-char-search\nvi-column\nvi-complete\nvi-delete\nvi-delete-to\nvi-eWord\nvi-editing-mode\nvi-end-bigword\nvi-end-word\nvi-eof-maybe\nvi-eword\nvi-fWord\nvi-fetch-history\nvi-first-print\nvi-forward-bigword\nvi-forward-word\nvi-fword\nvi-goto-mark\nvi-insert-beg\nvi-insertion-mode\nvi-match\nvi-movement-mode\nvi-next-word\nvi-overstrike\nvi-overstrike-delete\nvi-prev-word\nvi-put\nvi-redo\nvi-replace\nvi-rubout\nvi-search\nvi-search-again\nvi-set-mark\nvi-subst\nvi-tilde-expand\nvi-undo\nvi-unix-word-rubout\nvi-yank-arg\nvi-yank-pop\nvi-yank-to\nyank\nyank-last-arg\nyank-nth-arg\nyank-pop\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "list-funmap-names-with-defuns": {
+    "exit": 0,
+    "results": [
+      {"op": "defun my-command f", "ret": 0},
+      {"op": "rl_add_funmap_entry \"another-name\" forward-char", "ret": 146},
+      {"op": "rl_list_funmap_names", "out": "abort\naccept-line\nanother-name\narrow-key-prefix\nbackward-byte\nbackward-char\nbackward-delete-char\nbackward-kill-line\nbackward-kill-word\nbackward-word\nbeginning-of-history\nbeginning-of-line\nbracketed-paste-begin\ncall-last-kbd-macro\ncapitalize-word\ncharacter-search\ncharacter-search-backward\nclear-display\nclear-screen\ncomplete\ncopy-backward-word\ncopy-forward-word\ncopy-region-as-kill\ndelete-char\ndelete-char-or-list\ndelete-horizontal-space\ndigit-argument\ndo-lowercase-version\ndowncase-word\ndump-functions\ndump-macros\ndump-variables\nemacs-editing-mode\nend-kbd-macro\nend-of-history\nend-of-line\nexchange-point-and-mark\nexecute-named-command\nexport-completions\nfetch-history\nforward-backward-delete-char\nforward-byte\nforward-char\nforward-search-history\nforward-word\nhistory-search-backward\nhistory-search-forward\nhistory-substring-search-backward\nhistory-substring-search-forward\ninsert-comment\ninsert-completions\nkill-line\nkill-region\nkill-whole-line\nkill-word\nmenu-complete\nmenu-complete-backward\nmy-command\nnext-history\nnext-screen-line\nnon-incremental-forward-search-history\nnon-incremental-forward-search-history-again\nnon-incremental-reverse-search-history\nnon-incremental-reverse-search-history-again\nold-menu-complete\noperate-and-get-next\noverwrite-mode\npossible-completions\nprevious-history\nprevious-screen-line\nprint-last-kbd-macro\nquoted-insert\nre-read-init-file\nredraw-current-line\nreverse-search-history\nrevert-line\nself-insert\nset-mark\nskip-csi-sequence\nstart-kbd-macro\ntab-insert\ntilde-expand\ntranspose-chars\ntranspose-words\ntty-status\nundo\nuniversal-argument\nunix-filename-rubout\nunix-line-discard\nunix-word-rubout\nupcase-word\nvi-append-eol\nvi-append-mode\nvi-arg-digit\nvi-bWord\nvi-back-to-indent\nvi-backward-bigword\nvi-backward-word\nvi-bword\nvi-change-case\nvi-change-char\nvi-change-to\nvi-char-search\nvi-column\nvi-complete\nvi-delete\nvi-delete-to\nvi-eWord\nvi-editing-mode\nvi-end-bigword\nvi-end-word\nvi-eof-maybe\nvi-eword\nvi-fWord\nvi-fetch-history\nvi-first-print\nvi-forward-bigword\nvi-forward-word\nvi-fword\nvi-goto-mark\nvi-insert-beg\nvi-insertion-mode\nvi-match\nvi-movement-mode\nvi-next-word\nvi-overstrike\nvi-overstrike-delete\nvi-prev-word\nvi-put\nvi-redo\nvi-replace\nvi-rubout\nvi-search\nvi-search-again\nvi-set-mark\nvi-subst\nvi-tilde-expand\nvi-undo\nvi-unix-word-rubout\nvi-yank-arg\nvi-yank-pop\nvi-yank-to\nyank\nyank-last-arg\nyank-nth-arg\nyank-pop\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "initialize-funmap-idempotent": {
+    "exit": 0,
+    "results": [
+      {"op": "get funmap", "ret": ["abort", "accept-line", "arrow-key-prefix", "backward-byte", "backward-char", "backward-delete-char", "backward-kill-line", "backward-kill-word", "backward-word", "beginning-of-history", "beginning-of-line", "bracketed-paste-begin", "call-last-kbd-macro", "capitalize-word", "character-search", "character-search-backward", "clear-display", "clear-screen", "complete", "copy-backward-word", "copy-forward-word", "copy-region-as-kill", "delete-char", "delete-char-or-list", "delete-horizontal-space", "digit-argument", "do-lowercase-version", "downcase-word", "dump-functions", "dump-macros", "dump-variables", "emacs-editing-mode", "end-kbd-macro", "end-of-history", "end-of-line", "exchange-point-and-mark", "execute-named-command", "export-completions", "fetch-history", "forward-backward-delete-char", "forward-byte", "forward-char", "forward-search-history", "forward-word", "history-search-backward", "history-search-forward", "history-substring-search-backward", "history-substring-search-forward", "insert-comment", "insert-completions", "kill-whole-line", "kill-line", "kill-region", "kill-word", "menu-complete", "menu-complete-backward", "next-history", "next-screen-line", "non-incremental-forward-search-history", "non-incremental-reverse-search-history", "non-incremental-forward-search-history-again", "non-incremental-reverse-search-history-again", "old-menu-complete", "operate-and-get-next", "overwrite-mode", "possible-completions", "previous-history", "previous-screen-line", "print-last-kbd-macro", "quoted-insert", "re-read-init-file", "redraw-current-line", "reverse-search-history", "revert-line", "self-insert", "set-mark", "skip-csi-sequence", "start-kbd-macro", "tab-insert", "tilde-expand", "transpose-chars", "transpose-words", "tty-status", "undo", "universal-argument", "unix-filename-rubout", "unix-line-discard", "unix-word-rubout", "upcase-word", "yank", "yank-last-arg", "yank-nth-arg", "yank-pop", "vi-append-eol", "vi-append-mode", "vi-arg-digit", "vi-back-to-indent", "vi-backward-bigword", "vi-backward-word", "vi-bWord", "vi-bword", "vi-change-case", "vi-change-char", "vi-change-to", "vi-char-search", "vi-column", "vi-complete", "vi-delete", "vi-delete-to", "vi-eWord", "vi-editing-mode", "vi-end-bigword", "vi-end-word", "vi-eof-maybe", "vi-eword", "vi-fWord", "vi-fetch-history", "vi-first-print", "vi-forward-bigword", "vi-forward-word", "vi-fword", "vi-goto-mark", "vi-insert-beg", "vi-insertion-mode", "vi-match", "vi-movement-mode", "vi-next-word", "vi-overstrike", "vi-overstrike-delete", "vi-prev-word", "vi-put", "vi-redo", "vi-replace", "vi-rubout", "vi-search", "vi-search-again", "vi-set-mark", "vi-subst", "vi-tilde-expand", "vi-undo", "vi-unix-word-rubout", "vi-yank-arg", "vi-yank-pop", "vi-yank-to"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "initialize-funmap-after-add": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_add_funmap_entry \"early-entry\" forward-char", "ret": 145},
+      {"op": "rl_named_function \"early-entry\"", "ret": "forward-char"},
+      {"op": "rl_named_function \"forward-char\"", "ret": "forward-char"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "funmap-variable-order": {
+    "exit": 0,
+    "results": [
+      {"op": "defun added-late f", "ret": 0},
+      {"op": "get funmap", "ret": ["driver-dump", "driver-dump-full", "driver-snap", "added-late"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "make-keymap-full-is-self-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "keymap_dump full", "ret": [["\\C-h", "func", "backward-delete-char"], ["\\C-i", "func", "self-insert"], [" ", "func", "self-insert"], ["!", "func", "self-insert"], ["\\\"", "func", "self-insert"], ["#", "func", "self-insert"], ["$", "func", "self-insert"], ["%", "func", "self-insert"], ["&", "func", "self-insert"], ["'", "func", "self-insert"], ["(", "func", "self-insert"], [")", "func", "self-insert"], ["*", "func", "self-insert"], ["+", "func", "self-insert"], [",", "func", "self-insert"], ["-", "func", "self-insert"], [".", "func", "self-insert"], ["/", "func", "self-insert"], ["0", "func", "self-insert"], ["1", "func", "self-insert"], ["2", "func", "self-insert"], ["3", "func", "self-insert"], ["4", "func", "self-insert"], ["5", "func", "self-insert"], ["6", "func", "self-insert"], ["7", "func", "self-insert"], ["8", "func", "self-insert"], ["9", "func", "self-insert"], [":", "func", "self-insert"], [";", "func", "self-insert"], ["<", "func", "self-insert"], ["=", "func", "self-insert"], [">", "func", "self-insert"], ["?", "func", "self-insert"], ["@", "func", "self-insert"], ["A", "func", "self-insert"], ["B", "func", "self-insert"], ["C", "func", "self-insert"], ["D", "func", "self-insert"], ["E", "func", "self-insert"], ["F", "func", "self-insert"], ["G", "func", "self-insert"], ["H", "func", "self-insert"], ["I", "func", "self-insert"], ["J", "func", "self-insert"], ["K", "func", "self-insert"], ["L", "func", "self-insert"], ["M", "func", "self-insert"], ["N", "func", "self-insert"], ["O", "func", "self-insert"], ["P", "func", "self-insert"], ["Q", "func", "self-insert"], ["R", "func", "self-insert"], ["S", "func", "self-insert"], ["T", "func", "self-insert"], ["U", "func", "self-insert"], ["V", "func", "self-insert"], ["W", "func", "self-insert"], ["X", "func", "self-insert"], ["Y", "func", "self-insert"], ["Z", "func", "self-insert"], ["[", "func", "self-insert"], ["\\\\", "func", "self-insert"], ["]", "func", "self-insert"], ["^", "func", "self-insert"], ["_", "func", "self-insert"], ["`", "func", "self-insert"], ["a", "func", "self-insert"], ["b", "func", "self-insert"], ["c", "func", "self-insert"], ["d", "func", "self-insert"], ["e", "func", "self-insert"], ["f", "func", "self-insert"], ["g", "func", "self-insert"], ["h", "func", "self-insert"], ["i", "func", "self-insert"], ["j", "func", "self-insert"], ["k", "func", "self-insert"], ["l", "func", "self-insert"], ["m", "func", "self-insert"], ["n", "func", "self-insert"], ["o", "func", "self-insert"], ["p", "func", "self-insert"], ["q", "func", "self-insert"], ["r", "func", "self-insert"], ["s", "func", "self-insert"], ["t", "func", "self-insert"], ["u", "func", "self-insert"], ["v", "func", "self-insert"], ["w", "func", "self-insert"], ["x", "func", "self-insert"], ["y", "func", "self-insert"], ["z", "func", "self-insert"], ["{", "func", "self-insert"], ["|", "func", "self-insert"], ["}", "func", "self-insert"], ["~", "func", "self-insert"], ["\\C-?", "func", "backward-delete-char"], ["\\M-\\C-@", "func", "self-insert"], ["\\M-\\C-a", "func", "self-insert"], ["\\M-\\C-b", "func", "self-insert"], ["\\M-\\C-c", "func", "self-insert"], ["\\M-\\C-d", "func", "self-insert"], ["\\M-\\C-e", "func", "self-insert"], ["\\M-\\C-f", "func", "self-insert"], ["\\M-\\C-g", "func", "self-insert"], ["\\M-\\C-h", "func", "self-insert"], ["\\M-\\C-i", "func", "self-insert"], ["\\M-\\C-j", "func", "self-insert"], ["\\M-\\C-k", "func", "self-insert"], ["\\M-\\C-l", "func", "self-insert"], ["\\M-\\C-m", "func", "self-insert"], ["\\M-\\C-n", "func", "self-insert"], ["\\M-\\C-o", "func", "self-insert"], ["\\M-\\C-p", "func", "self-insert"], ["\\M-\\C-q", "func", "self-insert"], ["\\M-\\C-r", "func", "self-insert"], ["\\M-\\C-s", "func", "self-insert"], ["\\M-\\C-t", "func", "self-insert"], ["\\M-\\C-u", "func", "self-insert"], ["\\M-\\C-v", "func", "self-insert"], ["\\M-\\C-w", "func", "self-insert"], ["\\M-\\C-x", "func", "self-insert"], ["\\M-\\C-y", "func", "self-insert"], ["\\M-\\C-z", "func", "self-insert"], ["\\M-\\e", "func", "self-insert"], ["\\M-\\C-\\", "func", "self-insert"], ["\\M-\\C-]", "func", "self-insert"], ["\\M-\\C-^", "func", "self-insert"], ["\\M-\\C-_", "func", "self-insert"], ["\\M- ", "func", "self-insert"], ["\\M-!", "func", "self-insert"], ["\\M-\\\"", "func", "self-insert"], ["\\M-#", "func", "self-insert"], ["\\M-$", "func", "self-insert"], ["\\M-%", "func", "self-insert"], ["\\M-&", "func", "self-insert"], ["\\M-'", "func", "self-insert"], ["\\M-(", "func", "self-insert"], ["\\M-)", "func", "self-insert"], ["\\M-*", "func", "self-insert"], ["\\M-+", "func", "self-insert"], ["\\M-,", "func", "self-insert"], ["\\M--", "func", "self-insert"], ["\\M-.", "func", "self-insert"], ["\\M-/", "func", "self-insert"], ["\\M-0", "func", "self-insert"], ["\\M-1", "func", "self-insert"], ["\\M-2", "func", "self-insert"], ["\\M-3", "func", "self-insert"], ["\\M-4", "func", "self-insert"], ["\\M-5", "func", "self-insert"], ["\\M-6", "func", "self-insert"], ["\\M-7", "func", "self-insert"], ["\\M-8", "func", "self-insert"], ["\\M-9", "func", "self-insert"], ["\\M-:", "func", "self-insert"], ["\\M-;", "func", "self-insert"], ["\\M-<", "func", "self-insert"], ["\\M-=", "func", "self-insert"], ["\\M->", "func", "self-insert"], ["\\M-?", "func", "self-insert"], ["\\M-@", "func", "self-insert"], ["\\M-A", "func", "self-insert"], ["\\M-B", "func", "self-insert"], ["\\M-C", "func", "self-insert"], ["\\M-D", "func", "self-insert"], ["\\M-E", "func", "self-insert"], ["\\M-F", "func", "self-insert"], ["\\M-G", "func", "self-insert"], ["\\M-H", "func", "self-insert"], ["\\M-I", "func", "self-insert"], ["\\M-J", "func", "self-insert"], ["\\M-K", "func", "self-insert"], ["\\M-L", "func", "self-insert"], ["\\M-M", "func", "self-insert"], ["\\M-N", "func", "self-insert"], ["\\M-O", "func", "self-insert"], ["\\M-P", "func", "self-insert"], ["\\M-Q", "func", "self-insert"], ["\\M-R", "func", "self-insert"], ["\\M-S", "func", "self-insert"], ["\\M-T", "func", "self-insert"], ["\\M-U", "func", "self-insert"], ["\\M-V", "func", "self-insert"], ["\\M-W", "func", "self-insert"], ["\\M-X", "func", "self-insert"], ["\\M-Y", "func", "self-insert"], ["\\M-Z", "func", "self-insert"], ["\\M-[", "func", "self-insert"], ["\\M-\\\\", "func", "self-insert"], ["\\M-]", "func", "self-insert"], ["\\M-^", "func", "self-insert"], ["\\M-_", "func", "self-insert"], ["\\M-`", "func", "self-insert"], ["\\M-a", "func", "self-insert"], ["\\M-b", "func", "self-insert"], ["\\M-c", "func", "self-insert"], ["\\M-d", "func", "self-insert"], ["\\M-e", "func", "self-insert"], ["\\M-f", "func", "self-insert"], ["\\M-g", "func", "self-insert"], ["\\M-h", "func", "self-insert"], ["\\M-i", "func", "self-insert"], ["\\M-j", "func", "self-insert"], ["\\M-k", "func", "self-insert"], ["\\M-l", "func", "self-insert"], ["\\M-m", "func", "self-insert"], ["\\M-n", "func", "self-insert"], ["\\M-o", "func", "self-insert"], ["\\M-p", "func", "self-insert"], ["\\M-q", "func", "self-insert"], ["\\M-r", "func", "self-insert"], ["\\M-s", "func", "self-insert"], ["\\M-t", "func", "self-insert"], ["\\M-u", "func", "self-insert"], ["\\M-v", "func", "self-insert"], ["\\M-w", "func", "self-insert"], ["\\M-x", "func", "self-insert"], ["\\M-y", "func", "self-insert"], ["\\M-z", "func", "self-insert"], ["\\M-{", "func", "self-insert"], ["\\M-|", "func", "self-insert"], ["\\M-}", "func", "self-insert"], ["\\M-~", "func", "self-insert"], ["\\M-\\C-?", "func", "self-insert"]]},
+      {"op": "rl_function_of_keyseq \"a\" full", "type": "func", "value": "self-insert"},
+      {"op": "rl_function_of_keyseq \"\\x01\" full", "type": null, "value": null},
+      {"op": "rl_function_of_keyseq \"\\xe9\" full", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "make-keymap-use-for-editing": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key_in_map \"\\C-b\" backward-char mine", "ret": 0},
+      {"op": "rl_bind_key_in_map \"\\r\" accept-line mine", "ret": 0},
+      {"op": "readline", "ret": "abXc"}
+    ],
+    "screen": [
+      "> abXc"
+    ],
+    "cursor": [1, 0]
+  },
+  "free-keymap-full": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map \"\\C-xz\" kill-line f", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18z\" f", "type": "func", "value": "kill-line"},
+      {"op": "rl_function_of_keyseq \"\\x18z\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "free-keymap-bare-with-submap": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\\C-y\" kill-line b", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\eq\" kill-line b", "ret": 0},
+      {"op": "keymap_dump b", "ret": [["\\C-x\\C-y", "func", "kill-line"], ["\\eq", "func", "kill-line"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "discard-keymap-and-reuse": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq_in_map \"\\C-xa\" kill-line d", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xa\" kill-line e", "ret": 0},
+      {"op": "keymap_dump e", "ret": [["\\C-xa", "func", "kill-line"]]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "discard-keymap-copy": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_function_of_keyseq \"\\x05\" c", "type": null, "value": null},
+      {"op": "rl_function_of_keyseq \"\\x05\" emacs-ctlx", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "binding-keymap-after-parse": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_binding_keymap", "ret": null},
+      {"op": "rl_parse_and_bind \"set keymap vi-insert\"", "ret": 0},
+      {"op": "get rl_binding_keymap", "ret": null},
+      {"op": "rl_parse_and_bind \"\\\"\\C-xa\\\": kill-line\"", "ret": 0},
+      {"op": "get rl_binding_keymap", "ret": "?anon"},
+      {"op": "rl_parse_and_bind \"set keymap emacs-ctlx\"", "ret": 0},
+      {"op": "get rl_binding_keymap", "ret": "?anon"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "binding-keymap-after-init-file": {
+    "exit": 0,
+    "results": [
+      {"op": "get rl_binding_keymap", "ret": null},
+      {"op": "rl_read_init_file \"rc\"", "ret": 0},
+      {"op": "get rl_binding_keymap", "ret": "vi"},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "get rl_binding_keymap", "ret": "?anon"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "binding-keymap-in-bound-function": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-maps show", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xs\" show-maps", "ret": 0},
+      {"op": "get rl_binding_keymap", "ret": "?anon"},
+      {"op": "get rl_executing_keymap", "ret": "emacs-ctlx"},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

@@ -6,7 +6,7 @@ readline "> "
 
 === set-mark-ctrl-at
 tags: set-mark
-keys: hello\C-b\C-b\C-@<dump>\C-a<dump>\r
+keys: hello\C-b\C-b<pause>\C-@<dump>\C-a<dump>\r
 
 === set-mark-meta-space
 tags: set-mark
@@ -14,19 +14,19 @@ keys: hello\C-b\M-\s<dump>\r
 
 === set-mark-with-arg
 tags: set-mark numarg
-keys: hello world\M-3\C-@<dump>\r
+keys: hello world\M-3<pause>\C-@<dump>\r
 
 === set-mark-arg-out-of-range
 tags: set-mark numarg
-keys: hello\M-9\M-9\C-@<dump>\r
+keys: hello\M-9\M-9<pause>\C-@<dump>\r
 
 === exchange-point-and-mark
 tags: exchange-point-and-mark
-keys: hello world\C-a\C-@\C-e\C-x\C-x<dump>\C-x\C-x<dump>\r
+keys: hello world\C-a<pause>\C-@\C-e\C-x\C-x<dump>\C-x\C-x<dump>\r
 
 === exchange-point-and-mark-mark-past-end
 tags: exchange-point-and-mark
-keys: hello\C-@\C-?\C-?\C-x\C-x<dump>\r
+keys: hello<pause>\C-@\C-?\C-?\C-x\C-x<dump>\r
 
 === exchange-point-and-mark-unset
 tags: exchange-point-and-mark
@@ -37,7 +37,7 @@ abc\r\C-x\C-x<dump>\r
 
 === exchange-point-and-mark-activates-region
 tags: exchange-point-and-mark
-keys: abc\C-a\C-@\C-e\C-x\C-x<dumpfull>\r
+keys: abc\C-a<pause>\C-@\C-e\C-x\C-x<dumpfull>\r
 
 === character-search-forward
 tags: character-search
@@ -121,7 +121,7 @@ rl_bind_keyseq "\C-xk" keep-mark
 rl_bind_keyseq "\C-xc" check-mark
 readline "> "
 --- keys
-abc\C-a\C-@\C-e\C-xk\C-xc\C-b\C-xc\r
+abc\C-a<pause>\C-@\C-e\C-xk\C-xc\C-b\C-xc\r
 
 === active-region-highlight-display
 tags: set-mark display
@@ -136,7 +136,7 @@ defun act-mark act
 rl_bind_keyseq "\C-xa" act-mark
 readline "> "
 --- keys
-hello world\C-a\C-@\M-f\C-xa<snap>\C-e<snap>\r
+hello world\C-a<pause>\C-@\M-f\C-xa<snap>\C-e<snap>\r
 
 === active-region-disabled
 tags: set-mark vars
