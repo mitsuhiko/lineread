@@ -363,5 +363,16 @@
       "> aba"
     ],
     "cursor": [1, 0]
+  },
+  "long-macro-definition": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdefghijklmnopqrstuvwxyz01-abcdefghijklmnopqrstuvwxyz01", "point": 57, "end": 57, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdefghijklmnopqrstuvwxyz01-abcdefghijklmnopqrstuvwxyz01"}
+    ],
+    "screen": [
+      "> abcdefghijklmnopqrstuvwxyz01-abcdefghijklmnopqrstuvwxyz01"
+    ],
+    "cursor": [1, 0]
   }
 }

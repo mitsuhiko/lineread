@@ -114,3 +114,11 @@ keys: (<pause>a<pause>b<pause>c<pause>d<pause>\C-b<pause>\C-b<pause><ins>)<pause
 === blink-pending-input-skips
 keys: (ab)cd<dump>\r
 
+
+=== blink-matching-paren-turned-off-again
+tags: blink-matching-paren
+--- inputrc
+set blink-matching-paren on
+set blink-matching-paren off
+--- keys
+(abc)<snap><dump>\r

@@ -185,3 +185,7 @@ tags: print-last-kbd-macro
 description: quirk: while defining a macro, characters inserted as one typeahead batch are only recorded up to the first one
 tags: start-kbd-macro quirk typeahead
 keys: \C-x(ab\C-x)\C-xe<dump>\r
+
+=== long-macro-definition
+tags: start-kbd-macro end-kbd-macro call-last-kbd-macro
+keys: \C-x(<pause>a<pause>b<pause>c<pause>d<pause>e<pause>f<pause>g<pause>h<pause>i<pause>j<pause>k<pause>l<pause>m<pause>n<pause>o<pause>p<pause>q<pause>r<pause>s<pause>t<pause>u<pause>v<pause>w<pause>x<pause>y<pause>z<pause>0<pause>1<pause>\C-x)<pause>-\C-xe<dump>\r

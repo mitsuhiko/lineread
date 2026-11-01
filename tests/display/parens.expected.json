@@ -608,5 +608,29 @@
       "> (ab)cd"
     ],
     "cursor": [1, 0]
+  },
+  "blink-matching-paren-turned-off-again": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "(abc)", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(abc)"}
+    ],
+    "screen": [
+      "> (abc)"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> (abc)"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
   }
 }
