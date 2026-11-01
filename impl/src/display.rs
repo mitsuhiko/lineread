@@ -179,7 +179,8 @@ pub fn print_prompt_prefix() {
 pub fn mode_string() -> Vec<u8> {
     if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
         crate::vars::emacs_mode_bytes()
-    } else if crate::keymap::current() == crate::keymap::vi_insertion() {
+    } else if crate::keymap::current() == crate::keymap::vi_insertion() || crate::vi::in_replace_mode() {
+        // (vi replace mode shows the insert string too)
         crate::vars::vi_ins_mode_bytes()
     } else {
         crate::vars::vi_cmd_mode_bytes()
