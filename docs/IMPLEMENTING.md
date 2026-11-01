@@ -119,6 +119,12 @@ against the reference (`./rlt tests/fuzz/fuzz-1-42.case --record`), give
 it a meaningful name/area if it shows a real behaviour, and fix the
 implementation. Use new seeds over time. See docs/TESTING.md §16.
 
+Focused generators for the editing area (denser than the general fuzzer):
+`python3 impl/tools/fuzzgen/emacs.py SEED N /tmp/x.case` (emacs editing,
+undo, kill ring, macros) and `impl/tools/fuzzgen/emacs_history.py` (plus
+history navigation, readline/callback); record with `./rlt /tmp/x.case
+--record`, then run `--impl rust` against it (see the script docstrings).
+
 ## Real programs
 
 `tests/apps/build.sh rust && ./rlt apps --impl rust` builds the CPython
