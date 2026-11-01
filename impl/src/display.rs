@@ -210,6 +210,10 @@ impl Lay {
         self.rows.last_mut().unwrap().push(Cell { bytes: b, width: w as u8 });
         self.col += w;
     }
+    /// Column counted from the start of the first row.
+    fn abs_col(&self) -> usize {
+        self.rows[..self.rows.len() - 1].iter().map(row_width).sum::<usize>() + self.col
+    }
     fn pos(&self) -> (usize, usize) {
         (self.rows.len() - 1, self.col)
     }
@@ -278,18 +282,15 @@ fn layout_line(lay: &mut Lay, line: &[u8], point: usize) -> (usize, usize) {
             continue;
         }
         if b == b'\t' {
-            let stop = (lay.col / 8 + 1) * 8;
-            let mut sp = stop - lay.col;
-            if lay.col + sp > lay.width {
-                sp = lay.width - lay.col;
+            // tab stops count from the start of the line (prompt
+            // included), the blanks may continue on the next row
+            let abs = lay.abs_col();
+            let sp = (abs / 8 + 1) * 8 - abs;
+            if lay.col >= lay.width {
+                lay.newline();
             }
             if i == point {
                 cursor = Some(lay.pos());
-            }
-            // tabs are expanded to blanks, one cell per column
-            if sp == 0 {
-                lay.newline();
-                sp = 8.min(lay.width);
             }
             for _ in 0..sp {
                 lay.put(b" ", 1);
@@ -1082,23 +1083,22 @@ pub unsafe fn insert_close(count: c_int, key: c_int, timeout_us: c_int) -> c_int
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_show_char(c: c_int) -> c_int {
+    // shown as M-x / C-x (emacs notation), written to rl_outstream
     let mut v = Vec::new();
-    let b = c as u8;
+    let mut b = c as u8;
     if b >= 0x80 && crate::vars::output_meta.get() == 0 {
         v.extend_from_slice(b"M-");
-        let b = b & 0x7f;
-        if b < 0x20 || b == 0x7f {
-            ctl_repr(b, &mut v);
-        } else {
-            v.push(b);
-        }
-    } else if b < 0x20 || b == 0x7f {
-        ctl_repr(b, &mut v);
-    } else {
-        v.push(b);
+        b &= 0x7f;
     }
-    out(&v);
+    if (b < 0x20 && b != b'\t') || b == 0x7f {
+        v.extend_from_slice(b"C-");
+        b = if b == 0x7f { b'?' } else { (b | 0x40).to_ascii_uppercase() };
+    }
+    v.push(b);
     terminal::flush();
+    let o = crate::readline::outstream();
+    crate::util::fwrite_bytes(o, &v);
+    crate::util::fflush(o);
     v.len() as c_int
 }
 
