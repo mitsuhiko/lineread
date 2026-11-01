@@ -192,18 +192,22 @@ struct Lay {
     col: usize,
     width: usize,
     pending: Vec<u8>,
+    /// invisible bytes that ended up in each row
+    invis: Vec<usize>,
 }
 
 impl Lay {
     fn new(width: usize) -> Self {
-        Lay { rows: vec![Vec::new()], col: 0, width: width.max(1), pending: Vec::new() }
+        Lay { rows: vec![Vec::new()], col: 0, width: width.max(1), pending: Vec::new(), invis: vec![0] }
     }
     fn newline(&mut self) {
         if !self.pending.is_empty() {
             let b = core::mem::take(&mut self.pending);
+            *self.invis.last_mut().unwrap() += b.len();
             self.rows.last_mut().unwrap().push(Cell { bytes: b, width: 0 });
         }
         self.rows.push(Vec::new());
+        self.invis.push(0);
         self.col = 0;
     }
     /// Wrap first if a cell of width `w` does not fit.
@@ -214,6 +218,7 @@ impl Lay {
     }
     fn put(&mut self, bytes: &[u8], w: usize) {
         self.fit(w);
+        *self.invis.last_mut().unwrap() += self.pending.len();
         let mut b = core::mem::take(&mut self.pending);
         b.extend_from_slice(bytes);
         self.rows.last_mut().unwrap().push(Cell { bytes: b, width: w as u8 });
@@ -224,6 +229,7 @@ impl Lay {
     }
     fn finish(&mut self) {
         if !self.pending.is_empty() {
+            *self.invis.last_mut().unwrap() += self.pending.len();
             let b = core::mem::take(&mut self.pending);
             self.rows.last_mut().unwrap().push(Cell { bytes: b, width: 0 });
         }
@@ -361,10 +367,56 @@ pub fn layout() -> (Vec<Row>, (usize, usize)) {
     layout_prompt(&mut lay, &prompt);
     // invisible bytes at the end of the prompt stay with the prompt
     lay.finish();
+    prompt_wrap_quirk(&mut lay, &prompt, width);
     let line = buffer::line().to_vec();
     let point = buffer::point();
     let cursor = layout_line(&mut lay, &line, point);
     (lay.rows, cursor)
+}
+
+/// The reference assumes that all invisible prompt characters after the
+/// first screen row are on the row where the prompt ends.  When some of
+/// them were written at the end of an earlier row (a sequence starting
+/// right at a wrap point), its idea of the cursor column on the prompt's
+/// last row is off and everything after the prompt appears that many
+/// columns further right.  Reproduce that with blank cells.
+fn prompt_wrap_quirk(lay: &mut Lay, prompt: &[u8], width: usize) {
+    let last = lay.rows.len() - 1;
+    if last == 0 {
+        return;
+    }
+    // invisible bytes seen before the first character of the second row
+    let (mut vis, mut inv, mut total, mut first) = (0usize, 0usize, 0usize, None);
+    let mut ignoring = false;
+    let mut i = 0;
+    while i < prompt.len() {
+        let b = prompt[i];
+        match b {
+            RL_PROMPT_START_IGNORE if !ignoring => ignoring = true,
+            RL_PROMPT_END_IGNORE if ignoring => ignoring = false,
+            _ if ignoring => {
+                inv += 1;
+                total += 1;
+            }
+            _ => {
+                let n = mb::char_len_at(prompt, i);
+                vis += 1;
+                if vis > width && first.is_none() {
+                    first = Some(inv);
+                }
+                i += n;
+                continue;
+            }
+        }
+        i += 1;
+    }
+    let assumed = total - first.unwrap_or(total);
+    let actual = lay.invis[last];
+    if assumed > actual {
+        for _ in 0..assumed - actual {
+            lay.put(b" ", 1);
+        }
+    }
 }
 
 // ---------------------------------------------------------------- horizontal scrolling
