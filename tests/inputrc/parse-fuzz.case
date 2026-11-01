@@ -1,0 +1,44 @@
+# Init file parser corners found by differential fuzzing of random init
+# files (macro, function and variable dumps compared with the reference).
+tags: inputrc fuzz
+screen: 160x24
+--- script
+rl_initialize
+rl_macro_dumper 1
+keymap_dump emacs-ctlx
+keymap_dump current
+
+=== else-toggles
+--- inputrc
+$if version >= 8
+"\C-xa": "first"
+$else
+"\C-xb": "second"
+$else
+"\C-xc": "third"
+$endif
+
+=== unknown-directive-in-false-branch
+--- inputrc
+$if mode=vi
+$bogus
+"\C-xa": "x"
+$endif
+
+=== key-name-meta-macro-is-raw-byte
+--- inputrc
+set convert-meta on
+Meta-Control-x: "macro text"
+C-?: "under"
+
+=== key-name-meta-unbind-keeps-new-prefix
+--- inputrc
+set keymap emacs-ctlx
+Esc "\M-a"
+set convert-meta on
+M-Rubout nonexistent
+
+=== vi-insert-esc-unbound
+--- inputrc
+set editing-mode vi
+"\e" nonexistent
