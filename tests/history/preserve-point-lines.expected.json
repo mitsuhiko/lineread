@@ -1,0 +1,45 @@
+{
+  "preserve-point-from-accepted-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "second", "point": 4, "end": 6, "mark": 6, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "secob/日b xnd"},
+      {"op": "dump", "line": "secob/日b xnd", "point": 12, "end": 14, "mark": 14, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "secob/日b xnd"},
+      {"op": "history_dump", "base": 1, "length": 4, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "x y z", "timestamp": "", "data": 0}, {"line": "second", "timestamp": "", "data": 0}, {"line": "secob/日b xnd", "timestamp": "", "data": 0}, {"line": "secob/日b xnd", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> secob/日b xnd",
+      "> secob/日b xnd"
+    ],
+    "cursor": [2, 0]
+  },
+  "preserve-point-after-history-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "second"},
+      {"op": "dump", "line": "second", "point": 4, "end": 6, "mark": 6, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second"},
+      {"op": "history_dump", "base": 1, "length": 4, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "x y z", "timestamp": "", "data": 0}, {"line": "second", "timestamp": "", "data": 0}, {"line": "second", "timestamp": "", "data": 0}, {"line": "second", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> second",
+      "> second"
+    ],
+    "cursor": [2, 0]
+  },
+  "preserve-point-accepted-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"},
+      {"op": "history_dump", "base": 1, "length": 4, "max": 0, "stifled": 0, "pos": 2, "entries": [{"line": "x y z", "timestamp": "", "data": 0}, {"line": "second", "timestamp": "", "data": 0}, {"line": "abc", "timestamp": "", "data": 0}, {"line": "abc", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> abc",
+      "> abc"
+    ],
+    "cursor": [2, 0]
+  }
+}

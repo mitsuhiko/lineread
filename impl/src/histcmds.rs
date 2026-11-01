@@ -27,7 +27,8 @@ static NEXT_LINE: CVar<Option<c_int>> = CVar::new(None);
 pub fn line_started() {
     unsafe {
         history::using_history();
-        SAVED_POINT.set(-1);
+        // (the history-preserve-point position carries over to the next
+        // line, observed)
         if let Some(l) = NEXT_LINE.get_mut().take() {
             let i = l - history::history_base.get();
             if i >= 0 && i < history_length.get() {
@@ -75,6 +76,9 @@ pub fn replace_undo_list(old: *mut UNDO_LIST, new: *mut UNDO_LIST) {
 /// text (the result keeps the edits), drop the saved line.
 pub fn line_finished() {
     unsafe {
+        // history-preserve-point remembers where the accepted line had point
+        let (p, e) = (buffer::rl_point.get(), buffer::rl_end.get());
+        SAVED_POINT.set(if p == e { -1 } else { p });
         let o = history_offset.get();
         let e = history::entry_at(o);
         if !e.is_null() && !rl_undo_list.get().is_null() {

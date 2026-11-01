@@ -1,0 +1,19 @@
+# history-preserve-point: the remembered point carries over to the next
+# readline() call (it is the point of the accepted line).
+tags: history history-preserve-point
+--- inputrc
+set history-preserve-point on
+--- script
+add_history "x y z"
+add_history "second"
+readline "> " 2 addhist
+history_dump
+
+=== preserve-point-from-accepted-line
+keys: yé\sa\M-b<pause>\C-p<pause><dump>b/日b\sx\r<pause>\C-p<dump>\r
+
+=== preserve-point-after-history-line
+keys: 01yy1\C-b<up>\r\C-p<dump>\r
+
+=== preserve-point-accepted-at-end
+keys: abc\r\C-p<dump>\r
