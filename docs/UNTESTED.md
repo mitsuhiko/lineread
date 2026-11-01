@@ -38,6 +38,20 @@ are parsed by the audit: the backticked name must come first.
   emitted bytes, though the exact invalid-byte appearance is emulator-dependent;
   modelling the reference's malformed-character update generally remains open.
 
+## Known signal-hook divergence
+
+- `tests/complete/interrupt.case::sigint-at-more-pager-signal-event-hook`:
+  after SIGINT at the completion pager, the reference calls
+  `rl_signal_event_hook` again after the driver's `<dump>` and before
+  `readline` returns NULL; our implementation only reports the first call.
+  Probes with a pause before or after SIGINT and with a screen snapshot
+  before it still showed the second call. With EOF immediately after SIGINT
+  and no subsequent dump, the reference showed only the first call. The
+  driver's normal `rl_getc_function` wrapper processes control messages and
+  invokes the hook when its `pselect` is interrupted; the interaction with
+  the interrupted pager and subsequent input remains unresolved. A general
+  explanation is needed rather than adding a pager- or test-specific hook call.
+
 ## Covered indirectly
 
 These are counted by the audit through the driver, but are worth knowing:
