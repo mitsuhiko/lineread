@@ -1,0 +1,20 @@
+# rl_resize_terminal / SIGWINCH with an application redisplay function:
+# a forced update only when the size changed since the last resize.
+tags: rl_redisplay_function rl_resize_terminal hooks
+--- script
+def r
+rl_resize_terminal
+end
+defun rsz r
+rl_bind_keyseq "\C-xr" rsz
+set rl_redisplay_function log
+readline "> "
+
+=== api-twice
+keys: abc\C-xr\C-xr<snap>\r
+
+=== resize-then-api-twice
+keys: abc<resize:50x10>\C-xr\C-xr<snap>\r
+
+=== resize-type-api
+keys: abc<resize:50x10>d\C-xr<snap>\r

@@ -1,0 +1,48 @@
+# Callback interface details found by the differential fuzzer: a failing
+# emacs command reached through a key sequence (or continued with more
+# input, like character-search) reports EOF for the rest of the line
+# (RL_STATE_EOF, rl_eof_found, one more newline when the line ends);
+# unbound keys after a prefix; one key per rl_callback_read_char.
+tags: callback fuzz
+--- script
+callback "> " 1
+dumpfull
+
+=== delete-key-at-end
+tags: delete-char
+keys: a<del><dumpfull>\r
+
+=== delete-key-on-empty-line
+tags: delete-char
+keys: <del>\r
+
+=== delete-key-then-insert
+tags: delete-char
+keys: a<del>b<dumpfull>\r
+
+=== char-search-fail
+tags: character-search
+keys: a\C-]z<dumpfull>\r
+
+=== char-search-backward-fail
+tags: character-search-backward
+keys: a\M-\C-]z<dumpfull>\r
+
+=== single-key-failure-no-eof
+tags: delete-char forward-char
+keys: a\C-d\C-f<dumpfull>\r
+
+=== right-arrow-at-end-no-eof
+tags: forward-char
+keys: a<right><dumpfull>\r
+
+=== unbound-after-escape
+tags: keymap
+keys: a\M-z<dumpfull>\r
+
+=== unbound-after-ctlx
+tags: keymap
+keys: a\C-xb<dumpfull>\r
+
+=== empty-prompt-empty-line
+keys: \r

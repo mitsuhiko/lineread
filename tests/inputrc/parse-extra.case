@@ -1,0 +1,51 @@
+# Init file parser details found while probing: the `set` keyword, quoted
+# key sequences and macros, key names with several modifiers.
+tags: inputrc parse
+
+=== set-keyword-forms
+--- script
+rl_parse_and_bind "set: bell-style none"
+rl_variable_value "bell-style"
+rl_parse_and_bind "setbell-style visible"
+rl_parse_and_bind "SET bell-style none"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set:bell-style visible"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set  :  bell-style none"
+rl_variable_value "bell-style"
+rl_parse_and_bind "settle: kill-word"
+rl_function_of_keyseq "s" emacs
+rl_parse_and_bind "set bell-style:none"
+rl_variable_value "bell-style"
+
+=== binding-value-forms
+--- script
+rl_parse_and_bind "\"\\C-t\": \"abc\" trailing"
+rl_function_of_keyseq "\x14" emacs
+rl_parse_and_bind "\"\\C-xp\": prefix-meta"
+rl_function_of_keyseq "\x18p" emacs
+rl_parse_and_bind "'\\C-xq': kill-word"
+rl_function_of_keyseq "\x18q" emacs
+rl_parse_and_bind "\"\\C-xr\"x: kill-word"
+rl_function_of_keyseq "\x18r" emacs
+rl_parse_and_bind "\"\\C-xs\":'mac'"
+rl_function_of_keyseq "\x18s" emacs
+rl_parse_and_bind "\"\\C-xt\":"
+rl_function_of_keyseq "\x18t" emacs
+rl_parse_and_bind "\"\\C-xu\": \"a\\\"b\""
+rl_function_of_keyseq "\x18u" emacs
+rl_parse_and_bind "\"\\C-xv\": 'x\"y'"
+rl_function_of_keyseq "\x18v" emacs
+
+=== key-name-forms
+--- script
+rl_parse_and_bind "Meta-Control-a: kill-word"
+rl_function_of_keyseq "\e\x01" emacs
+rl_function_of_keyseq "\x81" emacs
+rl_parse_and_bind "M-rubout: kill-word"
+rl_function_of_keyseq "\e\x7f" emacs
+rl_parse_and_bind "abc: kill-word"
+rl_function_of_keyseq "a" emacs
+rl_parse_and_bind "ESC-x: upcase-word"
+rl_function_of_keyseq "\ex" emacs
+rl_function_of_keyseq "\x18" emacs

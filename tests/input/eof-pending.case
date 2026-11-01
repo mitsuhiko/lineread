@@ -1,0 +1,60 @@
+# EOF pushed as pending input, EOF from the terminal and the newline that
+# restoring the terminal prints after it (found while fuzzing).
+tags: input eof fuzz
+
+=== stuff-char-eof-returns-at-once
+tags: rl_stuff_char
+--- script
+rl_stuff_char "a"
+rl_stuff_char -1
+readline "> "
+dumpfull
+--- keys
+<pause>b\r
+
+=== execute-next-eof-returns-at-once
+tags: rl_execute_next
+--- script
+rl_initialize
+rl_execute_next -1
+readline "> "
+dumpfull
+readline "> "
+--- keys
+x\r
+
+=== eof-on-nonempty-line
+--- script
+readline "> "
+dumpfull
+readline "> "
+--- keys
+abc
+
+=== eof-char-on-empty-line-not-dispatched
+--- script
+readline "> "
+dumpfull
+readline "> "
+--- keys
+\C-d<pause>x\r
+
+=== eof-without-bracketed-paste-no-newline
+--- inputrc
+set enable-bracketed-paste off
+--- script
+readline "> "
+dumpfull
+readline "> "
+--- keys
+\C-d<pause>x\r
+
+=== input-meta-off-keeps-eighth-bit
+tags: input-meta
+screen: 40x10
+--- inputrc
+set input-meta off
+--- script
+readline "> "
+--- keys
+ö\r

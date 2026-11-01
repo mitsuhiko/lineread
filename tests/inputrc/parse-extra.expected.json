@@ -1,0 +1,66 @@
+{
+  "set-keyword-forms": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set: bell-style none\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"setbell-style visible\"", "ret": 1},
+      {"op": "rl_parse_and_bind \"SET bell-style none\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"set:bell-style visible\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"},
+      {"op": "rl_parse_and_bind \"set  :  bell-style none\"", "ret": 1},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"},
+      {"op": "rl_parse_and_bind \"settle: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"s\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_parse_and_bind \"set bell-style:none\"", "ret": 1},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"}
+    ],
+    "screen": [
+      "readline: setbell-style: unknown key modifier",
+      "readline: :: unknown variable name",
+      "readline: bell-style:none: unknown variable name"
+    ],
+    "cursor": [3, 0]
+  },
+  "binding-value-forms": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-t\\\": \\\"abc\\\" trailing\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "macro", "value": "abc"},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xp\\\": prefix-meta\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18p\" emacs", "type": null, "value": null},
+      {"op": "rl_parse_and_bind \"'\\\\C-xq': kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18q\" emacs", "type": null, "value": null},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xr\\\"x: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18r\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xs\\\":'mac'\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18s\" emacs", "type": "macro", "value": "mac"},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xt\\\":\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18t\" emacs", "type": null, "value": null},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xu\\\": \\\"a\\\\\\\"b\\\"\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18u\" emacs", "type": "macro", "value": "a\"b"},
+      {"op": "rl_parse_and_bind \"\\\"\\\\C-xv\\\": 'x\\\"y'\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18v\" emacs", "type": "macro", "value": "x\"y"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "key-name-forms": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"Meta-Control-a: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\e\\x01\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_function_of_keyseq \"\\x81\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_parse_and_bind \"M-rubout: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\e\\x7f\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_parse_and_bind \"abc: kill-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"a\" emacs", "type": "func", "value": "kill-word"},
+      {"op": "rl_parse_and_bind \"ESC-x: upcase-word\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\ex\" emacs", "type": "func", "value": "execute-named-command"},
+      {"op": "rl_function_of_keyseq \"\\x18\" emacs", "type": "keymap", "value": "emacs-ctlx"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

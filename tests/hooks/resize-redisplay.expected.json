@@ -1,0 +1,79 @@
+{
+  "api-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rsz r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rsz", "ret": 0},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc> abc"
+        ],
+        "cursor": [0, 10]
+      }
+    ]
+  },
+  "resize-then-api-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rsz r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rsz", "ret": 0},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc> abc"
+        ],
+        "cursor": [0, 10]
+      }
+    ]
+  },
+  "resize-type-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rsz r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rsz", "ret": 0},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "hook", "hook": "rl_redisplay_function"},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abc> abcd"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc> abcd"
+        ],
+        "cursor": [0, 11]
+      }
+    ]
+  }
+}
