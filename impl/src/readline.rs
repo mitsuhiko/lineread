@@ -173,6 +173,7 @@ pub unsafe fn line_step() -> bool {
     crate::dispatch::dispatch_key(c, crate::keymap::current());
     crate::numarg::reset();
     after_command();
+    crate::signals::rl_check_signals();
     if rl_done.get() == 0 {
         let n = rl_num_chars_to_read.get();
         if n > 0 && buffer::rl_end.get() >= n {
@@ -241,14 +242,10 @@ pub unsafe extern "C" fn readline(prompt: *const c_char) -> *mut c_char {
     rl_initialize();
     crate::input::start_timeout();
     crate::tty::prep();
-    if crate::signals::rl_catch_signals.get() != 0 {
-        crate::signals::rl_set_signals();
-    }
+    crate::signals::rl_set_signals();
     let r = readline_internal();
     crate::tty::deprep();
-    if crate::signals::rl_catch_signals.get() != 0 {
-        crate::signals::rl_clear_signals();
-    }
+    crate::signals::rl_clear_signals();
     r
 }
 

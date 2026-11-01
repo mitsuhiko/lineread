@@ -153,6 +153,9 @@ pub unsafe extern "C" fn rl_callback_handler_install(prompt: *const c_char, hand
     HANDLER.set(handler);
     crate::readline::rl_initialize();
     crate::tty::prep();
+    if crate::signals::rl_persistent_signal_handlers.get() != 0 {
+        crate::signals::rl_set_signals();
+    }
     start_worker();
 }
 
@@ -163,16 +166,26 @@ pub unsafe extern "C" fn rl_callback_read_char() {
         crate::util::fwrite_bytes(crate::util::lr_stderr(), m);
         return;
     }
+    let persistent = crate::signals::rl_persistent_signal_handlers.get() != 0;
+    if !persistent {
+        crate::signals::rl_set_signals();
+    }
     BUDGET.set(1);
     let my = CORO.get();
     resume();
     BUDGET.set(0);
     if CORO.get() != my {
+        if !persistent {
+            crate::signals::rl_clear_signals();
+        }
         return;
     }
     if STATE.get() == WState::LineDone {
         let line = LINE.replace(null_mut());
         crate::tty::deprep();
+        if persistent {
+            crate::signals::rl_clear_signals();
+        }
         if let Some(h) = HANDLER.get() {
             h(line);
         } else {
@@ -180,14 +193,21 @@ pub unsafe extern "C" fn rl_callback_read_char() {
         }
         // handler still installed (and not reinstalled): prepare the next line
         if HANDLER.get().is_some() && CORO.get() == my {
+            if persistent {
+                crate::signals::rl_set_signals();
+            }
             BUDGET.set(0);
             resume();
         }
+    }
+    if !persistent {
+        crate::signals::rl_clear_signals();
     }
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_callback_handler_remove() {
+    crate::signals::rl_clear_signals();
     HANDLER.set(None);
     unset_state(RL_STATE_CALLBACK);
     abandon();

@@ -13,6 +13,13 @@ pub static rl_deprep_term_function: CVar<Option<rl_voidfunc_t>> = CVar::new(Some
 static SAVED: CVar<Option<libc::termios>> = CVar::new(None);
 /// Whether the terminal echoes (readline echoes itself while prepped).
 pub static ECHOING: CVar<c_int> = CVar::new(1);
+/// The terminal's ECHOCTL flag at the last prep (signal characters are
+/// echoed as `^C` only then).
+static ECHOCTL: CVar<bool> = CVar::new(false);
+
+pub fn echoctl() -> bool {
+    ECHOCTL.get()
+}
 
 /// The tty's special characters (from the last tcgetattr).
 #[derive(Clone, Copy)]
@@ -87,6 +94,7 @@ pub unsafe extern "C" fn rl_prep_terminal(meta_flag: c_int) {
     set_state(RL_STATE_TTYCSAVED);
     read_specials(&t);
     ECHOING.set((t.c_lflag & libc::ECHO != 0) as c_int);
+    ECHOCTL.set(t.c_lflag & libc::ECHOCTL != 0);
     let mut n = t;
     n.c_lflag &= !(libc::ICANON | libc::ECHO);
     n.c_iflag &= !(libc::ICRNL | libc::INLCR);
@@ -125,6 +133,8 @@ pub unsafe extern "C" fn rl_deprep_terminal() {
     }
     if crate::vars::enable_bracketed_paste.get() != 0 && !crate::terminal::term().dumb {
         crate::terminal::out(b"\x1b[?2004l\r");
+        // the carriage return moved the cursor to the first column
+        crate::display::SCREEN.get_mut().cur_col = 0;
     }
     if crate::vars::enable_keypad.get() != 0 {
         crate::terminal::out_cap("rmkx");
