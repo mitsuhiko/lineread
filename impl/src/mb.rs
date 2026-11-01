@@ -1,0 +1,137 @@
+//! Multibyte character handling.
+//!
+//! Policy: the line buffer is bytes.  Character boundaries and widths follow
+//! the C library's current locale (`MB_CUR_MAX`, `mbrtowc`, `wcwidth`), like
+//! the reference.  When `MB_CUR_MAX == 1` (or `byte-oriented` is set) every
+//! byte is a character.  Invalid/incomplete sequences count as one byte each.
+use crate::util::{lr_mb_cur_max, mbrtowc, wcwidth, MbState};
+use core::ffi::c_char;
+
+/// True when the locale is multibyte and `byte-oriented` is off.
+pub fn multibyte() -> bool {
+    unsafe { lr_mb_cur_max() > 1 && crate::vars::rl_byte_oriented.get() == 0 }
+}
+
+/// Decode the character starting at `buf[i]`: (wide char, byte length).
+/// Invalid or incomplete sequences give `(byte, 1)` with `None` as char.
+pub fn decode_at(buf: &[u8], i: usize) -> (Option<u32>, usize) {
+    if i >= buf.len() {
+        return (None, 0);
+    }
+    let b = buf[i];
+    if b < 0x80 || !multibyte() {
+        return (Some(b as u32), 1);
+    }
+    let mut st = MbState::new();
+    let mut wc: libc::wchar_t = 0;
+    let n = unsafe {
+        mbrtowc(&mut wc, buf.as_ptr().add(i) as *const c_char, buf.len() - i, &mut st)
+    };
+    match n {
+        0 => (Some(0), 1),
+        n if n == usize::MAX || n == usize::MAX - 1 => (None, 1),
+        n => (Some(wc as u32), n),
+    }
+}
+
+/// Byte length of the character at `i` (>= 1 inside the buffer).
+pub fn char_len_at(buf: &[u8], i: usize) -> usize {
+    decode_at(buf, i).1.max(1)
+}
+
+/// Index of the next character boundary after `i`.
+pub fn next_char(buf: &[u8], i: usize) -> usize {
+    if i >= buf.len() {
+        return buf.len();
+    }
+    i + char_len_at(buf, i)
+}
+
+/// Index of the character boundary before `i`.
+pub fn prev_char(buf: &[u8], i: usize) -> usize {
+    if i == 0 {
+        return 0;
+    }
+    if !multibyte() {
+        return i - 1;
+    }
+    // scan forward from the start: robust against invalid sequences
+    let mut p = 0;
+    let mut last = 0;
+    while p < i {
+        last = p;
+        p = next_char(buf, p);
+    }
+    last
+}
+
+/// Move `count` characters forward from `i` (stops at the end).
+pub fn forward_chars(buf: &[u8], mut i: usize, count: usize) -> usize {
+    for _ in 0..count {
+        if i >= buf.len() {
+            break;
+        }
+        i = next_char(buf, i);
+    }
+    i
+}
+
+/// Move `count` characters backward from `i` (stops at 0).
+pub fn backward_chars(buf: &[u8], mut i: usize, count: usize) -> usize {
+    for _ in 0..count {
+        if i == 0 {
+            break;
+        }
+        i = prev_char(buf, i);
+    }
+    i
+}
+
+/// Snap `i` to the start of the character containing it.
+pub fn align(buf: &[u8], i: usize) -> usize {
+    if !multibyte() || i == 0 || i >= buf.len() {
+        return i.min(buf.len());
+    }
+    let mut p = 0;
+    while p < buf.len() {
+        let n = next_char(buf, p);
+        if n > i {
+            return p;
+        }
+        p = n;
+    }
+    buf.len()
+}
+
+/// Display width of a wide character (`wcwidth`, -1 for non-printables).
+pub fn wc_width(wc: u32) -> i32 {
+    unsafe { wcwidth(wc as libc::wchar_t) }
+}
+
+/// Does the current LC_CTYPE locale use 8-bit characters (anything but
+/// "C"/"POSIX")?  Decides the defaults of input-meta/output-meta/convert-meta.
+pub fn locale_is_8bit() -> bool {
+    unsafe {
+        let p = libc::setlocale(libc::LC_CTYPE, core::ptr::null());
+        if p.is_null() {
+            return false;
+        }
+        let s = core::ffi::CStr::from_ptr(p).to_bytes();
+        !(s == b"C" || s == b"POSIX")
+    }
+}
+
+/// Is the character at `i` a word character (alphanumeric)?
+pub fn is_word_char(buf: &[u8], i: usize) -> bool {
+    let (wc, n) = decode_at(buf, i);
+    match wc {
+        Some(c) if n == 1 => {
+            let b = c as u8;
+            // bytes >= 0x80 are not word characters (glibc behaviour,
+            // also on macOS: see docs/IMPLEMENTING.md)
+            b.is_ascii_alphanumeric()
+        }
+        Some(c) => unsafe { crate::util::iswalnum(c) != 0 },
+        None => false,
+    }
+}

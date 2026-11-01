@@ -1,0 +1,25 @@
+[package]
+name = "lineread"
+version = "0.1.0"
+edition = "2021"
+description = "Clean-room GNU Readline 8.3 compatible library (readline, history, tilde C API/ABI)"
+license = "MIT OR Apache-2.0"
+build = "build.rs"
+publish = false
+
+[lib]
+name = "lineread"
+crate-type = ["staticlib", "cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+libc = "0.2"
+terminfo = "0.9"
+
+[profile.release]
+panic = "abort"
+debug = 1
+opt-level = 2
+
+[profile.dev]
+panic = "abort"

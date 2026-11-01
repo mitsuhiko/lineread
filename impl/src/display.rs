@@ -1,0 +1,747 @@
+//! Redisplay: prompt expansion, laying out prompt + line into screen rows,
+//! and updating the terminal incrementally from a model of what is on the
+//! screen.  Also messages (rl_message), prompt save/restore, clear-screen.
+//!
+//! Model: `Screen.rows` holds the cells currently displayed, rows relative
+//! to the first row of the prompt; `(cur_row, cur_col)` is the physical
+//! cursor.  `rl_redisplay` lays out the desired rows, rewrites the
+//! differing tail of every changed row and moves the cursor to point.
+//! Only the final terminal state matters (tests compare screens), so the
+//! byte stream is free-form.
+//! Owner: display workstream.
+use crate::buffer;
+use crate::input::{is_state, set_state, unset_state};
+use crate::mb;
+use crate::prelude::*;
+use crate::terminal::{self, out, out_byte, out_cap};
+
+#[no_mangle]
+pub static rl_prompt: CVar<*mut c_char> = CVar::new(null_mut());
+#[no_mangle]
+pub static rl_display_prompt: CVar<*mut c_char> = CVar::new(null_mut());
+#[no_mangle]
+pub static rl_redisplay_function: CVar<Option<rl_voidfunc_t>> = CVar::new(Some(rl_redisplay));
+#[no_mangle]
+pub static rl_already_prompted: CVar<c_int> = CVar::new(0);
+#[no_mangle]
+pub static rl_erase_empty_line: CVar<c_int> = CVar::new(0);
+
+/// One screen cell: the bytes to output (invisible prompt sequences
+/// preceding the character are included) and the column width.
+#[derive(Clone, PartialEq, Eq, Debug, Default)]
+pub struct Cell {
+    pub bytes: Vec<u8>,
+    pub width: u8,
+}
+
+pub type Row = Vec<Cell>;
+
+pub struct Screen {
+    pub rows: Vec<Row>,
+    pub cur_row: usize,
+    pub cur_col: usize,
+}
+
+pub static SCREEN: CVar<Screen> = CVar::new(Screen { rows: Vec::new(), cur_row: 0, cur_col: 0 });
+
+/// rl_message text replacing the prompt (None = show the prompt).
+static MESSAGE: CVar<Option<Vec<u8>>> = CVar::new(None);
+/// C copy of the message (rl_display_prompt points to it).
+static MESSAGE_C: CVar<*mut c_char> = CVar::new(null_mut());
+/// rl_save_prompt storage.
+static SAVED_PROMPT: CVar<Vec<(*mut c_char, *mut c_char, Option<Vec<u8>>)>> = CVar::new(Vec::new());
+
+fn row_width(r: &Row) -> usize {
+    r.iter().map(|c| c.width as usize).sum()
+}
+
+/// Visible representation of a control/meta byte from the line buffer.
+fn ctl_repr(b: u8, out: &mut Vec<u8>) {
+    if b == 0x7f {
+        out.extend_from_slice(b"^?");
+    } else if b < 0x20 {
+        out.push(b'^');
+        out.push(b + 64);
+    } else {
+        // non-printable 8-bit byte: octal
+        out.push(b'\\');
+        out.push(b'0' + (b >> 6));
+        out.push(b'0' + ((b >> 3) & 7));
+        out.push(b'0' + (b & 7));
+    }
+}
+
+/// The prompt bytes to display (message, mode string and prompt).
+pub fn display_prompt_bytes() -> Vec<u8> {
+    let mut p = Vec::new();
+    unsafe {
+        if MESSAGE.get_mut().is_none() && crate::vars::show_mode_in_prompt.get() != 0 {
+            p.extend_from_slice(&mode_string());
+        }
+        p.extend_from_slice(cstr(rl_display_prompt.get()));
+    }
+    p
+}
+
+/// The mode indicator for show-mode-in-prompt (with invisible markers as
+/// given by the user).
+pub fn mode_string() -> Vec<u8> {
+    if crate::readline::rl_editing_mode.get() == crate::readline::EMACS_MODE {
+        crate::vars::emacs_mode_bytes()
+    } else if crate::keymap::current() == crate::keymap::vi_insertion() {
+        crate::vars::vi_ins_mode_bytes()
+    } else {
+        crate::vars::vi_cmd_mode_bytes()
+    }
+}
+
+/// Layout state while building rows.
+struct Lay {
+    rows: Vec<Row>,
+    col: usize,
+    width: usize,
+    pending: Vec<u8>,
+}
+
+impl Lay {
+    fn new(width: usize) -> Self {
+        Lay { rows: vec![Vec::new()], col: 0, width: width.max(1), pending: Vec::new() }
+    }
+    fn newline(&mut self) {
+        if !self.pending.is_empty() {
+            let b = core::mem::take(&mut self.pending);
+            self.rows.last_mut().unwrap().push(Cell { bytes: b, width: 0 });
+        }
+        self.rows.push(Vec::new());
+        self.col = 0;
+    }
+    /// Wrap first if a cell of width `w` does not fit.
+    fn fit(&mut self, w: usize) {
+        if self.col + w > self.width && self.col > 0 {
+            self.newline();
+        }
+    }
+    fn put(&mut self, bytes: &[u8], w: usize) {
+        self.fit(w);
+        let mut b = core::mem::take(&mut self.pending);
+        b.extend_from_slice(bytes);
+        self.rows.last_mut().unwrap().push(Cell { bytes: b, width: w as u8 });
+        self.col += w;
+    }
+    fn pos(&self) -> (usize, usize) {
+        (self.rows.len() - 1, self.col)
+    }
+    fn finish(&mut self) {
+        if !self.pending.is_empty() {
+            let b = core::mem::take(&mut self.pending);
+            self.rows.last_mut().unwrap().push(Cell { bytes: b, width: 0 });
+        }
+    }
+}
+
+/// Lay out the prompt into `lay`.
+fn layout_prompt(lay: &mut Lay, prompt: &[u8]) {
+    let mut i = 0;
+    let mut invis = false;
+    while i < prompt.len() {
+        let b = prompt[i];
+        if b == RL_PROMPT_START_IGNORE {
+            invis = true;
+            i += 1;
+            continue;
+        }
+        if b == RL_PROMPT_END_IGNORE {
+            invis = false;
+            i += 1;
+            continue;
+        }
+        if invis {
+            lay.pending.push(b);
+            i += 1;
+            continue;
+        }
+        if b == b'\n' {
+            lay.newline();
+            i += 1;
+            continue;
+        }
+        let (wc, n) = mb::decode_at(prompt, i);
+        let w = match wc {
+            Some(c) if n > 1 => mb::wc_width(c).max(0) as usize,
+            _ => 1,
+        };
+        lay.put(&prompt[i..i + n], w);
+        i += n;
+    }
+}
+
+/// Lay out the line buffer; returns the cursor position for `point`.
+fn layout_line(lay: &mut Lay, line: &[u8], point: usize) -> (usize, usize) {
+    let mut cursor = None;
+    let mut i = 0;
+    let mut tmp = Vec::new();
+    while i < line.len() {
+        let b = line[i];
+        let (wc, n) = mb::decode_at(line, i);
+        // compute the representation and its width
+        tmp.clear();
+        let w;
+        if b == b'\t' {
+            let stop = (lay.col / 8 + 1) * 8;
+            let mut sp = stop - lay.col;
+            if lay.col + sp > lay.width {
+                sp = lay.width - lay.col;
+            }
+            if i == point {
+                cursor = Some(lay.pos());
+            }
+            // tabs are expanded to blanks, one cell per column
+            if sp == 0 {
+                lay.newline();
+                sp = 8.min(lay.width);
+            }
+            for _ in 0..sp {
+                lay.put(b" ", 1);
+            }
+            i += 1;
+            continue;
+        } else if n == 1 && (b < 0x20 || b == 0x7f) {
+            ctl_repr(b, &mut tmp);
+            w = tmp.len();
+        } else if n == 1 && b >= 0x80 && (wc.is_none() || !mb::multibyte()) {
+            if crate::vars::output_meta.get() != 0 || mb::multibyte() {
+                tmp.push(b);
+                w = 1;
+            } else {
+                ctl_repr(b, &mut tmp);
+                w = tmp.len();
+            }
+        } else if n > 1 {
+            tmp.extend_from_slice(&line[i..i + n]);
+            let cw = mb::wc_width(wc.unwrap_or(0));
+            w = if cw < 0 { 1 } else { cw as usize };
+        } else {
+            tmp.push(b);
+            w = 1;
+        }
+        if w > 1 && tmp.len() == w && tmp.iter().all(|c| c.is_ascii()) {
+            // ^X / \ooo: may be split across rows like plain characters
+            lay.fit(1);
+            if i == point {
+                cursor = Some(lay.pos());
+            }
+            for k in 0..tmp.len() {
+                let c = [tmp[k]];
+                lay.put(&c, 1);
+            }
+        } else {
+            lay.fit(w);
+            if i == point {
+                cursor = Some(lay.pos());
+            }
+            let t = tmp.clone();
+            lay.put(&t, w);
+        }
+        i += n;
+    }
+    lay.finish();
+    if let Some(c) = cursor {
+        return c;
+    }
+    // point at the end
+    if lay.col >= lay.width {
+        lay.rows.push(Vec::new());
+        lay.col = 0;
+    }
+    lay.pos()
+}
+
+/// Build the rows for the current prompt and line.
+pub fn layout() -> (Vec<Row>, (usize, usize)) {
+    let width = terminal::usable_width() as usize;
+    let mut lay = Lay::new(width);
+    let prompt = display_prompt_bytes();
+    layout_prompt(&mut lay, &prompt);
+    let line = buffer::line().to_vec();
+    let point = buffer::point();
+    let cursor = layout_line(&mut lay, &line, point);
+    (lay.rows, cursor)
+}
+
+// ---------------------------------------------------------------- output
+
+fn width() -> usize {
+    terminal::usable_width() as usize
+}
+
+/// Move the physical cursor to (row, col) of the model.
+fn move_to(rows: &[Row], row: usize, col: usize) {
+    let s = SCREEN.get_mut();
+    let w = width();
+    if s.cur_row > row {
+        let n = s.cur_row - row;
+        if n == 1 || terminal::cap("cuu").is_none() {
+            for _ in 0..n {
+                if !out_cap("cuu1") {
+                    break;
+                }
+            }
+        } else {
+            out(&terminal::cap_param("cuu", n as i32).unwrap_or_default());
+        }
+        s.cur_row = row;
+        if s.cur_col >= w {
+            s.cur_col = w.saturating_sub(1);
+            // pending-wrap state: resolve with a carriage return
+            out_byte(b'\r');
+            s.cur_col = 0;
+        }
+    } else if s.cur_row < row {
+        out_byte(b'\r');
+        for _ in 0..(row - s.cur_row) {
+            out_byte(b'\n');
+        }
+        s.cur_row = row;
+        s.cur_col = 0;
+    }
+    if s.cur_col == col {
+        return;
+    }
+    if s.cur_col >= w {
+        out_byte(b'\r');
+        s.cur_col = 0;
+    }
+    if col == 0 {
+        out_byte(b'\r');
+        s.cur_col = 0;
+        return;
+    }
+    if col < s.cur_col {
+        let n = s.cur_col - col;
+        if n <= 4 && terminal::cap("cub1").is_some() {
+            for _ in 0..n {
+                out_cap("cub1");
+            }
+            s.cur_col = col;
+            return;
+        }
+        out_byte(b'\r');
+        s.cur_col = 0;
+    }
+    let n = col - s.cur_col;
+    if n > 0 {
+        if let Some(seq) = terminal::cap_param("cuf", n as i32) {
+            out(&seq);
+            s.cur_col = col;
+        } else {
+            // rewrite the cells between
+            let r = rows.get(row);
+            let mut c = 0;
+            let mut buf = Vec::new();
+            if let Some(r) = r {
+                for cell in r {
+                    if c >= s.cur_col && c < col {
+                        buf.extend_from_slice(&cell.bytes);
+                    }
+                    c += cell.width as usize;
+                    if c >= col {
+                        break;
+                    }
+                }
+            }
+            if c == col && !buf.is_empty() {
+                out(&buf);
+            } else {
+                for _ in 0..n {
+                    out_cap("cuf1");
+                }
+            }
+            s.cur_col = col;
+        }
+    }
+}
+
+fn clear_eol() {
+    if !out_cap("el") {
+        // no capability: overwrite with blanks is left to the caller
+    }
+}
+
+/// Bring the screen from `SCREEN.rows` to `new`, cursor at `cursor`.
+fn update(new: Vec<Row>, cursor: (usize, usize)) {
+    let w = width();
+    let old = core::mem::take(&mut SCREEN.get_mut().rows);
+    let n = old.len().max(new.len());
+    for r in 0..n {
+        let empty = Vec::new();
+        let o = old.get(r).unwrap_or(&empty);
+        let nr = new.get(r);
+        let nrow = nr.unwrap_or(&empty);
+        if o == nrow && r < old.len() {
+            continue;
+        }
+        let mut i = 0;
+        while i < o.len() && i < nrow.len() && o[i] == nrow[i] {
+            i += 1;
+        }
+        let col: usize = nrow[..i].iter().map(|c| c.width as usize).sum();
+        if r >= new.len() {
+            // row no longer used: clear it
+            move_to(&new, r.min(new.len().max(1) - 1), 0);
+            let s = SCREEN.get_mut();
+            if r > s.cur_row {
+                out_byte(b'\r');
+                for _ in s.cur_row..r {
+                    out_byte(b'\n');
+                }
+                s.cur_row = r;
+                s.cur_col = 0;
+            }
+            clear_eol();
+            continue;
+        }
+        move_to(&new, r, col);
+        let mut buf = Vec::new();
+        let mut wsum = 0;
+        for c in &nrow[i..] {
+            buf.extend_from_slice(&c.bytes);
+            wsum += c.width as usize;
+        }
+        out(&buf);
+        let s = SCREEN.get_mut();
+        s.cur_col += wsum;
+        if row_width(o) > row_width(nrow) || (i < o.len() && row_width(o) > col + wsum) {
+            if s.cur_col < w {
+                clear_eol();
+            }
+        }
+    }
+    SCREEN.get_mut().rows = new;
+    let rows = core::mem::take(&mut SCREEN.get_mut().rows);
+    move_to(&rows, cursor.0, cursor.1);
+    SCREEN.get_mut().rows = rows;
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_redisplay() {
+    if crate::readline::rl_outstream.get().is_null() && !crate::readline::initialized() {
+        return;
+    }
+    set_state(RL_STATE_REDISPLAYING);
+    let (rows, cursor) = layout();
+    update(rows, cursor);
+    terminal::flush();
+    unset_state(RL_STATE_REDISPLAYING);
+}
+
+/// Call the application's redisplay function (or ours).
+pub unsafe fn redisplay() {
+    match rl_redisplay_function.get() {
+        Some(f) => f(),
+        None => rl_redisplay(),
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_on_new_line() -> c_int {
+    let s = SCREEN.get_mut();
+    s.rows.clear();
+    s.cur_row = 0;
+    s.cur_col = 0;
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_on_new_line_with_prompt() -> c_int {
+    // the prompt is already on the screen; the cursor is after it
+    let mut lay = Lay::new(width());
+    layout_prompt(&mut lay, &display_prompt_bytes());
+    lay.finish();
+    let (r, c) = lay.pos();
+    let s = SCREEN.get_mut();
+    s.rows = lay.rows;
+    s.cur_row = r;
+    s.cur_col = c;
+    0
+}
+
+/// Move the cursor to the start of the display and clear everything shown.
+pub fn clear_displayed() {
+    let rows = core::mem::take(&mut SCREEN.get_mut().rows);
+    move_to(&rows, 0, 0);
+    let s = SCREEN.get_mut();
+    if !out_cap("ed") {
+        let n = rows.len();
+        for r in 0..n {
+            clear_eol();
+            if r + 1 < n {
+                out(b"\n");
+            }
+        }
+        if n > 1 {
+            for _ in 1..n {
+                out_cap("cuu1");
+            }
+        }
+        out_byte(b'\r');
+    }
+    s.cur_row = 0;
+    s.cur_col = 0;
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_forced_update_display() -> c_int {
+    clear_displayed();
+    redisplay();
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_clear_visible_line() -> c_int {
+    clear_displayed();
+    terminal::flush();
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_reset_line_state() -> c_int {
+    rl_on_new_line();
+    rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_redraw_prompt_last_line() {
+    rl_forced_update_display();
+}
+
+/// Move the cursor past the end of the displayed line (before printing a
+/// newline at accept-line or before a listing).
+pub fn move_to_end() {
+    let rows = core::mem::take(&mut SCREEN.get_mut().rows);
+    if !rows.is_empty() {
+        let mut last = rows.len() - 1;
+        if rows[last].is_empty() && last > 0 {
+            last -= 1;
+        }
+        let col = row_width(&rows[last]);
+        move_to(&rows, last, col);
+    }
+    SCREEN.get_mut().rows = rows;
+}
+
+/// accept-line: cursor after the line, then a newline.
+pub fn update_final() {
+    move_to_end();
+    out_byte(b'\n');
+    terminal::flush();
+    unsafe { rl_on_new_line() };
+}
+
+/// Before printing a listing (dumpers, completions): newline after the line.
+pub fn output_before_listing() {
+    move_to_end();
+    out_byte(b'\n');
+    terminal::flush();
+}
+
+/// After a listing: redraw the prompt and line below it.
+pub fn after_listing() {
+    unsafe {
+        rl_on_new_line();
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_refresh_line(_count: c_int, _key: c_int) -> c_int {
+    rl_forced_update_display();
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_clear_screen(_count: c_int, _key: c_int) -> c_int {
+    if crate::numarg::rl_explicit_arg.get() != 0 {
+        return rl_refresh_line(_count, _key);
+    }
+    if !out_cap("clear") {
+        out_byte(b'\n');
+    }
+    rl_on_new_line();
+    redisplay();
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_clear_display(_count: c_int, _key: c_int) -> c_int {
+    out_cap("clear");
+    out_cap("E3");
+    rl_on_new_line();
+    redisplay();
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_previous_screen_line(_a0: c_int, _a1: c_int) -> c_int {
+    todo_stub!("rl_previous_screen_line");
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_next_screen_line(_a0: c_int, _a1: c_int) -> c_int {
+    todo_stub!("rl_next_screen_line");
+    0
+}
+
+// ---------------------------------------------------------------- prompts
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_set_prompt(prompt: *const c_char) -> c_int {
+    let old = rl_prompt.get();
+    rl_prompt.set(crate::util::c_strdup_ptr(prompt));
+    cfree(old);
+    if MESSAGE.get_mut().is_none() {
+        rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
+    }
+    0
+}
+
+/// Visible characters on the last line of a prompt.
+pub fn prompt_last_line_width(p: &[u8]) -> c_int {
+    let mut lay = Lay::new(usize::MAX / 2);
+    layout_prompt(&mut lay, p);
+    lay.col as c_int
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_expand_prompt(prompt: *mut c_char) -> c_int {
+    match cstr_opt(prompt) {
+        Some(p) if !p.is_empty() => prompt_last_line_width(p),
+        _ => 0,
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_save_prompt() {
+    SAVED_PROMPT.get_mut().push((rl_prompt.get(), rl_display_prompt.get(), MESSAGE.get_mut().take()));
+    rl_prompt.set(null_mut());
+    // the prompt string stays valid: rl_prompt is restored later
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_restore_prompt() {
+    if let Some((p, d, m)) = SAVED_PROMPT.get_mut().pop() {
+        let cur = rl_prompt.get();
+        if !cur.is_null() && cur != p {
+            cfree(cur);
+        }
+        rl_prompt.set(p);
+        rl_display_prompt.set(d);
+        MESSAGE.set(m);
+    }
+}
+
+/// Rust side of rl_message (c/shim.c formats the arguments).
+#[no_mangle]
+pub unsafe extern "C" fn lr_message_str(msg: *const c_char) -> c_int {
+    let m = cstr(msg).to_vec();
+    set_message(&m);
+    redisplay();
+    0
+}
+
+pub fn set_message(m: &[u8]) {
+    unsafe {
+        let old = MESSAGE_C.replace(c_strdup(m));
+        MESSAGE.set(Some(m.to_vec()));
+        rl_display_prompt.set(MESSAGE_C.get());
+        cfree(old);
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_clear_message() -> c_int {
+    if MESSAGE.get_mut().take().is_some() {
+        rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
+        let old = MESSAGE_C.replace(null_mut());
+        cfree(old);
+    }
+    redisplay();
+    0
+}
+
+/// "(arg: N) " while a numeric argument is being read.
+pub fn show_arg_message() {
+    unsafe {
+        if crate::readline::rl_editing_mode.get() != crate::readline::EMACS_MODE {
+            return;
+        }
+        let n = crate::numarg::count();
+        let m = format!("(arg: {}) ", n);
+        set_message(m.as_bytes());
+        redisplay();
+    }
+}
+
+pub fn clear_arg_message() {
+    unsafe {
+        if MESSAGE.get_mut().is_some() {
+            MESSAGE.set(None);
+            rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
+            let old = MESSAGE_C.replace(null_mut());
+            cfree(old);
+        }
+    }
+}
+
+pub fn mode_string_changed() {}
+
+/// Terminal type or size changed: the screen model is unreliable.
+pub fn screen_changed() {}
+
+/// After SIGWINCH: redraw the line for the new width.
+pub fn screen_resized() {
+    unsafe {
+        if is_state(RL_STATE_INITIALIZED) && crate::readline::in_readline() {
+            rl_forced_update_display();
+        }
+    }
+}
+
+// ---------------------------------------------------------------- chars
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_show_char(c: c_int) -> c_int {
+    let mut v = Vec::new();
+    let b = c as u8;
+    if b >= 0x80 && crate::vars::output_meta.get() == 0 {
+        v.extend_from_slice(b"M-");
+        let b = b & 0x7f;
+        if b < 0x20 || b == 0x7f {
+            ctl_repr(b, &mut v);
+        } else {
+            v.push(b);
+        }
+    } else if b < 0x20 || b == 0x7f {
+        ctl_repr(b, &mut v);
+    } else {
+        v.push(b);
+    }
+    out(&v);
+    terminal::flush();
+    v.len() as c_int
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_character_len(c: c_int, pos: c_int) -> c_int {
+    let b = c as u8;
+    if b == b'\t' {
+        return ((pos | 7) + 1) - pos;
+    }
+    if b >= 0x80 && crate::vars::output_meta.get() == 0 {
+        return 4;
+    }
+    if b < 0x20 || b == 0x7f {
+        return 2;
+    }
+    1
+}
