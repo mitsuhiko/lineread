@@ -203,8 +203,17 @@ unsafe fn dispatch_key_in(key: c_int, map: Keymap, fallback: bool) -> c_int {
     if key >= 128 && crate::vars::convert_meta.get() != 0 {
         let e = *keymap::entry(map, ESC as usize);
         if e.type_ == ISKMAP {
-            map = e.function.map;
-            key &= 0x7f;
+            let sub = e.function.map;
+            let k = key & 0x7f;
+            let se = *keymap::entry(sub, k as usize);
+            if se.is_null() && se.type_ == ISFUNC && !(*sub.add(ANYOTHERKEY)).is_null() {
+                // unbound after an ESC prefix that has its own binding (vi):
+                // the reference runs the plain key in the original map
+                key = k;
+            } else {
+                map = sub;
+                key = k;
+            }
         }
     }
     let e = *keymap::entry(map, key as usize);
