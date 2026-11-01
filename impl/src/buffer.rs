@@ -164,11 +164,8 @@ pub unsafe extern "C" fn rl_delete_text(from: c_int, to: c_int) -> c_int {
     let (from, to) = if from > to { (to, from) } else { (from, to) };
     let from = from.max(0) as usize;
     let to = to.max(0) as usize;
-    let r = delete(from, to);
-    if rl_point.get() > rl_end.get() {
-        rl_point.set(rl_end.get());
-    }
-    r
+    // (point is left alone, even beyond the end: observed)
+    delete(from, to)
 }
 
 #[no_mangle]
