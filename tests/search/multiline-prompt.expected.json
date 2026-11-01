@@ -1,0 +1,186 @@
+{
+  "isearch-multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "top line",
+      "bottom>"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top line",
+          "(reverse-i-search)`fir': first entry"
+        ],
+        "cursor": [1, 25]
+      },
+      {
+        "screen": [
+          "top line",
+          "bottom>"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "isearch-multiline-prompt-accept": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "Xsecond entry"}
+    ],
+    "screen": [
+      "top line",
+      "bottom> Xsecond entry"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top line",
+          "(reverse-i-search)`sec': second entry"
+        ],
+        "cursor": [1, 25]
+      },
+      {
+        "screen": [
+          "top line",
+          "bottom> Xsecond entry"
+        ],
+        "cursor": [1, 9]
+      }
+    ]
+  },
+  "noninc-search-multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first entry"}
+    ],
+    "screen": [
+      "top line",
+      "bottom> first entry"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top line",
+          "bottom> :first"
+        ],
+        "cursor": [1, 14]
+      },
+      {
+        "screen": [
+          "top line",
+          "bottom> first entry"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "forward-isearch-multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "second entry"}
+    ],
+    "screen": [
+      "top line",
+      "bottom> second entry"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top line",
+          "(i-search)`sec': second entry"
+        ],
+        "cursor": [1, 17]
+      }
+    ]
+  },
+  "resize-multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "top line",
+      "bottom> abcd"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top line",
+          "bottom> abc"
+        ],
+        "cursor": [1, 11]
+      },
+      {
+        "screen": [
+          "top line",
+          "bottom> abcd"
+        ],
+        "cursor": [1, 12]
+      }
+    ]
+  },
+  "resize-multiline-prompt-wrapped": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "top line",
+      "bottom> 0123456789ab",
+      "cdefghijklmnopqrstuv",
+      "wxyz"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top line",
+          "bottom> 0123456789ab",
+          "cdefghijklmnopqrstuv",
+          "wxyz"
+        ],
+        "cursor": [3, 4]
+      },
+      {
+        "screen": [
+          "top line",
+          "bottom> 0123456789ab",
+          "cdefghijklmnopqrstuv",
+          "wxyz"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "resize-multiline-prompt-invisible": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "title",
+      "bottom> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "title",
+          "bottom> abc"
+        ],
+        "cursor": [1, 11]
+      }
+    ]
+  }
+}

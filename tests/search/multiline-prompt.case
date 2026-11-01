@@ -1,0 +1,39 @@
+# Searching and resizing with a multi-line prompt: the search prompt
+# replaces only the last line of the prompt.
+tags: search display prompt
+--- script
+add_history "first entry"
+add_history "second entry"
+readline "top line\nbottom> "
+
+=== isearch-multiline-prompt
+tags: reverse-search-history
+keys: \C-rfir<snap>\C-g<snap>\r
+
+=== isearch-multiline-prompt-accept
+tags: reverse-search-history
+keys: \C-rsec<snap>\e<pause>X<snap>\r
+
+=== noninc-search-multiline-prompt
+tags: non-incremental-reverse-search-history
+keys: \M-pfirst<snap>\r<snap>\r
+
+=== forward-isearch-multiline-prompt
+tags: forward-search-history
+keys: <up><up>\C-ssec<snap>\r
+
+=== resize-multiline-prompt
+tags: SIGWINCH display
+keys: abc<resize:40x10><snap>d<snap>\r
+
+=== resize-multiline-prompt-wrapped
+tags: SIGWINCH display
+screen: 30x10
+keys: 0123456789abcdefghijklmnopqrstuvwxyz<resize:20x10><snap>\C-a<snap>\r
+
+=== resize-multiline-prompt-invisible
+tags: SIGWINCH display
+--- script
+readline "\001\e[1m\002title\001\e[0m\002\nbottom> "
+--- keys
+abc<resize:50x10><snap>\r
