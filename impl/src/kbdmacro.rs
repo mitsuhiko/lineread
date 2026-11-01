@@ -130,7 +130,7 @@ pub unsafe extern "C" fn rl_end_kbd_macro(count: c_int, _key: c_int) -> c_int {
 pub unsafe extern "C" fn rl_call_last_kbd_macro(count: c_int, _key: c_int) -> c_int {
     let last = LAST.get_mut().clone();
     if last.is_empty() {
-        crate::terminal::rl_ding();
+        crate::commands::misc::abort_internal();
         return 0;
     }
     if is_state(RL_STATE_MACRODEF) {

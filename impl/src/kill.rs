@@ -298,14 +298,14 @@ pub unsafe extern "C" fn rl_yank(_count: c_int, _key: c_int) -> c_int {
 #[no_mangle]
 pub unsafe extern "C" fn rl_yank_pop(_count: c_int, _key: c_int) -> c_int {
     if !LAST_YANK.get() || RING.get_mut().is_empty() {
-        rl_ding();
+        crate::commands::misc::abort_internal();
         return 1;
     }
     let prev = ring_entry(YANK_INDEX.get()).unwrap_or_default();
     let p = point();
     let start = p.saturating_sub(prev.len());
     if line()[start..p] != prev[..] {
-        rl_ding();
+        crate::commands::misc::abort_internal();
         return 1;
     }
     buffer::delete(start, p);
