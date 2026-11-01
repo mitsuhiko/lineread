@@ -93,6 +93,11 @@ pub unsafe extern "C" fn rl_prep_terminal(meta_flag: c_int) {
     SAVED.set(Some(t));
     set_state(RL_STATE_TTYCSAVED);
     read_specials(&t);
+    // the tty's editing characters win over the init file's bindings
+    if crate::vars::bind_tty_special_chars.get() != 0 {
+        let vi = crate::readline::rl_editing_mode.get() == crate::readline::VI_MODE;
+        bind_tty_chars(crate::keymap::current(), vi);
+    }
     ECHOING.set((t.c_lflag & libc::ECHO) as c_int);
     ECHOCTL.set(t.c_lflag & libc::ECHOCTL != 0);
     let mut n = t;
@@ -165,6 +170,13 @@ pub unsafe fn deprep() {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_tty_set_default_bindings(map: Keymap) {
+    bind_tty_chars(map, false);
+}
+
+/// Bind the tty's editing characters in `map`; `vi`: werase is vi's
+/// word rubout (readline's own binding when preparing the terminal in vi
+/// mode).
+unsafe fn bind_tty_chars(map: Keymap, vi: bool) {
     if map.is_null() || crate::vars::bind_tty_special_chars.get() == 0 {
         return;
     }
@@ -173,7 +185,6 @@ pub unsafe extern "C" fn rl_tty_set_default_bindings(map: Keymap) {
         read_specials(&t);
     }
     let s = SPECIALS.get();
-    let vi = map == crate::keymap::vi_insertion() || map == crate::keymap::vi_movement();
     let bind = |k: u8, f: rl_command_func_t| {
         if k != vdisable() && k != 0 {
             let e = map.add(k as usize);
