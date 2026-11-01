@@ -610,7 +610,7 @@ pub unsafe extern "C" fn rl_vi_arg_digit(count: c_int, key: c_int) -> c_int {
         crate::commands::movement::rl_beg_of_line(1, key)
     } else {
         let r = crate::numarg::rl_digit_argument(count, key);
-        if crate::input::rl_pending_input.get() == EOF {
+        if crate::input::rl_pending_input.get() == EOF && end() > 0 {
             // end of input inside a vi count: the reference accepts the line
             crate::input::rl_clear_pending_input();
             crate::readline::rl_newline(1, b'\n' as c_int);
@@ -903,7 +903,7 @@ unsafe fn domove_with(op: u8, count: c_int, forced: Option<c_int>) -> Option<(c_
                 c = read_raw_key();
                 unset_state(RL_STATE_VIMOTION);
                 if c < 0 {
-                    if after_digit {
+                    if after_digit && end() > 0 {
                         // the reference accepts the line when the input
                         // ends inside a motion count
                         crate::readline::rl_newline(1, b'\n' as c_int);
@@ -1453,6 +1453,15 @@ pub unsafe extern "C" fn rl_vi_eof_maybe(_count: c_int, _key: c_int) -> c_int {
     crate::readline::rl_newline(1, b'\n' as c_int)
 }
 
+/// Word boundaries for vi-unix-word-rubout: blanks and ASCII punctuation
+/// (underscore included; the end of the line is not a boundary).
+fn rubout_boundary(l: &[u8], i: usize) -> bool {
+    match l.get(i) {
+        Some(&b) => is_ws(b) || (b < 0x80 && b.is_ascii_punctuation()),
+        None => false,
+    }
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_unix_word_rubout(count: c_int, _key: c_int) -> c_int {
     let p0 = point();
@@ -1461,21 +1470,24 @@ pub unsafe extern "C" fn rl_vi_unix_word_rubout(count: c_int, _key: c_int) -> c_
         return 0;
     }
     let l = line();
+    let e = l.len();
     let mut p = p0;
     for _ in 0..count.max(1) {
-        while p > 0 && is_ws(l[mb::prev_char(l, p)]) {
+        // blanks at the end of the line: back onto the last other char
+        if p > 0 && p == e && is_ws(l[p - 1]) {
+            p -= 1;
+            while p > 0 && is_ws(l[p]) {
+                p = mb::prev_char(l, p);
+            }
+        }
+        // at the start of a word: look at the boundary before it
+        if p > 0 && !rubout_boundary(l, p) && rubout_boundary(l, mb::prev_char(l, p)) {
             p = mb::prev_char(l, p);
         }
-        if p == 0 {
-            break;
-        }
-        let c = class_at(l, mb::prev_char(l, p));
-        while p > 0 {
-            let q = mb::prev_char(l, p);
-            if class_at(l, q) != c {
-                break;
-            }
-            p = q;
+        // back over a run of boundaries, or to the start of the word
+        let on_boundary = rubout_boundary(l, p);
+        while p > 0 && rubout_boundary(l, mb::prev_char(l, p)) == on_boundary {
+            p = mb::prev_char(l, p);
         }
     }
     crate::kill::rl_kill_text(p0 as c_int, p as c_int);
