@@ -145,6 +145,8 @@ unsafe fn handle_signal(sig: c_int) {
     } else {
         if sig == libc::SIGINT {
             rl_free_line_state();
+            // a pending vi motion is forgotten too (observed)
+            unset_state(RL_STATE_VIMOTION);
         }
         rl_echo_signal_char(sig);
         rl_cleanup_after_signal();
