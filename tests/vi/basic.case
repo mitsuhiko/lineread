@@ -1,0 +1,86 @@
+# vi mode.  A lone ESC needs <pause> (or a following key that cannot
+# continue an escape sequence) so readline's keyseq-timeout fires; the
+# preamble lowers the timeout to keep the suite fast.
+tags: vi editing
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== insert-and-accept
+keys: hello\r
+
+=== escape-to-command-mode
+--- keys
+abc\e<pause><dumpfull>\r
+
+=== motions
+--- keys
+one two three\e<pause>0<dump>w<dump>e<dump>b<dump>$<dump>^<dump>\r
+
+=== big-word-motions
+--- keys
+a.b c.d e.f\e<pause>0W<dump>E<dump>B<dump>\r
+
+=== delete-word-and-line
+--- keys
+one two three\e<pause>0dw<dump>D<dump>\r
+
+=== change-word
+--- keys
+one two\e<pause>0cwONE\e<pause><dump>\r
+
+=== insert-append-variants
+--- keys
+bcd\e<pause>Ia\e<pause>Ae\e<pause>0ax\e<pause><dump>\r
+
+=== replace-char-and-mode
+--- keys
+abcd\e<pause>0rX<dump>lRYZ\e<pause><dump>\r
+
+=== undo-and-redo
+--- keys
+abc\e<pause>xx<dump>u<dump>.<dump>\r
+
+=== yank-and-put
+--- keys
+one two\e<pause>0yw$p<dump>0P<dump>\r
+
+=== counts
+--- keys
+abcdefgh\e<pause>03l<dump>2x<dump>2dl<dump>\r
+
+=== char-search
+--- keys
+a-b-c-d\e<pause>0f-<dump>;<dump>,<dump>t-<dump>F-<dump>\r
+
+=== change-case-and-tilde
+--- keys
+hello\e<pause>0~~<dump>\r
+
+=== history-in-vi
+tags: history
+--- script
+readline "> " 3 addhist
+--- keys
+first\rsecond\r\e<pause>k<dump>k<dump>j<dump>\r
+
+=== vi-search-history
+tags: history
+--- script
+readline "> " 3 addhist
+--- keys
+alpha\rbeta\r\e<pause>/alp\r<dump>\r
+
+=== mode-string
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+--- keys
+ab<snap>\e<pause><snap>\r
+
+=== insert-control-chars
+--- keys
+ab\C-e<dump>\C-a<dump>\r

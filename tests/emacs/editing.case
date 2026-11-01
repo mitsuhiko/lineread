@@ -1,0 +1,112 @@
+# Emacs mode editing commands.  Every case runs readline once (preamble
+# script) and dumps the line state with <dump> between keys.
+tags: emacs editing
+--- script
+readline "> "
+
+=== self-insert-and-accept
+keys: hello world\r
+
+=== motion-char-and-line
+--- keys
+abcdef\C-a<dump>\C-f\C-f<dump>\C-e<dump>\C-b<dump>\r
+
+=== motion-word
+--- keys
+one two three\M-b<dump>\M-b<dump>\M-f<dump>\C-a\M-f<dump>\r
+
+=== kill-line-and-yank
+tags: kill
+--- keys
+hello world\C-a\M-f\C-k<dump>\C-a\C-y<dump>\r
+
+=== kill-word-and-yank-pop
+tags: kill
+--- keys
+aaa bbb ccc\C-a\M-d\M-d<dump>\C-e \C-y<dump>\M-y<dump>\r
+
+=== backward-kill-word-and-unix-discard
+tags: kill
+--- keys
+foo bar/baz\C-w<dump>\M-\C-?<dump>\C-u<dump>\C-y\r
+
+=== delete-and-rubout
+--- keys
+abcdef\C-a\C-d<dump>\C-e\C-?<dump>\C-b<bs><dump>\r
+
+=== transpose
+--- keys
+abcd\C-t<dump>\C-a\C-t<dump>one two\M-t<dump>\r
+
+=== case-words
+--- keys
+hello big world\C-a\M-u<dump>\M-l<dump>\M-c<dump>\r
+
+=== numeric-argument
+tags: numarg
+--- keys
+abcdefgh\C-a\M-3\C-f<dump>\M--\M-2\C-f<dump>\C-u\C-f<dump>\M-4x<dump>\r
+
+=== multi-digit-argument
+tags: numarg
+--- keys
+\M-1\M-2x<dump>\M-1\M-0\C-b<dump>\r
+
+=== undo
+tags: undo
+--- keys
+abc def\C-w<dump>\C-_<dump>\C-x\C-u<dump>\C-_\C-_<dumpfull>\r
+
+=== revert-line
+tags: undo
+--- keys
+abc\M-r<dump>xyz\r
+
+=== mark-and-region
+tags: kill
+--- keys
+hello world\C-a\C-@\M-f<dump>\C-w<dump>\C-x\C-x<dump>\r
+
+=== quoted-insert
+--- keys
+a\C-q\C-ab\C-v\tc<dump>\r
+
+=== tab-insert-and-comment
+--- keys
+x\M-\t<dump>\M-#
+
+=== clear-screen
+--- keys
+first\C-l<snap>second\r
+
+=== history-navigation
+tags: history
+--- script
+readline "> " 4 addhist
+--- keys
+one\rtwo\r\C-p<dump>\C-p<dump>\C-p<dump>\C-n<dump>\M-<<dump>\M-><dump>\r\C-pX\r
+
+=== reverse-isearch
+tags: isearch history
+--- script
+readline "> " 4 addhist
+--- keys
+make all\rgit status\rmake test\r\C-rmak<snap>\C-r<snap><dump>\C-j\r
+
+=== isearch-abort
+tags: isearch history
+--- script
+readline "> " 2 addhist
+--- keys
+alpha\rbe\C-ral<pause>\C-g<dump>ta\r
+
+=== keyboard-macro
+tags: macro
+--- keys
+\C-x(ab\C-x)\C-xe\C-xe<dump>\r
+
+=== eof-on-empty-line
+--- script
+readline "> " 3
+--- keys
+abc\C-d<dump>\C-a\C-d<dump>\r\C-d

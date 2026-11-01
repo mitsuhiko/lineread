@@ -1,0 +1,181 @@
+# Init file parsing: variables, key bindings, macros, conditionals and
+# includes.  The preamble inputrc applies to every case without its own
+# inputrc section.
+tags: bind inputrc
+--- inputrc
+set bell-style none
+"\C-xa": "macro-a"
+
+=== preamble-inputrc-applies
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+rl_function_of_keyseq "\x18a" emacs
+
+=== set-variables
+--- inputrc
+set completion-ignore-case on
+set completion-query-items 50
+set editing-mode vi
+set comment-begin //
+set keyseq-timeout 250
+set history-size 10
+set nonexistent-variable foo
+set show-all-if-ambiguous
+--- script
+rl_initialize
+rl_variable_value "completion-ignore-case"
+rl_variable_value "completion-query-items"
+rl_variable_value "editing-mode"
+rl_variable_value "comment-begin"
+rl_variable_value "keyseq-timeout"
+rl_variable_value "history-size"
+rl_variable_value "show-all-if-ambiguous"
+rl_variable_value "nonexistent-variable"
+get rl_editing_mode
+get history_max_entries
+
+=== key-bindings
+--- inputrc
+"\C-t": forward-word
+Control-u: backward-char
+Meta-f: backward-word
+"\M-q": kill-line
+"\e[Z": complete
+"\C-x\C-b": beginning-of-line
+TAB: menu-complete
+--- script
+rl_initialize
+rl_function_of_keyseq "\x14" emacs
+rl_function_of_keyseq "\x15" emacs
+rl_function_of_keyseq "\ef" emacs
+rl_function_of_keyseq "\eq" emacs
+rl_function_of_keyseq "\e[Z" emacs
+rl_function_of_keyseq "\x18\x02" emacs
+rl_function_of_keyseq "\t" emacs
+rl_invoking_keyseqs forward-word
+
+=== macros
+--- inputrc
+"\C-xm": "hello world"
+"\C-xq": 'single \t quoted'
+"\C-xe": "esc\e\"quote\""
+--- script
+rl_initialize
+rl_macro_dumper 1
+rl_macro_dumper 0
+
+=== conditionals
+--- inputrc
+$if mode=emacs
+"\C-xe": "in emacs"
+$else
+"\C-xe": "not emacs"
+$endif
+$if term=xterm
+"\C-xt": "xterm"
+$endif
+$if term=dumb
+"\C-xd": "dumb"
+$endif
+$if Lineread
+"\C-xa": "app"
+$endif
+$if version >= 8.0
+"\C-xv": "new"
+$endif
+$if version < 7
+"\C-xo": "old"
+$endif
+--- script
+set rl_readline_name "Lineread"
+rl_initialize
+rl_macro_dumper 1
+
+=== variable-conditionals
+--- inputrc
+set completion-ignore-case on
+$if completion-ignore-case == on
+"\C-xc": "ignore case on"
+$endif
+$if bell-style != audible
+"\C-xb": "not audible"
+$endif
+--- script
+rl_initialize
+rl_macro_dumper 1
+
+=== include
+--- file inc/extra.inputrc
+"\C-xi": "included"
+set mark-directories off
+--- inputrc
+$include ~/inc/extra.inputrc
+"\C-xj": "after include"
+--- script
+rl_initialize
+rl_macro_dumper 1
+rl_variable_value "mark-directories"
+
+=== read-init-file-api
+--- file my.inputrc
+set horizontal-scroll-mode on
+"\C-xr": "from file"
+--- script
+rl_initialize
+rl_read_init_file "my.inputrc"
+rl_read_init_file "missing.inputrc"
+rl_variable_value "horizontal-scroll-mode"
+rl_macro_dumper 1
+
+=== keymap-directive
+--- inputrc
+set keymap vi-command
+"z": end-of-line
+set keymap vi-insert
+"\C-z": beginning-of-line
+set keymap emacs-ctlx
+"z": upcase-word
+--- script
+rl_initialize
+rl_function_of_keyseq "z" vi-command
+rl_function_of_keyseq "\x1a" vi-insert
+rl_function_of_keyseq "\x18z" emacs
+rl_function_of_keyseq "z" emacs-ctlx
+
+=== parse-errors
+--- inputrc
+"\C-xa" forward-char
+set
+$endif
+$bogus
+"\C-xb": nonexistent-function
+garbage line here
+--- script
+rl_initialize
+rl_function_of_keyseq "\x18a" emacs
+rl_function_of_keyseq "\x18b" emacs
+
+=== comments-and-whitespace
+--- inputrc
+# comment
+   set   bell-style   visible
+"\C-xw"  :   kill-word   # trailing
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+rl_function_of_keyseq "\x18w" emacs
+
+=== inputrc-env-missing
+env: INPUTRC=$HOME/does-not-exist
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+
+=== bind-in-session
+--- inputrc
+"\C-xh": "hi there"
+--- script
+readline "> "
+--- keys
+x \C-xh\r

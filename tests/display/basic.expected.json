@@ -1,0 +1,351 @@
+{
+  "prompt-and-cursor": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "prompt> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "prompt> abc"
+        ],
+        "cursor": [0, 10]
+      }
+    ]
+  },
+  "invisible-prompt-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "bold> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "bold> x"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "bold> x"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "line one",
+      "line two> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "line one",
+          "line two> abc"
+        ],
+        "cursor": [1, 13]
+      },
+      {
+        "screen": [
+          "line one",
+          "line two> abc"
+        ],
+        "cursor": [1, 10]
+      }
+    ]
+  },
+  "long-line-wraps": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789012345678901234567890123456789"}
+    ],
+    "screen": [
+      "> 012345678901234567",
+      "89012345678901234567",
+      "89"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 012345678901234567",
+          "89012345678901234567",
+          "89"
+        ],
+        "cursor": [2, 2]
+      },
+      {
+        "screen": [
+          "> 012345678901234567",
+          "89012345678901234567",
+          "89"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "wrap-exact-boundary": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "12345678"}
+    ],
+    "screen": [
+      "> 12345678"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 12345678"
+        ],
+        "cursor": [1, 0]
+      },
+      {
+        "screen": [
+          "> 12345678",
+          "9"
+        ],
+        "cursor": [1, 1]
+      },
+      {
+        "screen": [
+          "> 12345678"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "horizontal-scroll-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnop"}
+    ],
+    "screen": [
+      "> 0123456789abcdef>"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<fghijklmnop"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdef>"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "utf8-text": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "héllo wörld", "point": 11, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "héllo wörld"}
+    ],
+    "screen": [
+      "> héllo wörld"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> héllo wörld"
+        ],
+        "cursor": [0, 11]
+      }
+    ]
+  },
+  "wide-characters": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本語テキスト", "point": 3, "end": 21, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本語テキスト"}
+    ],
+    "screen": [
+      "> 日本語テキ",
+      "スト"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日本語テキ",
+          "スト"
+        ],
+        "cursor": [1, 4]
+      },
+      {
+        "screen": [
+          "> 日本語テキ",
+          "スト"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "message-and-restore": {
+    "exit": 0,
+    "results": [
+      {"op": "defun show-msg msg", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xm\" show-msg", "ret": 0},
+      {"op": "rl_message \"status: busy\"", "ret": 0},
+      {"op": "rl_clear_message", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "status: busyabc"
+        ],
+        "cursor": [0, 15]
+      },
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "startup-hook-inserts-text": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_insert_text \"preset text\"", "ret": 11},
+      {"op": "readline", "ret": "preset text!"}
+    ],
+    "screen": [
+      "> preset text!"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> preset text"
+        ],
+        "cursor": [0, 13]
+      }
+    ]
+  },
+  "pre-input-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_insert_text \"pre\"", "ret": 3},
+      {"op": "readline", "ret": "preX"}
+    ],
+    "screen": [
+      "> preX"
+    ],
+    "cursor": [1, 0]
+  },
+  "redisplay-after-resize": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "aaaaaaaaaabbbbbbbbbbccccccccccdddddddddd"}
+    ],
+    "screen": [
+      "> aaaaaaaaaabbbbbbbb",
+      "bbccccccccccdddddddd",
+      "dd"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> aaaaaaaaaabbbbbbbbbbcccccccc",
+          "ccdddddddddd"
+        ],
+        "cursor": [1, 12]
+      },
+      {
+        "screen": [
+          "> aaaaaaaaaabbbbbbbb",
+          "bbccccccccccdddddddd",
+          "dd"
+        ],
+        "cursor": [2, 2]
+      }
+    ]
+  },
+  "erase-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "ding-visible-bell": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "already-prompted": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "echo-control-chars-sigint": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "readline", "ret": "abcdef"},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abcdef",
+      ">"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc^C"
+        ],
+        "cursor": [0, 0]
+      }
+    ]
+  }
+}

@@ -68,6 +68,8 @@ def report(covdir: str, binary: str, srcdir: str, html: str | None, as_json: boo
         print(f"\n{'file':<22} {'lines':>16} {'branches':>16} {'functions':>12}")
         for rel in sorted(files):
             s = files[rel]
+            if not s["lines"]["count"]:
+                continue
             print(f"{rel:<22} {pct(s['lines'])} {s['lines']['covered']:>4}/{s['lines']['count']:<5}"
                   f"{pct(s['branches'])} {s['branches']['covered']:>4}/{s['branches']['count']:<5}"
                   f"{pct(s['functions'])}")

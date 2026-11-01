@@ -1437,7 +1437,7 @@ static const api_t api_table[] = {
   API(add_history_time, "v:s"),
   API(remove_history, "F:i"),
   API(remove_history_range, "R:ii"),
-  API(alloc_history_entry, "F:ss"),
+  API(alloc_history_entry, "F:sr"),
   API(replace_history_entry, "F:isd"),
   API(clear_history, "v:"),
   API(stifle_history, "v:i"),
@@ -2150,7 +2150,7 @@ static void c_file_stat(cmd_t *c) {
     snprintf(mode, sizeof mode, "%04o", (unsigned)(st.st_mode & 07777));
     rec_bool(&r, "exists", 1);
     rec_str(&r, "mode", mode);
-    rec_int(&r, "size", (long)st.st_size);
+    if (S_ISREG(st.st_mode)) rec_int(&r, "size", (long)st.st_size);
     rec_str(&r, "type", S_ISDIR(st.st_mode) ? "dir" : S_ISREG(st.st_mode) ? "file" : "other");
   }
   rec_end(&r);
@@ -2328,7 +2328,7 @@ static void c_history_dump(cmd_t *c) {
   rec_key(&r, "entries");
   HIST_ENTRY **l = history_list();
   buf_putc(&r.b, '[');
-  for (int i = 0; l && l[i]; i++) {
+  for (int i = 0; l && i < history_length && l[i]; i++) {
     if (i) buf_puts(&r.b, ", ");
     json_hist_entry(&r.b, l[i]);
   }
@@ -2610,12 +2610,32 @@ static void c_timeout_remaining(cmd_t *c) {
   rec_end(&r);
 }
 
+static int cmp_strp(const void *a, const void *b) {
+  return strcmp(*(char *const *)a, *(char *const *)b);
+}
+
+/* trailing "sort" argument: sort results (readdir order is not portable) */
+static int want_sort(cmd_t *c, int idx) {
+  if (c->n > idx && c->v[idx] && !c->quoted[idx] && strcmp(c->v[idx], "sort") == 0) {
+    c->n--; /* hide it from NEED() */
+    return 1;
+  }
+  return 0;
+}
+
 static void c_completion_matches(cmd_t *c) {
+  int sorted = want_sort(c, 3);
   NEED(2, 2);
   int ok;
   rl_compentry_func_t *g = generator_by_name(c->v[2], &ok);
   if (!ok || !g) { rec_error(c, "unknown generator"); return; }
   char **m = rl_completion_matches(c->v[1], g);
+  if (sorted) c->n++;
+  if (m && sorted && m[0] && m[1]) {
+    int n = 0;
+    while (m[n + 1]) n++;
+    qsort(m + 1, (size_t)n, sizeof(char *), cmp_strp);
+  }
   rec_t r;
   rec_begin(&r, c->text);
   rec_strv(&r, "ret", m);
@@ -2624,21 +2644,32 @@ static void c_completion_matches(cmd_t *c) {
 }
 
 static void c_gen(cmd_t *c) {
-  NEED(2, 2);
+  int sorted = want_sort(c, 3);
+  if (c->n - 1 != 2) { if (sorted) c->n++; rec_error(c, "wrong number of arguments"); return; }
+  if (sorted) c->n++;
   int ok;
   rl_compentry_func_t *g = generator_by_name(c->v[1], &ok);
   if (!ok || !g) { rec_error(c, "unknown generator"); return; }
+  char **v = NULL;
+  int n = 0;
+  for (int state = 0; state < 10000; state++) {
+    char *s = g(c->v[2] ? c->v[2] : "", state);
+    if (!s) break;
+    v = realloc(v, sizeof(char *) * (size_t)(n + 2));
+    v[n++] = s;
+  }
+  if (v) v[n] = NULL;
+  if (sorted && n > 1) qsort(v, (size_t)n, sizeof(char *), cmp_strp);
   rec_t r;
   rec_begin(&r, c->text);
   rec_key(&r, "ret");
   buf_putc(&r.b, '[');
-  for (int state = 0; state < 10000; state++) {
-    char *s = g(c->v[2] ? c->v[2] : "", state);
-    if (!s) break;
-    if (state) buf_puts(&r.b, ", ");
-    json_str(&r.b, s);
-    free(s);
+  for (int i = 0; i < n; i++) {
+    if (i) buf_puts(&r.b, ", ");
+    json_str(&r.b, v[i]);
+    free(v[i]);
   }
+  free(v);
   buf_putc(&r.b, ']');
   rec_end(&r);
 }
@@ -2720,6 +2751,11 @@ static void c_exit(cmd_t *c) {
 
 static void c_option(cmd_t *c) { (void)c; }
 
+static void c_snap(cmd_t *c) {
+  NEED(0, 0);
+  request_snapshot();
+}
+
 typedef struct {
   const char *name;
   void (*fn)(cmd_t *);
@@ -2754,7 +2790,7 @@ static const custom_t custom_table[] = {
   {"rl_display_match_list", c_display_match_list}, {"display_match_list", c_display_match_list},
   {"rl_save_state", c_save_state}, {"rl_restore_state", c_restore_state},
   {"rl_vi_domove", c_vi_domove}, {"rl_push_macro_input", c_push_macro_input},
-  {"sleep_ms", c_sleep_ms}, {"exit", c_exit}, {"option", c_option},
+  {"sleep_ms", c_sleep_ms}, {"snap", c_snap}, {"exit", c_exit}, {"option", c_option},
 };
 
 static void run_cmd(cmd_t *c) {

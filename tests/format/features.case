@@ -1,0 +1,153 @@
+# Demonstrates every feature of the case format and the driver protocol.
+# See docs/TESTING.md.  The preamble (everything before the first ===)
+# supplies defaults: tags are merged, env/files are merged, other
+# headers and sections are overridden by the case.
+tags: format
+env: LINEREAD_PREAMBLE=yes
+--- file shared.txt
+shared fixture
+
+=== preamble-defaults
+description: env and fixture files from the preamble are visible
+--- script
+getenv LINEREAD_PREAMBLE
+file_read shared.txt
+
+=== env-override-and-unset
+env: LINEREAD_PREAMBLE=case
+env: TERM
+--- script
+getenv LINEREAD_PREAMBLE
+getenv TERM
+
+=== fixtures
+--- file plain.txt
+two
+lines
+--- file noeol.txt noeol
+no newline at end
+--- file script.sh mode=0755
+#!/bin/sh
+--- dir empty-dir
+--- symlink link.txt plain.txt
+--- script
+file_read plain.txt
+file_read noeol.txt
+file_stat script.sh
+file_stat empty-dir
+file_read link.txt
+file_read missing.txt
+
+=== tokens-and-heredoc
+--- script
+echo bare "double \t quoted \x41 \101 \C-a" 'single \t raw' NULL "NULL"
+file_write out.txt <<END
+line 1
+  line 2 "quoted"
+END
+file_read out.txt
+
+=== blocks-and-hooks
+--- script
+def greet
+echo "in block"
+args
+return 7
+end
+call greet
+set rl_startup_hook script:greet
+get rl_startup_hook
+readline "> "
+--- keys
+x\r
+
+=== keys-notation
+--- script
+readline "> "
+--- keys
+a\tb\x41\101\u{e9}<sp>\\<lt>\C-b\C-b<dump>\M-b<dump><left><right><home><end><del><bs><dump>\r
+
+=== snapshots-and-dumps
+--- script
+def snapshot
+snap
+end
+defun take-snap snapshot
+rl_bind_keyseq "\C-xs" take-snap
+readline "> "
+--- keys
+abc<snap>\C-xs<dump><dumpfull>def\r
+
+=== pause-and-escape
+--- inputrc
+set keyseq-timeout 50
+--- script
+readline "> "
+--- keys
+abc\e<pause>b<dump>\eb<dump>\r
+
+=== resize-and-sleep
+screen: 30x5
+--- script
+readline "> "
+--- keys
+0123456789012345678901234567890123<resize:40x5><snap><sleep:10>\r
+
+=== signals-from-keys
+--- script
+readline "> "
+--- keys
+abc\C-c<dump>\r
+
+=== signals-off
+description: with "signals: off" ^C is sent as a plain byte
+# quoted-insert disables tty signals; the pause makes sure that happened
+# before ^C arrives (otherwise the tty would turn it into SIGINT)
+signals: off
+--- script
+readline "> "
+--- keys
+a\C-q<pause>\C-c\r
+
+=== eof-off
+description: without the automatic EOF the script must finish by itself
+eof: off
+--- script
+readline "> "
+--- keys
+abc\r
+
+=== ignore-fields
+description: ignored fields are neither recorded nor compared
+ignore: screen cursor results[*].mark
+--- script
+readline "> "
+--- keys
+abc<dump>\r
+
+=== platform-specific
+platforms: linux darwin
+--- script
+echo "runs on linux and darwin only"
+
+=== skipped
+skip: demonstrates skip
+--- script
+echo "never runs"
+
+=== timeout-header
+timeout: 3
+--- script
+echo "per-case timeout in seconds (default 10)"
+
+=== exit-code
+--- script
+echo "before exit"
+exit 3
+
+=== errors-are-records
+--- script
+no_such_command
+history_get notanumber
+rl_bind_key "a" no-such-function
+set no_such_variable 1

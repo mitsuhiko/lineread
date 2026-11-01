@@ -1,0 +1,234 @@
+# Key binding and keymap API (bind.c, keymaps.c, funmap.c), variables and
+# the dumper functions.  Dumper output is captured from rl_outstream.
+tags: bind api
+
+=== bind-key
+--- script
+rl_bind_key "\C-t" forward-word
+rl_function_of_keyseq "\x14" emacs
+rl_bind_key_in_map "q" kill-line vi-command
+rl_function_of_keyseq "q" vi-command
+rl_unbind_key "\C-t"
+rl_function_of_keyseq "\x14" emacs
+rl_bind_key 300 forward-word
+rl_bind_key -1 forward-word
+
+=== bind-key-if-unbound
+--- script
+rl_bind_key_if_unbound "\C-a" forward-word
+rl_function_of_keyseq "\x01" emacs
+rl_unbind_key "\C-a"
+rl_bind_key_if_unbound "\C-a" forward-word
+rl_function_of_keyseq "\x01" emacs
+rl_bind_key_if_unbound_in_map "\C-a" kill-line emacs
+rl_bind_keyseq_if_unbound "\C-a" kill-line
+rl_bind_keyseq_if_unbound_in_map "\C-x\C-y" kill-line emacs
+rl_function_of_keyseq "\x18\x19" emacs
+
+=== bind-keyseq
+--- script
+rl_bind_keyseq '\C-x\C-q' upcase-word
+rl_function_of_keyseq "\x18\x11" emacs
+rl_bind_keyseq_in_map '\eOz' downcase-word emacs
+rl_function_of_keyseq "\eOz" emacs
+rl_bind_keyseq 'abc' forward-char
+rl_function_of_keyseq "a" emacs
+rl_function_of_keyseq "ab" emacs
+rl_function_of_keyseq "abc" emacs
+rl_set_key '\C-xx' backward-char emacs
+rl_function_of_keyseq "\x18x" emacs
+
+=== function-of-keyseq-len
+--- script
+rl_bind_keyseq '\C-x\C-@' kill-word
+rl_function_of_keyseq_len "\x18\x00" 2 emacs
+rl_function_of_keyseq_len "\x18" 1 emacs
+rl_function_of_keyseq "\x18" emacs
+
+=== unbind-function-and-command
+--- script
+rl_bind_keyseq '\C-xu' upcase-word
+rl_invoking_keyseqs upcase-word
+rl_unbind_function_in_map upcase-word emacs
+rl_invoking_keyseqs upcase-word
+rl_invoking_keyseqs_in_map upcase-word emacs-meta
+rl_unbind_command_in_map "downcase-word" emacs-meta
+rl_invoking_keyseqs downcase-word
+
+=== macro-bind
+--- script
+rl_macro_bind '\C-xm' 'hello\tworld' emacs
+rl_function_of_keyseq "\x18m" emacs
+rl_macro_dumper 1
+rl_generic_bind ISMACR "\x18n" "raw" emacs
+rl_function_of_keyseq "\x18n" emacs
+
+=== generic-bind
+--- script
+keymap_new mine bare
+rl_bind_key_in_map "a" forward-char mine
+rl_generic_bind ISKMAP "\x18k" mine emacs
+rl_function_of_keyseq "\x18k" emacs
+rl_function_of_keyseq "\x18ka" emacs
+rl_generic_bind ISFUNC "\x18f" forward-word emacs
+rl_function_of_keyseq "\x18f" emacs
+
+=== translate-keyseq
+--- script
+rl_translate_keyseq '\C-a'
+rl_translate_keyseq '\M-a'
+rl_translate_keyseq '\e\\\"\a\b\d\f\n\r\t\v'
+rl_translate_keyseq '\101\x41\x4'
+rl_translate_keyseq '\C-\M-a'
+rl_translate_keyseq '\M-\C-a'
+rl_translate_keyseq '\C-?'
+rl_translate_keyseq 'plain'
+
+=== untranslate-keyseq
+--- script
+rl_untranslate_keyseq 1
+rl_untranslate_keyseq 27
+rl_untranslate_keyseq 127
+rl_untranslate_keyseq 32
+rl_untranslate_keyseq 92
+rl_untranslate_keyseq 34
+rl_untranslate_keyseq 200
+rl_untranslate_keyseq 65
+
+=== named-functions
+--- script
+rl_named_function "forward-char"
+rl_named_function "no-such-function"
+rl_named_function "vi-forward-word"
+rl_add_funmap_entry "my-alias" forward-char
+rl_named_function "my-alias"
+rl_funmap_names
+
+=== keymaps
+--- script
+rl_get_keymap
+rl_get_keymap_by_name "emacs-meta"
+rl_get_keymap_by_name "vi-move"
+rl_get_keymap_by_name "nonexistent"
+rl_get_keymap_name emacs-ctlx
+rl_get_keymap_name_from_edit_mode
+keymap_new k1 bare
+rl_empty_keymap k1
+rl_set_keymap_name "my-keymap" k1
+rl_get_keymap_by_name "my-keymap"
+rl_set_keymap_name "emacs" k1
+rl_set_keymap k1
+rl_get_keymap
+rl_set_keymap_from_edit_mode
+rl_get_keymap
+
+=== keymap-copy-and-dump
+--- script
+keymap_new full1 full
+rl_empty_keymap full1
+keymap_new c1 copy emacs-ctlx
+keymap_dump c1
+rl_bind_key_in_map "\C-u" kill-line c1
+rl_function_of_keyseq "\x15" c1
+rl_function_of_keyseq "\x18\x15" emacs
+rl_free_keymap c1
+
+=== variable-bind-api
+--- script
+rl_variable_bind "bell-style" "visible"
+rl_variable_value "bell-style"
+rl_variable_bind "completion-query-items" "abc"
+rl_variable_value "completion-query-items"
+rl_variable_bind "completion-query-items" "-5"
+rl_variable_value "completion-query-items"
+rl_variable_bind "mark-symlinked-directories" "yes"
+rl_variable_value "mark-symlinked-directories"
+rl_variable_bind "mark-symlinked-directories" "1"
+rl_variable_value "mark-symlinked-directories"
+rl_variable_bind "no-such-var" "x"
+rl_variable_bind "editing-mode" "vi"
+get rl_editing_mode
+rl_get_keymap
+
+=== variable-dumper
+--- script
+rl_variable_dumper 1
+
+=== variable-dumper-plain
+--- script
+rl_variable_dumper 0
+
+=== function-dumper-emacs
+--- script
+rl_initialize
+rl_function_dumper 1
+
+=== function-dumper-vi
+--- inputrc
+set editing-mode vi
+--- script
+rl_initialize
+rl_function_dumper 0
+
+=== print-keybinding
+--- script
+rl_initialize
+rl_print_keybinding "forward-word" emacs 1
+rl_print_keybinding "forward-word" emacs 0
+rl_print_keybinding "no-such-fn" emacs 1
+rl_print_keybinding "complete" vi-insert 0
+
+=== list-funmap-names
+--- script
+rl_list_funmap_names
+
+=== parse-and-bind-api
+--- script
+rl_parse_and_bind "set bell-style visible"
+rl_parse_and_bind '"\C-xp": print-last-kbd-macro'
+rl_parse_and_bind "$if mode=emacs"
+rl_parse_and_bind '"\C-xz": "in-if"'
+rl_parse_and_bind "$endif"
+rl_parse_and_bind "bogus line"
+rl_parse_and_bind ""
+rl_variable_value "bell-style"
+rl_function_of_keyseq "\x18p" emacs
+rl_function_of_keyseq "\x18z" emacs
+
+=== defun-and-bind
+--- script
+def noop
+end
+defun my-command noop "\M-z"
+rl_function_of_keyseq "\ez" emacs
+rl_named_function "my-command"
+rl_invoking_keyseqs my-command
+
+=== exported-defaults
+--- script
+get rl_library_version
+get rl_readline_version
+get rl_gnu_readline_p
+get rl_readline_name
+get rl_basic_word_break_characters
+get rl_completer_word_break_characters
+get rl_basic_quote_characters
+get rl_completer_quote_characters
+get rl_filename_quote_characters
+get rl_special_prefixes
+get rl_completion_query_items
+get rl_completion_append_character
+get history_expansion_char
+get history_subst_char
+get history_comment_char
+get history_word_delimiters
+get history_no_expand_chars
+get history_search_delimiter_chars
+get rl_editing_mode
+get rl_insert_mode
+get rl_catch_signals
+get rl_catch_sigwinch
+get rl_readline_state
+get rl_instream
+get rl_outstream
+get rl_terminal_name

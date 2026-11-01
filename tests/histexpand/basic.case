@@ -1,0 +1,160 @@
+# History expansion (histexpand.c): event designators, word designators,
+# modifiers, quoting and the expansion variables.
+# Note: string searches (!str, !?str?) start at history_offset, which
+# add_history does not move; call using_history to position at the end.
+tags: histexpand api
+
+=== previous-command
+--- script
+add_history "echo hello world"
+add_history "ls -l /tmp"
+history_expand "!!"
+history_expand "x !! y"
+history_expand "no expansion here"
+
+=== event-designators
+--- script
+add_history "echo hello world"
+add_history "ls -l /tmp /usr"
+add_history "git commit -m 'fix bug'"
+history_expand "!ls"
+using_history
+history_expand "!1"
+history_expand "!-2"
+history_expand "!ls"
+history_expand "!?hello?"
+history_expand "!?commit"
+history_expand "!99"
+history_expand "!nomatch"
+history_expand "!#"
+
+=== word-designators
+--- script
+add_history "ls -l /tmp /usr"
+history_expand "!!:0"
+history_expand "!!:1"
+history_expand "!!:2-3"
+history_expand "!!:^"
+history_expand "!!:$"
+history_expand "!!:*"
+history_expand "!!:2*"
+history_expand "!!:2-"
+history_expand "!$"
+history_expand "!^"
+history_expand "!*"
+history_expand "!!:9"
+
+=== modifiers
+--- script
+add_history "cat /usr/local/lib/libfoo.so.1"
+add_history "echo a.c b.c"
+history_expand "!-2:1:h"
+history_expand "!-2:1:t"
+history_expand "!-2:1:r"
+history_expand "!-2:1:e"
+history_expand "!!:s/c/o/"
+history_expand "!!:gs/c/o/"
+history_expand "!!:p"
+history_expand "!!:q"
+history_expand "!!:x"
+history_expand "!!:u"
+history_expand "!-2:&"
+
+=== quick-substitution
+--- script
+add_history "make tset"
+history_expand "^tset^test"
+history_expand "^tset^test^ extra"
+history_expand "^nomatch^x"
+
+=== quoting-inhibits
+--- script
+add_history "previous"
+history_expand "'!!'"
+history_expand "\"!!\""
+history_expand "\\!!"
+set history_quotes_inhibit_expansion 0
+history_expand "'!!'"
+
+=== no-expand-chars
+--- script
+add_history "prev"
+history_expand "a! b"
+history_expand "a!= b"
+history_expand "!("
+history_expand "!\t"
+
+=== custom-chars
+--- script
+add_history "first"
+set history_expansion_char "%"
+set history_subst_char "@"
+history_expand "%%"
+history_expand "!!"
+history_expand "@fir@sec"
+
+=== comment-char
+--- script
+add_history "first"
+set history_comment_char "#"
+history_expand "echo !! # !!"
+set history_comment_char 0
+history_expand "echo !! # !!"
+
+=== tokenize
+--- script
+history_tokenize "a b  c"
+history_tokenize "echo 'single quoted' \"double quoted\""
+history_tokenize "a|b&&c;d>e<f"
+history_tokenize "x>>y 2>&1"
+history_tokenize ""
+history_tokenize "  "
+history_tokenize "a\\ b"
+set history_word_delimiters " "
+history_tokenize "a|b c"
+
+=== arg-extract
+--- script
+history_arg_extract 0 0 "zero one two three"
+history_arg_extract 1 2 "zero one two three"
+history_arg_extract 2 '$' "zero one two three"
+history_arg_extract '$' '$' "zero one two three"
+history_arg_extract 5 6 "zero one two three"
+history_arg_extract '^' '^' "zero one two three"
+
+=== get-event
+--- script
+add_history "echo hello world"
+add_history "ls -l"
+using_history
+get_history_event "!!" 0 0
+get_history_event "!ec rest" 0 0
+get_history_event "!?hel? rest" 0 0
+get_history_event "!-1x" 0 0
+get_history_event "!xyz" 0 0
+
+=== inhibit-function
+--- script
+def no_bracket
+args
+return 1
+end
+add_history "prev"
+set history_inhibit_expansion_function script:no_bracket
+history_expand "a !! b"
+
+=== substitution-errors
+--- script
+add_history "echo abc"
+history_expand "!!:s/x/y/"
+history_expand "!!:z"
+history_expand "!!:s"
+history_expand "!!:3"
+history_expand "!:0"
+
+=== multiple-expansions
+--- script
+add_history "one two"
+add_history "three four"
+history_expand "!-2:1 !-1:2 !!"
+history_expand "!$ !$"

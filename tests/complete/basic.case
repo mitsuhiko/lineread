@@ -1,0 +1,194 @@
+# Completion: default filename completion over fixture files, custom word
+# lists via rl_attempted_completion_function, hooks and variables.
+tags: complete
+--- file alpha.txt
+a
+--- file alphabet.txt
+b
+--- file beta.c
+--- dir subdir
+--- file subdir/inner.txt
+--- symlink link-to-sub subdir
+--- script
+readline "> "
+
+=== filename-unique
+--- keys
+cat be\t<dump>\r
+
+=== filename-common-prefix
+--- keys
+cat al\t<dump>\r
+
+=== filename-list-on-second-tab
+--- keys
+cat al\t\t<snap>\r
+
+=== directory-gets-slash
+--- keys
+cd sub\t<dump>in\t<dump>\r
+
+=== symlinked-directory
+--- inputrc
+set mark-symlinked-directories on
+--- keys
+cd link\t<dump>\r
+
+=== possible-completions-command
+--- keys
+x al\M-?<snap>\r
+
+=== insert-completions
+--- keys
+x al\M-*<dump>\r
+
+=== no-match-rings-bell
+--- keys
+x zzz\t<dump>\r
+
+=== words-attempted-function
+--- script
+complete_words apple apricot banana cherry
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+ap\t<dump>r\t<dump>\r
+
+=== words-log-hook-args
+--- script
+complete_words alpha beta
+set rl_attempted_completion_function log
+readline "> "
+--- keys
+x "be\t<dump>\r
+
+=== attempted-returns-null-falls-back
+--- script
+def none
+args
+return NULL
+end
+set rl_attempted_completion_function script:none
+readline "> "
+--- keys
+al\t<dump>\r
+
+=== attempted-completion-over
+--- script
+def over
+set rl_attempted_completion_over 1
+return NULL
+end
+set rl_attempted_completion_function script:over
+readline "> "
+--- keys
+al\t<dump>\r
+
+=== append-character
+--- script
+def nospace
+set rl_completion_append_character "/"
+end
+complete_words apple
+set rl_attempted_completion_function script:nospace
+readline "> "
+--- keys
+ap\t<dump>\r
+
+=== suppress-append
+--- script
+def suppress
+set rl_completion_suppress_append 1
+end
+complete_words apple
+set rl_attempted_completion_function script:suppress
+readline "> "
+--- keys
+ap\t<dump>\r
+
+=== ignore-case
+--- inputrc
+set completion-ignore-case on
+--- script
+complete_words -i Apple APRICOT
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+ap\t<dump>\t<snap>\r
+
+=== show-all-if-ambiguous
+--- inputrc
+set show-all-if-ambiguous on
+--- script
+complete_words cat car cab
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+ca\t<snap>\r
+
+=== menu-complete
+--- inputrc
+TAB: menu-complete
+--- script
+complete_words one only other
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+o\t<dump>\t<dump>\t<dump>\t<dump>\r
+
+=== display-matches-hook
+--- script
+def show
+args
+rl_crlf
+display_match_list
+rl_forced_update_display
+end
+complete_words red green blue brown
+set rl_attempted_completion_function words
+set rl_completion_display_matches_hook script:show
+readline "> "
+--- keys
+b\t\t<snap>\r
+
+=== ignore-some-completions
+--- script
+complete_words foo.c foo.o foo.h
+ignore_words foo.o
+set rl_attempted_completion_function words
+set rl_ignore_some_completions_function ignore_words
+readline "> "
+--- keys
+foo\t\t<snap>\r
+
+=== completion-matches-api
+--- script
+complete_words abc abd xyz
+rl_completion_matches "ab" words
+rl_completion_matches "x" words
+rl_completion_matches "q" words
+gen words "a"
+# readdir order is filesystem specific: sort multi-file results
+gen filename "al" sort
+rl_completion_matches "al" filename sort
+gen filename "sub"
+gen filename "nonexistent"
+
+=== query-items
+--- inputrc
+set completion-query-items 2
+--- script
+complete_words a1 a2 a3 a4
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\t\t<snap>n\r
+
+=== word-break-characters
+--- script
+complete_words beta
+set rl_attempted_completion_function log
+set rl_completer_word_break_characters " ="
+readline "> "
+--- keys
+x=be\t<dump>\r

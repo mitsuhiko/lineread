@@ -1,0 +1,186 @@
+{
+  "previous-command": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!\"", "ret": 1, "out": "ls -l /tmp"},
+      {"op": "history_expand \"x !! y\"", "ret": 1, "out": "x ls -l /tmp y"},
+      {"op": "history_expand \"no expansion here\"", "ret": 0, "out": "no expansion here"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "event-designators": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!ls\"", "ret": -1, "out": "!ls: event not found"},
+      {"op": "history_expand \"!1\"", "ret": 1, "out": "echo hello world"},
+      {"op": "history_expand \"!-2\"", "ret": 1, "out": "ls -l /tmp /usr"},
+      {"op": "history_expand \"!ls\"", "ret": 1, "out": "ls -l /tmp /usr"},
+      {"op": "history_expand \"!?hello?\"", "ret": 1, "out": "echo hello world"},
+      {"op": "history_expand \"!?commit\"", "ret": 1, "out": "git commit -m 'fix bug'"},
+      {"op": "history_expand \"!99\"", "ret": -1, "out": "!99: event not found"},
+      {"op": "history_expand \"!nomatch\"", "ret": -1, "out": "!nomatch: event not found"},
+      {"op": "history_expand \"!#\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-designators": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:0\"", "ret": 1, "out": "ls"},
+      {"op": "history_expand \"!!:1\"", "ret": 1, "out": "-l"},
+      {"op": "history_expand \"!!:2-3\"", "ret": 1, "out": "/tmp /usr"},
+      {"op": "history_expand \"!!:^\"", "ret": 1, "out": "-l"},
+      {"op": "history_expand \"!!:$\"", "ret": 1, "out": "/usr"},
+      {"op": "history_expand \"!!:*\"", "ret": 1, "out": "-l /tmp /usr"},
+      {"op": "history_expand \"!!:2*\"", "ret": 1, "out": "/tmp /usr"},
+      {"op": "history_expand \"!!:2-\"", "ret": 1, "out": "/tmp"},
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "/usr"},
+      {"op": "history_expand \"!^\"", "ret": 1, "out": "-l"},
+      {"op": "history_expand \"!*\"", "ret": 1, "out": "-l /tmp /usr"},
+      {"op": "history_expand \"!!:9\"", "ret": -1, "out": ":9: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "modifiers": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!-2:1:h\"", "ret": 1, "out": "/usr/local/lib"},
+      {"op": "history_expand \"!-2:1:t\"", "ret": 1, "out": "libfoo.so.1"},
+      {"op": "history_expand \"!-2:1:r\"", "ret": 1, "out": "/usr/local/lib/libfoo.so"},
+      {"op": "history_expand \"!-2:1:e\"", "ret": 1, "out": ".1"},
+      {"op": "history_expand \"!!:s/c/o/\"", "ret": 1, "out": "eoho a.c b.c"},
+      {"op": "history_expand \"!!:gs/c/o/\"", "ret": 1, "out": "eoho a.o b.o"},
+      {"op": "history_expand \"!!:p\"", "ret": 2, "out": "echo a.c b.c"},
+      {"op": "history_expand \"!!:q\"", "ret": 1, "out": "'echo a.c b.c'"},
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'echo' 'a.c' 'b.c'"},
+      {"op": "history_expand \"!!:u\"", "ret": -1, "out": "u: unrecognized history modifier"},
+      {"op": "history_expand \"!-2:&\"", "ret": 1, "out": "oat /usr/local/lib/libfoo.so.1"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quick-substitution": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"^tset^test\"", "ret": 1, "out": "make test"},
+      {"op": "history_expand \"^tset^test^ extra\"", "ret": 1, "out": "make test extra"},
+      {"op": "history_expand \"^nomatch^x\"", "ret": -1, "out": ":s^nomatch^x: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quoting-inhibits": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"'!!'\"", "ret": 1, "out": "'previous'"},
+      {"op": "history_expand \"\\\"!!\\\"\"", "ret": 1, "out": "\"previous\""},
+      {"op": "history_expand \"\\\\!!\"", "ret": 0, "out": "\\!!"},
+      {"op": "history_expand \"'!!'\"", "ret": 1, "out": "'previous'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-expand-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"a! b\"", "ret": 0, "out": "a! b"},
+      {"op": "history_expand \"a!= b\"", "ret": 0, "out": "a!= b"},
+      {"op": "history_expand \"!(\"", "ret": -1, "out": "!(: event not found"},
+      {"op": "history_expand \"!\\t\"", "ret": 0, "out": "!\t"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "custom-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"%%\"", "ret": 1, "out": ""},
+      {"op": "history_expand \"!!\"", "ret": 0, "out": "!!"},
+      {"op": "history_expand \"@fir@sec\"", "ret": -1, "out": ":s@fir@sec: substitution failed"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"echo !! # !!\"", "ret": 1, "out": "echo first # !!"},
+      {"op": "history_expand \"echo !! # !!\"", "ret": 1, "out": "echo first # first"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tokenize": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"a b  c\"", "ret": ["a", "b", "c"]},
+      {"op": "history_tokenize \"echo 'single quoted' \\\"double quoted\\\"\"", "ret": ["echo", "'single quoted'", "\"double quoted\""]},
+      {"op": "history_tokenize \"a|b&&c;d>e<f\"", "ret": ["a", "|", "b", "&&", "c", ";", "d", ">", "e", "<", "f"]},
+      {"op": "history_tokenize \"x>>y 2>&1\"", "ret": ["x", ">>", "y", "2>&1"]},
+      {"op": "history_tokenize \"\"", "ret": null},
+      {"op": "history_tokenize \"  \"", "ret": null},
+      {"op": "history_tokenize \"a\\\\ b\"", "ret": ["a\\ b"]},
+      {"op": "history_tokenize \"a|b c\"", "ret": ["a|b", "c"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "arg-extract": {
+    "exit": 0,
+    "results": [
+      {"op": "history_arg_extract 0 0 \"zero one two three\"", "ret": "zero"},
+      {"op": "history_arg_extract 1 2 \"zero one two three\"", "ret": "one two"},
+      {"op": "history_arg_extract 2 '$' \"zero one two three\"", "ret": "two three"},
+      {"op": "history_arg_extract '$' '$' \"zero one two three\"", "ret": "three"},
+      {"op": "history_arg_extract 5 6 \"zero one two three\"", "ret": null},
+      {"op": "history_arg_extract '^' '^' \"zero one two three\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-event": {
+    "exit": 0,
+    "results": [
+      {"op": "get_history_event \"!!\" 0 0", "ret": "ls -l", "index": 2},
+      {"op": "get_history_event \"!ec rest\" 0 0", "ret": "echo hello world", "index": 3},
+      {"op": "get_history_event \"!?hel? rest\" 0 0", "ret": "echo hello world", "index": 6},
+      {"op": "get_history_event \"!-1x\" 0 0", "ret": "ls -l", "index": 3},
+      {"op": "get_history_event \"!xyz\" 0 0", "ret": null, "index": 4}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-function": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "history_inhibit_expansion_function", "string": "a !! b", "index": 2},
+      {"op": "history_expand \"a !! b\"", "ret": 0, "out": "a !! b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "substitution-errors": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/x/y/\"", "ret": -1, "out": ":s/x/y/: substitution failed"},
+      {"op": "history_expand \"!!:z\"", "ret": -1, "out": "z: unrecognized history modifier"},
+      {"op": "history_expand \"!!:s\"", "ret": 1, "out": "echo abc"},
+      {"op": "history_expand \"!!:3\"", "ret": -1, "out": ":3: bad word specifier"},
+      {"op": "history_expand \"!:0\"", "ret": 1, "out": "echo"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiple-expansions": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!-2:1 !-1:2 !!\"", "ret": -1, "out": ":2: bad word specifier"},
+      {"op": "history_expand \"!$ !$\"", "ret": 1, "out": "four four"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

@@ -1,7 +1,7 @@
 # Build the test driver and conformance programs.
 #
 #   make [IMPL=ref|cov|asan|rust]      build build/<platform>/<impl>/rl-driver
-#   make conformance [IMPL=...]        build the ABI check program
+#   make conformance [IMPL=...]        run the header/ABI conformance check
 #
 # IMPL selects what the driver links against:
 #   ref   GNU readline reference, plain build   ($(REF)/build-plain)
@@ -67,17 +67,14 @@ $(B)/rl-driver.o: driver/rl-driver.c $(B)/bindable.inc $(HEADERS)
 $(B)/rl-driver: $(B)/rl-driver.o $(IMPL_LIBS)
 	$(CC) $(LDFLAGS) -o $@ $(B)/rl-driver.o $(IMPL_LIBS) $(TERMLIB) $(LDLIBS)
 
-conformance: $(B)/abi-check $(B)/symbols-check
+# header/ABI conformance against conformance/abi.<platform>.json
+conformance:
+	python3 conformance/check.py --impl $(IMPL)
 
-$(B)/abi-check: conformance/abi_check.c $(HEADERS)
-	@mkdir -p $(B)
-	$(CC) $(CFLAGS_BASE) -o $@ conformance/abi_check.c
-
-$(B)/symbols-check: conformance/symbols_check.c $(IMPL_LIBS)
-	@mkdir -p $(B)
-	$(CC) $(CFLAGS_BASE) $(filter -fsanitize%,$(CFLAGS)) $(LDFLAGS) -o $@ conformance/symbols_check.c $(IMPL_LIBS) $(TERMLIB) $(LDLIBS)
+print-libs:
+	@echo $(IMPL_LIBS)
 
 clean:
 	rm -rf build
 
-.PHONY: all clean conformance
+.PHONY: all clean conformance print-libs

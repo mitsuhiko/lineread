@@ -8,6 +8,7 @@
 #   $REF_DIR/build-plain  static libs, -O1 -g
 #   $REF_DIR/build-cov    static libs with clang source-based coverage
 #   $REF_DIR/build-asan   static libs with AddressSanitizer
+#   $REF_DIR/gnu-include  <readline/*.h> symlinks to the GNU headers
 # Each build dir contains libreadline.a and libhistory.a.
 #
 # On Linux the build directories get a platform suffix (build-plain-linux-x86_64
@@ -64,7 +65,17 @@ build_one() {
   ls -l "$dir/libreadline.a" "$dir/libhistory.a"
 }
 
+gnu_headers() {
+  # <readline/...> include tree pointing at the GNU headers (used only to
+  # record the header conformance data)
+  mkdir -p "$REF_DIR/gnu-include/readline"
+  for h in readline history keymaps tilde rltypedefs chardefs rlstdc rlconf; do
+    ln -sf "../../src/$h.h" "$REF_DIR/gnu-include/readline/$h.h"
+  done
+}
+
 fetch
+gnu_headers
 what=${1:-all}
 case "$what" in
   plain|all) build_one plain "-g -O1" "";;

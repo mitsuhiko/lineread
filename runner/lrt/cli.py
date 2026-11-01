@@ -111,7 +111,13 @@ def main(argv=None) -> int:
     ap.add_argument("--coverage", action="store_true", help="run against the coverage build and report")
     ap.add_argument("--coverage-html", metavar="DIR", help="also write an llvm-cov HTML report")
     ap.add_argument("--timeout-scale", type=float, default=1.0)
+    ap.add_argument("--conformance", action="store_true",
+                    help="also run the header/ABI conformance tier (default when no paths/filters are given)")
+    ap.add_argument("--no-conformance", action="store_true")
     opts = ap.parse_args(argv)
+    if not (opts.paths or opts.tag or opts.exclude_tag or opts.name or opts.record or
+            opts.record_platform or opts.no_conformance):
+        opts.conformance = True
 
     # FILE::NAME selectors
     opts.only_names = {}
@@ -125,11 +131,6 @@ def main(argv=None) -> int:
         else:
             paths.append(p)
     opts.paths = paths
-    if opts.only_names:
-        # restrict name filtering to files that had selectors
-        sel = opts.only_names
-        opts.only_names = collections.defaultdict(lambda: None, sel)
-        opts.only_names = {k: v for k, v in sel.items()}
     if opts.coverage:
         opts.impl = "cov"
     if opts.trace:
@@ -282,13 +283,28 @@ def main(argv=None) -> int:
     order = {c.id: i for i, c in enumerate(cases)}
     case_reports.sort(key=lambda x: order.get(x[1]["id"], 0))
 
+    if opts.conformance:
+        sys.path.insert(0, os.path.join(ROOT, "conformance"))
+        import check as conf  # noqa: E402
+        for it in conf.do_check(opts.impl):
+            c = Case(file="conformance", name=it["id"], line=0, tags=["conformance"])
+            rep = {"id": f"conformance::{it['id']}", "file": "conformance", "name": it["id"],
+                   "area": "conformance", "tags": ["conformance"], "status": it["status"],
+                   "fields_passed": int(it["status"] == "pass"), "fields_total": 1}
+            if "message" in it:
+                rep["message"] = it["message"]
+            if it["status"] == "fail" and "expected" in it:
+                rep["mismatches"] = [{"path": it["id"], "expected": it["expected"], "actual": it["actual"]}]
+            case_reports.append((c, rep, []))
+
     counts = collections.Counter(rep["status"] for _, rep, _ in case_reports)
     areas: dict[str, dict] = collections.defaultdict(lambda: collections.Counter())
     tags: dict[str, dict] = collections.defaultdict(lambda: collections.Counter())
     for c, rep, _ in case_reports:
         if rep["status"] == "skip":
             continue
-        for bucket in [areas[c.area]] + [tags[t] for t in c.tags]:
+        area = rep.get("area", c.area)
+        for bucket in [areas[area]] + [tags[t] for t in c.tags]:
             bucket["total"] += 1
             bucket["passed"] += rep["status"] in ("pass", "recorded")
             bucket["fields_passed"] += rep.get("fields_passed", 0)

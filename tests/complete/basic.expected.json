@@ -1,0 +1,326 @@
+{
+  "filename-unique": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cat beta.c ", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cat beta.c "}
+    ],
+    "screen": [
+      "> cat beta.c"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-common-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cat alpha", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cat alpha"}
+    ],
+    "screen": [
+      "> cat alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "filename-list-on-second-tab": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "cat alpha"}
+    ],
+    "screen": [
+      "> cat alpha"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> cat alpha"
+        ],
+        "cursor": [0, 11]
+      }
+    ]
+  },
+  "directory-gets-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd subdir/", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "cd subdir/inner.txt ", "point": 20, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd subdir/inner.txt "}
+    ],
+    "screen": [
+      "> cd subdir/inner.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "symlinked-directory": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd link-to-sub/", "point": 15, "end": 15, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd link-to-sub/"}
+    ],
+    "screen": [
+      "> cd link-to-sub/"
+    ],
+    "cursor": [1, 0]
+  },
+  "possible-completions-command": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x al"}
+    ],
+    "screen": [
+      "> x al",
+      "alpha.txt     alphabet.txt",
+      "> x al"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x al",
+          "alpha.txt     alphabet.txt",
+          "> x al"
+        ],
+        "cursor": [2, 6]
+      }
+    ]
+  },
+  "insert-completions": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x alpha.txt alphabet.txt ", "point": 25, "end": 25, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x alpha.txt alphabet.txt "}
+    ],
+    "screen": [
+      "> x alpha.txt alphabet.txt"
+    ],
+    "cursor": [1, 0]
+  },
+  "no-match-rings-bell": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x zzz", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x zzz"}
+    ],
+    "screen": [
+      "> x zzz"
+    ],
+    "cursor": [1, 0]
+  },
+  "words-attempted-function": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ap", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "apricot ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apricot "}
+    ],
+    "screen": [
+      "> apricot"
+    ],
+    "cursor": [1, 0]
+  },
+  "words-log-hook-args": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "be", "start": 3, "end": 5},
+      {"op": "dump", "line": "x \"beta\"", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x \"beta\""}
+    ],
+    "screen": [
+      "> x \"beta\""
+    ],
+    "cursor": [1, 0]
+  },
+  "attempted-returns-null-falls-back": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "al", "start": 0, "end": 2},
+      {"op": "dump", "line": "alpha", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha"}
+    ],
+    "screen": [
+      "> alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "attempted-completion-over": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "al", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "al"}
+    ],
+    "screen": [
+      "> al"
+    ],
+    "cursor": [1, 0]
+  },
+  "append-character": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple/", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple/"}
+    ],
+    "screen": [
+      "> apple/"
+    ],
+    "cursor": [1, 0]
+  },
+  "suppress-append": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "apple", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "apple"}
+    ],
+    "screen": [
+      "> apple"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "AP", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "AP"}
+    ],
+    "screen": [
+      "> AP"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> AP"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "show-all-if-ambiguous": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ca"}
+    ],
+    "screen": [
+      "> ca",
+      "cab  car  cat",
+      "> ca"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ca",
+          "cab  car  cat",
+          "> ca"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "menu-complete": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one ", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "only ", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "other ", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "o", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "o"}
+    ],
+    "screen": [
+      "> o"
+    ],
+    "cursor": [1, 0]
+  },
+  "display-matches-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_completion_display_matches_hook", "matches": ["b", "blue", "brown"], "num_matches": 2, "max_length": 5},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "rl_forced_update_display", "ret": 0},
+      {"op": "readline", "ret": "b"}
+    ],
+    "screen": [
+      "> b",
+      "",
+      "blue   brown",
+      "> b"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> b",
+          "",
+          "blue   brown",
+          "> b"
+        ],
+        "cursor": [3, 3]
+      }
+    ]
+  },
+  "ignore-some-completions": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "foo."}
+    ],
+    "screen": [
+      "> foo."
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> foo."
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "completion-matches-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_completion_matches \"ab\" words", "ret": ["ab", "abc", "abd"]},
+      {"op": "rl_completion_matches \"x\" words", "ret": ["xyz"]},
+      {"op": "rl_completion_matches \"q\" words", "ret": null},
+      {"op": "gen words \"a\"", "ret": ["abc", "abd"]},
+      {"op": "gen filename \"al\" sort", "ret": ["alpha.txt", "alphabet.txt"]},
+      {"op": "rl_completion_matches \"al\" filename sort", "ret": ["alpha", "alpha.txt", "alphabet.txt"]},
+      {"op": "gen filename \"sub\"", "ret": ["subdir"]},
+      {"op": "gen filename \"nonexistent\"", "ret": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "query-items": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "Display all 4 possibilities? (y or n)",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "Display all 4 possibilities? (y or n)"
+        ],
+        "cursor": [1, 37]
+      }
+    ]
+  },
+  "word-break-characters": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "rl_attempted_completion_function", "text": "be", "start": 2, "end": 4},
+      {"op": "dump", "line": "x=beta ", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x=beta "}
+    ],
+    "screen": [
+      "> x=beta"
+    ],
+    "cursor": [1, 0]
+  }
+}

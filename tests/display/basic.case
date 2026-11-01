@@ -1,0 +1,128 @@
+# Redisplay as seen on an emulated xterm: prompts, wrapping, scrolling,
+# multibyte text, messages.  Compared via screen rows and cursor position.
+tags: display
+
+=== prompt-and-cursor
+--- script
+readline "prompt> "
+--- keys
+abc\C-b<snap>\r
+
+=== invisible-prompt-chars
+--- script
+readline "\001\e[1m\002bold\001\e[0m\002> "
+--- keys
+x<snap>\C-a<snap>\r
+
+=== multiline-prompt
+--- script
+readline "line one\nline two> "
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== long-line-wraps
+screen: 20x6
+--- script
+readline "> "
+--- keys
+0123456789012345678901234567890123456789<snap>\C-a<snap>\C-e\r
+
+=== wrap-exact-boundary
+screen: 10x5
+--- script
+readline "> "
+--- keys
+12345678<snap>9<snap>\C-?<snap>\r
+
+=== horizontal-scroll-mode
+screen: 20x5
+--- inputrc
+set horizontal-scroll-mode on
+--- script
+readline "> "
+--- keys
+0123456789abcdefghijklmnop<snap>\C-a<snap>\r
+
+=== utf8-text
+--- script
+readline "> "
+--- keys
+héllo wörld\C-b\C-b<dump><snap>\r
+
+=== wide-characters
+screen: 12x5
+--- script
+readline "> "
+--- keys
+日本語テキスト<snap>\C-a\C-f<dump><snap>\r
+
+=== message-and-restore
+--- script
+def msg
+rl_save_prompt
+rl_message "status: busy"
+snap
+rl_restore_prompt
+rl_clear_message
+end
+defun show-msg msg
+rl_bind_keyseq "\C-xm" show-msg
+readline "> "
+--- keys
+abc\C-xm<snap>\r
+
+=== startup-hook-inserts-text
+--- script
+def preset
+rl_insert_text "preset text"
+end
+set rl_startup_hook script:preset
+readline "> "
+--- keys
+<snap>!\r
+
+=== pre-input-hook
+--- script
+def pre
+rl_insert_text "pre"
+rl_redisplay
+end
+set rl_pre_input_hook script:pre
+readline "> "
+--- keys
+X\r
+
+=== redisplay-after-resize
+screen: 30x6
+--- script
+readline "> "
+--- keys
+aaaaaaaaaabbbbbbbbbbccccccccccdddddddddd<snap><resize:20x6><snap>\r
+
+=== erase-empty-line
+--- script
+set rl_erase_empty_line 1
+readline "> " 2
+--- keys
+\rabc\r
+
+=== ding-visible-bell
+--- inputrc
+set bell-style visible
+--- script
+readline "> "
+--- keys
+\C-g<snap>x\r
+
+=== already-prompted
+--- script
+set rl_already_prompted 1
+readline "> "
+--- keys
+abc\r
+
+=== echo-control-chars-sigint
+--- script
+readline "> " 2
+--- keys
+abc\C-c<snap>def\r

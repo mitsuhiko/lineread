@@ -1,0 +1,11 @@
+{
+  "root-user": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~root\"", "ret": "/root"},
+      {"op": "tilde_expand_word \"~root/sub\"", "ret": "/root/sub"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

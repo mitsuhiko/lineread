@@ -1,0 +1,154 @@
+{
+  "preamble-inputrc-applies": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "macro", "value": "macro-a"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-variables": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"completion-ignore-case\"", "ret": "on"},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "50"},
+      {"op": "rl_variable_value \"editing-mode\"", "ret": "vi"},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "//"},
+      {"op": "rl_variable_value \"keyseq-timeout\"", "ret": "250"},
+      {"op": "rl_variable_value \"history-size\"", "ret": "10"},
+      {"op": "rl_variable_value \"show-all-if-ambiguous\"", "ret": "on"},
+      {"op": "rl_variable_value \"nonexistent-variable\"", "ret": null},
+      {"op": "get rl_editing_mode", "ret": 0},
+      {"op": "get history_max_entries", "ret": 10}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 7: nonexistent-variable: unknown varia",
+      "ble name"
+    ],
+    "cursor": [2, 0]
+  },
+  "key-bindings": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x14\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\x15\" emacs", "type": "func", "value": "backward-char"},
+      {"op": "rl_function_of_keyseq \"\\ef\" emacs", "type": "func", "value": "forward-word"},
+      {"op": "rl_function_of_keyseq \"\\eq\" emacs", "type": null, "value": null},
+      {"op": "rl_function_of_keyseq \"\\e[Z\" emacs", "type": "func", "value": "complete"},
+      {"op": "rl_function_of_keyseq \"\\x18\\x02\" emacs", "type": "func", "value": "beginning-of-line"},
+      {"op": "rl_function_of_keyseq \"\\t\" emacs", "type": "func", "value": "menu-complete"},
+      {"op": "rl_invoking_keyseqs forward-word", "ret": ["\\C-t", "\\e[1;3C", "\\e[1;5C", "\\ef"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "macros": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xe\": \"esc\\e\\\"quote\\\"\"\n\"\\C-xm\": \"hello world\"\n\"\\C-xq\": \"single \\C-i quoted\"\n"},
+      {"op": "rl_macro_dumper 0", "out": "\\C-xe outputs esc\\e\\\"quote\\\"\n\\C-xm outputs hello world\n\\C-xq outputs single \\C-i quoted\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "conditionals": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"app\"\n\"\\C-xe\": \"in emacs\"\n\"\\C-xt\": \"xterm\"\n\"\\C-xv\": \"new\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "variable-conditionals": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xc\": \"ignore case on\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "include": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xi\": \"included\"\n\"\\C-xj\": \"after include\"\n"},
+      {"op": "rl_variable_value \"mark-directories\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "read-init-file-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_read_init_file \"my.inputrc\"", "ret": 0},
+      {"op": "rl_read_init_file \"missing.inputrc\"", "ret": 2},
+      {"op": "rl_variable_value \"horizontal-scroll-mode\"", "ret": "on"},
+      {"op": "rl_macro_dumper 1", "out": "\"\\C-xa\": \"macro-a\"\n\"\\C-xr\": \"from file\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "keymap-directive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_of_keyseq \"z\" vi-command", "type": "func", "value": "end-of-line"},
+      {"op": "rl_function_of_keyseq \"\\x1a\" vi-insert", "type": "func", "value": "beginning-of-line"},
+      {"op": "rl_function_of_keyseq \"\\x18z\" emacs", "type": "func", "value": "upcase-word"},
+      {"op": "rl_function_of_keyseq \"z\" emacs-ctlx", "type": "func", "value": "upcase-word"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "parse-errors": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18a\" emacs", "type": "func", "value": "forward-char"},
+      {"op": "rl_function_of_keyseq \"\\x18b\" emacs", "type": null, "value": null}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 2: : unknown variable name",
+      "readline: $BASE/inputrc: line 3: $endif without matching $if",
+      "readline: $BASE/inputrc: line 4: bogus: unknown parser directive"
+    ],
+    "cursor": [3, 0]
+  },
+  "comments-and-whitespace": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"},
+      {"op": "rl_function_of_keyseq \"\\x18w\" emacs", "type": null, "value": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inputrc-env-missing": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-in-session": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x hi there"}
+    ],
+    "screen": [
+      "> x hi there"
+    ],
+    "cursor": [1, 0]
+  }
+}

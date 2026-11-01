@@ -5,6 +5,7 @@ from __future__ import annotations
 import fnmatch
 import json
 import os
+import re
 
 COMPARED_KEYS = ("exit", "results", "screen", "cursor", "snaps", "sanitizer")
 
@@ -28,8 +29,13 @@ def load_expected(case_file_abs: str, platform: str) -> tuple[dict, dict]:
     return out[0], out[1]
 
 
+_CTRL_RE = re.compile("[\x7f-\x9f\u2028\u2029]")
+
+
 def _dump_value(v) -> str:
     s = json.dumps(v, ensure_ascii=False)
+    # keep DEL/C1 controls visible
+    s = _CTRL_RE.sub(lambda m: "\\u%04x" % ord(m.group(0)), s)
     # lone surrogates (bytes that are not UTF-8) must stay escaped
     return s.encode("utf-8", "backslashreplace").decode("utf-8")
 

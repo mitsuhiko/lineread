@@ -1,0 +1,122 @@
+{
+  "home": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~\"", "ret": "$HOME"},
+      {"op": "tilde_expand \"~/\"", "ret": "$HOME/"},
+      {"op": "tilde_expand \"~/a/b\"", "ret": "$HOME/a/b"},
+      {"op": "tilde_expand \"a~b\"", "ret": "a~b"},
+      {"op": "tilde_expand \"\"", "ret": ""},
+      {"op": "tilde_expand_word \"~\"", "ret": "$HOME"},
+      {"op": "tilde_expand_word \"~/x\"", "ret": "$HOME/x"},
+      {"op": "tilde_expand_word \"x~\"", "ret": "x~"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "home-env-override": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~/x\"", "ret": "/custom/home/x"},
+      {"op": "getenv HOME", "ret": "/custom/home"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "home-unset": {
+    "exit": 0,
+    "results": [
+      {"op": "getenv HOME", "ret": null},
+      {"op": "tilde_expand_word \"~nosuchuser_lineread/x\"", "ret": "~nosuchuser_lineread/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-user": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~nosuchuser_lineread/x\"", "ret": "~nosuchuser_lineread/x"},
+      {"op": "tilde_expand_word \"~nosuchuser_lineread\"", "ret": "~nosuchuser_lineread"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "root-user": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~root\"", "ret": "/var/root"},
+      {"op": "tilde_expand_word \"~root/sub\"", "ret": "/var/root/sub"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "multiple-words": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~/a ~/b\"", "ret": "$HOME/a $HOME/b"},
+      {"op": "tilde_expand \"x:~/a\"", "ret": "x:~/a"},
+      {"op": "tilde_expand \"x=~/a\"", "ret": "x=~/a"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "additional-prefixes": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"a:~/b\"", "ret": "a:$HOME/b"},
+      {"op": "tilde_expand \"a=~/b\"", "ret": "a=$HOME/b"},
+      {"op": "tilde_expand \"a ~/b\"", "ret": "a ~/b"},
+      {"op": "get tilde_additional_prefixes", "ret": [":~", "=~"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "additional-suffixes": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~:x\"", "ret": "$HOME:x"},
+      {"op": "tilde_expand \"~/x:~\"", "ret": "$HOME/x:~"},
+      {"op": "get tilde_additional_suffixes", "ret": [":", "/"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "preexpansion-hook-table": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~proj/src\"", "ret": "/srv/project/src"},
+      {"op": "tilde_expand \"~other/src\"", "ret": "~other/src"},
+      {"op": "tilde_expand \"~/x\"", "ret": "$HOME/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "failure-hook-table": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~nosuchuser_lineread/x\"", "ret": "/fallback/x"},
+      {"op": "tilde_expand \"~nosuchuser_other/x\"", "ret": "~nosuchuser_other/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "hook-script-and-args": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "tilde_expansion_preexpansion_hook", "word": "anything"},
+      {"op": "tilde_expand_word \"~anything/rest\"", "ret": "/from/hook/rest"},
+      {"op": "tilde_expand_word \"~/rest\"", "ret": "$HOME/rest"},
+      {"op": "get tilde_expansion_preexpansion_hook", "ret": "script"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "hook-returns-null": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~/rest\"", "ret": "$HOME/rest"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

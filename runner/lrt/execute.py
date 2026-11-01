@@ -38,7 +38,8 @@ class Trace:
 
 def _set_termios(fd: int, cols: int, rows: int) -> None:
     attrs = termios.tcgetattr(fd)
-    iflag = termios.ICRNL | termios.IXON
+    # IXON is off so that ^S/^Q reach readline (like `stty -ixon`)
+    iflag = termios.ICRNL
     if hasattr(termios, "IUTF8"):
         iflag |= termios.IUTF8
     oflag = termios.OPOST | termios.ONLCR
@@ -95,8 +96,11 @@ def build_env(case: Case, home: str, base: str, impl: str, extra: dict) -> dict:
         "HOME": home,
         "PATH": "/usr/bin:/bin:/usr/sbin:/sbin",
         "TERM": "xterm-256color",
-        "LANG": DEFAULT_LOCALE,
-        "LC_ALL": DEFAULT_LOCALE,
+        # UTF-8 character handling, but byte-order collation and C messages
+        # on every platform (strcoll is used to sort completions/funmap)
+        "LANG": "C",
+        "LC_CTYPE": DEFAULT_LOCALE,
+        "LC_COLLATE": "C",
         "INPUTRC": os.path.join(base, "inputrc"),
         "COLUMNS": str(cols),
         "LINES": str(rows),
@@ -137,7 +141,7 @@ def _write_fixtures(case: Case, base: str, home: str) -> None:
 class Session:
     """One driver process on a pty plus the runner side of the protocol."""
 
-    def __init__(self, case: Case, driver: str, env: dict, base: str, trace: Trace):
+    def __init__(self, case: Case, driver: str, env: dict, base: str, home: str, trace: Trace):
         self.case = case
         self.trace = trace
         self.cols, self.rows = case.screen
@@ -164,7 +168,7 @@ class Session:
                 os.dup2(sync_w, 3)
                 os.dup2(ctl_r, 4)
                 os.closerange(5, 256)
-                os.chdir(env["HOME"])
+                os.chdir(home)
                 env2 = dict(env, RLD_SYNC_FD="3", RLD_CTL_FD="4")
                 os.execve(driver, [driver, os.path.join(base, "script")], env2)
             except BaseException as e:  # noqa: BLE001
@@ -344,7 +348,9 @@ def run_case(case: Case, driver: str, impl: str, trace_enabled: bool = False,
              keep: bool = False, extra_env: dict | None = None) -> dict:
     """Run CASE with DRIVER; returns the actual result dict."""
     trace = Trace(trace_enabled)
-    base = os.path.realpath(tempfile.mkdtemp(prefix="lrt-"))
+    # fixed-length path (/tmp/lrt-XXXXXXXX) on every platform, so that
+    # paths printed on the screen wrap identically everywhere
+    base = tempfile.mkdtemp(prefix="lrt-", dir="/tmp")
     home = os.path.join(base, "home")
     os.makedirs(home)
     result: dict = {}
@@ -357,7 +363,7 @@ def run_case(case: Case, driver: str, impl: str, trace_enabled: bool = False,
             extra["UBSAN_OPTIONS"] = f"log_path={base}/ubsan:print_stacktrace=1"
         env = build_env(case, home, base, impl, extra)
         actions = keymod.parse_keys(case.keys, signals=case.signals)
-        sess = Session(case, driver, env, base, trace)
+        sess = Session(case, driver, env, base, home, trace)
         try:
             for act in actions:
                 if sess.timed_out:
@@ -433,9 +439,10 @@ def run_case(case: Case, driver: str, impl: str, trace_enabled: bool = False,
             result["sanitizer"] = "\n".join(san)
         if trace_enabled:
             result["_raw"] = bytes(sess.raw)
+        real = os.path.realpath(base)
         repl = [(home, "$HOME"), (base, "$BASE")]
-        if base.startswith("/private/"):
-            repl += [(home[len("/private"):], "$HOME"), (base[len("/private"):], "$BASE")]
+        if real != base:
+            repl = [(os.path.join(real, "home"), "$HOME"), (real, "$BASE")] + repl
         result = _normalize(result, repl)
     finally:
         if keep:

@@ -1,0 +1,93 @@
+# The alternate (callback) interface: rl_callback_handler_install +
+# rl_callback_read_char driven by the driver's select loop.
+tags: callback
+
+=== single-line
+--- script
+callback "cb> "
+--- keys
+hello\r
+
+=== multiple-lines-with-history
+--- script
+callback "cb> " 3 addhist
+history_dump
+--- keys
+one\rtwo\r\C-p\C-p<dump>\r
+
+=== eof-ends-loop
+--- script
+callback "cb> " all
+--- keys
+abc\r
+
+=== manual-read-char
+--- script
+callback_install "m> "
+callback_read_char 3
+dump
+callback_read_char
+rl_callback_handler_remove
+--- keys
+ab\r
+
+=== state-flags-in-callback
+--- script
+callback "cb> "
+--- keys
+a<dumpfull>\r
+
+=== isearch-in-callback
+tags: isearch
+--- script
+add_history "make test"
+add_history "ls"
+callback "cb> "
+--- keys
+\C-rmak<snap>\r
+
+=== sigint-in-callback
+--- script
+def onint
+dump
+rl_free_line_state
+rl_callback_sigcleanup
+rl_cleanup_after_signal
+end
+onsig onint
+callback "cb> " 2
+--- keys
+abc\C-cdef\r
+
+=== vi-mode-callback
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+callback "cb> "
+--- keys
+abc\e<pause>0x<dump>\r
+
+=== completion-in-callback
+tags: complete
+--- script
+complete_words callback callable
+set rl_attempted_completion_function words
+callback "cb> "
+--- keys
+cal\t\t<snap>\r
+
+=== prompt-redisplay-after-line
+--- script
+callback "cb> " 2
+--- keys
+first\r<snap>second\r
+
+=== handler-remove-inside
+--- script
+callback_install "x> "
+callback_read_char 2
+rl_callback_handler_remove
+get rl_readline_state
+--- keys
+q\r

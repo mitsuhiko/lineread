@@ -1,0 +1,95 @@
+# Tilde expansion (tilde.c).  HOME is the per-case directory and shows up
+# as "$HOME" in results.
+tags: tilde api
+
+=== home
+--- script
+tilde_expand "~"
+tilde_expand "~/"
+tilde_expand "~/a/b"
+tilde_expand "a~b"
+tilde_expand ""
+tilde_expand_word "~"
+tilde_expand_word "~/x"
+tilde_expand_word "x~"
+
+=== home-env-override
+env: HOME=/custom/home
+--- script
+tilde_expand "~/x"
+getenv HOME
+
+=== home-unset
+# with HOME unset tilde falls back to the password database, which is
+# machine specific, so only the environment is checked here
+env: HOME
+--- script
+getenv HOME
+tilde_expand_word "~nosuchuser_lineread/x"
+
+=== unknown-user
+--- script
+tilde_expand "~nosuchuser_lineread/x"
+tilde_expand_word "~nosuchuser_lineread"
+
+=== root-user
+# the root home directory differs by platform: see the .expected.linux.json
+--- script
+tilde_expand_word "~root"
+tilde_expand_word "~root/sub"
+
+=== multiple-words
+--- script
+tilde_expand "~/a ~/b"
+tilde_expand "x:~/a"
+tilde_expand "x=~/a"
+
+=== additional-prefixes
+--- script
+# prefixes include the tilde
+set tilde_additional_prefixes ":~" "=~"
+tilde_expand "a:~/b"
+tilde_expand "a=~/b"
+tilde_expand "a ~/b"
+get tilde_additional_prefixes
+
+=== additional-suffixes
+--- script
+set tilde_additional_suffixes ":" "/"
+tilde_expand "~:x"
+tilde_expand "~/x:~"
+get tilde_additional_suffixes
+
+=== preexpansion-hook-table
+--- script
+tilde_map "proj" "/srv/project"
+set tilde_expansion_preexpansion_hook table
+tilde_expand "~proj/src"
+tilde_expand "~other/src"
+tilde_expand "~/x"
+
+=== failure-hook-table
+--- script
+tilde_map "nosuchuser_lineread" "/fallback"
+set tilde_expansion_failure_hook table
+tilde_expand "~nosuchuser_lineread/x"
+tilde_expand "~nosuchuser_other/x"
+
+=== hook-script-and-args
+--- script
+def pre
+args
+return "/from/hook"
+end
+set tilde_expansion_preexpansion_hook script:pre
+tilde_expand_word "~anything/rest"
+tilde_expand_word "~/rest"
+get tilde_expansion_preexpansion_hook
+
+=== hook-returns-null
+--- script
+def pre
+return NULL
+end
+set tilde_expansion_preexpansion_hook script:pre
+tilde_expand_word "~/rest"

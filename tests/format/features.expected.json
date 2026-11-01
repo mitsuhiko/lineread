@@ -1,0 +1,204 @@
+{
+  "preamble-defaults": {
+    "exit": 0,
+    "results": [
+      {"op": "getenv LINEREAD_PREAMBLE", "ret": "yes"},
+      {"op": "file_read shared.txt", "content": "shared fixture\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "env-override-and-unset": {
+    "exit": 0,
+    "results": [
+      {"op": "getenv LINEREAD_PREAMBLE", "ret": "case"},
+      {"op": "getenv TERM", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "fixtures": {
+    "exit": 0,
+    "results": [
+      {"op": "file_read plain.txt", "content": "two\nlines\n"},
+      {"op": "file_read noeol.txt", "content": "no newline at end"},
+      {"op": "file_stat script.sh", "exists": true, "mode": "0755", "size": 10, "type": "file"},
+      {"op": "file_stat empty-dir", "exists": true, "mode": "0755", "type": "dir"},
+      {"op": "file_read link.txt", "content": "two\nlines\n"},
+      {"op": "file_read missing.txt", "content": null, "errno": "ENOENT"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tokens-and-heredoc": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["bare", "double \t quoted A A \\C-a", "single \\t raw", null, "NULL"]},
+      {"op": "file_read out.txt", "content": "line 1\n  line 2 \"quoted\"\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "blocks-and-hooks": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["in block"]},
+      {"op": "args", "error": "not inside a hook"},
+      {"op": "return 7", "error": "not inside a hook"},
+      {"op": "get rl_startup_hook", "ret": "script"},
+      {"op": "echo", "args": ["in block"]},
+      {"op": "hook", "hook": "rl_startup_hook"},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "keys-notation": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abAAé \\<", "point": 7, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abAAé \\<", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abAAé \\", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abAAé \\"}
+    ],
+    "screen": [
+      "> abAAé \\"
+    ],
+    "cursor": [1, 0]
+  },
+  "snapshots-and-dumps": {
+    "exit": 0,
+    "results": [
+      {"op": "defun take-snap snapshot", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xs\" take-snap", "ret": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "take-snap", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 115, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      },
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "pause-and-escape": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "resize-and-sleep": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "0123456789012345678901234567890123"}
+    ],
+    "screen": [
+      "> 0123456789012345678901234567890123"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789012345678901234567890123"
+        ],
+        "cursor": [0, 36]
+      }
+    ]
+  },
+  "signals-from-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "INT"},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc^C"
+    ],
+    "cursor": [1, 0]
+  },
+  "signals-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a\u0003"}
+    ],
+    "screen": [
+      "> a^C"
+    ],
+    "cursor": [1, 0]
+  },
+  "eof-off": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "ignore-fields": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ]
+  },
+  "platform-specific": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["runs on linux and darwin only"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "timeout-header": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["per-case timeout in seconds (default 10)"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "exit-code": {
+    "exit": 3,
+    "results": [
+      {"op": "echo", "args": ["before exit"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "errors-are-records": {
+    "exit": 0,
+    "results": [
+      {"op": "no_such_command", "error": "unknown command"},
+      {"op": "history_get notanumber", "error": "bad integer argument"},
+      {"op": "rl_bind_key \"a\" no-such-function", "error": "unknown function"},
+      {"op": "set no_such_variable 1", "error": "unknown variable"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}
