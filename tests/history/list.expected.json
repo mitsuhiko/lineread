@@ -1,0 +1,610 @@
+{
+  "add-empty-string": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "", "timestamp": "", "data": 0}, {"line": "", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-duplicates-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "same", "timestamp": "", "data": 0}, {"line": "same", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-multiline-string": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "line one\nline two", "timestamp": "", "data": 0}]},
+      {"op": "history_total_bytes", "ret": 17}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-sets-now-timestamp": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get 1", "ret": {"line": "x", "timestamp": "", "data": 0}},
+      {"op": "history_get_time 1", "ret": "<now>"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-history-time-empty-list": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-history-time-null": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get 1", "ret": {"line": "a", "timestamp": "", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "add-history-time-replaces-last-only": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get 1", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "history_get 2", "ret": {"line": "b", "timestamp": "#5", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-time-without-comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_time 1", "ret": 0},
+      {"op": "history_get_time 1", "ret": 100}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-time-other-comment-char": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_time 1", "ret": 42},
+      {"op": "history_get_time 2", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-time-non-numeric": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_time 1", "ret": 0},
+      {"op": "history_get_time 2", "ret": 12},
+      {"op": "history_get_time 3", "ret": -5}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-time-overflow": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_time 1", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-time-missing-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_time 1", "ret": 0},
+      {"op": "history_get_time 0", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "total-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_total_bytes", "ret": 0},
+      {"op": "history_total_bytes", "ret": 5},
+      {"op": "history_total_bytes", "ret": 7}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-boundaries-with-base": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get 4", "ret": null},
+      {"op": "history_get 5", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "history_get 6", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "history_get 7", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-negative-base": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get -2", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "history_get -1", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "history_get 0", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-first": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history 0", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-last": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history 1", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}]},
+      {"op": "remove_history 0", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []},
+      {"op": "remove_history 0", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history 1", "ret": null},
+      {"op": "remove_history -1", "ret": null},
+      {"op": "remove_history 100", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-from-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history 0", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-keeps-offset": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history 0", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "where_history", "ret": 3},
+      {"op": "current_history", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-range-all": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history_range 0 2", "ret": [{"line": "a", "timestamp": "", "data": 0}, {"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "d", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-range-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history_range 1 3", "ret": [{"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}, {"line": "d", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}, {"line": "e", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-range-single": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history_range 1 1", "ret": [{"line": "b", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-range-invalid": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history_range 2 1", "ret": null},
+      {"op": "remove_history_range -1 1", "ret": null},
+      {"op": "remove_history_range 0 3", "ret": null},
+      {"op": "remove_history_range 3 3", "ret": null},
+      {"op": "remove_history_range 0 -1", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}, {"line": "b", "timestamp": "", "data": 0}, {"line": "c", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "remove-range-empty-history": {
+    "exit": 0,
+    "results": [
+      {"op": "remove_history_range 0 0", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "replace-keeps-timestamp": {
+    "exit": 0,
+    "results": [
+      {"op": "replace_history_entry 0 \"A\" 3", "ret": {"line": "a", "timestamp": "#77", "data": 0}},
+      {"op": "history_get 1", "ret": {"line": "A", "timestamp": "#77", "data": 3}},
+      {"op": "replace_history_entry 0 \"AA\" 0", "ret": {"line": "A", "timestamp": "#77", "data": 3}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "replace-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "replace_history_entry -1 \"x\" 0", "ret": null},
+      {"op": "replace_history_entry 1 \"x\" 0", "ret": null},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "replace-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "replace_history_entry 0 \"\" 9", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "", "timestamp": "", "data": 9}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "replace-returns-old-data": {
+    "exit": 0,
+    "results": [
+      {"op": "replace_history_entry 0 \"b\" 11", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "replace_history_entry 0 \"c\" 22", "ret": {"line": "b", "timestamp": "", "data": 11}},
+      {"op": "replace_history_entry 0 \"d\" 0", "ret": {"line": "c", "timestamp": "", "data": 22}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-before-add": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 0, "max": 2, "stifled": 1, "pos": 0, "entries": []},
+      {"op": "history_dump", "base": 3, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "3", "timestamp": "", "data": 0}, {"line": "4", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-zero-discards-adds": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 1, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-larger-than-length": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 2, "max": 10, "stifled": 1, "pos": 0, "entries": [{"line": "1", "timestamp": "", "data": 0}, {"line": "2", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-sets-base-to-removed-count": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 2, "length": 1, "max": 1, "stifled": 1, "pos": 0, "entries": [{"line": "3", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-increments-base-on-add": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "1", "timestamp": "", "data": 0}, {"line": "2", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 2, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "2", "timestamp": "", "data": 0}, {"line": "3", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 3, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "3", "timestamp": "", "data": 0}, {"line": "4", "timestamp": "", "data": 0}]},
+      {"op": "history_get 3", "ret": {"line": "3", "timestamp": "", "data": 0}},
+      {"op": "history_get 1", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unstifle-return-values": {
+    "exit": 0,
+    "results": [
+      {"op": "unstifle_history", "ret": 0},
+      {"op": "unstifle_history", "ret": 3},
+      {"op": "unstifle_history", "ret": -3},
+      {"op": "unstifle_history", "ret": 7},
+      {"op": "history_is_stifled", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unstifle-allows-growth": {
+    "exit": 0,
+    "results": [
+      {"op": "unstifle_history", "ret": 1},
+      {"op": "history_dump", "base": 2, "length": 3, "max": 1, "stifled": 0, "pos": 0, "entries": [{"line": "2", "timestamp": "", "data": 0}, {"line": "3", "timestamp": "", "data": 0}, {"line": "4", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "restifle-smaller": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 4, "max": 4, "stifled": 1, "pos": 0, "entries": [{"line": "2", "timestamp": "", "data": 0}, {"line": "3", "timestamp": "", "data": 0}, {"line": "4", "timestamp": "", "data": 0}, {"line": "5", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 2, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "4", "timestamp": "", "data": 0}, {"line": "5", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-variables": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_max_entries", "ret": 0},
+      {"op": "get max_input_history", "ret": 0},
+      {"op": "get history_max_entries", "ret": 5},
+      {"op": "get max_input_history", "ret": 5},
+      {"op": "get history_max_entries", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifle-large-preallocation": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 2, "max": 100000, "stifled": 1, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}, {"line": "b", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-history-max-entries-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 2, "max": 1, "stifled": 0, "pos": 0, "entries": [{"line": "a", "timestamp": "", "data": 0}, {"line": "b", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "navigation-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "where_history", "ret": 0},
+      {"op": "previous_history", "ret": null},
+      {"op": "next_history", "ret": null},
+      {"op": "current_history", "ret": null},
+      {"op": "history_set_pos 0", "ret": 0},
+      {"op": "history_set_pos 1", "ret": 0},
+      {"op": "where_history", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "navigation-next-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 0", "ret": 1},
+      {"op": "current_history", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "next_history", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "next_history", "ret": null},
+      {"op": "next_history", "ret": null},
+      {"op": "where_history", "ret": 2},
+      {"op": "current_history", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "navigation-set-pos-bounds": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 2", "ret": 1},
+      {"op": "where_history", "ret": 2},
+      {"op": "current_history", "ret": null},
+      {"op": "history_set_pos 3", "ret": 0},
+      {"op": "history_set_pos -1", "ret": 0},
+      {"op": "where_history", "ret": 2},
+      {"op": "history_set_pos 0", "ret": 1},
+      {"op": "current_history", "ret": {"line": "a", "timestamp": "", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "navigation-previous-from-end": {
+    "exit": 0,
+    "results": [
+      {"op": "previous_history", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "previous_history", "ret": {"line": "a", "timestamp": "", "data": 0}},
+      {"op": "previous_history", "ret": null},
+      {"op": "where_history", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "navigation-ignores-base": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "current_history", "ret": {"line": "b", "timestamp": "", "data": 0}},
+      {"op": "where_history", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "offset-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_offset", "ret": 0},
+      {"op": "get history_offset", "ret": 3},
+      {"op": "current_history", "ret": {"line": "b", "timestamp": "", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "length-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_length", "ret": 0},
+      {"op": "get history_length", "ret": 1},
+      {"op": "get history_base", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "clear-resets-base": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_base", "ret": 1},
+      {"op": "get history_offset", "ret": 0},
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "b", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "clear-keeps-stifle": {
+    "exit": 0,
+    "results": [
+      {"op": "history_is_stifled", "ret": 1},
+      {"op": "history_dump", "base": 2, "length": 2, "max": 2, "stifled": 1, "pos": 0, "entries": [{"line": "2", "timestamp": "", "data": 0}, {"line": "3", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "clear-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-list-entries": {
+    "exit": 0,
+    "results": [
+      {"op": "history_list", "ret": [{"line": "a", "timestamp": "#1", "data": 0}, {"line": "b", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "history-list-after-clear": {
+    "exit": 0,
+    "results": [
+      {"op": "history_list", "ret": []}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "copy-entry-null": {
+    "exit": 0,
+    "results": [
+      {"op": "copy_history_entry 1", "ret": null},
+      {"op": "replace_history_entry 0 \"y\" 1234", "ret": {"line": "x", "timestamp": "", "data": 0}},
+      {"op": "copy_history_entry 1", "ret": {"line": "y", "timestamp": "", "data": 1234}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "alloc-entry-null-line": {
+    "exit": 0,
+    "results": [
+      {"op": "alloc_history_entry NULL NULL", "ret": {"line": null, "timestamp": null, "data": 0}},
+      {"op": "alloc_history_entry \"\" \"#5\"", "ret": {"line": "", "timestamp": "#5", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "grow-past-initial-size": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_length", "ret": 600},
+      {"op": "history_get 600", "ret": {"line": "entry", "timestamp": "", "data": 0}},
+      {"op": "history_get 1", "ret": {"line": "entry", "timestamp": "", "data": 0}},
+      {"op": "history_total_bytes", "ret": 3000}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "grow-past-large-size": {
+    "exit": 0,
+    "results": [
+      {"op": "get history_length", "ret": 3000},
+      {"op": "history_get 3000", "ret": {"line": "e", "timestamp": "", "data": 0}},
+      {"op": "history_get 3001", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "stifled-many-adds": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 998, "length": 3, "max": 3, "stifled": 1, "pos": 0, "entries": [{"line": "e", "timestamp": "", "data": 0}, {"line": "e", "timestamp": "", "data": 0}, {"line": "e", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "state-get-fields": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_history_state", "offset": 0, "length": 0, "flags": 0},
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "history_get_history_state", "offset": 1, "length": 2, "flags": 0},
+      {"op": "history_get_history_state", "offset": 1, "length": 2, "flags": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "state-size-field": {
+    "exit": 0,
+    "results": [
+      {"op": "history_get_history_state", "offset": 0, "length": 1, "size": 502, "flags": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "state-restore-stifled-flag": {
+    "exit": 0,
+    "results": [
+      {"op": "unstifle_history", "ret": 3},
+      {"op": "history_is_stifled", "ret": 0},
+      {"op": "history_is_stifled", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "state-restore-does-not-unstifle": {
+    "exit": 0,
+    "results": [
+      {"op": "history_is_stifled", "ret": 1}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "state-restore-offset": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 1", "ret": 1},
+      {"op": "where_history", "ret": 1},
+      {"op": "current_history", "ret": {"line": "b", "timestamp": "", "data": 0}}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "state-switch-lists": {
+    "exit": 0,
+    "results": [
+      {"op": "history_dump", "base": 1, "length": 1, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}]},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "one", "timestamp": "", "data": 0}, {"line": "two", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

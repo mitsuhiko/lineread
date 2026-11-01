@@ -90,7 +90,8 @@ def write_expected(path: str, data: dict) -> None:
 
 def _path_matches(path: str, patterns: list[str]) -> bool:
     for pat in patterns:
-        if fnmatch.fnmatchcase(path, pat) or path.startswith(pat + ".") or path.startswith(pat + "["):
+        # brackets are literal (index syntax), only * and ? are wildcards
+        if fnmatch.fnmatchcase(path, pat.replace("[", "[[]")) or path.startswith(pat + ".") or path.startswith(pat + "["):
             return True
     return False
 

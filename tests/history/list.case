@@ -1,0 +1,545 @@
+# History list API (history.c) in detail: adding, timestamps, removal,
+# replacement, stifling, navigation, history_base and list growth.
+tags: history api
+
+=== add-empty-string
+--- script
+add_history ""
+add_history ""
+history_dump
+
+=== add-duplicates-kept
+--- script
+add_history "same"
+add_history "same"
+history_dump
+
+=== add-multiline-string
+--- script
+add_history "line one\nline two"
+history_dump
+history_total_bytes
+
+=== add-sets-now-timestamp
+--- script
+add_history "x"
+history_get 1
+history_get_time 1
+
+=== add-history-time-empty-list
+--- script
+add_history_time "#123"
+history_dump
+
+=== add-history-time-null
+--- script
+add_history "a"
+add_history_time NULL
+history_get 1
+
+=== add-history-time-replaces-last-only
+--- script
+add_history "a"
+add_history "b"
+add_history_time "#5"
+history_get 1
+history_get 2
+
+=== get-time-without-comment-char
+--- script
+add_history "a"
+add_history_time "#100"
+history_get_time 1
+set history_comment_char "#"
+history_get_time 1
+
+=== get-time-other-comment-char
+--- script
+set history_comment_char "%"
+add_history "a"
+add_history_time "%42"
+history_get_time 1
+add_history "b"
+add_history_time "#42"
+history_get_time 2
+
+=== get-time-non-numeric
+--- script
+set history_comment_char "#"
+add_history "a"
+add_history_time "#abc"
+history_get_time 1
+add_history "b"
+add_history_time "#12abc"
+history_get_time 2
+add_history "c"
+add_history_time "#-5"
+history_get_time 3
+
+=== get-time-overflow
+--- script
+set history_comment_char "#"
+add_history "a"
+add_history_time "#99999999999999999999999"
+history_get_time 1
+
+=== get-time-missing-entry
+--- script
+history_get_time 1
+history_get_time 0
+
+=== total-bytes
+--- script
+history_total_bytes
+add_history "abc"
+add_history_time "#1"
+history_total_bytes
+add_history "de"
+add_history_time ""
+history_total_bytes
+
+=== get-boundaries-with-base
+--- script
+set history_base 5
+add_history "a"
+add_history "b"
+history_get 4
+history_get 5
+history_get 6
+history_get 7
+
+=== get-negative-base
+--- script
+set history_base -2
+add_history "a"
+add_history "b"
+history_get -2
+history_get -1
+history_get 0
+
+=== remove-first
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+remove_history 0
+history_dump
+
+=== remove-last
+--- script
+add_history "a"
+add_history "b"
+remove_history 1
+history_dump
+remove_history 0
+history_dump
+remove_history 0
+
+=== remove-out-of-range
+--- script
+add_history "a"
+remove_history 1
+remove_history -1
+remove_history 100
+history_dump
+
+=== remove-from-empty
+--- script
+remove_history 0
+history_dump
+
+=== remove-keeps-offset
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+using_history
+remove_history 0
+where_history
+current_history
+
+=== remove-range-all
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+remove_history_range 0 2
+history_dump
+add_history "d"
+history_dump
+
+=== remove-range-middle
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+add_history "d"
+add_history "e"
+remove_history_range 1 3
+history_dump
+
+=== remove-range-single
+--- script
+add_history "a"
+add_history "b"
+remove_history_range 1 1
+history_dump
+
+=== remove-range-invalid
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+remove_history_range 2 1
+remove_history_range -1 1
+remove_history_range 0 3
+remove_history_range 3 3
+remove_history_range 0 -1
+history_dump
+
+=== remove-range-empty-history
+--- script
+remove_history_range 0 0
+
+=== replace-keeps-timestamp
+--- script
+add_history "a"
+add_history_time "#77"
+replace_history_entry 0 "A" 3
+history_get 1
+replace_history_entry 0 "AA" 0
+
+=== replace-out-of-range
+--- script
+add_history "a"
+replace_history_entry -1 "x" 0
+replace_history_entry 1 "x" 0
+history_dump
+
+=== replace-empty-line
+--- script
+add_history "a"
+replace_history_entry 0 "" 9
+history_dump
+
+=== replace-returns-old-data
+--- script
+add_history "a"
+replace_history_entry 0 "b" 11
+replace_history_entry 0 "c" 22
+replace_history_entry 0 "d" 0
+
+=== stifle-before-add
+--- script
+stifle_history 2
+history_dump
+add_history "1"
+add_history "2"
+add_history "3"
+add_history "4"
+history_dump
+
+=== stifle-zero-discards-adds
+--- script
+stifle_history 0
+add_history "1"
+add_history "2"
+history_dump
+
+=== stifle-larger-than-length
+--- script
+add_history "1"
+add_history "2"
+stifle_history 10
+history_dump
+
+=== stifle-sets-base-to-removed-count
+# history_base becomes the number of removed entries, not base + removed
+--- script
+set history_base 10
+add_history "1"
+add_history "2"
+add_history "3"
+stifle_history 1
+history_dump
+
+=== stifle-increments-base-on-add
+--- script
+stifle_history 2
+add_history "1"
+add_history "2"
+history_dump
+add_history "3"
+history_dump
+add_history "4"
+history_dump
+history_get 3
+history_get 1
+
+=== unstifle-return-values
+--- script
+unstifle_history
+stifle_history 3
+unstifle_history
+unstifle_history
+stifle_history 7
+unstifle_history
+history_is_stifled
+
+=== unstifle-allows-growth
+--- script
+stifle_history 1
+add_history "1"
+add_history "2"
+unstifle_history
+add_history "3"
+add_history "4"
+history_dump
+
+=== restifle-smaller
+--- script
+add_history "1"
+add_history "2"
+add_history "3"
+add_history "4"
+add_history "5"
+stifle_history 4
+history_dump
+stifle_history 2
+history_dump
+
+=== stifle-variables
+--- script
+get history_max_entries
+get max_input_history
+stifle_history 5
+get history_max_entries
+get max_input_history
+stifle_history -1
+get history_max_entries
+
+=== stifle-large-preallocation
+--- script
+stifle_history 100000
+add_history "a"
+add_history "b"
+history_dump
+
+=== set-history-max-entries-variable
+# setting the variable alone does not stifle
+--- script
+set history_max_entries 1
+add_history "a"
+add_history "b"
+history_dump
+
+=== navigation-empty
+--- script
+where_history
+previous_history
+next_history
+current_history
+history_set_pos 0
+history_set_pos 1
+where_history
+
+=== navigation-next-at-end
+--- script
+add_history "a"
+add_history "b"
+history_set_pos 0
+current_history
+next_history
+next_history
+next_history
+where_history
+current_history
+
+=== navigation-set-pos-bounds
+--- script
+add_history "a"
+add_history "b"
+history_set_pos 2
+where_history
+current_history
+history_set_pos 3
+history_set_pos -1
+where_history
+history_set_pos 0
+current_history
+
+=== navigation-previous-from-end
+--- script
+add_history "a"
+add_history "b"
+using_history
+previous_history
+previous_history
+previous_history
+where_history
+
+=== navigation-ignores-base
+--- script
+set history_base 50
+add_history "a"
+add_history "b"
+history_set_pos 1
+current_history
+where_history
+
+=== offset-variable
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+get history_offset
+using_history
+get history_offset
+set history_offset 1
+current_history
+
+=== length-variable
+--- script
+get history_length
+add_history "a"
+get history_length
+get history_base
+
+=== clear-resets-base
+--- script
+set history_base 9
+add_history "a"
+clear_history
+get history_base
+get history_offset
+add_history "b"
+history_dump
+
+=== clear-keeps-stifle
+--- script
+stifle_history 2
+add_history "a"
+clear_history
+history_is_stifled
+add_history "1"
+add_history "2"
+add_history "3"
+history_dump
+
+=== clear-empty
+--- script
+clear_history
+history_dump
+
+=== history-list-entries
+--- script
+add_history "a"
+add_history_time "#1"
+add_history "b"
+history_list
+
+=== history-list-after-clear
+--- script
+add_history "a"
+clear_history
+history_list
+
+=== copy-entry-null
+--- script
+copy_history_entry 1
+add_history "x"
+replace_history_entry 0 "y" 1234
+copy_history_entry 1
+
+=== alloc-entry-null-line
+--- script
+alloc_history_entry NULL NULL
+alloc_history_entry "" "#5"
+
+=== grow-past-initial-size
+--- script
+def add
+add_history "entry"
+end
+repeat 600 add
+get history_length
+history_get 600
+history_get 1
+history_total_bytes
+
+=== grow-past-large-size
+--- script
+def add
+add_history "e"
+end
+repeat 3000 add
+get history_length
+history_get 3000
+history_get 3001
+
+=== stifled-many-adds
+--- script
+def add
+add_history "e"
+end
+stifle_history 3
+repeat 1000 add
+history_dump
+
+=== state-get-fields
+ignore: results[*].size
+--- script
+history_get_history_state
+add_history "a"
+add_history "b"
+history_set_pos 1
+history_get_history_state
+stifle_history 5
+history_get_history_state
+
+=== state-size-field
+# the allocated size of the history array (initial allocation 502 slots)
+--- script
+add_history "a"
+history_get_history_state
+
+=== state-restore-stifled-flag
+--- script
+stifle_history 3
+add_history "a"
+history_state_save 0
+unstifle_history
+history_is_stifled
+history_state_restore 0
+history_is_stifled
+
+=== state-restore-does-not-unstifle
+--- script
+add_history "a"
+history_state_save 0
+stifle_history 3
+history_state_restore 0
+history_is_stifled
+
+=== state-restore-offset
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+history_set_pos 1
+history_state_save 0
+using_history
+history_state_restore 0
+where_history
+current_history
+
+=== state-switch-lists
+--- script
+add_history "one"
+history_state_save 0
+add_history "two"
+history_state_save 1
+history_state_restore 0
+history_dump
+history_state_restore 1
+history_dump

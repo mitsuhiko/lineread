@@ -1935,6 +1935,15 @@ static void c_call(cmd_t *c) {
   run_block(b);
 }
 
+/* repeat N BLOCK: run BLOCK N times (e.g. to build long histories) */
+static void c_repeat(cmd_t *c) {
+  NEED(2, 2);
+  INTARG(1, count);
+  block_t *b = c->v[2] ? block_find(c->v[2]) : NULL;
+  if (!b) { rec_error(c, "no such block"); return; }
+  for (long i = 0; i < count; i++) run_block(b);
+}
+
 static void c_set(cmd_t *c) {
   if (c->n < 2 || !c->v[1]) { rec_error(c, "usage: set VAR VALUE"); return; }
   const char *name = c->v[1];
@@ -2764,6 +2773,7 @@ typedef struct {
 static const custom_t custom_table[] = {
   {"echo", c_echo}, {"dump", c_dump}, {"dumpfull", c_dump}, {"args", c_args},
   {"return", c_return}, {"replace_arg", c_replace_arg}, {"call", c_call},
+  {"repeat", c_repeat},
   {"set", c_set}, {"get", c_get}, {"defun", c_defun}, {"signal", c_signal},
   {"raise", c_raise}, {"onsig", c_onsig}, {"complete_words", c_complete_words},
   {"ignore_words", c_ignore_words}, {"tilde_map", c_tilde_map}, {"setenv", c_setenv},
