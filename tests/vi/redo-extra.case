@@ -162,3 +162,78 @@ rl_bind_keyseq_in_map "\C-x" start vi-command
 readline "> "
 --- keys
 abc\e<pause>0\C-xX\e<pause>.<dumpfull>\r
+
+=== initial-insert-saved-after-S
+tags: vi-subst
+--- script
+readline "> " 2
+--- keys
+\e<pause>S\rw6-\e<pause><dumpfull>.<dumpfull>\r
+
+=== initial-insert-saved-after-S-text
+tags: vi-subst
+--- script
+readline "> " 2
+--- keys
+\e<pause>Sab\rw6-\e<pause><dumpfull>.<dumpfull>\r
+
+=== x-kept-across-lines
+tags: vi-delete
+--- script
+readline "> " 2
+--- keys
+abc\e<pause>x\rw6-\e<pause>0.<dumpfull>\r
+
+=== i-text-replaced-by-next-line
+tags: vi-insertion-mode
+--- script
+readline "> " 2
+--- keys
+\e<pause>iab\rw6-\e<pause>.<dumpfull>\r
+
+=== cw-redo-uses-next-line-insert
+tags: vi-change-to
+--- script
+readline "> " 2
+--- keys
+abc\e<pause>0cwZ\rw6- x\e<pause>0.<dumpfull>\r
+
+=== failed-X-recorded
+tags: vi-rubout
+keys: abc\e<pause>0X.<dump>\r
+
+=== failed-tilde-recorded
+tags: vi-change-case
+keys: \e<pause>~.x<dump>\r
+
+=== failed-x-recorded
+tags: vi-delete
+keys: \e<pause>x.x<dump>\r
+
+=== r-on-empty-recorded
+tags: vi-change-char
+keys: \e<pause>rz.x<dump>\r
+
+=== aborted-put-not-recorded
+tags: vi-put
+keys: abc\e<pause>0p.<dump>\r
+
+=== aborted-Put-not-recorded
+tags: vi-put
+keys: abc\e<pause>0P.<dump>\r
+
+=== failed-motion-operator-recorded
+tags: vi-delete-to
+keys: abc\e<pause>0dfz.<dump>\r
+
+=== invalid-motion-operator-recorded
+tags: vi-delete-to
+keys: abc\e<pause>0dq.<dump>\r
+
+=== failed-change-recorded
+tags: vi-change-to
+keys: abc\e<pause>0cfz.<dump>\r
+
+=== failed-yank-recorded
+tags: vi-yank-to
+keys: abc\e<pause>0yfz.<dump>\r

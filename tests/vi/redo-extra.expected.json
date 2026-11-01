@@ -278,5 +278,182 @@
       "> abc"
     ],
     "cursor": [1, 0]
+  },
+  "initial-insert-saved-after-S": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""},
+      {"op": "dumpfull", "line": "w6-", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-movement-mode", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 256, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "w6-", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 3, null], ["delete", 0, 3, "w6-"], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-redo", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "w6-"}
+    ],
+    "screen": [
+      ">",
+      "> w6-"
+    ],
+    "cursor": [2, 0]
+  },
+  "initial-insert-saved-after-S-text": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"},
+      {"op": "dumpfull", "line": "w6-", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-movement-mode", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 256, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "w6-", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 3, null], ["delete", 0, 3, "w6-"], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-redo", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "w6-"}
+    ],
+    "screen": [
+      "> ab",
+      "> w6-"
+    ],
+    "cursor": [2, 0]
+  },
+  "x-kept-across-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"},
+      {"op": "dumpfull", "line": "6-", "point": 0, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["delete", 0, 1, "w"]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-redo", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "6-"}
+    ],
+    "screen": [
+      "> ab",
+      "> 6-"
+    ],
+    "cursor": [2, 0]
+  },
+  "i-text-replaced-by-next-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"},
+      {"op": "dumpfull", "line": "w6w6--", "point": 4, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 2, 5, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-redo", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 46, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "w6w6--"}
+    ],
+    "screen": [
+      "> ab",
+      "> w6w6--"
+    ],
+    "cursor": [2, 0]
+  },
+  "cw-redo-uses-next-line-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "Z"},
+      {"op": "dumpfull", "line": "w6- x- x", "point": 5, "end": 8, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 5, null], ["delete", 0, 2, "w6"], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-redo", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 119, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "w6- x- x"}
+    ],
+    "screen": [
+      "> Z",
+      "> w6- x- x"
+    ],
+    "cursor": [2, 0]
+  },
+  "failed-X-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "failed-tilde-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "failed-x-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "r-on-empty-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "aborted-put-not-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aabcbc", "point": 3, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aabcbc"}
+    ],
+    "screen": [
+      "> aabcbc"
+    ],
+    "cursor": [1, 0]
+  },
+  "aborted-Put-not-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcabc", "point": 2, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcabc"}
+    ],
+    "screen": [
+      "> abcabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "failed-motion-operator-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "invalid-motion-operator-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc ", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc "}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "failed-change-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "failed-yank-recorded": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
   }
 }

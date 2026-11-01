@@ -40,6 +40,8 @@ struct ViState {
     doing_insert: bool,
     /// Undo groups to close when leaving insert mode.
     open_groups: c_int,
+    /// The insertion a line starts with is in progress.
+    initial_insert: bool,
     /// Replace (overstrike) mode is active.
     overstrike: bool,
     /// Characters typed in replace mode that backspace can undo.
@@ -63,6 +65,7 @@ static V: CVar<ViState> = CVar::new(ViState {
     insert_text: Vec::new(),
     doing_insert: false,
     open_groups: 0,
+    initial_insert: false,
     overstrike: false,
     replaced: 0,
     ostext: Vec::new(),
@@ -220,6 +223,7 @@ pub fn start_line_in_vi() {
     let s = st();
     s.doing_insert = false;
     s.open_groups = 0;
+    s.initial_insert = true;
     s.overstrike = false;
     s.replaced = 0;
     s.marks = [-1; 26];
@@ -281,9 +285,11 @@ fn done_inserting() {
         } else {
             s.insert_text = top_insert.unwrap_or_default();
         }
-    } else if matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A') {
+    } else if s.initial_insert || matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A') {
+        // (the insertion a line starts with counts as an `i`)
         s.insert_text = top_insert.unwrap_or_default();
     }
+    s.initial_insert = false;
     if matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A' | b'R') {
         // a count given to an insertion is not repeated by `.`
         s.last_count = 1;
@@ -930,6 +936,7 @@ unsafe fn domove_with(op: u8, count: c_int, forced: Option<c_int>) -> Option<(c_
     if c >= 0 && c < 128 && lc == op && (c as u8).is_ascii_lowercase() {
         // dd, cc, yy: the whole line
         st().last_motion = c;
+        crate::dispatch::rl_executing_key.set(c);
         set_point(0);
         buffer::rl_mark.set(end() as c_int);
         return Some((c, total));
@@ -1027,17 +1034,24 @@ fn op_count(count: c_int) -> c_int {
 /// Run the motion of an operator `op` (`key` is the invoking key, upper
 /// case D C Y act to the end of line).  Returns the motion key.
 unsafe fn operator_range(op: u8, key: c_int, count: c_int) -> Option<(c_int, c_int)> {
-    if upper(key) {
+    // the command is recorded for `.` even when its motion fails
+    set_last(key, count);
+    let r = if upper(key) {
         // D C Y: to the end of the line
-        return domove_with(op, count, Some(b'$' as c_int));
+        domove_with(op, count, Some(b'$' as c_int))
+    } else {
+        domove(op, count)
+    };
+    if let Some((_, total)) = r {
+        set_last(key, total);
     }
-    domove(op, count)
+    r
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_delete_to(count: c_int, key: c_int) -> c_int {
     let count = op_count(count);
-    let Some((_m, count)) = operator_range(b'd', key, count) else {
+    let Some(_) = operator_range(b'd', key, count) else {
         return -1;
     };
     let a = point();
@@ -1046,7 +1060,6 @@ pub unsafe extern "C" fn rl_vi_delete_to(count: c_int, key: c_int) -> c_int {
         kill_range(a, b);
     }
     set_point(a.min(end()));
-    set_last(key, count);
     0
 }
 
@@ -1098,7 +1111,7 @@ unsafe fn finish_change(key: c_int, count: c_int) {
 pub unsafe extern "C" fn rl_vi_yank_to(count: c_int, key: c_int) -> c_int {
     let count = op_count(count);
     let orig = point();
-    let Some((_m, count)) = operator_range(b'y', key, count) else {
+    let Some(_) = operator_range(b'y', key, count) else {
         set_point(orig);
         return -1;
     };
@@ -1113,7 +1126,6 @@ pub unsafe extern "C" fn rl_vi_yank_to(count: c_int, key: c_int) -> c_int {
         crate::undo::rl_do_undo();
     }
     set_point(orig.min(end()));
-    set_last(key, count);
     0
 }
 
@@ -1122,6 +1134,7 @@ pub unsafe extern "C" fn rl_vi_delete(count: c_int, key: c_int) -> c_int {
     if count < 0 {
         return rl_vi_rubout(-count, key);
     }
+    set_last(key, count);
     if end() == 0 {
         rl_ding();
         return 1;
@@ -1133,7 +1146,6 @@ pub unsafe extern "C" fn rl_vi_delete(count: c_int, key: c_int) -> c_int {
     if e > 0 && point() >= e {
         set_point(mb::prev_char(line(), e));
     }
-    set_last(key, count);
     0
 }
 
@@ -1142,6 +1154,7 @@ pub unsafe extern "C" fn rl_vi_rubout(count: c_int, key: c_int) -> c_int {
     if count < 0 {
         return rl_vi_delete(-count, key);
     }
+    set_last(key, count);
     let p = point();
     if p == 0 {
         rl_ding();
@@ -1150,7 +1163,6 @@ pub unsafe extern "C" fn rl_vi_rubout(count: c_int, key: c_int) -> c_int {
     let from = mb::backward_chars(line(), p, count as usize);
     kill_range(p, from);
     set_point(from);
-    set_last(key, count);
     0
 }
 
@@ -1161,6 +1173,7 @@ pub unsafe extern "C" fn rl_vi_subst(count: c_int, key: c_int) -> c_int {
     let motion = if upper(key) { b'c' } else { b'l' } as c_int;
     // (a redo takes the recorded motion, like the reference)
     let forced = if redoing() { None } else { Some(motion) };
+    set_last(key, count);
     let Some((_m, count)) = domove_with(b'c', count, forced) else {
         return -1;
     };
@@ -1212,11 +1225,11 @@ pub unsafe extern "C" fn rl_vi_change_char(count: c_int, key: c_int) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_change_case(count: c_int, key: c_int) -> c_int {
+    set_last(key, count);
     if end() == 0 {
         rl_ding();
         return 1;
     }
-    set_last(key, count);
     for _ in 0..count.max(1) {
         let p = point();
         let l = line();
