@@ -120,6 +120,7 @@ pub unsafe extern "C" fn rl_initialize() -> c_int {
     crate::numarg::reset();
     crate::dispatch::keyseq_reset();
     crate::commands::text::reset_per_line();
+    crate::history::using_history();
     if rl_display_prompt_is_null() {
         display::rl_display_prompt.set(cs_mut!(""));
     }
