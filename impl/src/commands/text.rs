@@ -71,6 +71,53 @@ fn self_insert_chars(bytes: &[u8], count: usize) {
 }
 
 /// Read the rest of a multibyte character whose first byte is `first`.
+/// self-insert's version of read_mb_rest: the rest of the character is
+/// taken only as far as it is already there (the reference inserts the
+/// bytes as they arrive; they join up in the line), and a byte that cannot
+/// continue the character stays a key of its own.
+unsafe fn read_mb_rest_available(first: u8) -> Vec<u8> {
+    let mut v = vec![first];
+    if !mb::multibyte() || first < 0x80 || crate::readline::rl_num_chars_to_read.get() > 0 {
+        return v;
+    }
+    let from_macro = input::is_state(RL_STATE_MACROINPUT);
+    loop {
+        let (wc, n) = mb::decode_at(&v, 0);
+        if wc.is_some() && n == v.len() {
+            return v;
+        }
+        let mut st = crate::util::MbState::new();
+        let mut w: libc::wchar_t = 0;
+        let r = crate::util::mbrtowc(&mut w, v.as_ptr() as *const c_char, v.len(), &mut st);
+        if r != usize::MAX - 1 || v.len() >= 6 {
+            return v;
+        }
+        if from_macro && !crate::kbdmacro::macro_input_pending() {
+            return v;
+        }
+        if !from_macro && !input::input_available(0) {
+            return v;
+        }
+        let defining = input::is_state(RL_STATE_MACRODEF);
+        unset_state(RL_STATE_MACRODEF);
+        let c = crate::input::rl_read_key();
+        if defining {
+            set_state(RL_STATE_MACRODEF);
+        }
+        if c < 0 {
+            return v;
+        }
+        v.push(c as u8);
+        let mut st = crate::util::MbState::new();
+        let r = crate::util::mbrtowc(&mut w, v.as_ptr() as *const c_char, v.len(), &mut st);
+        if r == usize::MAX {
+            v.pop();
+            crate::input::unread_keys(&[c as u8]);
+            return v;
+        }
+    }
+}
+
 unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
     let mut v = vec![first];
     if !mb::multibyte() || first < 0x80 || crate::readline::rl_num_chars_to_read.get() > 0 {
@@ -118,7 +165,7 @@ pub unsafe extern "C" fn rl_insert(count: c_int, key: c_int) -> c_int {
 unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
     // (without a positive count the rest of a multibyte character is not
     // read: it arrives as separate keys)
-    let ch = if count > 0 { read_mb_rest(key as u8) } else { vec![key as u8] };
+    let ch = if count > 0 { read_mb_rest_available(key as u8) } else { vec![key as u8] };
     // (a count of zero or less inserts nothing, in overwrite mode an empty
     // undo group; typeahead is still taken)
     if count > 0 || rl_insert_mode.get() == 0 {
@@ -142,7 +189,7 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
             }
             let e = *map.add(c as usize & 0xff);
             if e.type_ == ISFUNC && crate::dispatch::same_fn(e.function.func, rl_insert) && c < 256 {
-                let more = read_mb_rest(c as u8);
+                let more = read_mb_rest_available(c as u8);
                 self_insert_chars(&more, 1);
             } else {
                 crate::input::rl_execute_next(c);
