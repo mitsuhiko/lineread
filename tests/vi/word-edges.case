@@ -1,0 +1,94 @@
+# vi word motions and vi-unix-word-rubout at the edges: b when the word
+# starts at the second character (the reference goes to the start of the
+# line), ^W boundaries (punctuation incl. underscore, trailing blanks,
+# start of word in the middle of the line).  ASCII only.
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== b-word-at-second-char
+tags: vi-prev-word vi-bword
+keys: /abc\e<pause>b<dump>\r
+
+=== b-word-at-third-char
+tags: vi-prev-word vi-bword
+keys: x/abc\e<pause>b<dump>\r
+
+=== b-after-two-punct
+tags: vi-prev-word vi-bword
+keys: //abc\e<pause>b<dump>\r
+
+=== b-from-start-of-word
+tags: vi-prev-word vi-bword
+keys: a.b\e<pause>b<dump>\r
+
+=== b-twice
+tags: vi-prev-word vi-bword
+keys: ab.cd\e<pause>b<dump>b<dump>\r
+
+=== b-punct-runs
+tags: vi-prev-word vi-bword
+keys: ab..cd\e<pause>b<dump>b<dump>\r
+
+=== b-after-blank-at-start
+tags: vi-prev-word vi-bword
+keys: \sbc\e<pause>b<dump>\r
+
+=== b-after-dot-at-start
+tags: vi-prev-word vi-bword
+keys: .ab\e<pause>b<dump>\r
+
+=== b-after-two-dots
+tags: vi-prev-word vi-bword
+keys: ..ab\e<pause>b<dump>\r
+
+=== B-after-b
+tags: vi-prev-word vi-bWord
+keys: /abc d\e<pause>bB<dump>\r
+
+=== db-word-at-second-char
+tags: vi-delete-to vi-prev-word
+keys: /abc\e<pause>db<dump>\r
+
+=== cb-callback-style-line
+tags: vi-change-to vi-prev-word
+keys: /5C\s\e<pause>^aXZt\e<pause>cb<dumpfull>\r
+
+=== ctrl-w-after-append-start
+tags: vi-unix-word-rubout
+keys: abc def\e<pause>A\C-w<dump>\r
+
+=== ctrl-w-word-after-append
+tags: vi-unix-word-rubout
+keys: abc def\e<pause>Ax\C-w<dump>\r
+
+=== ctrl-w-blank-then-word
+tags: vi-unix-word-rubout
+keys: abc def\e<pause>A x\C-w<dump>\C-w<dump>\r
+
+=== ctrl-w-mid-line-start-of-word
+tags: vi-unix-word-rubout
+keys: abc def\e<pause>bi\C-w<dump>\r
+
+=== ctrl-w-twice
+tags: vi-unix-word-rubout
+keys: abc def\e<pause>a\C-w<dump>\C-w<dump>\r
+
+=== ctrl-w-underscore
+tags: vi-unix-word-rubout
+keys: 77_f\C-w<dump>\C-w<dump>\r
+
+=== ctrl-w-punct-and-blank
+tags: vi-unix-word-rubout
+keys: 32\s-\C-w<dump>\r
+
+=== ctrl-w-dollar
+tags: vi-unix-word-rubout
+keys: z\s$\C-w<dump>\r
+
+=== ctrl-w-nothing-before-blank
+tags: vi-unix-word-rubout
+keys: sA\s\e<pause>bxa\C-w<dump>\r

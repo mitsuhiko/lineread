@@ -457,6 +457,11 @@ fn bword_pos(mut p: usize, count: c_int, big: bool) -> usize {
             let q = mb::prev_char(l, p);
             let same = if big { !ws_at(l, q) } else { class_at(l, q) == c };
             if !same {
+                if q == 0 {
+                    // the reference overshoots to the start of the line when
+                    // the word starts at the second character
+                    p = 0;
+                }
                 break;
             }
             p = q;
