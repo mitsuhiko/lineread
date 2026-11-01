@@ -241,26 +241,29 @@ pub unsafe extern "C" fn rl_unix_line_discard(_count: c_int, _key: c_int) -> c_i
     0
 }
 
-/// Copy `[a, b)` to the kill ring (appending to an ongoing kill).
-fn copy_to_kill(a: usize, b: usize) {
-    let (a, b) = (a.min(b).min(end()), b.max(a).min(end()));
+/// Copy the text between `from` and `to` to the kill ring; like
+/// rl_kill_text, text before `from` is prepended to an ongoing kill.
+fn copy_to_kill(from: usize, to: usize) {
+    let (a, b) = (from.min(to).min(end()), to.max(from).min(end()));
     if a == b {
         return;
     }
     let text = line()[a..b].to_vec();
-    add_kill(&text, false);
+    add_kill(&text, from > to);
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_copy_region_to_kill(_count: c_int, _key: c_int) -> c_int {
-    copy_to_kill(buffer::mark(), point());
+    copy_to_kill(point(), buffer::mark());
     0
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_kill_region(_count: c_int, _key: c_int) -> c_int {
     let (a, b) = (buffer::mark().min(point()), buffer::mark().max(point()));
-    rl_kill_text(a as c_int, b as c_int);
+    // (text before point is prepended to an ongoing kill)
+    let _ = b;
+    rl_kill_text(point() as c_int, buffer::mark() as c_int);
     set_point(a);
     0
 }
@@ -283,7 +286,7 @@ pub unsafe extern "C" fn rl_copy_backward_word(count: c_int, key: c_int) -> c_in
     }
     let n = count as usize;
     let from = backward_word_pos(point(), n);
-    copy_to_kill(from, forward_word_pos(from, n));
+    copy_to_kill(forward_word_pos(from, n), from);
     0
 }
 

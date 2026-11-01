@@ -193,5 +193,71 @@
       "> é"
     ],
     "cursor": [1, 0]
+  },
+  "kill-region-prepends-when-point-after-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": " twoZone", "point": 8, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": " twoZone"}
+    ],
+    "screen": [
+      ">  twoZone"
+    ],
+    "cursor": [1, 0]
+  },
+  "copy-region-prepends-when-point-after-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Z twoZone", "point": 9, "end": 9, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Z twoZone"}
+    ],
+    "screen": [
+      "> Z twoZone"
+    ],
+    "cursor": [1, 0]
+  },
+  "copy-region-appends-when-point-before-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Z twoZ", "point": 6, "end": 6, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Z twoZ"}
+    ],
+    "screen": [
+      "> Z twoZ"
+    ],
+    "cursor": [1, 0]
+  },
+  "copy-backward-word-prepends": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Z twoZone", "point": 9, "end": 9, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Z twoZone"}
+    ],
+    "screen": [
+      "> Z twoZone"
+    ],
+    "cursor": [1, 0]
+  },
+  "copy-forward-word-appends": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Z twoonetwo", "point": 11, "end": 11, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Z twoonetwo"}
+    ],
+    "screen": [
+      "> Z twoonetwo"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-negative-count-empty-group": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "OVERWRITE", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["begin", 0, 0, null], ["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
   }
 }

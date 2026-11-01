@@ -74,3 +74,43 @@ keys: ab\M-3,x<bs><dumpfull>\r
 === transpose-chars-single-multibyte-char
 tags: transpose-chars utf8 undo
 keys: é\C-t<dumpfull>\r
+
+=== kill-region-prepends-when-point-after-mark
+description: typeahead inserted by self-insert keeps the kill sequence going; kill-region kills from point to mark, so text before point is prepended
+tags: kill-region kill typeahead
+--- inputrc
+"\C-xr": kill-region
+--- keys
+one two\C-a\M-d<pause>Z\C-xr<pause>\C-e\C-y<dump>\r
+
+=== copy-region-prepends-when-point-after-mark
+tags: copy-region-as-kill kill typeahead
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+one two\C-a\M-d<pause>Z\C-xc<pause>\C-e\C-y<dump>\r
+
+=== copy-region-appends-when-point-before-mark
+tags: copy-region-as-kill kill typeahead
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+one two\C-a\M-d<pause>Z\C-x\C-x\C-xc<pause>\C-e\C-y<dump>\r
+
+=== copy-backward-word-prepends
+tags: copy-backward-word kill typeahead
+--- inputrc
+"\C-xw": copy-backward-word
+--- keys
+one two\C-a\M-d<pause>Z\C-xw<pause>\C-e\C-y<dump>\r
+
+=== copy-forward-word-appends
+tags: copy-forward-word kill typeahead
+--- inputrc
+"\C-xf": copy-forward-word
+--- keys
+one two\C-a\M-d<pause>Z\C-xf<pause>\C-e\C-y<dump>\r
+
+=== overwrite-negative-count-empty-group
+tags: overwrite-mode numarg undo
+keys: abc\C-a<ins><pause>\M--<pause>x<dumpfull>\r

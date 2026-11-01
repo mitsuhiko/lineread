@@ -121,7 +121,7 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
     let ch = if count > 0 { read_mb_rest(key as u8) } else { vec![key as u8] };
     // (a count of zero or less inserts nothing, in overwrite mode an empty
     // undo group; typeahead is still taken)
-    if count > 0 || (count == 0 && rl_insert_mode.get() == 0) {
+    if count > 0 || rl_insert_mode.get() == 0 {
         self_insert_chars(&ch, count.max(0) as usize);
     }
     // typeahead that is also self-insert is inserted right away; those
