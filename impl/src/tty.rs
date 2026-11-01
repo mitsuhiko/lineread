@@ -93,7 +93,7 @@ pub unsafe extern "C" fn rl_prep_terminal(meta_flag: c_int) {
     SAVED.set(Some(t));
     set_state(RL_STATE_TTYCSAVED);
     read_specials(&t);
-    ECHOING.set((t.c_lflag & libc::ECHO != 0) as c_int);
+    ECHOING.set((t.c_lflag & libc::ECHO) as c_int);
     ECHOCTL.set(t.c_lflag & libc::ECHOCTL != 0);
     let mut n = t;
     n.c_lflag &= !(libc::ICANON | libc::ECHO);
