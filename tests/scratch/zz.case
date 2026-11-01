@@ -1,8 +1,0 @@
---- script
-readline "> "
-=== a
-keys: a1\C-ua2\C-u\C-y<dump>\M-y<dump>\r
-=== b
-keys: a1\C-u<pause>a2<pause>\C-u\C-y<dump>\M-y<dump>\r
-=== c
-keys: a1<pause>\C-u<pause>a2<pause>\C-u\C-y<dump>\M-y<dump>\r
