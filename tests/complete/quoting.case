@@ -98,3 +98,16 @@ set rl_attempted_completion_function words
 readline "> "
 --- keys
 a\t\C-_x<dump>\r
+
+=== menu-complete-keeps-quote-char-after-first
+tags: menu-complete
+--- inputrc
+TAB: menu-complete
+--- script
+mkdir "sub dir"
+file_write "sub dir/x" "x"
+file_write "alphabet.txt" "x"
+set rl_completer_quote_characters "\"'"
+readline "> "
+--- keys
+\\ \t<dump>\t<dump>q<dump>\r

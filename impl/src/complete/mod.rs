@@ -1089,6 +1089,8 @@ unsafe fn menu_cycle(menu: &CVar<Menu>, count: c_int) {
         let nt = compare_match(&orig, &matches[idx]);
         append_to_match(&matches[idx], delim, qc, nt);
     }
+    // the quote character in effect stays for the next cycle
+    menu.get_mut().quote_char = qc;
     CHANGED_BUFFER.set(true);
 }
 
@@ -1143,6 +1145,7 @@ pub unsafe extern "C" fn rl_old_menu_complete(count: c_int, _key: c_int) -> c_in
         let nt = compare_match(&orig, &matches[idx]);
         append_to_match(&matches[idx], delim, qc, nt);
     }
+    OLD_MENU.get_mut().quote_char = qc;
     CHANGED_BUFFER.set(true);
     0
 }

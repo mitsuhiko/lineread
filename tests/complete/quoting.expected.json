@@ -108,5 +108,18 @@
       "> x"
     ],
     "cursor": [1, 0]
+  },
+  "menu-complete-keeps-quote-char-after-first": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\\ \"alphabet.txt\" ", "point": 17, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "\\ sub dir/", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "\\ sub dir/q", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\\ sub dir/q"}
+    ],
+    "screen": [
+      "> \\ sub dir/q"
+    ],
+    "cursor": [1, 0]
   }
 }
