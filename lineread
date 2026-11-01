@@ -1,0 +1,47 @@
+#!/bin/sh
+# Opt-in dynamic-loader injection; see docs/LAUNCHER.md.
+set -eu
+usage() {
+  echo 'Usage: lineread [--trace] -- command [args ...]' >&2
+}
+trace=0
+if [ "${1-}" = --trace ]; then trace=1; shift; fi
+if [ "${1-}" = --help ]; then usage; exit 0; fi
+if [ "${1-}" != -- ] || [ "$#" -lt 2 ]; then usage; exit 2; fi
+shift
+root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+os=$(uname -s)
+arch=$(uname -m)
+case "$os" in
+  Linux) platform=linux; ext=so ;;
+  Darwin) platform=darwin; ext=dylib ;;
+  *) echo "lineread: unsupported OS: $os" >&2; exit 1 ;;
+esac
+case "$arch" in arm64|aarch64) arch=aarch64; [ "$platform" != darwin ] || arch=arm64 ;; x86_64|amd64) arch=x86_64 ;; esac
+target="$root/impl/target/$platform-$arch"
+lib="$target/release/liblineread.$ext"
+# Both loaders interpret ':' as a list separator; glibc also splits spaces.
+case "$lib" in *:*|*' '*|*'	'*|*'
+'*) echo 'lineread: repository path contains a loader list separator' >&2; exit 1 ;; esac
+cargo build --release --manifest-path "$root/impl/Cargo.toml" --target-dir "$target" >&2
+if [ ! -f "$lib" ]; then
+  echo "lineread: expected native library not found: $lib (check Cargo target configuration)" >&2
+  exit 1
+fi
+if [ "$platform" = linux ]; then
+  LD_PRELOAD="$lib${LD_PRELOAD:+:$LD_PRELOAD}"; export LD_PRELOAD
+  if [ "$trace" = 1 ]; then LD_DEBUG="${LD_DEBUG:+$LD_DEBUG,}bindings"; export LD_DEBUG; fi
+else
+  # Two-level namespace binds to a particular dylib, so insertion alone is
+  # insufficient. Override common readline/history install-name basenames.
+  aliases="$target/launcher-libs"
+  mkdir -p "$aliases"
+  for name in libreadline libhistory; do
+    for version in '' .4 .5 .6 .7 .8 .9 .8.0 .8.1 .8.2 .8.3; do
+      ln -sf "$lib" "$aliases/$name$version.dylib"
+    done
+  done
+  DYLD_LIBRARY_PATH="$aliases${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"; export DYLD_LIBRARY_PATH
+  if [ "$trace" = 1 ]; then DYLD_PRINT_LIBRARIES=1; export DYLD_PRINT_LIBRARIES; DYLD_PRINT_BINDINGS=1; export DYLD_PRINT_BINDINGS; fi
+fi
+exec "$@"
