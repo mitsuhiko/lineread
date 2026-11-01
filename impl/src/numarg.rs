@@ -78,7 +78,9 @@ unsafe fn arg_loop() -> c_int {
     set_state(RL_STATE_NUMERICARG);
     loop {
         crate::display::show_arg_message();
+        set_state(RL_STATE_MOREINPUT);
         let c = crate::input::rl_read_key();
+        unset_state(RL_STATE_MOREINPUT);
         if c < 0 {
             // the message stays; the key loop sees the end of file
             reset();
@@ -88,6 +90,7 @@ unsafe fn arg_loop() -> c_int {
         let map = crate::keymap::current();
         let e = *crate::keymap::entry(map, (c as usize) & 0xff);
         if e.type_ == ISFUNC && is_universal(e.function.func) {
+            crate::dispatch::callback_arg_key(c);
             if rl_explicit_arg.get() != 0 {
                 // ends the argument; the next key gets it
                 crate::display::clear_arg_message();
@@ -107,6 +110,7 @@ unsafe fn arg_loop() -> c_int {
         }
         let plain = c as u8;
         if c < 256 && plain.is_ascii_digit() {
+            crate::dispatch::callback_arg_key(c);
             let d = (plain - b'0') as c_int;
             let n = if rl_explicit_arg.get() != 0 { rl_numeric_arg.get().saturating_mul(10).saturating_add(d) } else { d };
             if !set_arg(n) {
@@ -115,6 +119,7 @@ unsafe fn arg_loop() -> c_int {
             continue;
         }
         if plain == b'-' && rl_explicit_arg.get() == 0 {
+            crate::dispatch::callback_arg_key(c);
             ARG_SIGN.set(-1);
             rl_numeric_arg.set(1);
             continue;
@@ -152,6 +157,8 @@ unsafe fn dispatch_with_arg(c: c_int) -> c_int {
 #[no_mangle]
 pub unsafe extern "C" fn rl_digit_argument(_count: c_int, key: c_int) -> c_int {
     let k = (key & 0x7f) as u8;
+    // (the reference re-reads the digit itself)
+    crate::dispatch::callback_arg_key(k as c_int);
     if is_state(RL_STATE_NUMERICARG) {
         // M-digit / M-- while reading an argument
         if k.is_ascii_digit() {
