@@ -10,6 +10,8 @@ pub static rl_explicit_arg: CVar<c_int> = CVar::new(0);
 pub static rl_numeric_arg: CVar<c_int> = CVar::new(1);
 /// Sign of the argument (`M--`).
 pub static ARG_SIGN: CVar<c_int> = CVar::new(1);
+/// A nested argument command ran inside the argument loop.
+static CONTINUE: CVar<bool> = CVar::new(false);
 
 /// The count passed to the next command.
 pub fn count() -> c_int {
@@ -66,7 +68,12 @@ unsafe fn arg_loop() -> c_int {
         let _ = k;
         // not part of the argument: execute it with the argument
         crate::display::clear_arg_message();
+        CONTINUE.set(false);
         let r = crate::dispatch::dispatch_key(c, crate::keymap::current());
+        if CONTINUE.replace(false) {
+            // the key was another argument command (M-1 M-2 ...)
+            continue;
+        }
         return r;
     }
 }
@@ -88,6 +95,7 @@ pub unsafe extern "C" fn rl_digit_argument(_count: c_int, key: c_int) -> c_int {
         add_digit((k - b'0') as c_int);
     }
     if nested {
+        CONTINUE.set(true);
         return 0;
     }
     set_state(RL_STATE_NUMERICARG);
@@ -103,6 +111,7 @@ pub unsafe extern "C" fn rl_universal_argument(_count: c_int, _key: c_int) -> c_
         rl_numeric_arg.set(rl_numeric_arg.get().saturating_mul(4).min(1_000_000));
     }
     if nested {
+        CONTINUE.set(true);
         return 0;
     }
     set_state(RL_STATE_NUMERICARG);

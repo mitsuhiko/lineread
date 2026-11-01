@@ -286,14 +286,4 @@ pub unsafe extern "C" fn rl_yank_pop(_count: c_int, _key: c_int) -> c_int {
     0
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn rl_yank_nth_arg(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_yank_nth_arg");
-    0
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn rl_yank_last_arg(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_yank_last_arg");
-    0
-}
+// rl_yank_nth_arg / rl_yank_last_arg live in histcmds.rs (history workstream).

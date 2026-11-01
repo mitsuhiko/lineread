@@ -221,3 +221,17 @@ pub unsafe extern "C" fn rl_clear_history() {
     }
     history::clear_history();
 }
+
+// ---- history arguments (bound in emacs; tests in tests/kill)
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_yank_nth_arg(_a0: c_int, _a1: c_int) -> c_int {
+    todo_stub!("rl_yank_nth_arg");
+    0
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_yank_last_arg(_a0: c_int, _a1: c_int) -> c_int {
+    todo_stub!("rl_yank_last_arg");
+    0
+}

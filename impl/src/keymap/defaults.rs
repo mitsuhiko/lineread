@@ -295,7 +295,7 @@ pub static emacs_meta_keymap: CVar<KEYMAP_ENTRY_ARRAY> = CVar::new([
     E, // 22
     E, // 23
     E, // 24
-    f(crate::kill::rl_yank_nth_arg), // 25
+    f(crate::histcmds::rl_yank_nth_arg), // 25
     E, // 26
     f(crate::complete::rl_complete), // 27
     E, // 28
@@ -316,7 +316,7 @@ pub static emacs_meta_keymap: CVar<KEYMAP_ENTRY_ARRAY> = CVar::new([
     E, // 43
     E, // 44
     f(crate::numarg::rl_digit_argument), // 45
-    f(crate::kill::rl_yank_last_arg), // 46
+    f(crate::histcmds::rl_yank_last_arg), // 46
     E, // 47
     f(crate::numarg::rl_digit_argument), // 48
     f(crate::numarg::rl_digit_argument), // 49
@@ -365,7 +365,7 @@ pub static emacs_meta_keymap: CVar<KEYMAP_ENTRY_ARRAY> = CVar::new([
     f(crate::commands::text::rl_delete_horizontal_space), // 92
     E, // 93
     E, // 94
-    f(crate::kill::rl_yank_last_arg), // 95
+    f(crate::histcmds::rl_yank_last_arg), // 95
     E, // 96
     E, // 97
     f(crate::commands::movement::rl_backward_word), // 98
