@@ -78,3 +78,87 @@ tags: digit-argument eof
 --- inputrc
 --- keys
 abc\M-2
+
+=== api-start-c-redo-mid-line
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "c" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0l\C-xX\e<pause>l<dumpfull>.<dumpfull>\r
+
+=== api-start-d-redo-no-motion
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "d" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause><dumpfull>.<dumpfull>\r
+
+=== api-start-y-redo-no-motion
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "y" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause><dumpfull>.<dumpfull>\r
+
+=== api-start-c-redo-twice
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "c" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause>.<dumpfull>.<dumpfull>\r
+
+=== api-start-c-redo-empty-line
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "c" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+\e<pause>\C-xX\e<pause>.<dumpfull>\r
+
+=== api-start-s-redo-no-motion
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "s" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause>.<dumpfull>\r
+
+=== api-start-C-redo-to-end
+tags: rl_vi_start_inserting api
+--- script
+def s
+rl_vi_start_inserting "C" 1 1
+end
+defun start s
+rl_bind_keyseq_in_map "\C-x" start vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xX\e<pause>.<dumpfull>\r

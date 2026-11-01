@@ -183,5 +183,100 @@
       "(arg: 2) abc"
     ],
     "cursor": [1, 0]
+  },
+  "api-start-c-redo-mid-line": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "aXbc", "point": 2, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 1, 2, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "forward-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 108, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "aXbc ", "point": 2, "end": 5, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 1, 2, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "aXbc "}
+    ],
+    "screen": [
+      "> aXbc"
+    ],
+    "cursor": [1, 0]
+  },
+  "api-start-d-redo-no-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "Xabc", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-movement-mode", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 256, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "Xabc ", "point": 0, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 100, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "Xabc "}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "api-start-y-redo-no-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "Xabc", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-movement-mode", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 256, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "Xabc ", "point": 0, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 121, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "Xabc "}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "api-start-c-redo-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "Xabc ", "point": 0, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "Xabc  ", "point": 0, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "Xabc  "}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "api-start-c-redo-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "X ", "point": 0, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 99, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "X "}
+    ],
+    "screen": [
+      "> X"
+    ],
+    "cursor": [1, 0]
+  },
+  "api-start-s-redo-no-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "Xabc ", "point": 0, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 115, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "Xabc "}
+    ],
+    "screen": [
+      "> Xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "api-start-C-redo-to-end": {
+    "exit": 0,
+    "results": [
+      {"op": "defun start s", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-x\" start vi-command", "ret": 0},
+      {"op": "dumpfull", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [["end", 0, 0, null], ["insert", 0, 3, null], ["delete", 0, 4, "Xabc"], ["begin", 0, 0, null], ["end", 0, 0, null], ["insert", 0, 1, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-redo", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 36, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
   }
 }

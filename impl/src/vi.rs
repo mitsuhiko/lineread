@@ -870,8 +870,22 @@ unsafe fn domove_with(op: u8, count: c_int, forced: Option<c_int>) -> Option<(c_
     let start = point();
     let mut total = count.max(1);
     let mut c;
-    if redoing() {
+    if let (true, Some(f)) = (redoing(), forced) {
+        c = f;
+    } else if redoing() {
         c = st().last_motion;
+        if c == 0 {
+            // redoing an operator that never had a motion (its command was
+            // recorded through rl_vi_start_inserting): the reference leaves
+            // a blank appended to the line (no undo) and aborts
+            buffer::rl_mark.set(start as c_int);
+            let mut l = line().to_vec();
+            l.push(b' ');
+            buffer::set_line(&l);
+            SKIP_CHECK.set(true);
+            crate::commands::misc::abort_internal();
+            return None;
+        }
     } else if let Some(f) = forced {
         c = f;
     } else {
@@ -1049,13 +1063,10 @@ fn change_group() -> bool {
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_change_to(count: c_int, key: c_int) -> c_int {
     let count = op_count(count);
-    let g = change_group();
     let Some((_m, count)) = operator_range(b'c', key, count) else {
-        if g {
-            crate::undo::rl_end_undo_group();
-        }
         return -1;
     };
+    change_group();
     let a = point();
     let b = buffer::mark();
     if a < b {
@@ -1147,14 +1158,13 @@ pub unsafe extern "C" fn rl_vi_rubout(count: c_int, key: c_int) -> c_int {
 pub unsafe extern "C" fn rl_vi_subst(count: c_int, key: c_int) -> c_int {
     // s = c with an l motion, S = cc
     let count = op_count(count);
-    let g = change_group();
     let motion = if upper(key) { b'c' } else { b'l' } as c_int;
-    let Some((_m, count)) = domove_with(b'c', count, Some(motion)) else {
-        if g {
-            crate::undo::rl_end_undo_group();
-        }
+    // (a redo takes the recorded motion, like the reference)
+    let forced = if redoing() { None } else { Some(motion) };
+    let Some((_m, count)) = domove_with(b'c', count, forced) else {
         return -1;
     };
+    change_group();
     let a = point();
     let b = buffer::mark();
     if a < b {
