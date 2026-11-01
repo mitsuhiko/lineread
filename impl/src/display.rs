@@ -628,7 +628,12 @@ pub fn move_to_end() {
 /// accept-line: cursor after the line, then a newline.
 pub fn update_final() {
     move_to_end();
-    out_byte(b'\n');
+    // nothing displayed (e.g. a redisplay function that draws nothing):
+    // no newline
+    let s = SCREEN.get_mut();
+    if s.cur_col > 0 || s.cur_row > 0 || s.rows.iter().any(|r| !r.is_empty()) {
+        out_byte(b'\n');
+    }
     terminal::flush();
     unsafe { rl_on_new_line() };
 }
