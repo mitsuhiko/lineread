@@ -93,7 +93,7 @@ $(B)/rl-driver: $(B)/rl-driver.o $(IMPL_LIBS)
 # liblineread.a (docs/IMPLEMENTING.md).  cargo decides what to rebuild.
 ifdef RUST_BUILD
 ifeq ($(RUST_LIB),$(RUST_TARGET_DIR)/release/liblineread.a)
-$(RUST_LIB): rust-lib
+$(RUST_LIB): rust-lib ; @:
 endif
 endif
 rust-lib:
