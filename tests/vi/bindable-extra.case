@@ -1,0 +1,303 @@
+# vi commands that are not bound by default (word motions by name,
+# back-to-indent) and default bindings with few cases (G, &, _, ^D).
+# Text is ASCII so word classification is identical on every libc.
+tags: vi bindable
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xw": vi-fword
+"\C-xW": vi-fWord
+"\C-xb": vi-bword
+"\C-xB": vi-bWord
+"\C-xe": vi-eword
+"\C-xE": vi-eWord
+"\C-xi": vi-back-to-indent
+--- script
+readline "> "
+
+=== fword-punctuation-classes
+tags: vi-fword
+keys: foo.bar baz(qux)\e<pause>0\C-xw<dump>\C-xw<dump>\C-xw<dump>\C-xw<dump>\r
+
+=== fword-count-and-end
+tags: vi-fword numarg
+keys: one two three four\e<pause>0\M-2\C-xw<dump>\M-9\C-xw<dump>\r
+
+=== fword-whitespace-runs
+tags: vi-fword
+keys: a   b\C-v\t\C-v\tc\e<pause>0\C-xw<dump>\C-xw<dump>\r
+
+=== fWord-skips-punctuation
+tags: vi-fWord
+keys: foo.bar baz(qux) end\e<pause>0\C-xW<dump>\C-xW<dump>\C-xW<dump>\r
+
+=== fWord-count
+tags: vi-fWord numarg
+keys: a.b c.d e.f g\e<pause>0\M-3\C-xW<dump>\r
+
+=== fWord-at-last-word
+tags: vi-fWord
+keys: x.y z\e<pause>\C-xW<dump>\r
+
+=== bword-punctuation-classes
+tags: vi-bword
+keys: foo.bar baz(qux)\e<pause>\C-xb<dump>\C-xb<dump>\C-xb<dump>\C-xb<dump>\r
+
+=== bword-count-and-start
+tags: vi-bword numarg
+keys: one two three four\e<pause>\M-2\C-xb<dump>\M-9\C-xb<dump>\r
+
+=== bword-from-whitespace
+tags: vi-bword
+keys: alpha   beta  \e<pause>\C-xb<dump>\C-xb<dump>\r
+
+=== bWord-skips-punctuation
+tags: vi-bWord
+keys: foo.bar baz(qux) end\e<pause>\C-xB<dump>\C-xB<dump>\C-xB<dump>\r
+
+=== bWord-count
+tags: vi-bWord numarg
+keys: a.b c.d e.f g\e<pause>\M-3\C-xB<dump>\r
+
+=== bWord-at-start
+tags: vi-bWord
+keys: x.y z\e<pause>0\C-xB<dump>\r
+
+=== eword-punctuation-classes
+tags: vi-eword
+keys: foo.bar baz(qux)\e<pause>0\C-xe<dump>\C-xe<dump>\C-xe<dump>\C-xe<dump>\r
+
+=== eword-count
+tags: vi-eword numarg
+keys: one two three four\e<pause>0\M-3\C-xe<dump>\r
+
+=== eword-single-chars
+tags: vi-eword
+keys: a b c\e<pause>0\C-xe<dump>\C-xe<dump>\C-xe<dump>\r
+
+=== eWord-skips-punctuation
+tags: vi-eWord
+keys: foo.bar baz(qux) end\e<pause>0\C-xE<dump>\C-xE<dump>\C-xE<dump>\r
+
+=== eWord-count
+tags: vi-eWord numarg
+keys: a.b c.d e.f g\e<pause>0\M-2\C-xE<dump>\r
+
+=== eWord-at-end
+tags: vi-eWord
+keys: x.y z\e<pause>\C-xE<dump>\r
+
+=== word-names-are-case-insensitive-aliases
+tags: vi-fword vi-fWord vi-forward-word vi-forward-bigword
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xa": vi-forward-word
+"\C-xA": vi-forward-bigword
+"\C-xz": vi-backward-word
+"\C-xZ": vi-backward-bigword
+"\C-xy": vi-end-bigword
+--- keys
+a.b c.d e\e<pause>0\C-xa<dump>\C-xA<dump>\C-xZ<dump>\C-xz<dump>\C-xy<dump>\r
+
+=== forward-word-named
+tags: vi-forward-word
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xa": vi-forward-word
+--- keys
+one,two three\e<pause>0\C-xa<dump>\C-xa<dump>\M-2\C-xa<dump>\r
+
+=== forward-bigword-named
+tags: vi-forward-bigword
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xA": vi-forward-bigword
+--- keys
+one,two three four\e<pause>0\C-xA<dump>\M-2\C-xA<dump>\r
+
+=== backward-word-named
+tags: vi-backward-word
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xz": vi-backward-word
+--- keys
+one,two three\e<pause>\C-xz<dump>\C-xz<dump>\M-2\C-xz<dump>\r
+
+=== backward-bigword-named
+tags: vi-backward-bigword
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xZ": vi-backward-bigword
+--- keys
+one,two three four\e<pause>\C-xZ<dump>\M-2\C-xZ<dump>\r
+
+=== end-bigword-named
+tags: vi-end-bigword
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-xy": vi-end-bigword
+--- keys
+one,two three four\e<pause>0\C-xy<dump>\M-2\C-xy<dump>\r
+
+=== back-to-indent-leading-space
+tags: vi-back-to-indent
+keys: \s\s\sindented text\e<pause>\C-xi<dump>\r
+
+=== back-to-indent-tabs
+tags: vi-back-to-indent
+keys: \C-v\t\C-v\tx y\e<pause>\C-xi<dump>\r
+
+=== back-to-indent-all-blank
+tags: vi-back-to-indent
+keys: \s\s\s\e<pause>\C-xi<dump>\r
+
+=== back-to-indent-no-indent
+tags: vi-back-to-indent
+keys: word\e<pause>\C-xi<dump>\r
+
+=== eof-maybe-empty-line
+tags: vi-eof-maybe
+--- script
+readline "> "
+readline "> "
+--- keys
+\e<pause>\C-d<dump>xyz\r
+
+=== eof-maybe-nonempty-accepts
+tags: vi-eof-maybe
+--- script
+readline "> "
+readline "> "
+--- keys
+abc\C-dnext\r
+
+=== eof-maybe-command-mode
+tags: vi-eof-maybe
+--- script
+readline "> "
+--- keys
+abc\e<pause>0\C-d
+
+=== eof-maybe-insert-mode-empty
+tags: vi-eof-maybe
+--- script
+readline "> "
+readline "> "
+--- keys
+\C-d
+
+=== fetch-history-no-count-oldest
+tags: vi-fetch-history history
+--- script
+add_history "first"
+add_history "second"
+add_history "third"
+readline "> "
+--- keys
+\e<pause>G<dump>\r
+
+=== fetch-history-count
+tags: vi-fetch-history history numarg
+--- script
+add_history "first"
+add_history "second"
+add_history "third"
+readline "> "
+--- keys
+\e<pause>2G<dump>3G<dump>\r
+
+=== fetch-history-out-of-range
+tags: vi-fetch-history history numarg
+--- script
+add_history "first"
+add_history "second"
+readline "> "
+--- keys
+edit\e<pause>9G<dump>\r
+
+=== fetch-history-empty-history
+tags: vi-fetch-history history
+--- script
+readline "> "
+--- keys
+abc\e<pause>G<dump>\r
+
+=== tilde-expand-home
+tags: vi-tilde-expand tilde
+--- script
+readline "> "
+--- keys
+ls ~/x\e<pause>&<dump>\r
+
+=== tilde-expand-cursor-on-word
+tags: vi-tilde-expand tilde
+--- script
+readline "> "
+--- keys
+cd ~ now\e<pause>0w&<dump>\r
+
+=== tilde-expand-no-tilde
+tags: vi-tilde-expand tilde
+--- script
+readline "> "
+--- keys
+plain word\e<pause>&<dump>\r
+
+=== tilde-expand-unknown-user
+tags: vi-tilde-expand tilde
+--- script
+readline "> "
+--- keys
+x ~nosuchuserxyz/a\e<pause>&<dump>\r
+
+=== yank-arg-last-word
+tags: vi-yank-arg history
+--- script
+add_history "cmd alpha beta gamma"
+readline "> "
+--- keys
+x\e<pause>_<dump>\r
+
+=== yank-arg-count
+tags: vi-yank-arg history numarg
+--- script
+add_history "cmd alpha beta gamma"
+readline "> "
+--- keys
+x\e<pause>2_<dump>\r
+
+=== yank-arg-first-word
+tags: vi-yank-arg history numarg
+--- script
+add_history "cmd alpha beta gamma"
+readline "> "
+--- keys
+\e<pause>1_<dump>\r
+
+=== yank-arg-no-history
+tags: vi-yank-arg
+--- script
+readline "> "
+--- keys
+x\e<pause>_<dump>\r
+
+=== yank-arg-out-of-range
+tags: vi-yank-arg history numarg
+--- script
+add_history "one two"
+readline "> "
+--- keys
+x\e<pause>7_<dump>\r

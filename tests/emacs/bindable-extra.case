@@ -1,0 +1,458 @@
+# Bindable commands that are unbound by default (or rarely reached): each is
+# bound explicitly and exercised with plain, counted and edge-case input.
+tags: emacs bindable
+--- script
+readline "> "
+
+=== forward-byte-ascii
+tags: forward-byte
+--- inputrc
+"\C-xf": forward-byte
+--- keys
+abcd\C-a\C-xf<dump>\C-xf\C-xf<dump>\r
+
+=== forward-byte-utf8-steps-bytes
+tags: forward-byte utf8
+--- inputrc
+"\C-xf": forward-byte
+--- keys
+äöx\C-a\C-xf<dump>\C-xf<dump>\C-xf\C-xf<dump>\r
+
+=== forward-byte-count-and-negative
+tags: forward-byte numarg
+--- inputrc
+"\C-xf": forward-byte
+--- keys
+abcdef\C-a\M-3\C-xf<dump>\M--\M-2\C-xf<dump>\M-9\C-xf<dump>\r
+
+=== forward-byte-at-end
+tags: forward-byte
+--- inputrc
+"\C-xf": forward-byte
+--- keys
+abc\C-xf<dump>x\r
+
+=== backward-byte-ascii
+tags: backward-byte
+--- inputrc
+"\C-xb": backward-byte
+--- keys
+abcd\C-xb<dump>\C-xb\C-xb<dump>\r
+
+=== backward-byte-utf8-steps-bytes
+tags: backward-byte utf8
+--- inputrc
+"\C-xb": backward-byte
+--- keys
+xäö\C-xb<dump>\C-xb<dump>\C-xb\C-xb<dump>\r
+
+=== backward-byte-count-and-negative
+tags: backward-byte numarg
+--- inputrc
+"\C-xb": backward-byte
+--- keys
+abcdef\M-2\C-xb<dump>\M--\M-1\C-xb<dump>\M-9\C-xb<dump>\r
+
+=== backward-byte-at-start
+tags: backward-byte
+--- inputrc
+"\C-xb": backward-byte
+--- keys
+abc\C-a\C-xb<dump>x\r
+
+=== byte-motion-then-insert-utf8
+tags: forward-byte backward-byte utf8
+--- inputrc
+"\C-xf": forward-byte
+"\C-xb": backward-byte
+--- keys
+äb\C-a\C-xf\C-xb\C-xfZ<dump>\r
+
+=== copy-backward-word-yank
+tags: copy-backward-word yank
+--- inputrc
+"\C-xw": copy-backward-word
+--- keys
+one two three\C-xw\C-e \C-y<dump>\r
+
+=== copy-backward-word-count
+tags: copy-backward-word numarg
+--- inputrc
+"\C-xw": copy-backward-word
+--- keys
+one two three\M-2\C-xw\C-a\C-y<dump>\r
+
+=== copy-backward-word-mid-word
+tags: copy-backward-word
+--- inputrc
+"\C-xw": copy-backward-word
+--- keys
+alpha beta\C-b\C-b\C-xw\C-e\C-y<dump>\r
+
+=== copy-backward-word-at-start
+tags: copy-backward-word
+--- inputrc
+"\C-xw": copy-backward-word
+--- keys
+alpha\C-a\C-xw\C-y<dump>\r
+
+=== copy-forward-word-yank
+tags: copy-forward-word
+--- inputrc
+"\C-xW": copy-forward-word
+--- keys
+one two three\C-a\C-xW\C-e \C-y<dump>\r
+
+=== copy-forward-word-count
+tags: copy-forward-word numarg
+--- inputrc
+"\C-xW": copy-forward-word
+--- keys
+one two three\C-a\M-2\C-xW\C-e \C-y<dump>\r
+
+=== copy-region-as-kill-basic
+tags: copy-region-as-kill
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+hello world\C-a\C-@\M-f\C-xc\C-e \C-y<dump>\r
+
+=== copy-region-as-kill-reversed
+tags: copy-region-as-kill
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+hello world\C-@\M-b\C-xc\C-a\C-y<dump>\r
+
+=== copy-region-as-kill-empty-region
+tags: copy-region-as-kill
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+abc\C-@\C-xc\C-y<dump>\r
+
+=== copy-region-as-kill-no-mark
+tags: copy-region-as-kill
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- script
+readline "> "
+readline "> "
+--- keys
+abc\C-xc\C-a\C-y<dump>\r\C-xcxy\C-a\C-y<dump>\r
+
+=== kill-whole-line-basic
+tags: kill-whole-line
+--- inputrc
+"\C-xk": kill-whole-line
+--- keys
+some text here\C-b\C-b\C-xk<dump>\C-y<dump>\r
+
+=== kill-whole-line-empty
+tags: kill-whole-line
+--- inputrc
+"\C-xk": kill-whole-line
+--- keys
+\C-xk<dump>x\C-y<dump>\r
+
+=== kill-whole-line-then-yank-pop
+tags: kill-whole-line yank-pop
+--- inputrc
+"\C-xk": kill-whole-line
+--- keys
+first\C-xksecond\C-xk\C-y\M-y<dump>\r
+
+=== kill-whole-line-undo
+tags: kill-whole-line undo
+--- inputrc
+"\C-xk": kill-whole-line
+--- keys
+abc def\C-a\C-f\C-xk\C-_<dump>\r
+
+=== delete-char-or-list-deletes
+tags: delete-char-or-list
+--- inputrc
+"\C-xd": delete-char-or-list
+--- script
+complete_words apple apricot banana
+set rl_completion_entry_function words
+readline "> "
+--- keys
+abc\C-a\C-xd<dump>\r
+
+=== delete-char-or-list-at-end-lists
+tags: delete-char-or-list complete
+--- inputrc
+"\C-xd": delete-char-or-list
+--- script
+complete_words apple apricot banana
+set rl_completion_entry_function words
+readline "> "
+--- keys
+ap\C-xd<dump>\r
+
+=== delete-char-or-list-empty-line-eof
+tags: delete-char-or-list
+--- inputrc
+"\C-xd": delete-char-or-list
+--- script
+complete_words apple apricot banana
+set rl_completion_entry_function words
+readline "> "
+readline "> "
+--- keys
+\C-xd<dump>x\r
+
+=== delete-char-or-list-middle-count
+tags: delete-char-or-list numarg
+--- inputrc
+"\C-xd": delete-char-or-list
+--- keys
+abcdef\C-a\M-3\C-xd<dump>\r
+
+=== forward-backward-delete-char-middle
+tags: forward-backward-delete-char
+--- inputrc
+"\C-xd": forward-backward-delete-char
+--- keys
+abcd\C-b\C-b\C-xd<dump>\r
+
+=== forward-backward-delete-char-at-end
+tags: forward-backward-delete-char
+--- inputrc
+"\C-xd": forward-backward-delete-char
+--- keys
+abcd\C-xd<dump>\C-xd<dump>\r
+
+=== forward-backward-delete-char-count
+tags: forward-backward-delete-char numarg
+--- inputrc
+"\C-xd": forward-backward-delete-char
+--- keys
+abcdef\C-a\C-f\M-2\C-xd<dump>\C-e\M-2\C-xd<dump>\r
+
+=== forward-backward-delete-char-empty
+tags: forward-backward-delete-char
+--- inputrc
+"\C-xd": forward-backward-delete-char
+--- keys
+\C-xd<dump>z\r
+
+=== emacs-editing-mode-from-vi-insert
+tags: emacs-editing-mode vi
+--- inputrc
+set editing-mode vi
+set keymap vi-insert
+"\C-o": emacs-editing-mode
+--- keys
+abc\C-o<dump>\C-ax<dump>\r
+
+=== emacs-editing-mode-from-vi-command
+tags: emacs-editing-mode vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abc\e<pause>0\C-e<dump>\C-ey<dump>\r
+
+=== emacs-editing-mode-bound-in-emacs
+tags: emacs-editing-mode
+--- inputrc
+"\C-xe": emacs-editing-mode
+--- keys
+abc\C-xe<dump>\C-a\C-d<dump>\r
+
+=== emacs-editing-mode-persists
+tags: emacs-editing-mode vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+readline "> "
+--- keys
+a\e<pause>\C-e\rb\C-a<dump>\r
+
+=== menu-complete-backward-cycles
+tags: menu-complete-backward complete
+--- inputrc
+"\C-xp": menu-complete-backward
+--- script
+complete_words apple apricot avocado
+set rl_completion_entry_function words
+readline "> "
+--- keys
+a\C-xp<dump>\C-xp<dump>\C-xp<dump>\C-xp<dump>\r
+
+=== menu-complete-backward-count
+tags: menu-complete-backward complete numarg
+--- inputrc
+"\C-xp": menu-complete-backward
+--- script
+complete_words apple apricot avocado
+set rl_completion_entry_function words
+readline "> "
+--- keys
+a\M-2\C-xp<dump>\r
+
+=== menu-complete-backward-single
+tags: menu-complete-backward complete
+--- inputrc
+"\C-xp": menu-complete-backward
+--- script
+complete_words apple apricot avocado
+set rl_completion_entry_function words
+readline "> "
+--- keys
+av\C-xp<dump>\C-xp<dump>\r
+
+=== menu-complete-backward-mixed-with-forward
+tags: menu-complete-backward menu-complete complete
+--- inputrc
+"\C-xp": menu-complete-backward
+"\C-xn": menu-complete
+--- script
+complete_words apple apricot avocado
+set rl_completion_entry_function words
+readline "> "
+--- keys
+a\C-xn\C-xn\C-xp<dump>\r
+
+=== noninc-forward-search-again
+tags: non-incremental-forward-search-history-again search
+--- inputrc
+"\C-xs": non-incremental-forward-search-history-again
+--- script
+add_history "make one"
+add_history "ls"
+add_history "make two"
+add_history "pwd"
+readline "> "
+--- keys
+\M-pmake\r<dump>\M-p\r<dump>\C-xs<dump>\r
+
+=== noninc-forward-search-again-no-previous
+tags: non-incremental-forward-search-history-again search
+--- inputrc
+"\C-xs": non-incremental-forward-search-history-again
+--- script
+add_history "alpha"
+readline "> "
+--- keys
+x\C-xs<dump>\r
+
+=== noninc-forward-search-again-not-found
+tags: non-incremental-forward-search-history-again search
+--- inputrc
+"\C-xs": non-incremental-forward-search-history-again
+--- script
+add_history "make one"
+add_history "ls"
+readline "> "
+--- keys
+\M-pmake\r<dump>\C-xs<dump>\r
+
+=== noninc-forward-search-again-count
+tags: non-incremental-forward-search-history-again search numarg
+--- inputrc
+"\C-xs": non-incremental-forward-search-history-again
+--- script
+add_history "make a"
+add_history "make b"
+add_history "make c"
+add_history "make d"
+readline "> "
+--- keys
+\M-pmake\r\M-p\r\M-p\r<dump>\M-2\C-xs<dump>\r
+
+=== previous-screen-line-wrapped
+tags: previous-screen-line
+screen: 20x6
+--- inputrc
+"\C-xp": previous-screen-line
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-xp<dump>\C-xp<dump>\C-xp<dump>\r
+
+=== previous-screen-line-single-line
+tags: previous-screen-line
+--- inputrc
+"\C-xp": previous-screen-line
+--- keys
+short\C-xp<dump>\r
+
+=== previous-next-screen-line-roundtrip
+tags: previous-screen-line next-screen-line
+screen: 20x6
+--- inputrc
+"\C-xp": previous-screen-line
+"\C-xn": next-screen-line
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-xp\C-xn<dump>\C-a\C-xn<dump>\C-xn<dump>\r
+
+=== skip-csi-sequence-unknown-key
+tags: skip-csi-sequence
+--- inputrc
+"\e[": skip-csi-sequence
+--- keys
+ab\e[99;5~cd<dump>\r
+
+=== skip-csi-sequence-final-byte-consumed
+tags: skip-csi-sequence
+--- inputrc
+"\e[": skip-csi-sequence
+--- keys
+x\e[1;2Qy<dump>\r
+
+=== skip-csi-sequence-known-keys-still-work
+tags: skip-csi-sequence
+--- inputrc
+"\e[": skip-csi-sequence
+"\e[D": backward-char
+--- keys
+abc\e[D\e[D<dump>\e[42xZ<dump>\r
+
+=== skip-csi-sequence-at-eof
+tags: skip-csi-sequence
+--- inputrc
+"\C-xc": skip-csi-sequence
+--- keys
+ab\C-xc12
+
+=== tty-status-keeps-line
+tags: tty-status
+ignore: screen cursor
+--- inputrc
+"\C-xt": tty-status
+--- keys
+abc\C-b\C-xt<dump>d<dump>\r
+
+=== tty-status-empty-line
+tags: tty-status
+ignore: screen cursor
+--- inputrc
+"\C-xt": tty-status
+--- keys
+\C-xt<dump>q\r
+
+=== do-lowercase-version-meta-upper
+tags: do-lowercase-version
+keys: one two three\M-B<dump>\M-B<dump>\M-F<dump>\r
+
+=== do-lowercase-version-meta-upper-delete
+tags: do-lowercase-version
+keys: one two three\C-a\M-D<dump>\M-U<dump>\r
+
+=== do-lowercase-version-bound-explicitly
+tags: do-lowercase-version
+--- inputrc
+"\C-xA": do-lowercase-version
+"\C-xa": "lower"
+--- keys
+x\C-xA<dump>\r
+
+=== do-lowercase-version-unbound-lowercase
+tags: do-lowercase-version
+--- inputrc
+"\C-xQ": do-lowercase-version
+--- keys
+abc\C-xQ<dump>\r

@@ -505,10 +505,10 @@ static void trace_dispatch(void) {
 static void trace_finish(void) {
   if (!trace_fp) return;
   trace_dispatch();
-  for (int i = 0; i < ntraced_funcs; i++) {
-    const char *n = func_name((rl_command_func_t *)traced_funcs[i]);
-    if (n && strcmp(n, "?unknown") != 0) trace("func", n);
-  }
+  rl_initialize_funmap();
+  for (int i = 0; i < ntraced_funcs; i++)
+    for (int j = 0; funmap && funmap[j]; j++)   /* every alias */
+      if ((void *)funmap[j]->function == traced_funcs[i]) trace("func", funmap[j]->name);
   ntraced_funcs = 0;
   fclose(trace_fp);
   trace_fp = NULL;
