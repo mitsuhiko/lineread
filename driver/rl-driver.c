@@ -34,6 +34,7 @@
 #include <sys/ioctl.h>
 #include <sys/select.h>
 #include <sys/stat.h>
+#include <termios.h>
 #include <sys/types.h>
 #include <time.h>
 #include <unistd.h>
@@ -2741,11 +2742,18 @@ static void c_sleep_ms(cmd_t *c) {
   while (nanosleep(&ts, &ts) != 0 && errno == EINTR) ;
 }
 
+/* Wait until the runner has read all terminal output before exiting: a
+   pty master may lose data that is still queued when the slave closes. */
+static void drain_tty(void) {
+  if (isatty(STDOUT_FILENO)) tcdrain(STDOUT_FILENO);
+}
+
 static void c_exit(cmd_t *c) {
   NEED(0, 1);
   long code = 0;
   if (c->n > 1 && parse_int_arg(c, 1, &code)) { rec_error(c, "bad code"); return; }
   fflush(NULL);
+  drain_tty();
   exit((int)code);
 }
 
@@ -2886,6 +2894,7 @@ int main(int argc, char **argv) {
   run_block(&blocks[0]);
 
   fflush(NULL);
+  drain_tty();
   if (results_fp != stderr) fclose(results_fp);
   return 0;
 }
