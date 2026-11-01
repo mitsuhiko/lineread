@@ -25,6 +25,10 @@ pub static rl_signal_event_hook: CVar<Option<rl_hook_func_t>> = CVar::new(None);
 /// The signal caught by readline's handler and not yet processed.
 static CAUGHT: AtomicI32 = AtomicI32::new(0);
 
+/// Number of signals (other than SIGWINCH) processed so far; lets long
+/// running commands (the completion pager) notice an interruption.
+pub static SIGNALS_HANDLED: CVar<u64> = CVar::new(0);
+
 const CAUGHT_SIGNALS: [c_int; 8] = [
     libc::SIGINT,
     libc::SIGTERM,
@@ -143,6 +147,7 @@ unsafe fn handle_signal(sig: c_int) {
             h();
         }
     } else {
+        SIGNALS_HANDLED.set(SIGNALS_HANDLED.get() + 1);
         if sig == libc::SIGINT {
             rl_free_line_state();
             // a pending vi motion is forgotten too (observed)
