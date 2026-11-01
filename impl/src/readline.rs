@@ -201,6 +201,7 @@ pub unsafe fn line_step() -> bool {
     }) {
         // the command was aborted (rl_abort and friends)
         crate::dispatch::rl_last_func.set(None);
+        crate::dispatch::reset_command_stack();
     }
     unset_state(RL_STATE_MULTIKEY);
     after_command();

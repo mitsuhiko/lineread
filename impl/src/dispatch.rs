@@ -114,8 +114,10 @@ pub unsafe fn call_command(f: rl_command_func_t, key: c_int, map: Keymap) -> c_i
     rl_executing_key.set(key);
     // (commands dispatched from inside a command, e.g. by the numeric
     // argument loop, leave the outer dispatch state alone)
-    let outer = is_state(RL_STATE_DISPATCHING);
-    let outer_disp = rl_dispatching.get();
+    // (an aborted command leaves DISPATCHING set but the stack empty)
+    let nested = !CMD_STACK.get_mut().is_empty();
+    let outer = nested && is_state(RL_STATE_DISPATCHING);
+    let outer_disp = if nested { rl_dispatching.get() } else { 0 };
     set_state(RL_STATE_DISPATCHING);
     rl_dispatching.set(1);
     CMD_STACK.get_mut().push(f);
