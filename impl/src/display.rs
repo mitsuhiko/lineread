@@ -802,6 +802,18 @@ pub fn screen_changed() {}
 pub fn screen_resized() {
     unsafe {
         if is_state(RL_STATE_INITIALIZED) && crate::readline::in_readline() {
+            let custom = rl_redisplay_function.get().map(|f| f as usize) != Some(rl_redisplay as *const () as usize);
+            if custom {
+                // an application redisplay function gets a forced update
+                // (the line is redrawn where the cursor is), but only when
+                // the size differs from the last resize (observed)
+                static LAST: CVar<Option<(c_int, c_int)>> = CVar::new(None);
+                let now = (terminal::SCREEN_ROWS.get(), terminal::SCREEN_COLS.get());
+                if LAST.replace(Some(now)) != Some(now) {
+                    rl_forced_update_display();
+                }
+                return;
+            }
             clear_displayed();
             redisplay();
         }
