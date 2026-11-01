@@ -103,6 +103,7 @@ pub fn in_command_mode() -> bool {
 }
 
 /// Is vi replace (overstrike) mode active?
+#[allow(dead_code)]
 pub fn in_replace_mode() -> bool {
     vi_mode() && st().overstrike && !st().replace_map.is_null() && crate::keymap::current() == st().replace_map
 }
@@ -297,15 +298,7 @@ fn done_inserting() {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_vi_movement_mode(_count: c_int, key: c_int) -> c_int {
-    if key == ESC && in_replace_mode() {
-        // ESC is not a key-sequence prefix in replace mode: a bracketed
-        // paste is recognised here
-        if let Some(text) = crate::commands::text::read_paste_after_esc() {
-            overstrike_text(&text);
-            return 0;
-        }
-    }
+pub unsafe extern "C" fn rl_vi_movement_mode(_count: c_int, _key: c_int) -> c_int {
     if point() > 0 {
         set_point(mb::prev_char(line(), point()));
     }
@@ -938,11 +931,25 @@ unsafe fn domove_with(op: u8, count: c_int, forced: Option<c_int>) -> Option<(c_
     // cw / cW change to the end of the word (not over the blanks after it)
     let cw = op == b'c' && (cb == b'w' || cb == b'W');
     set_state(RL_STATE_VIMOTION);
+    let saved_arg = (
+        crate::numarg::rl_numeric_arg.get(),
+        crate::numarg::rl_explicit_arg.get(),
+        crate::numarg::ARG_SIGN.get(),
+    );
     crate::numarg::rl_numeric_arg.set(total);
     crate::numarg::rl_explicit_arg.set(0);
     crate::numarg::ARG_SIGN.set(1);
+    let motion_entry = *crate::keymap::entry(crate::keymap::current(), (c as usize) & 0xff);
     let r = crate::dispatch::dispatch_key(c, crate::keymap::current());
-    crate::numarg::reset();
+    if is_state(RL_STATE_CALLBACK) && forced.is_none() && !redoing() && motion_entry.type_ == ISFUNC {
+        // in callback mode the motion key is dispatched by itself: the
+        // reference reports it as the last function
+        crate::dispatch::LAST_FUNC_OVERRIDE.set(motion_entry.function.func);
+    }
+    // the operator's own argument stays as it was
+    crate::numarg::rl_numeric_arg.set(saved_arg.0);
+    crate::numarg::rl_explicit_arg.set(saved_arg.1);
+    crate::numarg::ARG_SIGN.set(saved_arg.2);
     unset_state(RL_STATE_VIMOTION);
     // in callback mode the reference does not see a failed f/t search
     // inside an operator: the motion "succeeds" without moving
@@ -1276,8 +1283,12 @@ unsafe fn replace_keymap() -> Keymap {
         let del = KEYMAP_ENTRY::func(rl_vi_overstrike_delete);
         *m.add(127) = del;
         *m.add(8) = del;
-        // ESC leaves replace mode at once (no escape-sequence prefix)
-        *m.add(ESC as usize) = KEYMAP_ENTRY::func(rl_vi_movement_mode);
+        // ESC: a prefix with only the bracketed-paste sequence (no arrow
+        // keys); ESC alone leaves replace mode
+        let esc = crate::keymap::rl_make_bare_keymap();
+        *esc.add(ANYOTHERKEY) = KEYMAP_ENTRY::func(rl_vi_movement_mode);
+        *m.add(ESC as usize) = KEYMAP_ENTRY::keymap(esc);
+        crate::bind::generic_bind_raw(ISFUNC, b"\x1b[200~", KmData { func: Some(vi_replace_paste) }, m);
         s.replace_map = m;
     }
     s.replace_map
@@ -1358,9 +1369,11 @@ unsafe fn overstrike_one(ch: &[u8]) {
     s.ostext.extend_from_slice(ch);
 }
 
-/// Insert text in replace mode (bracketed paste).
-pub unsafe fn overstrike_text(text: &[u8]) {
-    overstrike_bytes(text);
+/// Bracketed paste in replace mode: the pasted text overwrites (no mark).
+unsafe extern "C" fn vi_replace_paste(_count: c_int, _key: c_int) -> c_int {
+    let text = crate::commands::text::read_paste_body();
+    overstrike_bytes(&text);
+    0
 }
 
 #[no_mangle]

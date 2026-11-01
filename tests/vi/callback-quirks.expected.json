@@ -150,5 +150,115 @@
       ">"
     ],
     "cursor": [3, 0]
+  },
+  "cb-dw-last-func-is-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "two", "point": 0, "end": 3, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["delete", 0, 4, "one "]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-next-word", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 119, "executing_keyseq": "dw", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "two"}
+    ],
+    "screen": [
+      "> two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-cw-last-func-is-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": " two", "point": 0, "end": 4, "mark": 3, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["begin", 0, 0, null], ["delete", 0, 3, "one"], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-next-word", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 119, "executing_keyseq": "cw", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": " two"}
+    ],
+    "screen": [
+      ">  two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dd-last-func": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["delete", 0, 7, "one two"]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-delete-to", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 100, "executing_keyseq": "d", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-df-last-func": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "two", "point": 0, "end": 3, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["delete", 0, 4, "one-"]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-char-search", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 102, "executing_keyseq": "df", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "two"}
+    ],
+    "screen": [
+      "> two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-yw-last-func": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "one two", "point": 0, "end": 7, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-next-word", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 119, "executing_keyseq": "yw", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-D-last-func": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["delete", 0, 7, "one two"]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-delete-to", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 36, "executing_keyseq": "D$", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-count-dw-last-func": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 1, "numeric_arg": 2, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["delete", 0, 7, "one two"]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-next-word", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 119, "executing_keyseq": "22dw", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-replace-escape-waits": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "XYcdef", "point": 2, "end": 6, "mark": 0, "mode": "vi", "keymap": "?anon", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "MULTIKEY", "VICMDONCE"], "undo": [["end", 0, 0, null], ["delete", 2, 3, "b"], ["insert", 1, 2, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 1, 2, "a"], ["insert", 0, 1, null], ["begin", 0, 0, null], ["begin", 0, 0, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-overstrike", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 89, "executing_keyseq": "\u001b", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "XYcdef", "point": 1, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["end", 0, 0, null], ["end", 0, 0, null], ["end", 0, 0, null], ["delete", 2, 3, "b"], ["insert", 1, 2, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 1, 2, "a"], ["insert", 0, 1, null], ["begin", 0, 0, null], ["begin", 0, 0, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 27, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "XYcdef"}
+    ],
+    "screen": [
+      "> XYcdef",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-replace-escape-paste": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "XYZdef", "point": 3, "end": 6, "mark": 0, "mode": "vi", "keymap": "?anon", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["end", 0, 0, null], ["delete", 3, 4, "c"], ["insert", 2, 3, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 2, 3, "b"], ["insert", 1, 2, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 1, 2, "a"], ["insert", 0, 1, null], ["begin", 0, 0, null], ["begin", 0, 0, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "?unknown", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 126, "executing_keyseq": "\u001b[200~", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "XYdef", "point": 2, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED", "CALLBACK", "VICMDONCE"], "undo": [["delete", 2, 3, "Z"], ["end", 0, 0, null], ["end", 0, 0, null], ["end", 0, 0, null], ["delete", 3, 4, "c"], ["insert", 2, 3, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 2, 3, "b"], ["insert", 1, 2, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 1, 2, "a"], ["insert", 0, 1, null], ["begin", 0, 0, null], ["begin", 0, 0, null], ["begin", 0, 0, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "vi-delete", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "x", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "callback", "ret": "XYdef"}
+    ],
+    "screen": [
+      "> XYdef",
+      ">"
+    ],
+    "cursor": [1, 0]
   }
 }

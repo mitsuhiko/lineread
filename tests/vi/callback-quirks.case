@@ -64,3 +64,39 @@ callback "> " 2
 --- inputrc
 --- keys
 abc\C-x\rdef\r
+
+=== cb-dw-last-func-is-motion
+tags: vi-delete-to
+keys: one two\e<pause>0dw<pause><dumpfull>\r
+
+=== cb-cw-last-func-is-motion
+tags: vi-change-to
+keys: one two\e<pause>0cw<pause><dumpfull>\r
+
+=== cb-dd-last-func
+tags: vi-delete-to
+keys: one two\e<pause>0dd<pause><dumpfull>\r
+
+=== cb-df-last-func
+tags: vi-delete-to vi-char-search
+keys: one-two\e<pause>0df-<pause><dumpfull>\r
+
+=== cb-yw-last-func
+tags: vi-yank-to
+keys: one two\e<pause>0yw<pause><dumpfull>\r
+
+=== cb-D-last-func
+tags: vi-delete-to
+keys: one two\e<pause>0D<pause><dumpfull>\r
+
+=== cb-count-dw-last-func
+tags: vi-delete-to numarg
+keys: one two\e<pause>02dw<pause><dumpfull>\r
+
+=== cb-replace-escape-waits
+tags: vi-replace
+keys: abcdef\e<pause>0RXY\e<pause><dumpfull>Q<dumpfull>\r
+
+=== cb-replace-escape-paste
+tags: vi-replace bracketed-paste
+keys: abcdef\e<pause>0RX<paste-start>YZ<paste-end><dumpfull>\e<pause>x<dumpfull>\r
