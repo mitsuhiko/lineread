@@ -1,0 +1,23 @@
+tags: next-history undo
+
+=== next-at-history-end-preserves-undo
+--- script
+add_history "first"
+readline "> "
+--- keys
+ab\C-n\C-_<dump>\r
+
+=== next-past-saved-line-preserves-undo
+--- script
+add_history "first"
+readline "> "
+--- keys
+ab\C-p\C-n\C-n\C-_<dump>\r
+
+=== vi-next-at-end-preserves-undo
+--- inputrc
+set editing-mode vi
+--- script
+readline "> "
+--- keys
+7d\e<pause>A<bs>\e<pause>ju<dump>\r
