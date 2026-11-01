@@ -51,6 +51,26 @@ pub fn forget_undo_list(l: *mut UNDO_LIST) {
     replace_undo_list(l, null_mut());
 }
 
+/// The current history entry (if the line being edited is one) when it
+/// shares the undo list `l`.
+pub fn current_entry_sharing(l: *mut UNDO_LIST) -> Option<c_int> {
+    let o = history_offset.get();
+    let e = history::entry_at(o);
+    if l.is_null() || e.is_null() || unsafe { (*e).data } != l as histdata_t {
+        return None;
+    }
+    Some(o)
+}
+
+/// After an undo on history entry `o`: the entry shows the line as it is
+/// now (with the remaining undo list), observed.
+pub unsafe fn entry_undone(o: c_int) {
+    let c = c_strdup(buffer::line());
+    let old = history::replace_history_entry(o, c, rl_undo_list.get() as histdata_t);
+    cfree(c);
+    let _ = history::free_history_entry(old);
+}
+
 /// References (history entries, the saved line) to the undo list `old`
 /// now point to `new` (rl_do_undo releases the head of a shared list).
 pub fn replace_undo_list(old: *mut UNDO_LIST, new: *mut UNDO_LIST) {
