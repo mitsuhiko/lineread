@@ -117,8 +117,15 @@ pub fn is_arg_command(f: rl_command_func_t) -> bool {
 
 /// Run a command with the current numeric argument.
 pub unsafe fn call_command(f: rl_command_func_t, key: c_int, map: Keymap) -> c_int {
+    call_command_as(f, key, key, map)
+}
+
+/// Like call_command, with `exec_key` as rl_executing_key (a prefix's
+/// ANYOTHERKEY binding run after keyseq-timeout shows ANYOTHERKEY there
+/// but gets the prefix key as its argument).
+pub unsafe fn call_command_as(f: rl_command_func_t, key: c_int, exec_key: c_int, map: Keymap) -> c_int {
     rl_executing_keymap.set(map);
-    rl_executing_key.set(key);
+    rl_executing_key.set(exec_key);
     // (commands dispatched from inside a command, e.g. by the numeric
     // argument loop, leave the outer dispatch state alone)
     // (an aborted command leaves DISPATCHING set but the stack empty)
@@ -204,6 +211,9 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap) -> c_int {
     if has_other {
         let t = crate::vars::keyseq_timeout.get();
         if t > 0 && !input::input_available(t as i64 * 1000) {
+            if let (ISFUNC, Some(f)) = (other.type_, other.function.func) {
+                return call_command_as(f, key, ANYOTHERKEY as c_int, sub);
+            }
             return run_anyother(key, sub, other);
         }
     }
