@@ -650,6 +650,10 @@ pub unsafe extern "C" fn rl_redisplay() {
     if crate::readline::rl_outstream.get().is_null() && !crate::readline::initialized() {
         return;
     }
+    if crate::tty::ECHOING.get() == 0 {
+        // the terminal does not echo (rl_tty_set_echoing): show nothing
+        return;
+    }
     set_state(RL_STATE_REDISPLAYING);
     if horizontal_mode() {
         let (rows, cursor) = layout_hscroll();
