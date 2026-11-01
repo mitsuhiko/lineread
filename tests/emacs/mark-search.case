@@ -1,0 +1,146 @@
+# set-mark, exchange-point-and-mark, character-search (+backward),
+# active mark/region.
+tags: emacs
+--- script
+readline "> "
+
+=== set-mark-ctrl-at
+tags: set-mark
+keys: hello\C-b\C-b\C-@<dump>\C-a<dump>\r
+
+=== set-mark-meta-space
+tags: set-mark
+keys: hello\C-b\M-\s<dump>\r
+
+=== set-mark-with-arg
+tags: set-mark numarg
+keys: hello world\M-3\C-@<dump>\r
+
+=== set-mark-arg-out-of-range
+tags: set-mark numarg
+keys: hello\M-9\M-9\C-@<dump>\r
+
+=== exchange-point-and-mark
+tags: exchange-point-and-mark
+keys: hello world\C-a\C-@\C-e\C-x\C-x<dump>\C-x\C-x<dump>\r
+
+=== exchange-point-and-mark-mark-past-end
+tags: exchange-point-and-mark
+keys: hello\C-@\C-?\C-?\C-x\C-x<dump>\r
+
+=== exchange-point-and-mark-unset
+tags: exchange-point-and-mark
+--- script
+readline "> " 2
+--- keys
+abc\r\C-x\C-x<dump>\r
+
+=== exchange-point-and-mark-activates-region
+tags: exchange-point-and-mark
+keys: abc\C-a\C-@\C-e\C-x\C-x<dumpfull>\r
+
+=== character-search-forward
+tags: character-search
+keys: a-b-c-d\C-a\C-]-<dump>\C-]-<dump>\C-]-<dump>\C-]-<dump>\r
+
+=== character-search-count
+tags: character-search numarg
+keys: a-b-c-d\C-a\M-2\C-]-<dump>\r
+
+=== character-search-not-found
+tags: character-search
+keys: abc\C-a\C-]z<dump>\r
+
+=== character-search-negative-count
+tags: character-search numarg
+keys: a-b-c-d\M--\C-]-<dump>\r
+
+=== character-search-backward
+tags: character-search-backward
+keys: a-b-c-d\M-\C-]-<dump>\M-\C-]-<dump>\M-\C-]a<dump>\M-\C-]a<dump>\r
+
+=== character-search-backward-count
+tags: character-search-backward numarg
+keys: a-b-c-d\M-3\M-\C-]-<dump>\r
+
+=== character-search-backward-negative
+tags: character-search-backward numarg
+keys: a-b-c-d\C-a\M--\M-\C-]-<dump>\r
+
+=== character-search-utf8
+tags: character-search utf8
+keys: aéb日cé\C-a\C-]é<dump>\C-]日<dump>\M-\C-]é<dump>\r
+
+=== character-search-wraps-not
+tags: character-search
+keys: x-y\C-]-<dump>\r
+
+=== character-search-in-macro
+tags: character-search macro
+--- inputrc
+"\C-xs": "\C-]-"
+--- keys
+a-b-c\C-a\C-xs\C-xs<dump>\r
+
+=== mark-active-highlight-off-after-command
+tags: set-mark
+keys: abc<paste-start>de<paste-end>\C-b<dumpfull>\r
+
+=== rl-activate-mark-api
+tags: rl_activate_mark api
+--- script
+def act
+rl_activate_mark
+rl_mark_active_p
+end
+def deact
+rl_deactivate_mark
+rl_mark_active_p
+end
+defun act-mark act
+defun deact-mark deact
+rl_bind_keyseq "\C-xa" act-mark
+rl_bind_keyseq "\C-xd" deact-mark
+readline "> "
+--- keys
+abc\C-xa\C-xd\r
+
+=== rl-keep-mark-active
+tags: rl_keep_mark_active api
+--- script
+def keep
+rl_activate_mark
+rl_keep_mark_active
+end
+def check
+rl_mark_active_p
+end
+defun keep-mark keep
+defun check-mark check
+rl_bind_keyseq "\C-xk" keep-mark
+rl_bind_keyseq "\C-xc" check-mark
+readline "> "
+--- keys
+abc\C-a\C-@\C-e\C-xk\C-xc\C-b\C-xc\r
+
+=== active-region-highlight-display
+tags: set-mark display
+--- inputrc
+set enable-active-region on
+--- script
+def act
+rl_activate_mark
+rl_keep_mark_active
+end
+defun act-mark act
+rl_bind_keyseq "\C-xa" act-mark
+readline "> "
+--- keys
+hello world\C-a\C-@\M-f\C-xa<snap>\C-e<snap>\r
+
+=== active-region-disabled
+tags: set-mark vars
+--- inputrc
+set enable-active-region off
+--- keys
+ab<paste-start>cd<paste-end><dumpfull>\r

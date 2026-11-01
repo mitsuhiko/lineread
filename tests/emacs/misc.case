@@ -1,0 +1,341 @@
+# Miscellaneous bindable commands: insert-comment, dumpers, revert-line,
+# clear-screen, redraw, abort, execute-named-command, prefix-meta,
+# tilde-expand, editing mode switches, accept-line.
+tags: emacs misc
+--- script
+readline "> "
+
+=== insert-comment-default
+tags: insert-comment
+keys: echo hi\M-#
+
+=== insert-comment-point-in-middle
+tags: insert-comment
+keys: echo hi\C-b\C-b\M-#
+
+=== insert-comment-custom-string
+tags: insert-comment vars
+--- inputrc
+set comment-begin "// "
+--- keys
+code\M-#
+
+=== insert-comment-with-arg-toggles-existing
+tags: insert-comment numarg
+keys: #echo hi\M-1\M-#
+
+=== insert-comment-with-arg-adds-when-absent
+tags: insert-comment numarg
+keys: echo hi\M-1\M-#
+
+=== insert-comment-empty-line
+tags: insert-comment
+keys: \M-#
+
+=== insert-comment-history
+tags: insert-comment history
+--- script
+readline "> " 2 addhist
+history_dump
+--- keys
+ls\M-#\C-p<dump>\r
+
+=== insert-comment-vi-mode
+tags: insert-comment vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abc\e<pause>#
+
+=== dump-functions
+tags: dump-functions
+--- inputrc
+"\C-xf": dump-functions
+--- keys
+\C-xf<snap>\r
+
+
+=== dump-functions-readable-capture
+tags: dump-functions numarg
+--- script
+capture rl_dump_functions 1 0
+rl_initialize
+
+=== dump-functions-capture-default
+tags: dump-functions
+--- script
+rl_initialize
+capture rl_dump_functions 0 0
+capture rl_dump_functions 1 0
+
+=== dump-macros-capture
+tags: dump-macros
+--- inputrc
+"\C-xm": "macro text"
+"\C-xn": "\C-a\t"
+--- script
+rl_initialize
+capture rl_dump_macros 0 0
+capture rl_dump_macros 1 0
+
+=== dump-variables-capture
+tags: dump-variables
+--- script
+rl_initialize
+capture rl_dump_variables 0 0
+capture rl_dump_variables 1 0
+
+=== dump-variables-in-readline
+tags: dump-variables
+screen: 80x60
+--- inputrc
+"\C-xv": dump-variables
+--- keys
+ab\C-xv<snap>\r
+
+=== dump-macros-in-readline
+tags: dump-macros
+--- inputrc
+"\C-xm": "xyz"
+"\C-xd": dump-macros
+--- keys
+ab\M-1\C-xd<snap>\r
+
+=== revert-line-meta-r
+tags: revert-line
+keys: abc\M-r<dump>\r
+
+=== revert-line-history-entry
+tags: revert-line history
+--- script
+add_history "original"
+readline "> "
+--- keys
+\C-p\C-e changed\M-r<dump>\r
+
+=== revert-line-after-history-edit-and-move
+tags: revert-line history
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+--- keys
+\C-pX\C-pY\M-r<dump>\C-n<dump>\r
+
+=== revert-line-meta-ctrl-r
+tags: revert-line
+keys: abc\M-\C-r<dump>\r
+
+=== revert-line-empty-undo
+tags: revert-line
+keys: \M-r<dump>x\r
+
+=== clear-screen
+tags: clear-screen
+keys: first<snap>\C-l<snap>x\r
+
+=== clear-screen-with-arg-redraws
+tags: clear-screen numarg
+--- script
+readline "> " 2
+--- keys
+one\rabc\M-1\C-l<snap>\r
+
+=== clear-screen-after-output
+tags: clear-screen
+--- script
+readline "> " 3
+--- keys
+one\rtwo\r\C-l<snap>three\r
+
+=== clear-display
+tags: clear-display
+--- script
+readline "> " 2
+--- keys
+one\rtwo\M-\C-l<snap>\r
+
+=== clear-display-numarg
+tags: clear-display numarg
+--- script
+readline "> " 2
+--- keys
+one\rtwo\M-1\M-\C-l<snap>\r
+
+=== redraw-current-line
+tags: redraw-current-line
+--- inputrc
+"\C-xr": redraw-current-line
+--- keys
+abc\C-b\C-xr<snap>\r
+
+=== redraw-current-line-multiline
+tags: redraw-current-line
+screen: 20x6
+--- inputrc
+"\C-xr": redraw-current-line
+--- keys
+0123456789012345678901234567\C-a\C-xr<snap>\r
+
+=== abort-clears-arg-and-dings
+tags: abort
+keys: ab\M-3\C-gc<dump>\r
+
+=== abort-ctrl-x-ctrl-g
+tags: abort
+keys: ab\C-x\C-gc<dump>\r
+
+=== abort-meta-ctrl-g
+tags: abort
+keys: ab\M-\C-gc<dump>\r
+
+=== abort-api
+tags: abort api
+--- script
+def ab
+rl_abort 1 0
+end
+defun do-abort ab
+rl_bind_keyseq "\C-xa" do-abort
+readline "> "
+--- keys
+xy\C-xaz<dump>\r
+
+=== execute-named-command
+tags: execute-named-command
+keys: hello\M-xbackward-word\r<dump>\r
+
+=== execute-named-command-unknown
+tags: execute-named-command
+keys: hello\M-xno-such-thing\r<snap><dump>\r
+
+=== execute-named-command-abort
+tags: execute-named-command
+keys: hello\M-xback\C-g<dump>\r
+
+=== execute-named-command-prompt
+tags: execute-named-command display
+keys: abc\M-xkill<snap>\C-g\r
+
+=== execute-named-command-with-arg
+tags: execute-named-command numarg
+keys: abcdef\M-3\M-xbackward-char\r<dump>\r
+
+=== execute-named-command-editing
+tags: execute-named-command
+keys: abc\M-xbeginning-of-linX\C-?e\r<dump>\r
+
+=== prefix-meta
+tags: prefix-meta
+--- inputrc
+"\C-xm": prefix-meta
+--- keys
+one two\C-xmb<dump>\r
+
+=== prefix-meta-escape-default
+tags: prefix-meta
+keys: one two\e<pause>b<dump>\r
+
+=== tilde-expand-word
+tags: tilde-expand
+keys: ls ~/x\M-&<dump>\r
+
+=== tilde-expand-meta-tilde
+tags: tilde-expand
+keys: cd ~\M-~<dump>\r
+
+=== tilde-expand-not-tilde
+tags: tilde-expand
+keys: echo abc\M-&<dump>\r
+
+=== tilde-expand-mid-word
+tags: tilde-expand
+keys: a ~/foo bar\M-b\M-b\C-f\M-&<dump>\r
+
+=== tilde-expand-unknown-user
+tags: tilde-expand
+keys: ~nosuchuserxyz\M-&<dump>\r
+
+=== emacs-to-vi-editing-mode
+tags: vi-editing-mode
+keys: abc\M-\C-j<dump>0x<dump>\r
+
+=== vi-insert-ctrl-e-self-inserts
+tags: emacs-editing-mode
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abc\C-e<dump>\C-ad<dump>\r
+
+=== vi-to-emacs-from-command-mode
+tags: emacs-editing-mode
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+"\C-e": emacs-editing-mode
+--- keys
+abc\e<pause>\C-e<dump>\C-ax<dump>\r
+
+=== accept-line-ctrl-j
+tags: accept-line
+--- script
+readline "> " 2
+--- keys
+one\ntwo\r
+
+=== accept-line-in-middle
+tags: accept-line
+keys: abc\C-a\r
+
+=== accept-line-ctrl-m
+tags: accept-line
+keys: abc\C-m
+
+=== accept-line-moves-cursor-after-wrap
+tags: accept-line display
+screen: 10x5
+keys: 0123456789abcdef\C-a\r
+
+=== tty-status
+tags: tty-status
+ignore: screen cursor
+--- inputrc
+"\C-xt": tty-status
+--- keys
+ab\C-xtc<dump>\r
+
+=== re-read-init-file
+tags: re-read-init-file
+--- inputrc
+"\C-xr": re-read-init-file
+--- script
+def change
+file_write ../inputrc "\"\\C-xr\": re-read-init-file\n\"\\C-xz\": \"zzz\"\n"
+end
+defun change-inputrc change
+rl_bind_keyseq "\C-xc" change-inputrc
+readline "> "
+--- keys
+\C-xz<dump>\C-xc\C-xr\C-xz<dump>\r
+
+=== eof-with-text-not-eof
+tags: delete-char
+keys: abc\C-a\C-d<dump>\r
+
+=== eof-char-returns-null-and-newline
+tags: delete-char
+--- script
+readline "> "
+echo after
+--- keys
+\C-d
+
+=== stop-start-output
+tags: stop-output restart-output
+--- inputrc
+"\C-xs": stop-output
+"\C-xq": restart-output
+--- keys
+ab\C-xs\C-xqc<dump>\r

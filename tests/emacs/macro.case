@@ -1,0 +1,187 @@
+# Keyboard macros (C-x ( C-x ) C-x e), print-last-kbd-macro, macro
+# bindings and rl_push_macro_input.
+tags: emacs macro
+--- script
+readline "> "
+
+=== kbd-macro-record-and-call
+tags: start-kbd-macro end-kbd-macro call-last-kbd-macro
+keys: \C-x(a<pause>b<pause>\C-x)<dump>\C-xe<dump>\r
+
+=== kbd-macro-with-editing-commands
+tags: call-last-kbd-macro
+keys: one two\C-x(\C-a\C-dX\C-e\C-x)\C-xe<dump>\r
+
+=== kbd-macro-count
+tags: call-last-kbd-macro numarg
+keys: \C-x(x\C-x)\M-3\C-xe<dump>\r
+
+=== kbd-macro-start-with-arg-appends
+tags: start-kbd-macro numarg
+keys: \C-x(a\C-x)\M-1\C-x(b\C-x)<dump>\C-xe<dump>\r
+
+=== kbd-macro-end-with-count
+tags: end-kbd-macro numarg
+keys: \C-x(z\M-3\C-x)<dump>\r
+
+=== kbd-macro-call-none-defined
+tags: call-last-kbd-macro
+keys: a\C-xe<dump>\r
+
+=== kbd-macro-end-when-not-defining
+tags: end-kbd-macro
+keys: a\C-x)<dump>\r
+
+=== kbd-macro-start-twice
+tags: start-kbd-macro
+keys: \C-x(a\C-x(b\C-x)\C-xe<dump>\r
+
+=== kbd-macro-state-flags
+tags: start-kbd-macro
+keys: \C-x(a<dumpfull>\C-x)\r
+
+=== kbd-macro-abort-cancels
+tags: start-kbd-macro abort
+keys: \C-x(a<pause>b<pause>\C-g\C-xe<dump>\r
+
+=== kbd-macro-persists-across-lines
+tags: call-last-kbd-macro
+--- script
+readline "> " 2
+--- keys
+\C-x(h<pause>i<pause>\C-x)\r\C-xe<dump>\r
+
+=== kbd-macro-with-meta-keys
+tags: call-last-kbd-macro
+keys: one two\C-x(\M-b\M-u\C-x)\C-a\M-f\M-f\C-xe<dump>\r
+
+=== kbd-macro-calling-itself-while-defining
+tags: call-last-kbd-macro
+keys: \C-x(a\C-x)\C-x(b\C-xe\C-x)<dump>\r
+
+=== print-last-kbd-macro
+tags: print-last-kbd-macro
+--- inputrc
+"\C-xp": print-last-kbd-macro
+--- keys
+\C-x(a<pause>\C-b\M-f\t\C-x)\C-xp<snap>\r
+
+=== print-last-kbd-macro-none
+tags: print-last-kbd-macro
+--- inputrc
+"\C-xp": print-last-kbd-macro
+--- keys
+x\C-xp<snap>\r
+
+
+=== macro-binding-inserts
+tags: macro
+--- inputrc
+"\C-xm": "hello"
+--- keys
+\C-xm<dump>\r
+
+=== macro-binding-runs-commands
+tags: macro
+--- inputrc
+"\C-xm": "\C-a[\C-e]"
+--- keys
+abc\C-xm<dump>\r
+
+=== macro-binding-nested
+tags: macro
+--- inputrc
+"\C-xa": "A"
+"\C-xb": "\C-xaB\C-xa"
+--- keys
+\C-xb<dump>\r
+
+=== macro-binding-escapes
+tags: macro
+--- inputrc
+"\C-xm": "a\tb\\c\"d\'e"
+--- keys
+\C-xm<dump>\r
+
+=== macro-binding-octal-hex
+tags: macro
+--- inputrc
+"\C-xm": "\101\x42"
+--- keys
+\C-xm<dump>\r
+
+=== macro-binding-accepts-line
+tags: macro
+--- script
+readline "> " 2
+--- inputrc
+"\C-xm": "first\rsecond"
+--- keys
+\C-xm<dump>\r
+
+=== macro-executing-state
+tags: macro
+--- inputrc
+"\C-xm": "a\C-xd"
+"\C-xd": driver-dump-full
+--- keys
+\C-xm\r
+
+=== push-macro-input-api
+tags: rl_push_macro_input macro
+--- script
+def push
+rl_push_macro_input "pushed\x01"
+end
+defun do-push push
+rl_bind_keyseq "\C-xp" do-push
+readline "> "
+--- keys
+\C-xp<dump>\r
+
+=== push-macro-input-from-startup-hook
+tags: rl_push_macro_input macro rl_startup_hook
+--- script
+def push
+rl_push_macro_input "abc"
+end
+set rl_startup_hook script:push
+readline "> "
+--- keys
+d<dump>\r
+
+=== push-macro-input-nested
+tags: rl_push_macro_input macro
+--- script
+def push
+rl_push_macro_input "1"
+rl_push_macro_input "2"
+end
+defun do-push push
+rl_bind_keyseq "\C-xp" do-push
+readline "> "
+--- keys
+\C-xp<dump>\r
+
+=== macro-with-numeric-arg-repeats
+tags: macro numarg
+--- inputrc
+"\C-xm": "ab"
+--- keys
+\M-3\C-xm<dump>\r
+
+=== kbd-macro-display-message
+tags: start-kbd-macro display
+keys: \C-x(a<pause>b<pause>c<snap>\C-x)\r
+
+=== kbd-macro-print-escapes
+tags: print-last-kbd-macro
+--- inputrc
+"\C-xp": print-last-kbd-macro
+--- keys
+\C-x(\C-v\x01<pause>\e<pause>\C-?<pause>é<pause>\C-x)\C-xp<snap>\r
+
+=== kbd-macro-typeahead-quirk
+description: quirk: while defining a macro, characters inserted as one typeahead batch are only recorded up to the first one
+tags: start-kbd-macro quirk typeahead
+keys: \C-x(ab\C-x)\C-xe<dump>\r
