@@ -483,6 +483,7 @@ pub unsafe extern "C" fn rl_dump_variables(_count: c_int, _key: c_int) -> c_int 
 
 /// Apply the locale dependent defaults (8-bit input/output) at init time.
 pub fn apply_locale_defaults() {
+    LAST_LOCALE.set(Some(current_ctype()));
     if meta_vars_touched.get() != 0 {
         return;
     }
@@ -490,5 +491,42 @@ pub fn apply_locale_defaults() {
         input_meta.set(1);
         output_meta.set(1);
         convert_meta.set(0);
+    }
+}
+
+/// LC_CTYPE when the meta defaults were last applied.
+static LAST_LOCALE: CVar<Option<Vec<u8>>> = CVar::new(None);
+
+fn current_ctype() -> Vec<u8> {
+    unsafe { cstr(libc::setlocale(libc::LC_CTYPE, null())).to_vec() }
+}
+
+/// Every rl_initialize: LC_CTYPE follows the environment (LC_ALL,
+/// LC_CTYPE, LANG); when it changed since the last call the eight-bit
+/// defaults are set for the new locale.
+pub fn update_locale() {
+    unsafe {
+        let mut spec: Vec<u8> = Vec::new();
+        for name in [c"LC_ALL", c"LC_CTYPE", c"LANG"] {
+            if let Some(v) = crate::util::getenv_bytes(name) {
+                if !v.is_empty() {
+                    spec = v.to_vec();
+                    break;
+                }
+            }
+        }
+        if !spec.is_empty() {
+            spec.push(0);
+            libc::setlocale(libc::LC_CTYPE, spec.as_ptr() as *const c_char);
+        }
+        let now = current_ctype();
+        let changed = LAST_LOCALE.get_mut().as_deref().is_some_and(|l| l != &now[..]);
+        if changed {
+            LAST_LOCALE.set(Some(now));
+            let eight = crate::mb::locale_is_8bit();
+            input_meta.set(eight as c_int);
+            output_meta.set(eight as c_int);
+            convert_meta.set((!eight) as c_int);
+        }
     }
 }

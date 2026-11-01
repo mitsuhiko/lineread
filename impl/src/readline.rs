@@ -104,6 +104,7 @@ unsafe fn initialize_everything() {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_initialize() -> c_int {
+    crate::vars::update_locale();
     if !initialized() {
         set_state(RL_STATE_INITIALIZING);
         initialize_everything();
