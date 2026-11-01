@@ -1,0 +1,854 @@
+{
+  "reverse-search-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "ISEARCH", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "(reverse-i-search)`make': ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 1, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 5},
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`make': make test"
+        ],
+        "cursor": [0, 26]
+      }
+    ]
+  },
+  "reverse-search-prompt-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "ISEARCH", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "(reverse-i-search)`': ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 5},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`':"
+        ],
+        "cursor": [0, 22]
+      }
+    ]
+  },
+  "reverse-search-repeat": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`make': make all"
+        ],
+        "cursor": [0, 26]
+      },
+      {
+        "screen": [
+          "(failed reverse-i-search)`make': make all"
+        ],
+        "cursor": [0, 33]
+      }
+    ]
+  },
+  "reverse-search-incremental-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`g': git commit -m fix"
+        ],
+        "cursor": [0, 23]
+      },
+      {
+        "screen": [
+          "(reverse-i-search)`gi': git commit -m fix"
+        ],
+        "cursor": [0, 24]
+      },
+      {
+        "screen": [
+          "(reverse-i-search)`git ': git commit -m fix"
+        ],
+        "cursor": [0, 26]
+      },
+      {
+        "screen": [
+          "(reverse-i-search)`git c': git commit -m fix"
+        ],
+        "cursor": [0, 27]
+      }
+    ]
+  },
+  "reverse-search-failing": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "ISEARCH", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "(failed reverse-i-search)`zzz': ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 5},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`zzz':"
+        ],
+        "cursor": [0, 32]
+      }
+    ]
+  },
+  "reverse-search-failing-then-backspace": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`makez': make test"
+        ],
+        "cursor": [0, 34]
+      },
+      {
+        "screen": [
+          "(reverse-i-search)`make': make test"
+        ],
+        "cursor": [0, 26]
+      }
+    ]
+  },
+  "reverse-search-backspace-goes-back": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`git s': git status"
+        ],
+        "cursor": [0, 27]
+      },
+      {
+        "screen": [
+          "(reverse-i-search)`git ': git status"
+        ],
+        "cursor": [0, 26]
+      },
+      {
+        "screen": [
+          "(reverse-i-search)`git': git status"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "reverse-search-ctrl-h": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`git': git commit -m fix"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "reverse-search-abort-restores": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "typed", "point": 1, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 5, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "reverse-search-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 5},
+      {"op": "readline", "ret": "typed"}
+    ],
+    "screen": [
+      "> typed"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-escape-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "Xgit commit -m fix", "point": 1, "end": 18, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xgit commit -m fix"}
+    ],
+    "screen": [
+      "> Xgit commit -m fix"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-ctrl-j-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "git status", "point": 4, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "reverse-search-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-enter-accepts": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "make all"},
+      {"op": "readline", "ret": "next"}
+    ],
+    "screen": [
+      "> make all",
+      "> next"
+    ],
+    "cursor": [2, 0]
+  },
+  "reverse-search-other-command-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-arrow-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 3, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-meta-key-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-point-at-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 4, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-multiple-matches-same-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aXbXcX", "point": 5, "end": 6, "mark": 6, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aXbXcX", "point": 3, "end": 6, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aXbXcX", "point": 1, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aXbXcX", "point": 1, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aXbXcX"}
+    ],
+    "screen": [
+      "> aXbXcX"
+    ],
+    "cursor": [1, 0]
+  },
+  "reverse-search-last-string-reused": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "make test"},
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test",
+      "> make test"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> make test",
+          "(reverse-i-search)`make': make test"
+        ],
+        "cursor": [1, 26]
+      }
+    ]
+  },
+  "reverse-search-from-modified-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-search-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(i-search)`git': git status"
+        ],
+        "cursor": [0, 17]
+      }
+    ]
+  },
+  "forward-search-failing": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed i-search)`git':"
+        ],
+        "cursor": [0, 24]
+      }
+    ]
+  },
+  "reverse-then-forward-switch": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(i-search)`make': make all"
+        ],
+        "cursor": [0, 18]
+      }
+    ]
+  },
+  "forward-then-reverse-switch": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`git': git commit -m fix"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "isearch-ctrl-w-yanks-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`git': git commit -m fix"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "isearch-ctrl-w-multiple": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha beta gamma", "point": 0, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "alpha beta gamma"}
+    ],
+    "screen": [
+      "> alpha beta gamma"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`alpha': alpha beta gamma"
+        ],
+        "cursor": [0, 27]
+      }
+    ]
+  },
+  "isearch-ctrl-y-yanks-rest-of-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 17, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`git commit -m fix': git commit -m fix"
+        ],
+        "cursor": [0, 39]
+      }
+    ]
+  },
+  "isearch-quoted-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "tab\there", "point": 3, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "tab\there"}
+    ],
+    "screen": [
+      "> tab       here"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`':   ': tab      here"
+        ],
+        "cursor": [0, 30]
+      }
+    ]
+  },
+  "isearch-negative-arg-forward": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(i-search)`git': git status"
+        ],
+        "cursor": [0, 17]
+      }
+    ]
+  },
+  "isearch-custom-terminators": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "Zmake test", "point": 1, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Zmake test"}
+    ],
+    "screen": [
+      "> Zmake test"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-custom-terminators-escape-no-longer": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-search-ignore-case": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`MAKE': make test"
+        ],
+        "cursor": [0, 26]
+      }
+    ]
+  },
+  "isearch-case-sensitive-default": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`MAKE':"
+        ],
+        "cursor": [0, 33]
+      }
+    ]
+  },
+  "isearch-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本語のテキスト", "point": 3, "end": 24, "mark": 9, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "日本語のテキスト", "point": 3, "end": 24, "mark": 9, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本語のテキスト"}
+    ],
+    "screen": [
+      "> 日本語のテキスト"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`本語': 日本語のテキスト"
+        ],
+        "cursor": [0, 28]
+      },
+      {
+        "screen": [
+          "(failed reverse-i-search)`本語fé': 日本語のテキスト"
+        ],
+        "cursor": [0, 37]
+      }
+    ]
+  },
+  "isearch-utf8-backspace": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "café au lait", "point": 0, "end": 13, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "café au lait"}
+    ],
+    "screen": [
+      "> café au lait"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`caf': café au lait"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "isearch-empty-history": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`x': ab"
+        ],
+        "cursor": [0, 32]
+      }
+    ]
+  },
+  "isearch-matches-current-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make foo", "point": 5, "end": 8, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make foo"}
+    ],
+    "screen": [
+      "> make foo"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`foo': make foo"
+        ],
+        "cursor": [0, 30]
+      }
+    ]
+  },
+  "isearch-wrap-not": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "echo done", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`echo': echo done"
+        ],
+        "cursor": [0, 33]
+      }
+    ]
+  },
+  "isearch-display-wrapped": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a very long command line that certainly wraps the screen"}
+    ],
+    "screen": [
+      "> a very long command line tha",
+      "t certainly wraps the screen"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`certainly':",
+          " a very long command line that",
+          " certainly wraps the screen"
+        ],
+        "cursor": [2, 1]
+      },
+      {
+        "screen": [
+          "> a very long command line tha",
+          "t certainly wraps the screen"
+        ],
+        "cursor": [1, 2]
+      }
+    ]
+  },
+  "isearch-yank-into-search-ctrl-w-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`echo done': echo done"
+        ],
+        "cursor": [0, 31]
+      }
+    ]
+  },
+  "isearch-dings-and-stays-on-fail": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git commit -m fix", "point": 0, "end": 17, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git commit -m fix"}
+    ],
+    "screen": [
+      "> git commit -m fix"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`git cxy': git commit -m fix"
+        ],
+        "cursor": [0, 36]
+      },
+      {
+        "screen": [
+          "(failed reverse-i-search)`git c': git commit -m fix"
+        ],
+        "cursor": [0, 34]
+      }
+    ]
+  },
+  "isearch-in-vi-insert-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 4, "end": 10, "mark": 10, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`status': git status"
+        ],
+        "cursor": [0, 32]
+      }
+    ]
+  },
+  "isearch-macro-key-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git MACstatus", "point": 7, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git MACstatus"}
+    ],
+    "screen": [
+      "> git MACstatus"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-numeric-arg-ignored": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 2, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-ctrl-g-from-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-mark-and-history-position": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "git commit -m fix", "point": 4, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "reverse-search-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 3},
+      {"op": "dump", "line": "echo done", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-bound-to-other-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make all"}
+    ],
+    "screen": [
+      "> make all"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-with-history-offset-moved": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make all", "point": 0, "end": 8, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-state-flag": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "make test", "point": 0, "end": 9, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "ISEARCH", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "(reverse-i-search)`make': ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 1, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 5, "history_base": 1, "history_pos": 5},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

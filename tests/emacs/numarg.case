@@ -1,0 +1,193 @@
+# Numeric arguments: digit-argument (M-0..M-9, M--), universal-argument.
+tags: emacs numarg
+--- script
+readline "> "
+
+=== digit-argument-state
+tags: digit-argument
+keys: \M-3<dump>x\r
+
+=== digit-argument-multi-digit
+tags: digit-argument
+keys: \M-1\M-5x<dump>\r
+
+=== digit-argument-then-plain-digits
+tags: digit-argument
+keys: \M-12x<dump>\r
+
+=== digit-argument-negative-only
+tags: digit-argument
+keys: abc\M--<dump>\C-b<dump>\r
+
+=== digit-argument-negative-digits
+tags: digit-argument
+keys: abcdef\M--\M-3<dump>\C-f<dump>\r
+
+=== digit-argument-minus-after-digits
+tags: digit-argument
+keys: \M-2\M--x<dump>\r
+
+=== digit-argument-minus-digit-plain
+tags: digit-argument
+keys: abcdef\C-a\C-f\C-f\C-f\M--3\C-b<dump>\r
+
+=== digit-argument-zero
+tags: digit-argument
+keys: \M-0x<dump>\r
+
+=== universal-argument-default-four
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xux<dump>\r
+
+=== universal-argument-sixteen
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xu\C-xux<dump>\r
+
+=== universal-argument-sixtyfour
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xu\C-xu\C-xu<dump>x\r
+
+=== universal-argument-not-bound-by-default
+tags: universal-argument unix-line-discard
+keys: abc\C-ux<dump>\r
+
+=== universal-argument-with-digits
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xu12x<dump>\r
+
+=== universal-argument-negative
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+abcdef\C-a\C-f\C-f\C-f\C-xu-2\C-b<dump>\r
+
+=== universal-argument-minus-alone
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+abcdef\C-a\C-f\C-f\C-f\C-xu-\C-b<dump>\r
+
+=== universal-argument-terminates-digits
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xu3\C-xu5<dump>\r
+
+=== universal-argument-digits-then-universal
+tags: universal-argument
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xu2\C-xux<dump>\r
+
+=== numeric-arg-cleared-after-command
+tags: digit-argument
+keys: \M-3x<dumpfull>y<dump>\r
+
+=== numeric-arg-abort
+tags: digit-argument abort
+keys: \M-3\C-gx<dump>\r
+
+=== numeric-arg-with-prefix-key
+tags: digit-argument
+keys: abc def\M-2\C-x\C-?<dump>\r
+
+=== numeric-arg-excessive-resets
+description: an argument above 1000000 is discarded and the next digit starts over
+tags: digit-argument
+keys: \M-9\M-9\M-9\M-9\M-9\M-9<dump>\M-9<dump>\M-9<dump>\C-g\r
+
+=== numeric-arg-explicit-arg-in-defun
+tags: rl_explicit_arg rl_numeric_arg
+--- script
+def show
+args
+get rl_explicit_arg
+get rl_numeric_arg
+end
+defun show-args show
+rl_bind_keyseq "\C-xa" show-args
+rl_bind_keyseq "\C-xu" universal-argument
+readline "> "
+--- keys
+\C-xa\M-7\C-xa\M--\C-xa\C-xu\C-xa\r
+
+=== numeric-arg-through-macro
+tags: digit-argument macro
+--- inputrc
+"\C-xm": "\e3z"
+--- keys
+\C-xm<dump>\r
+
+=== macro-meta-char-inserted-in-utf8-locale
+tags: macro convert-meta
+--- inputrc
+"\C-xm": "\M-3z"
+--- keys
+\C-xm<dump>\r
+
+=== numeric-arg-redisplay-arg-prompt
+tags: digit-argument display
+keys: abc\M-1\M-2<snap>\C-g\r
+
+=== numeric-arg-negative-prompt
+tags: digit-argument display
+keys: abc\M--<snap>\M-5<snap>\C-g\r
+
+=== rl-digit-argument-api
+tags: digit-argument api
+--- script
+def d
+rl_digit_argument 1 "4"
+end
+defun dig d
+rl_bind_keyseq "\C-xd" dig
+readline "> "
+--- keys
+\C-xdx<dump>\r
+
+=== rl-universal-argument-api
+tags: universal-argument api
+--- script
+def u
+rl_universal_argument 1 0
+end
+defun uarg u
+rl_bind_keyseq "\C-xu" uarg
+readline "> "
+--- keys
+\C-xux<dump>\r
+
+=== rl-discard-argument
+tags: rl_discard_argument api
+--- script
+def d
+rl_discard_argument
+end
+defun disc d
+rl_bind_keyseq "\C-xd" disc
+readline "> "
+--- keys
+\M-3\C-xdx<dump>\r
+
+=== vi-arg-digit-in-emacs
+tags: vi-arg-digit
+--- inputrc
+"\C-x1": vi-arg-digit
+--- keys
+\C-x1x<dump>\r

@@ -1,0 +1,476 @@
+{
+  "cb-insert-and-escape": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ello", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "ello"}
+    ],
+    "screen": [
+      "> ello",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dw": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three", "point": 0, "end": 9, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "two three"}
+    ],
+    "screen": [
+      "> two three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-count-before-operator": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "three four", "point": 0, "end": 10, "mark": 8, "mode": "vi", "keymap": "vi", "explicit_arg": 1, "numeric_arg": 2, "insert_mode": 1},
+      {"op": "callback", "ret": "three four"}
+    ],
+    "screen": [
+      "> three four",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dd": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-d-dollar": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one ", "point": 3, "end": 4, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one "}
+    ],
+    "screen": [
+      "> one",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-D": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one ", "point": 3, "end": 4, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one "}
+    ],
+    "screen": [
+      "> one",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-d-invalid-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 0, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-cw": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ONE two three", "point": 2, "end": 13, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "ONE two three"}
+    ],
+    "screen": [
+      "> ONE two three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-cc": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "new", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "new"}
+    ],
+    "screen": [
+      "> new",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-C": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one zz", "point": 5, "end": 6, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one zz"}
+    ],
+    "screen": [
+      "> one zz",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-yw-p": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one one two", "point": 3, "end": 11, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one one two"}
+    ],
+    "screen": [
+      "> one one two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-yy": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcabc", "point": 5, "end": 6, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "abcabc"}
+    ],
+    "screen": [
+      "> abcabc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-Y": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "defabc def", "point": 2, "end": 10, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "defabc def"}
+    ],
+    "screen": [
+      "> defabc def",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-df-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two-three", "point": 0, "end": 9, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "two-three"}
+    ],
+    "screen": [
+      "> two-three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dt-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "-two-three", "point": 0, "end": 10, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "-two-three"}
+    ],
+    "screen": [
+      "> -two-three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-df-failed": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ne-two", "point": 0, "end": 6, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "ne-two"}
+    ],
+    "screen": [
+      "> ne-two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-cf-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xtwo", "point": 0, "end": 4, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "Xtwo"}
+    ],
+    "screen": [
+      "> Xtwo",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-yf-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one-twoone-", "point": 10, "end": 11, "mark": 7, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one-twoone-"}
+    ],
+    "screen": [
+      "> one-twoone-",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-f-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one-two-three", "point": 3, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one-two-three", "point": 7, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one-two-three", "point": 3, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one-two-three"}
+    ],
+    "screen": [
+      "> one-two-three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-F-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one-two-three", "point": 7, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one-two-three"}
+    ],
+    "screen": [
+      "> one-two-three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-t-and-T": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one-two-three", "point": 2, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one-two-three", "point": 8, "end": 13, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one-two-three"}
+    ],
+    "screen": [
+      "> one-two-three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-2f-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a-b-c-d", "point": 3, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 1, "numeric_arg": 2, "insert_mode": 1},
+      {"op": "callback", "ret": "a-b-c-d"}
+    ],
+    "screen": [
+      "> a-b-c-d",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-semicolon-without-search": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-r-replace": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xbc", "point": 0, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "Xbc"}
+    ],
+    "screen": [
+      "> Xbc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-3r-replace": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XXXdef", "point": 2, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 1, "numeric_arg": 3, "insert_mode": 1},
+      {"op": "callback", "ret": "XXXdef"}
+    ],
+    "screen": [
+      "> XXXdef",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-r-dot-repeat": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XXcdef", "point": 1, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "XXcdef"}
+    ],
+    "screen": [
+      "> XXcdef",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-R-overstrike": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XYcdef", "point": 2, "end": 6, "mark": 0, "mode": "vi", "keymap": "?anon", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "XYcdef"}
+    ],
+    "screen": [
+      "> XYcdef",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-m-and-backtick": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 4, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-m-invalid": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 6, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      "",
+      ">"
+    ],
+    "cursor": [2, 0]
+  },
+  "cb-goto-mark-unset": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 6, "end": 7, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two",
+      "",
+      ">"
+    ],
+    "cursor": [2, 0]
+  },
+  "cb-digit-count-motion": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two three four", "point": 14, "end": 18, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 1, "numeric_arg": 3, "insert_mode": 1},
+      {"op": "callback", "ret": "one two three four"}
+    ],
+    "screen": [
+      "> one two three four",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ABc", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "ABc"}
+    ],
+    "screen": [
+      "> ABc",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dot-repeat-dw": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "three four", "point": 0, "end": 10, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "three four"}
+    ],
+    "screen": [
+      "> three four",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dot-repeat-cw": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "X X three", "point": 3, "end": 9, "mark": 5, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "X X three"}
+    ],
+    "screen": [
+      "> X X three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-dot-repeat-dd": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "twtwoo", "point": 4, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "twtwoo"}
+    ],
+    "screen": [
+      "> twtwoo",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-percent-match": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "(a (b) c)", "point": 8, "end": 9, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "(a (b) c)"}
+    ],
+    "screen": [
+      "> (a (b) c)",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-d-percent": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xy", "point": 1, "end": 2, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "xy"}
+    ],
+    "screen": [
+      "> xy",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-history-search": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha one", "point": 0, "end": 9, "mark": 9, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "alpha one"}
+    ],
+    "screen": [
+      "> alpha one",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "cb-history-k-j": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "alpha", "point": 0, "end": 5, "mark": 5, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "beta", "point": 0, "end": 4, "mark": 4, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "beta"}
+    ],
+    "screen": [
+      "> beta",
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

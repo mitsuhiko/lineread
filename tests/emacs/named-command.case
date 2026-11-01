@@ -1,0 +1,83 @@
+# execute-named-command (M-x): the minibuffer reading a command name.
+tags: emacs execute-named-command
+--- script
+readline "> "
+
+=== unix-word-rubout-in-name
+keys: abc\M-xfoo bar\C-wbackward-char\r<dump>\r
+
+=== unix-line-discard-in-name
+keys: abc\M-xfoo\C-ubeginning-of-line\r<dump>\r
+
+=== quoted-insert-in-name
+keys: abc\M-xback\C-vward-char\r<dump>\r
+
+=== quoted-insert-control-char-in-name
+keys: abc\M-xx\C-v\C-ay<snap>\r<dump>\r
+
+=== ctrl-h-rubout-in-name
+keys: abc\M-xbackward-charX\C-h\r<dump>\r
+
+=== rubout-on-empty-aborts
+keys: abc\M-x\C-?<dump>\r
+
+=== ctrl-h-on-empty-aborts
+keys: abc\M-x\C-h<snap><dump>\r
+
+=== space-inserted
+keys: abc\M-xbackward char\r<snap><dump>\r
+
+=== escape-inserted
+keys: abc\M-xback\e<pause>ward\r<dump>\r
+
+=== tab-completes-unique
+tags: completion
+keys: abc\M-xbeginning-of-l\t\r<dump>\r
+
+=== tab-completes-common-prefix
+tags: completion
+keys: abc\M-xbeginning-of-\t<snap>line\r<dump>\r
+
+=== tab-lists-ambiguous
+tags: completion display
+keys: abc\M-xbackward-kill-\t<snap>\C-g<dump>\r
+
+=== tab-no-match-dings
+tags: completion
+keys: abc\M-xzzz\t<snap>\C-g<dump>\r
+
+=== tab-complete-then-run
+tags: completion
+keys: abcdef\M-xbackward-ch\t\r<dump>\r
+
+=== numeric-arg-and-name
+tags: numarg
+keys: abcdef\C-a\M-2\M-xforward-char\r<dump>\r
+
+=== bracketed-paste-in-name
+tags: bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+abc\M-x<paste-start>backward-char<paste-end>\r<dump>\r
+
+=== callback-mode
+tags: callback
+--- script
+callback "> "
+--- keys
+abc\M-xbackward-char\r<dump>xy\r
+
+=== callback-mode-abort
+tags: callback
+--- script
+callback "> "
+--- keys
+abc\M-xback\C-g<dump>\r
+
+=== callback-mode-completion
+tags: callback completion
+--- script
+callback "> "
+--- keys
+abc\M-xbeginning-of-l\t\r<dump>\r

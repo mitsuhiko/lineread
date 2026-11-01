@@ -1,0 +1,401 @@
+# Signal handling inside readline: rl_catch_signals, the application's
+# handler (the driver records signals), cleanup and reset, SIGWINCH.
+tags: signals
+--- script
+readline "> " 2
+
+=== sigint-keeps-line
+tags: SIGINT
+description: the echoed ^C is only partially overwritten on screen, so the screen is not compared
+ignore: screen cursor
+keys: abc\C-c<dump>d\r\r
+
+=== sigint-clears-numeric-arg
+tags: SIGINT numarg
+keys: \M-3\C-c<dumpfull>x\r\r
+
+=== sigint-frees-undo-list
+tags: SIGINT undo
+keys: abc\C-c<dumpfull>\C-_<dump>\r\r
+
+
+=== sigint-during-quoted-insert-is-literal
+tags: SIGINT quoted-insert
+signals: off
+--- script
+readline "> "
+--- keys
+a\C-v<pause>\C-c<pause><dump>\r
+
+=== sigint-during-vi-command
+tags: SIGINT vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+--- keys
+abc\e<pause>d\C-c<dumpfull>x\r
+
+=== sigint-during-kbd-macro-definition
+tags: SIGINT macro
+--- script
+readline "> "
+--- keys
+\C-x(ab\C-c<dumpfull>\C-x)\r
+
+=== sigint-display
+tags: SIGINT display
+keys: abc\C-c<snap>def<snap>\r\r
+
+=== sigint-catch-signals-off
+tags: SIGINT rl_catch_signals
+--- script
+set rl_catch_signals 0
+readline "> "
+--- keys
+abc\C-c<dumpfull><snap>d\r
+
+=== sigint-default-disposition-kills
+tags: SIGINT
+--- script
+signal INT default
+readline "> "
+echo not reached
+--- keys
+abc\C-c
+
+=== sigint-ignored
+tags: SIGINT
+--- script
+signal INT ignore
+readline "> "
+--- keys
+abc\C-c<dump>d\r
+
+=== sigquit
+tags: SIGQUIT
+--- script
+readline "> "
+--- keys
+abc\C-\\<dump><snap>\r
+
+=== sigtstp
+tags: SIGTSTP
+--- script
+readline "> "
+--- keys
+abc\C-z<dump><snap>\r
+
+=== sigtstp-catch-signals-off
+tags: SIGTSTP rl_catch_signals
+--- script
+set rl_catch_signals 0
+readline "> "
+--- keys
+abc\C-z<dump>\r
+
+=== raise-sigterm-in-command
+tags: SIGTERM
+--- script
+signal TERM record
+def r
+raise TERM
+dumpfull
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== raise-sighup-in-command
+tags: SIGHUP
+--- script
+signal HUP record
+def r
+raise HUP
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== raise-sigalrm-in-command
+tags: SIGALRM
+--- script
+signal ALRM record
+def r
+raise ALRM
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== raise-sigusr1-not-caught
+tags: SIGUSR1
+--- script
+signal USR1 record
+def r
+raise USR1
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== raise-sigttou
+tags: SIGTTOU
+--- script
+def r
+raise TTOU
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== raise-sigint-in-command
+tags: SIGINT
+--- script
+def r
+raise INT
+dumpfull
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== raise-sigint-catch-off
+tags: SIGINT rl_catch_signals
+--- script
+def r
+raise INT
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+set rl_catch_signals 0
+readline "> "
+--- keys
+abc\C-xr<dump>\r
+
+=== signal-event-hook
+tags: rl_signal_event_hook
+--- script
+set rl_signal_event_hook log
+readline "> "
+--- keys
+abc\C-c<dump>\r
+
+=== signal-event-hook-script
+tags: rl_signal_event_hook rl_pending_signal
+--- script
+def h
+rl_pending_signal
+end
+set rl_signal_event_hook script:h
+readline "> "
+--- keys
+ab\C-c<dump>\r
+
+=== pending-signal-outside
+tags: rl_pending_signal
+--- script
+rl_pending_signal
+
+=== check-signals-api
+tags: rl_check_signals
+--- script
+def c
+rl_check_signals
+end
+defun chk c
+rl_bind_keyseq "\C-xc" chk
+readline "> "
+--- keys
+a\C-xc\r
+
+=== set-clear-signals-api
+tags: rl_set_signals rl_clear_signals
+--- script
+rl_set_signals
+rl_clear_signals
+rl_clear_signals
+rl_set_signals
+rl_set_signals
+rl_clear_signals
+raise INT
+
+=== clear-signals-during-readline
+tags: rl_clear_signals
+--- script
+def c
+rl_clear_signals
+end
+defun clr c
+rl_bind_keyseq "\C-xc" clr
+readline "> "
+--- keys
+ab\C-xc\C-c<dump>\r
+
+=== persistent-signal-handlers
+tags: rl_persistent_signal_handlers
+--- script
+set rl_persistent_signal_handlers 1
+readline "> " 2
+raise INT
+--- keys
+a\rb\C-c<dump>\r
+
+=== persistent-signal-handlers-off
+tags: rl_persistent_signal_handlers
+--- script
+readline "> "
+raise INT
+get rl_readline_state
+--- keys
+a\r
+
+=== cleanup-after-signal-api
+tags: rl_cleanup_after_signal rl_reset_after_signal
+--- script
+def c
+rl_cleanup_after_signal
+get rl_readline_state
+rl_reset_after_signal
+get rl_readline_state
+end
+defun cl c
+rl_bind_keyseq "\C-xc" cl
+readline "> "
+--- keys
+abc\C-xc<snap>d\r
+
+=== free-line-state-api
+tags: rl_free_line_state
+--- script
+def f
+rl_free_line_state
+dumpfull
+end
+defun fls f
+rl_bind_keyseq "\C-xf" fls
+readline "> "
+--- keys
+\M-3abc\C-xf\r
+
+=== callback-sigint-cleanup-sequence
+tags: callback rl_callback_sigcleanup rl_free_line_state
+--- script
+def onint
+dumpfull
+rl_free_line_state
+rl_callback_sigcleanup
+rl_cleanup_after_signal
+dumpfull
+end
+onsig onint
+callback_install "cb> "
+callback_read_char 4
+dump
+rl_callback_handler_remove
+--- keys
+\C-ra<pause>b\C-c
+
+=== callback-sigint-reinstall
+tags: callback SIGINT
+--- script
+def onint
+rl_free_line_state
+rl_callback_sigcleanup
+rl_cleanup_after_signal
+rl_callback_handler_remove
+echo reinstall
+rl_callback_handler_install "new> " NULL
+end
+onsig onint
+callback "cb> "
+--- keys
+abc\C-c
+
+=== callback-sigint-catch-off
+tags: callback rl_catch_signals
+--- script
+set rl_catch_signals 0
+callback "cb> "
+--- keys
+abc\C-c<dump>d\r
+
+=== callback-sigwinch
+tags: callback SIGWINCH
+screen: 30x6
+--- script
+callback "cb> "
+rl_get_screen_size
+--- keys
+abc<resize:20x5><snap>\r
+
+=== sigwinch-redisplay
+tags: SIGWINCH resize
+screen: 30x6
+--- script
+readline "> "
+--- keys
+abcdefghijklmnopqrstuvwxyz0123456789<resize:15x6><snap>\r
+
+=== sigwinch-catch-off-then-resize-terminal
+tags: SIGWINCH rl_catch_sigwinch rl_resize_terminal
+screen: 30x6
+--- script
+def r
+rl_resize_terminal
+rl_get_screen_size
+end
+defun rsz r
+rl_bind_keyseq "\C-xr" rsz
+set rl_catch_sigwinch 0
+readline "> "
+--- keys
+abc<resize:20x5>\C-xr<snap>\r
+
+=== echo-signal-char-quit
+tags: rl_echo_signal_char SIGQUIT
+--- script
+readline "> "
+--- keys
+ab\C-\\<snap>\r
+
+=== echo-signal-char-tstp
+tags: rl_echo_signal_char SIGTSTP
+--- script
+readline "> "
+--- keys
+ab\C-z<snap>\r
+
+=== sigint-after-completion-listing
+tags: SIGINT complete
+--- script
+complete_words alpha alpine
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+al\t\t\C-c<dump>\r
+
+=== sigcont-received
+tags: SIGCONT
+--- script
+def r
+raise CONT
+end
+defun do-raise r
+rl_bind_keyseq "\C-xr" do-raise
+readline "> "
+--- keys
+ab\C-xr<dump>\r

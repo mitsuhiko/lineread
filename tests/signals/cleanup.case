@@ -1,0 +1,119 @@
+# SIGINT while readline is in the middle of a multi-key command: the state
+# cleanup in readline() mode and rl_callback_sigcleanup in callback mode.
+tags: signals SIGINT
+--- script
+readline "> "
+
+=== sigint-in-numeric-arg-readline
+tags: numarg
+description: the echoed ^C is only partially overwritten on screen, so the screen is not compared
+ignore: screen cursor
+keys: abc\M-1\M-2\C-c<dumpfull>x\r
+
+=== sigint-in-key-sequence-readline
+tags: keymap
+keys: abc\C-x\C-c<dumpfull>\r
+
+=== callback-sigint-in-noninc-search
+tags: callback rl_callback_sigcleanup non-incremental-reverse-search-history
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+add_history "make all"
+onsig onint
+callback "> "
+--- keys
+abc\M-pmak\C-c<pause>x\r
+
+=== callback-sigint-in-execute-named-command
+tags: callback rl_callback_sigcleanup execute-named-command
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+onsig onint
+callback "> "
+--- keys
+abc\M-xback\C-c<pause>x\r
+
+=== callback-sigint-in-numeric-arg
+tags: callback rl_callback_sigcleanup numarg
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+onsig onint
+callback "> "
+--- keys
+abc\M-1\M-2\C-c<pause>x\r
+
+=== callback-sigint-in-key-sequence
+tags: callback rl_callback_sigcleanup keymap
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+onsig onint
+callback "> "
+--- keys
+abc\C-x\C-c<pause>x\r
+
+=== callback-sigint-in-char-search
+tags: callback rl_callback_sigcleanup character-search
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+onsig onint
+callback "> "
+--- keys
+abc\C-]\C-c<pause>x\r
+
+=== callback-sigint-in-vi-motion
+tags: callback rl_callback_sigcleanup vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+onsig onint
+callback "> "
+--- keys
+abc\e<pause>d\C-c<pause>x\r
+
+=== callback-sigint-in-vi-char-search
+tags: callback rl_callback_sigcleanup vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+onsig onint
+callback "> "
+--- keys
+abc\e<pause>f\C-c<pause>x\r
+
+=== callback-sigint-in-isearch
+tags: callback rl_callback_sigcleanup isearch
+--- script
+def onint
+rl_callback_sigcleanup
+dumpfull
+end
+add_history "make all"
+onsig onint
+callback "> "
+--- keys
+abc\C-rmak\C-c<pause>x\r

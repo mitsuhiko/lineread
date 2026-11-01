@@ -1,0 +1,636 @@
+{
+  "blink-paren-simple": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "(abc)", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(abc)"}
+    ],
+    "screen": [
+      "> (abc)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-bracket": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "x[ab]", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x[ab]"}
+    ],
+    "screen": [
+      "> x[ab]"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-brace": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "x{ab}", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x{ab}"}
+    ],
+    "screen": [
+      "> x{ab}"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-nested": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "dump", "line": "(a(b)c)", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(a(b)c)"}
+    ],
+    "screen": [
+      "> (a(b)c)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-mixed-nesting": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "dump", "line": "([{}])", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "([{}])"}
+    ],
+    "screen": [
+      "> ([{}])"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-no-match-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "dump", "line": "abc)", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc)"}
+    ],
+    "screen": [
+      "> abc)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-mismatched-type": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "(abc]", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(abc]"}
+    ],
+    "screen": [
+      "> (abc]"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-quoted-paren-skipped": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "dump", "line": "(a\")\"b)", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(a\")\"b)"}
+    ],
+    "screen": [
+      "> (a\")\"b)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-single-quoted": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "dump", "line": "(a')'b)", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(a')'b)"}
+    ],
+    "screen": [
+      "> (a')'b)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-backslash-escaped": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "dump", "line": "(a\\)b)", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(a\\)b)"}
+    ],
+    "screen": [
+      "> (a\\)b)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-with-numeric-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "dump", "line": "()))", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "()))"}
+    ],
+    "screen": [
+      "> ()))"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-match-off-screen-line": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 8},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 9},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 10},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 11},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 12},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 13},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 14},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 15},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 16},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 17},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 18},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 19},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 20},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 21},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 22},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 23},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 24},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 25},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 26},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 27},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 28},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 28},
+      {"op": "readline", "ret": "(0123456789abcdefghijklmnop)"}
+    ],
+    "screen": [
+      "<ghijklmnop)"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<ghijklmnop)"
+        ],
+        "cursor": [0, 11]
+      }
+    ]
+  },
+  "blink-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 7},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 8},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 8},
+      {"op": "dump", "line": "(日本)", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(日本)"}
+    ],
+    "screen": [
+      "> (日本)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-off-by-default": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "(abc)", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(abc)"}
+    ],
+    "screen": [
+      "> (abc)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-variable-runtime": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind blink-matching-paren on", "ret": 0},
+      {"op": "rl_variable_value blink-matching-paren", "ret": "on"},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "readline", "ret": "(a)"}
+    ],
+    "screen": [
+      "> (a)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-timeout-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 200000", "ret": 500000},
+      {"op": "rl_set_paren_blink_timeout 0", "ret": 200000},
+      {"op": "rl_set_paren_blink_timeout -1", "ret": 200000},
+      {"op": "rl_set_paren_blink_timeout 500000", "ret": 200000}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "blink-insert-close-direct": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_key \")\" insert-close", "error": "unknown function"},
+      {"op": "rl_variable_bind blink-matching-paren on", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "readline", "ret": "(x)"}
+    ],
+    "screen": [
+      "> (x)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-in-vi-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "dump", "line": "(ab)", "point": 4, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(ab)"}
+    ],
+    "screen": [
+      "> (ab)"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-overwrite-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 1},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 2},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "dump", "line": "(ab)cd", "point": 4, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(ab)cd"}
+    ],
+    "screen": [
+      "> (ab)cd"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-pending-input-skips": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 3},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 4},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 6},
+      {"op": "dump", "line": "(ab)cd", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(ab)cd"}
+    ],
+    "screen": [
+      "> (ab)cd"
+    ],
+    "cursor": [1, 0]
+  },
+  "blink-matching-paren-turned-off-again": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_paren_blink_timeout 1000", "ret": 500000},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 0},
+      {"op": "echo", "args": ["point"]},
+      {"op": "get rl_point", "ret": 5},
+      {"op": "dump", "line": "(abc)", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "(abc)"}
+    ],
+    "screen": [
+      "> (abc)"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> (abc)"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  }
+}

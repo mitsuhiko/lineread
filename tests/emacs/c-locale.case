@@ -1,0 +1,168 @@
+# Editing commands in a single-byte locale (LC_ALL=C): readline takes its
+# byte-oriented code paths (MB_CUR_MAX == 1).
+tags: emacs locale c-locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+readline "> "
+
+=== forward-char-count
+tags: forward-char numarg
+keys: abcdef\C-a\M-3\C-f<dump>\r
+
+=== forward-char-past-end
+tags: forward-char numarg
+keys: abc\C-a\M-9\C-f<dump>\r
+
+=== backward-char-count
+tags: backward-char numarg
+keys: abcdef\M-4\C-b<dump>\r
+
+=== backward-char-past-start
+tags: backward-char numarg
+keys: abc\M-9\C-b<dump>\r
+
+=== backward-char-negative
+tags: backward-char numarg
+keys: abcdef\C-a\M--\M-2\C-b<dump>\r
+
+=== forward-word-bytes
+tags: forward-word
+keys: one two three\C-a\M-f\M-f<dump>\r
+
+=== backward-word-bytes
+tags: backward-word
+keys: one two three\M-b\M-b<dump>\r
+
+=== rubout-bytes
+tags: backward-delete-char
+keys: abcd\C-?\C-?<dump>\r
+
+=== rubout-count
+tags: backward-delete-char numarg kill
+keys: abcdef\M-3\C-?<dump>\C-y<dump>\r
+
+=== rubout-at-start-dings
+tags: backward-delete-char
+keys: abc\C-a\C-?<dump>\r
+
+=== delete-count
+tags: delete-char numarg kill
+keys: abcdef\C-a\M-3\C-d<dump>\C-y<dump>\r
+
+=== delete-negative-count
+tags: delete-char numarg
+keys: abcdef\M--\M-2\C-d<dump>\r
+
+=== transpose-chars-bytes
+tags: transpose-chars
+keys: abcd\C-b\C-t<dump>\r
+
+=== transpose-chars-end
+tags: transpose-chars
+keys: abcd\C-t<dump>\r
+
+=== transpose-words-bytes
+tags: transpose-words
+keys: one two\M-t<dump>\r
+
+=== capitalize-word-bytes
+tags: capitalize-word
+keys: hello wORLD\C-a\M-c\M-c<dump>\r
+
+=== upcase-word-bytes
+tags: upcase-word
+keys: hello world\C-a\M-u<dump>\r
+
+=== downcase-word-negative
+tags: downcase-word numarg
+keys: HELLO WORLD\M--\M-d<dump>\r
+
+=== upcase-word-8bit-chars
+tags: upcase-word convert-meta
+--- inputrc
+set convert-meta off
+set input-meta on
+--- keys
+a\xe9b\C-a\M-u<dump>\r
+
+=== self-insert-count
+tags: self-insert numarg
+keys: \M-5x<dump>\r
+
+=== self-insert-typeahead-stuffed
+tags: self-insert rl_stuff_char typeahead
+--- script
+rl_stuff_char "a"
+rl_stuff_char "b"
+rl_stuff_char "c"
+readline "> "
+--- keys
+d<dump>\r
+
+=== self-insert-typeahead-stuffed-stops-at-command
+tags: self-insert rl_stuff_char typeahead
+--- script
+rl_stuff_char "a"
+rl_stuff_char "b"
+rl_stuff_char "\C-a"
+rl_stuff_char "c"
+readline "> "
+--- keys
+<dump>\r
+
+=== quoted-insert-count
+tags: quoted-insert numarg
+keys: \M-3\C-v\C-a<dump>\r
+
+=== quoted-insert-negative-count
+tags: quoted-insert numarg
+keys: a\M--\C-v\C-b<dump>\r
+
+=== tab-insert-count
+tags: tab-insert numarg
+keys: a\M-2\M-\t<dump>\r
+
+=== overwrite-mode-bytes
+tags: overwrite-mode
+keys: abcdef\C-a\M-xoverwrite-mode\rXY<dump>\r
+
+=== overwrite-mode-rubout
+tags: overwrite-mode backward-delete-char
+keys: abcdef\M-xoverwrite-mode\r\C-?\C-?<dump>\r
+
+=== overwrite-mode-rubout-count
+tags: overwrite-mode backward-delete-char numarg
+keys: abcdef\M-xoverwrite-mode\r\M-3\C-?<dump>\r
+
+=== overwrite-mode-rubout-at-start
+tags: overwrite-mode backward-delete-char
+keys: abc\C-a\M-xoverwrite-mode\r\C-?<dump>\r
+
+=== character-search-bytes
+tags: character-search
+keys: abcabc\C-a\C-]c\C-]c<dump>\r
+
+=== character-search-backward-bytes
+tags: character-search-backward
+keys: abcabc\M-\C-]a<dump>\r
+
+=== delete-horizontal-space-bytes
+tags: delete-horizontal-space
+keys: a    b\C-b\C-b\M-\\<dump>\r
+
+=== kill-word-bytes
+tags: kill-word
+keys: one two\C-a\M-d<dump>\r
+
+=== unix-word-rubout-bytes
+tags: unix-word-rubout
+keys: one two\C-w<dump>\r
+
+=== display-8bit-octal
+tags: display output-meta
+--- inputrc
+set convert-meta off
+set input-meta on
+--- keys
+a\xe9b\x81<snap>\r

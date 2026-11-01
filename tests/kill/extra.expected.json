@@ -1,0 +1,210 @@
+{
+  "empty-kill-keeps-chain": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": " two", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": " two"}
+    ],
+    "screen": [
+      ">  two"
+    ],
+    "cursor": [1, 0]
+  },
+  "unix-word-rubout-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one ", "point": 4, "end": 4, "mark": 4, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one "}
+    ],
+    "screen": [
+      "> one"
+    ],
+    "cursor": [1, 0]
+  },
+  "unix-filename-rubout-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a/b", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a/b"}
+    ],
+    "screen": [
+      "> a/b"
+    ],
+    "cursor": [1, 0]
+  },
+  "unix-filename-rubout-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "/usr/local/", "point": 11, "end": 11, "mark": 11, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "/usr/local/"}
+    ],
+    "screen": [
+      "> /usr/local/"
+    ],
+    "cursor": [1, 0]
+  },
+  "copy-forward-word-negative": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "threeone two three", "point": 5, "end": 18, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "threeone two three"}
+    ],
+    "screen": [
+      "> threeone two three"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-pop-text-mismatch": {
+    "exit": 0,
+    "results": [
+      {"op": "defun pop-after-edit p", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" pop-after-edit", "ret": 0},
+      {"op": "rl_insert_text \"zz\"", "ret": 2},
+      {"op": "dump", "line": "twozz", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "twozz"}
+    ],
+    "screen": [
+      "> twozz"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-negative-direction": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "f", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "i", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "i"}
+    ],
+    "screen": [
+      "> i"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-negative-past-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "f", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "f"}
+    ],
+    "screen": [
+      "> f"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-during-macro-definition": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hi hi", "point": 5, "end": 5, "mark": 3, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hi hi"}
+    ],
+    "screen": [
+      "> hi hi"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-long-text": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", "point": 100, "end": 100, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [
+      "> 012345678901234567890123456789012345678901234567890123456789012345678901234567",
+      "8901234567890123456789"
+    ],
+    "cursor": [2, 0]
+  },
+  "bracketed-paste-as-char-search-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcabc", "point": 2, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcabc"}
+    ],
+    "screen": [
+      "> abcabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-multichar-as-char-search-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abXYcabc", "point": 4, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abXYcabc"}
+    ],
+    "screen": [
+      "> abXYcabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-empty-as-char-search-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcabc", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcabc"}
+    ],
+    "screen": [
+      "> abcabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-as-quoted-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab\u001b[200~xyz~", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab\u001b[200~xyz~"}
+    ],
+    "screen": [
+      "> ab^[[200~xyz~"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-into-vi-replace-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xbcdef", "point": 0, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xbcdef"}
+    ],
+    "screen": [
+      "> Xbcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-yank-pop-cycles": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two three", "point": 3, "end": 9, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ttwo hree", "point": 4, "end": 9, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ttwo hree", "point": 4, "end": 9, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ttwo hree"}
+    ],
+    "screen": [
+      "> ttwo hree"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-yank-pop-without-put": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "two", "point": 0, "end": 3, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> two"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-yank-pop-text-mismatch": {
+    "exit": 0,
+    "results": [
+      {"op": "defun vpop p", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xp\" vpop vi-command", "ret": 0},
+      {"op": "rl_insert_text \"zz\"", "ret": 2},
+      {"op": "dump", "line": "twzzo", "point": 4, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "twzzo"}
+    ],
+    "screen": [
+      "> twzzo"
+    ],
+    "cursor": [1, 0]
+  }
+}

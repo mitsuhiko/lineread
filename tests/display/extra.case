@@ -1,0 +1,158 @@
+# Display corner cases: invisible prompt sequences at wrap points, byte
+# locales, one-line terminals, lines taller than the screen, messages with
+# newlines.
+tags: display
+screen: 20x6
+--- script
+readline "> "
+
+=== prompt-invisible-right-at-wrap
+tags: prompt wrap
+--- script
+readline "12345678901234567890\001\e[1m\002abc\001\e[0m\002> "
+--- keys
+xy<snap>\C-a<snap>\r
+
+=== prompt-invisible-at-second-wrap
+tags: prompt wrap
+--- script
+readline "1234567890123456789012345678901234567890\001\e[1m\002ab\001\e[0m\002> "
+--- keys
+xy<snap>\r
+
+=== prompt-c-locale-invisible
+tags: prompt locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+readline "\001\e[1m\002pr\001\e[0m\002> "
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== prompt-c-locale-wider-than-screen
+tags: prompt wrap locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+readline "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNO> "
+--- keys
+xyz<snap>\C-a<snap>\r
+
+=== prompt-c-locale-invisible-at-wrap
+tags: prompt wrap locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+readline "12345678901234567890\001\e[1m\002abc\001\e[0m\002> "
+--- keys
+xy<snap>\r
+
+=== c-locale-wrap-and-edit
+tags: wrap locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+keys: 0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-f\C-fXY<snap>\C-e\C-?\C-?<snap>\r
+
+=== c-locale-delete-across-wrap
+tags: wrap locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+keys: 0123456789abcdefghijklmnopqrstuvwxyz\C-a\C-d\C-d\C-d<snap>\r
+
+=== c-locale-control-chars
+tags: locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+keys: a\C-v\C-ab\C-v\C-?c<snap>\C-a\C-d<snap>\r
+
+=== screen-height-one-autoscroll
+tags: horizontal-scroll-mode
+screen: 20x1
+keys: 0123456789abcdefghijklmnopqrstuvwxyz<snap>\C-a<snap>\r
+
+=== screen-height-one-then-resize
+tags: horizontal-scroll-mode resize
+screen: 20x1
+keys: 0123456789abcdefghijklmnop<snap><resize:20x6>X<snap>\r
+
+=== line-taller-than-screen
+tags: wrap
+screen: 10x3
+keys: 0123456789abcdefghijklmnopqrstuvwxyz0123456789<snap>\C-a<snap>\C-e<snap>\r
+
+=== line-taller-than-screen-active-region
+tags: wrap active-region bracketed-paste
+screen: 10x3
+--- inputrc
+set enable-bracketed-paste on
+set enable-active-region on
+--- keys
+<paste-start>0123456789abcdefghijklmnopqrstuvwxyz0123456789<paste-end><snap>\r
+
+=== line-taller-than-screen-edit-middle
+tags: wrap
+screen: 10x3
+keys: 0123456789abcdefghijklmnopqrstuvwxyz0123456789\C-a\M-f<snap>X<snap>\r
+
+=== message-with-newline
+tags: rl_message
+--- script
+def m
+rl_message "line one\nmsg> "
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "> "
+--- keys
+abc\C-xm<snap>d<snap>\r
+
+=== message-with-newline-forced-redisplay
+tags: rl_message rl_forced_update_display
+--- script
+def m
+rl_message "line one\nmsg> "
+rl_forced_update_display
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "> "
+--- keys
+abc\C-xm<snap>\r
+
+=== message-with-newline-short-first-line
+tags: rl_message rl_forced_update_display
+--- script
+def m
+rl_message "x\n> "
+rl_forced_update_display
+end
+defun msg m
+rl_bind_keyseq "\C-xm" msg
+readline "> "
+--- keys
+abc\C-xm<snap>\r
+
+=== null-display-prompt
+tags: rl_display_prompt
+--- script
+readline NULL
+--- keys
+abc<snap>\r
+
+=== many-wrapped-lines-grow
+tags: wrap
+screen: 10x40
+--- keys
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+<snap>\r
+
+=== shrink-line-from-many-rows
+tags: wrap
+screen: 10x40
+--- keys
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+\C-a\C-k<snap>\r

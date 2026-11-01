@@ -1,0 +1,146 @@
+# Byte-level UTF-8 handling: character counting for rl_num_chars_to_read,
+# invalid sequences, case-folding searches.
+tags: utf8
+--- script
+set rl_num_chars_to_read 3
+readline "> "
+--- keys
+a<pause>\u{e9}<pause>\u{20ac}<pause>xyz\r
+
+=== num-chars-two-and-three-byte
+tags: rl_num_chars_to_read
+
+=== num-chars-counts-complete-characters
+tags: rl_num_chars_to_read rl_startup_hook
+--- script
+def s
+rl_insert_text "é€"
+end
+set rl_startup_hook script:s
+set rl_num_chars_to_read 4
+readline "> "
+--- keys
+x<pause>y<pause>z\r
+
+=== num-chars-counts-four-byte-characters
+tags: rl_num_chars_to_read rl_startup_hook
+--- script
+def s
+rl_insert_text "😀𐍈"
+end
+set rl_startup_hook script:s
+set rl_num_chars_to_read 3
+readline "> "
+--- keys
+x<pause>y<pause>z\r
+
+=== num-chars-counts-invalid-bytes-in-line
+tags: rl_num_chars_to_read rl_startup_hook invalid
+--- script
+def s
+rl_insert_text "\xff\xe0\x80\xed\xa0\xf0\x80\xf4\x90\xf5\xc3"
+end
+set rl_startup_hook script:s
+set rl_num_chars_to_read 11
+readline "> "
+--- keys
+x<pause>y<pause>z\r
+
+=== num-chars-four-byte
+tags: rl_num_chars_to_read
+keys: \u{1F600}<pause>\u{10348}<pause>b<pause>c\r
+
+=== num-chars-invalid-lead-byte
+tags: rl_num_chars_to_read invalid
+keys: \xffa<pause>b<pause>c\r
+
+=== num-chars-continuation-byte-alone
+tags: rl_num_chars_to_read invalid
+keys: \x80a<pause>b<pause>c\r
+
+=== num-chars-truncated-two-byte
+tags: rl_num_chars_to_read invalid
+keys: \xc3<pause>a<pause>b<pause>c\r
+
+=== num-chars-overlong-three-byte
+tags: rl_num_chars_to_read invalid
+keys: \xe0\x80\x80<pause>a<pause>b\r
+
+=== num-chars-surrogate
+tags: rl_num_chars_to_read invalid
+keys: \xed\xa0\x80<pause>a<pause>b\r
+
+=== num-chars-truncated-three-byte
+tags: rl_num_chars_to_read invalid
+keys: \xe2\x82<pause>a<pause>b<pause>c\r
+
+=== num-chars-overlong-four-byte
+tags: rl_num_chars_to_read invalid
+keys: \xf0\x80\x80\x80<pause>a<pause>b\r
+
+=== num-chars-above-max-codepoint
+tags: rl_num_chars_to_read invalid
+keys: \xf4\x90\x80\x80<pause>a<pause>b\r
+
+=== num-chars-truncated-four-byte
+tags: rl_num_chars_to_read invalid
+keys: \xf0\x9f\x98<pause>a<pause>b<pause>c\r
+
+=== num-chars-f5-lead
+tags: rl_num_chars_to_read invalid
+keys: \xf5<pause>a<pause>b\r
+
+=== isearch-ignore-case-invalid-bytes
+tags: isearch search-ignore-case invalid
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "ab\xffCD"
+add_history "other"
+readline "> "
+--- keys
+\C-rcd<dump>\C-j<dump>\r
+
+=== isearch-ignore-case-multibyte
+tags: isearch search-ignore-case
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "CAFÉ au lait"
+add_history "other"
+readline "> "
+--- keys
+\C-rcaf\u{e9}\C-j<dump>\r
+
+=== history-search-ignore-case-multibyte
+tags: history-search-backward search-ignore-case
+--- inputrc
+set search-ignore-case on
+"\C-xp": history-search-backward
+--- script
+add_history "ÉTÉ chaud"
+add_history "other"
+readline "> "
+--- keys
+\u{e9}t\u{e9}\C-xp<dump>\r
+
+=== backward-char-over-invalid-bytes
+tags: backward-char invalid
+--- script
+readline "> "
+--- keys
+a\xff\xfeb\C-b\C-b<dump>\C-b<dump>\r
+
+=== forward-char-over-invalid-bytes
+tags: forward-char invalid
+--- script
+readline "> "
+--- keys
+a\xff\xc3b\C-a\C-f\C-f<dump>\C-f<dump>\r
+
+=== delete-invalid-byte
+tags: delete-char invalid
+--- script
+readline "> "
+--- keys
+a\xffb\C-b\C-?<dump>\r

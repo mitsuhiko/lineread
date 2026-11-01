@@ -1,0 +1,218 @@
+# Inserting text: self-insert, quoted-insert, tab-insert, overwrite mode,
+# bracketed paste.
+tags: emacs insert
+--- script
+readline "> "
+
+=== self-insert-middle
+tags: self-insert
+keys: ac\C-bb<dump>\r
+
+=== self-insert-count
+tags: self-insert numarg
+keys: \M-5x<dump>\r
+
+=== self-insert-count-large
+tags: self-insert numarg
+keys: \M-1\M-2\M-0y<dump>\r
+
+=== self-insert-negative-count
+tags: self-insert numarg
+keys: \M--\M-3x<dump>\r
+
+=== self-insert-universal-argument
+tags: self-insert universal-argument numarg
+--- inputrc
+"\C-xu": universal-argument
+--- keys
+\C-xuz<dump>\C-xu\C-xuw<dump>\r
+
+=== self-insert-space-and-punct
+tags: self-insert
+keys: a b!@#$%^&*()_+{}|:"<lt>>?~`<dump>\r
+
+=== self-insert-one-at-a-time
+tags: self-insert
+keys: a<pause>b<pause>c<dump>\r
+
+=== self-insert-typeahead-batch
+tags: self-insert undo
+keys: abc<dumpfull>\r
+
+=== self-insert-unbound-control-char
+tags: self-insert
+--- inputrc
+"\C-x": self-insert
+--- keys
+a\C-xb<dump>\r
+
+=== quoted-insert-control
+tags: quoted-insert
+keys: a\C-q\C-ab<dump>\r
+
+=== quoted-insert-ctrl-v
+tags: quoted-insert
+keys: a\C-v\C-gb<dump><snap>\r
+
+=== quoted-insert-escape
+tags: quoted-insert
+keys: \C-v\e<dump><snap>\r
+
+=== quoted-insert-del
+tags: quoted-insert
+keys: x\C-v\C-?<dump><snap>\r
+
+=== quoted-insert-count
+tags: quoted-insert numarg
+keys: \M-3\C-vq<dump>\r
+
+=== quoted-insert-newline
+tags: quoted-insert
+keys: a\C-v\C-jb<dump><snap>\r
+
+=== quoted-insert-tab
+tags: quoted-insert
+keys: a\C-v\tb<dump><snap>\r
+
+=== quoted-insert-utf8
+tags: quoted-insert utf8
+keys: a\C-vé<dump>\r
+
+=== quoted-insert-signal-char
+tags: quoted-insert signals
+signals: off
+keys: a\C-q<pause>\C-c<pause>\C-q<pause>\C-z<dump>\r
+
+=== tab-insert
+tags: tab-insert
+keys: a\M-\tb<dump><snap>\r
+
+=== tab-insert-count
+tags: tab-insert numarg
+keys: \M-3\M-\t<dump>\r
+
+=== tab-key-without-completion
+tags: tab-insert
+--- inputrc
+"\t": tab-insert
+--- keys
+x\ty<dump>\r
+
+=== overwrite-mode-toggle
+tags: overwrite-mode
+--- inputrc
+"\C-xo": overwrite-mode
+--- keys
+abcdef\C-a\C-xoXY<dump>\C-xoZ<dump>\r
+
+=== overwrite-mode-insert-key
+tags: overwrite-mode
+keys: abc\C-a<ins>XYZW<dump><ins>v<dump>\r
+
+=== overwrite-mode-positive-arg
+tags: overwrite-mode numarg
+--- inputrc
+"\C-xo": overwrite-mode
+--- keys
+abc\C-a\M-1\C-xoX<dump>\M-1\C-xoY<dump>\r
+
+=== overwrite-mode-negative-arg
+tags: overwrite-mode numarg
+--- inputrc
+"\C-xo": overwrite-mode
+--- keys
+abc\C-a\C-xo\M--\C-xoX<dump>\r
+
+=== overwrite-mode-count-insert
+tags: overwrite-mode numarg
+keys: abcdef\C-a<ins>\M-3x<dump>\r
+
+=== overwrite-mode-at-end-appends
+tags: overwrite-mode
+keys: ab<ins>cd<dump>\r
+
+=== overwrite-mode-resets-each-line
+tags: overwrite-mode
+--- script
+readline "> " 2
+--- keys
+a<ins>\rbc\C-ax<dumpfull>\r
+
+=== overwrite-mode-undo
+tags: overwrite-mode undo
+keys: abcd\C-a<ins>XY\C-_<dump>\C-_<dump>\r
+
+=== overwrite-mode-tab-insert
+tags: overwrite-mode tab-insert
+keys: abcd\C-a<ins>\M-\t<dump>\r
+
+=== overwrite-mode-quoted-insert
+tags: overwrite-mode quoted-insert
+keys: abcd\C-a<ins>\C-v\C-a<dump>\r
+
+=== overwrite-mode-wide-chars
+tags: overwrite-mode utf8
+keys: 日本語\C-a<ins>ab<dump><snap>\r
+
+=== insert-mode-variable
+tags: overwrite-mode rl_insert_mode
+--- script
+set rl_insert_mode 0
+readline "> "
+get rl_insert_mode
+--- keys
+abc\C-aX<dump>\r
+
+=== bracketed-paste
+tags: bracketed-paste-begin
+keys: x<paste-start>hello world<paste-end>y<dump>\r
+
+=== bracketed-paste-newline-not-accepted
+tags: bracketed-paste-begin
+keys: <paste-start>line1\rline2\nline3<paste-end><dump>\r
+
+=== bracketed-paste-control-chars
+tags: bracketed-paste-begin
+keys: <paste-start>a\tb\C-ac\C-?d<paste-end><dump>\r
+
+=== bracketed-paste-single-undo
+tags: bracketed-paste-begin undo
+keys: x <paste-start>one two<paste-end>\C-_<dump>\r
+
+=== bracketed-paste-sets-mark-active
+tags: bracketed-paste-begin
+keys: ab<paste-start>cd<paste-end><dumpfull>\r
+
+=== bracketed-paste-region-highlight
+tags: bracketed-paste-begin display
+keys: ab<paste-start>cdef<paste-end><snap>g<snap>\r
+
+=== bracketed-paste-overwrite-mode
+tags: bracketed-paste-begin overwrite-mode
+keys: abcdef\C-a<ins><paste-start>XY<paste-end><dump>\r
+
+=== bracketed-paste-disabled
+tags: bracketed-paste-begin
+--- inputrc
+set enable-bracketed-paste off
+--- keys
+x<paste-start>ab<paste-end><dump>\r
+
+=== bracketed-paste-utf8
+tags: bracketed-paste-begin utf8
+keys: <paste-start>héllo 日本<paste-end><dump>\r
+
+=== bracketed-paste-empty
+tags: bracketed-paste-begin
+keys: a<paste-start><paste-end>b<dump>\r
+
+=== bracketed-paste-numeric-arg
+tags: bracketed-paste-begin numarg
+keys: \M-3<paste-start>ab<paste-end><dump>\r
+
+=== bracketed-paste-variable
+tags: bracketed-paste-begin vars
+--- script
+rl_variable_value enable-bracketed-paste
+rl_variable_bind enable-bracketed-paste off
+rl_variable_value enable-bracketed-paste

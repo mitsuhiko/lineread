@@ -1,0 +1,79 @@
+{
+  "universal-argument-key-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xxxxxxxxxxxxxxxx", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xxxxxxxxxxxxxxxx"}
+    ],
+    "screen": [
+      "> xxxxxxxxxxxxxxxx"
+    ],
+    "cursor": [1, 0]
+  },
+  "universal-argument-digits-then-key-terminates": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xxx", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xxx"}
+    ],
+    "screen": [
+      "> xxx"
+    ],
+    "cursor": [1, 0]
+  },
+  "universal-argument-digits-then-key-then-command": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 4, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "universal-argument-eof-after-digits": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "digit-argument-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "(arg: 2) abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-digit-argument": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xxxxxxxxxxxx", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 12, "insert_mode": 1},
+      {"op": "callback", "ret": "xxxxxxxxxxxx"}
+    ],
+    "screen": [
+      "> xxxxxxxxxxxx",
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "callback-digit-argument-then-meta-command": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two three", "point": 4, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 1, "numeric_arg": 2, "insert_mode": 1},
+      {"op": "callback", "ret": "one two three"}
+    ],
+    "screen": [
+      "> one two three",
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

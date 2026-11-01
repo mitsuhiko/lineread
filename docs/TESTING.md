@@ -278,6 +278,10 @@ with `--record`.
   only for genuine platform differences (e.g. `~root` is `/var/root` on
   macOS); prefer making the case portable.
 * Fields matched by `ignore:` are dropped before recording and comparing.
+  Patterns are matched against dotted paths such as `results[2].undo` or
+  `snaps[0].cursor`; `*` is a wildcard, `[` `]` are literal index brackets
+  (not character classes), and a pattern also matches everything below it
+  (`results[2]` covers `results[2].line`).
 
 Comparison is field-wise: every key of every result record, every screen
 row, the cursor, the exit status and every snapshot row is one *field*. A case

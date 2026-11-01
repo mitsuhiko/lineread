@@ -1,0 +1,849 @@
+{
+  "empty-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "abc"
+        ],
+        "cursor": [0, 3]
+      },
+      {
+        "screen": [
+          "abc"
+        ],
+        "cursor": [0, 0]
+      }
+    ]
+  },
+  "null-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "abc"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "prompt-with-color-ignored": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "red> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "red> abc"
+        ],
+        "cursor": [0, 8]
+      },
+      {
+        "screen": [
+          "red> abc"
+        ],
+        "cursor": [0, 5]
+      },
+      {
+        "screen": [
+          "red> abc"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "prompt-color-without-markers": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "red> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "red> abc"
+        ],
+        "cursor": [0, 8]
+      },
+      {
+        "screen": [
+          "red> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "prompt-only-invisible": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xyz"}
+    ],
+    "screen": [
+      "xyz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "xyz"
+        ],
+        "cursor": [0, 3]
+      },
+      {
+        "screen": [
+          "xyz"
+        ],
+        "cursor": [0, 0]
+      }
+    ]
+  },
+  "prompt-unterminated-ignore": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "ab> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "ab> x"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "prompt-multiline-two": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "line one",
+      "line two> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "line one",
+          "line two> abc"
+        ],
+        "cursor": [1, 13]
+      },
+      {
+        "screen": [
+          "line one",
+          "line two> abc"
+        ],
+        "cursor": [1, 10]
+      }
+    ]
+  },
+  "prompt-multiline-three-with-color": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "top",
+      "mid",
+      "bottom$ xy"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top",
+          "mid",
+          "bottom$ xy"
+        ],
+        "cursor": [2, 10]
+      },
+      {
+        "screen": [
+          "top",
+          "mid",
+          "bottom$ xy"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "prompt-multiline-trailing-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "header",
+      "abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "header",
+          "abc"
+        ],
+        "cursor": [1, 3]
+      }
+    ]
+  },
+  "prompt-multiline-wrap-input": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnop"}
+    ],
+    "screen": [
+      "first",
+      "second> 0123456789ab",
+      "cdefghijklmnop"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "second> 0123456789ab",
+          "cdefghijklmnop"
+        ],
+        "cursor": [2, 14]
+      },
+      {
+        "screen": [
+          "first",
+          "second> 0123456789ab",
+          "cdefghijklmnop"
+        ],
+        "cursor": [1, 8]
+      },
+      {
+        "screen": [
+          "first",
+          "second> 0123456789ab",
+          "cdefghijklmnop"
+        ],
+        "cursor": [2, 14]
+      }
+    ]
+  },
+  "prompt-multiline-clear-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "first",
+      "second> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "second> abc"
+        ],
+        "cursor": [1, 11]
+      }
+    ]
+  },
+  "prompt-multiline-redraw": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "first",
+      "second> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "second> abc"
+        ],
+        "cursor": [1, 11]
+      }
+    ]
+  },
+  "prompt-wider-than-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "this prompt is longe",
+      "r than twenty> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "this prompt is longe",
+          "r than twenty> abc"
+        ],
+        "cursor": [1, 18]
+      },
+      {
+        "screen": [
+          "this prompt is longe",
+          "r than twenty> abc"
+        ],
+        "cursor": [1, 15]
+      }
+    ]
+  },
+  "prompt-wider-than-screen-wrapped-input": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnop"}
+    ],
+    "screen": [
+      "this prompt is longe",
+      "r than twenty> 01234",
+      "56789abcdefghijklmno",
+      "p"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "this prompt is longe",
+          "r than twenty> 01234",
+          "56789abcdefghijklmno",
+          "p"
+        ],
+        "cursor": [3, 1]
+      },
+      {
+        "screen": [
+          "this prompt is longe",
+          "r than twenty> 01234",
+          "56789abcdefghijklmno",
+          "p"
+        ],
+        "cursor": [1, 15]
+      }
+    ]
+  },
+  "prompt-exactly-screen-width": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "0123456789",
+      "ab"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "0123456789",
+          "ab"
+        ],
+        "cursor": [1, 2]
+      },
+      {
+        "screen": [
+          "0123456789",
+          "ab"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "prompt-wide-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "日本語> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "日本語> abc"
+        ],
+        "cursor": [0, 11]
+      },
+      {
+        "screen": [
+          "日本語> abc"
+        ],
+        "cursor": [0, 8]
+      }
+    ]
+  },
+  "prompt-wide-chars-wrapping": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "日本語日本",
+      "> abcdef"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "日本語日本",
+          "> abcdef"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "prompt-with-tab": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "a       b> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "a       b> x"
+        ],
+        "cursor": [0, 12]
+      }
+    ]
+  },
+  "prompt-control-char": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "y"}
+    ],
+    "screen": [
+      "x> y"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "x> y"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "prompt-color-wrapping": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abcdefghij"}
+    ],
+    "screen": [
+      "long-colored-prompt-",
+      "text> abcdefghij"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "long-colored-prompt-",
+          "text> abcdefghij"
+        ],
+        "cursor": [1, 16]
+      },
+      {
+        "screen": [
+          "long-colored-prompt-",
+          "text> abcdefghij"
+        ],
+        "cursor": [1, 6]
+      }
+    ]
+  },
+  "prompt-color-on-last-line-of-multiline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "info",
+      ">>> hello"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "info",
+          ">>> hello"
+        ],
+        "cursor": [1, 9]
+      },
+      {
+        "screen": [
+          "info",
+          ">>> hello"
+        ],
+        "cursor": [1, 6]
+      }
+    ]
+  },
+  "prompt-redisplay-after-numeric-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "first",
+      "second> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "(arg: 3) abc"
+        ],
+        "cursor": [1, 12]
+      },
+      {
+        "screen": [
+          "first",
+          "second> abc"
+        ],
+        "cursor": [1, 11]
+      }
+    ]
+  },
+  "prompt-in-isearch-multiline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "first",
+      "second>"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "(reverse-i-search)`fo': foo"
+        ],
+        "cursor": [1, 24]
+      },
+      {
+        "screen": [
+          "first",
+          "second>"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "rl-expand-prompt-api": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_expand_prompt \"plain> \"", "ret": 7},
+      {"op": "rl_expand_prompt \"\\001\\e[1m\\002bold\\001\\e[0m\\002> \"", "ret": 6},
+      {"op": "rl_expand_prompt \"a\\nb> \"", "ret": 2},
+      {"op": "rl_expand_prompt \"\"", "ret": 0},
+      {"op": "rl_expand_prompt NULL", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "rl-set-prompt-during-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun set-prompt sp", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" set-prompt", "ret": 0},
+      {"op": "rl_set_prompt \"new prompt$ \"", "ret": 0},
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "new prompt$ ", "display_prompt": "new prompt$ ", "last_func": "set-prompt", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 112, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"},
+      {"op": "get rl_prompt", "ret": "new prompt$ "}
+    ],
+    "screen": [
+      "new prompt$ abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "new prompt$ abc"
+        ],
+        "cursor": [0, 15]
+      }
+    ]
+  },
+  "rl-set-prompt-multiline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun set-prompt sp", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" set-prompt", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "rl_on_new_line", "ret": 0},
+      {"op": "rl_set_prompt \"line1\\nline2: \"", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      "line2: abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc",
+          "line2: abc"
+        ],
+        "cursor": [1, 10]
+      }
+    ]
+  },
+  "rl-set-prompt-api-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_set_prompt \"outside> \"", "ret": 0},
+      {"op": "get rl_prompt", "ret": "outside> "},
+      {"op": "get rl_display_prompt", "ret": "outside> "},
+      {"op": "rl_set_prompt NULL", "ret": 0},
+      {"op": "get rl_prompt", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "rl-on-new-line-with-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "defun onl p", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xn\" onl", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "rl_on_new_line_with_prompt", "ret": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abc",
+      "abcd"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc",
+          "abc"
+        ],
+        "cursor": [1, 3]
+      },
+      {
+        "screen": [
+          "> abc",
+          "abcd"
+        ],
+        "cursor": [1, 4]
+      }
+    ]
+  },
+  "rl-redraw-prompt-last-line": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rplast p", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" rplast", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "first",
+      "second> abc",
+      "second> abc"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "second> abc",
+          "second> abc"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "rl-redraw-prompt-last-line-single": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rplast p", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" rplast", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc",
+      "> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc",
+          "> abc"
+        ],
+        "cursor": [1, 5]
+      }
+    ]
+  },
+  "prompt-percent-chars-literal": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "%s %d 100%> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "%s %d 100%> x"
+        ],
+        "cursor": [0, 13]
+      }
+    ]
+  },
+  "prompt-backslash-literal": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "C:\\dir\\> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "C:\\dir\\> x"
+        ],
+        "cursor": [0, 10]
+      }
+    ]
+  },
+  "long-prompt-with-invisible-tail": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xyz"}
+    ],
+    "screen": [
+      "abcdefghijklmnopqrst",
+      "uvwxyz> xyz"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "abcdefghijklmnopqrst",
+          "uvwxyz> xyz"
+        ],
+        "cursor": [1, 11]
+      },
+      {
+        "screen": [
+          "abcdefghijklmnopqrst",
+          "uvwxyz> xyz"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "prompt-ending-with-invisible-at-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "012345678a",
+      "b"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "012345678a",
+          "b"
+        ],
+        "cursor": [1, 1]
+      }
+    ]
+  },
+  "rl-already-prompted": {
+    "exit": 0,
+    "results": [
+      {"op": "echo", "args": ["x"]},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "abc"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "prompt-redisplay-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "abc"}
+    ],
+    "screen": [
+      "cb> abc",
+      "cb>"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "cb> abc"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "cb> abc"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  }
+}

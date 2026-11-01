@@ -1,0 +1,116 @@
+# Key dispatch: long key sequences, shadowed prefixes falling back to the
+# original binding (also from macros and in callback mode), meta keys,
+# do-lowercase-version, EOF in the middle of a sequence, unprepped terminals.
+tags: emacs dispatch
+--- script
+readline "> "
+
+=== long-key-sequence
+tags: keymap
+--- inputrc
+"\C-xabcdefghijklmnopqrstuvwxyz": beginning-of-line
+--- keys
+hello\C-xabcdefghijklmnopqrstuvwxyz<dump>\r
+
+=== shadowed-uppercase-meta-falls-back-to-lowercase
+tags: keymap do-lowercase-version
+--- inputrc
+"\eFx": backward-char
+--- keys
+one two\C-a\eFz<dump>\r
+
+=== shadowed-prefix-sequence-matches
+tags: keymap
+--- inputrc
+"\eFx": backward-char
+--- keys
+one two\eFx<dump>\r
+
+=== shadowed-prefix-in-macro
+tags: keymap macro
+--- inputrc
+"\eFx": backward-char
+"\C-xm": "\eFz"
+--- keys
+one two\C-a\C-xm<dump>\r
+
+=== shadowed-two-level-prefix-in-macro
+tags: keymap macro
+--- inputrc
+"\C-xab": "B"
+"\C-xm": "\C-xaz"
+--- keys
+one\C-xm<snap><dump>\r
+
+=== failed-subsequence-backs-up
+tags: keymap
+--- inputrc
+"\C-xab": "B"
+"\C-xa": "A"
+--- keys
+one\C-xaz<dump>\r
+
+=== do-lowercase-version-on-lowercase-key-dings
+tags: do-lowercase-version
+--- inputrc
+"\C-xq": do-lowercase-version
+--- keys
+abc\C-xq<dump>\r
+
+=== eof-in-middle-of-key-sequence
+tags: keymap eof
+keys: abc\C-x
+
+=== meta-char-in-macro-definition
+tags: start-kbd-macro convert-meta locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set convert-meta on
+--- keys
+one two\C-x(\xe2\C-x)<pause>\C-xe<dump>\r
+
+=== not-echoing-prints-prompt
+tags: rl_prep_term_function display
+--- script
+def p
+end
+set rl_prep_term_function script:p
+readline "plain> "
+--- keys
+abc\r
+
+=== callback-failed-subsequence-backs-up
+tags: keymap callback
+--- inputrc
+"\C-xab": "B"
+"\C-xa": "A"
+--- script
+callback "> "
+--- keys
+one\C-xaz<dump>\r
+
+=== callback-shadowed-prefix
+tags: keymap callback
+--- inputrc
+"\eFx": backward-char
+--- script
+callback "> "
+--- keys
+one two\C-a\eFz<dump>\r
+
+=== callback-eof-in-key-sequence
+tags: keymap callback eof
+--- script
+callback "> "
+--- keys
+abc\C-x\C-x
+
+=== callback-three-level-sequence
+tags: keymap callback
+--- inputrc
+"\C-xabc": "C"
+--- script
+callback "> "
+--- keys
+one\C-xabc<dump>\C-xab<pause>\r<dump>\r

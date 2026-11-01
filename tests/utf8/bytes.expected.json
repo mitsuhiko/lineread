@@ -1,0 +1,224 @@
+{
+  "num-chars-two-and-three-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "aé\udce2"}
+    ],
+    "screen": [
+      "> a�"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-counts-complete-characters": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_insert_text \"é€\"", "ret": 5},
+      {"op": "readline", "ret": "é€xy"}
+    ],
+    "screen": [
+      "> é€xy"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-counts-four-byte-characters": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_insert_text \"😀𐍈\"", "ret": 8},
+      {"op": "readline", "ret": "😀𐍈x"}
+    ],
+    "screen": [
+      "> 😀𐍈x"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-counts-invalid-bytes-in-line": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_insert_text \"\\xff\\xe0\\x80\\xed\\xa0\\xf0\\x80\\xf4\\x90\\xf5\\xc3\"", "ret": 11},
+      {"op": "readline", "ret": "\udcff\udce0\udc80\udced\udca0\udcf0\udc80\udcf4\udc90\udcf5\udcc3x"}
+    ],
+    "screen": [
+      "> �����������x"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-four-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcf0\udc9f\udc98"}
+    ],
+    "screen": [
+      "> �"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-invalid-lead-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcffab"}
+    ],
+    "screen": [
+      "> �ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-continuation-byte-alone": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udc80ab"}
+    ],
+    "screen": [
+      "> �ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-truncated-two-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcc3ab"}
+    ],
+    "screen": [
+      "> �ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-overlong-three-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udce0\udc80\udc80"}
+    ],
+    "screen": [
+      "> ���"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-surrogate": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udced\udca0\udc80"}
+    ],
+    "screen": [
+      "> ���"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-truncated-three-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udce2\udc82a"}
+    ],
+    "screen": [
+      "> �a"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-overlong-four-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcf0\udc80\udc80"}
+    ],
+    "screen": [
+      "> ���"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-above-max-codepoint": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcf4\udc90\udc80"}
+    ],
+    "screen": [
+      "> ���"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-truncated-four-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcf0\udc9f\udc98"}
+    ],
+    "screen": [
+      "> �"
+    ],
+    "cursor": [1, 0]
+  },
+  "num-chars-f5-lead": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udcf5ab"}
+    ],
+    "screen": [
+      "> �ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-ignore-case-invalid-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab\udcffCD", "point": 3, "end": 5, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ab\udcffCD", "point": 3, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab\udcffCD"}
+    ],
+    "screen": [
+      "> ab�CD"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-ignore-case-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "CAFÉ au lait", "point": 0, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "CAFÉ au lait"}
+    ],
+    "screen": [
+      "> CAFÉ au lait"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-search-ignore-case-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ÉTÉ chaud", "point": 5, "end": 11, "mark": 11, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ÉTÉ chaud"}
+    ],
+    "screen": [
+      "> ÉTÉ chaud"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-char-over-invalid-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udcff\udcfeb", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udcff\udcfeb", "point": 0, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcff\udcfeb"}
+    ],
+    "screen": [
+      "> a��b"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-char-over-invalid-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udcff\udcc3b", "point": 2, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udcff\udcc3b", "point": 3, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcff\udcc3b"}
+    ],
+    "screen": [
+      "> a��b"
+    ],
+    "cursor": [1, 0]
+  },
+  "delete-invalid-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 1, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  }
+}

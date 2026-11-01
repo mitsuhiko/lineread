@@ -1,0 +1,136 @@
+# vi commands in a single-byte locale (LC_ALL=C): byte-oriented paths of
+# motions, deletes, case change, char search, replace and bracket matching.
+tags: vi locale c-locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== w-and-b
+tags: vi-next-word vi-prev-word
+keys: one two.three four\e<pause>0ww<dump>b<dump>\r
+
+=== W-and-B
+tags: vi-fWord vi-bWord
+keys: one two.three four\e<pause>0W<dump>$B<dump>\r
+
+=== e-and-E
+tags: vi-end-word vi-eWord
+keys: one two.three four\e<pause>0e<dump>E<dump>E<dump>\r
+
+=== b-from-punct
+tags: vi-prev-word
+keys: abc.,; def\e<pause>bb<dump>b<dump>\r
+
+=== B-at-start-of-word
+tags: vi-bWord
+keys: one   two\e<pause>bB<dump>\r
+
+=== h-and-l
+tags: backward-char forward-char
+keys: abcdef\e<pause>hh<dump>0ll<dump>\r
+
+=== x-and-X
+tags: vi-delete vi-rubout
+keys: abcdef\e<pause>0x<dump>$X<dump>\r
+
+=== 2x-at-end
+tags: vi-delete numarg
+keys: abcdef\e<pause>2x<dump>\r
+
+=== 3X
+tags: vi-rubout numarg
+keys: abcdef\e<pause>3X<dump>\r
+
+=== tilde-count
+tags: vi-change-case numarg
+keys: aBc-d\e<pause>05~<dump>\r
+
+=== tilde-at-end
+tags: vi-change-case
+keys: abc\e<pause>~<dump>\r
+
+=== f-F-t-T
+tags: vi-char-search
+keys: a-b-c-d\e<pause>0f-<dump>t-<dump>$F-<dump>T-<dump>\r
+
+=== semicolon-comma
+tags: vi-char-search
+keys: a-b-c-d\e<pause>0f-;<dump>,<dump>\r
+
+=== r-replace
+tags: vi-change-char
+keys: abcdef\e<pause>03rx<dump>\r
+
+=== r-dot
+tags: vi-change-char vi-redo
+keys: abcdef\e<pause>0rxll.<dump>\r
+
+=== R-replace-and-rubout
+tags: vi-replace vi-overstrike-delete
+keys: abcdef\e<pause>0RXYZ\C-?<dump>\e<pause><dump>\r
+
+=== percent-forward-backward
+tags: vi-match
+keys: a(b[c]d)e\e<pause>0f(%<dump>%<dump>\r
+
+=== percent-search-forward-for-bracket
+tags: vi-match
+keys: ab (cd) ef\e<pause>0%<dump>\r
+
+=== percent-no-bracket
+tags: vi-match
+keys: abc\e<pause>0%<dump>\r
+
+=== dw-cw-yw
+tags: vi-delete-to vi-change-to vi-yank-to
+keys: one two three\e<pause>0dw<dump>cwX\e<pause><dump>wywP<dump>\r
+
+=== de-at-end
+tags: vi-delete-to
+keys: one two\e<pause>0wde<dump>\r
+
+=== s-and-S
+tags: vi-subst
+keys: abc def\e<pause>0sX\e<pause><dump>SY\e<pause><dump>\r
+
+=== p-and-P
+tags: vi-put
+keys: abc\e<pause>0xp<dump>P<dump>\r
+
+=== a-and-A
+tags: vi-append-mode vi-append-eol
+keys: abc\e<pause>0aX\e<pause><dump>AY\e<pause><dump>\r
+
+=== insert-8bit-char
+tags: self-insert
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set convert-meta off
+set input-meta on
+--- keys
+a\xe9b\e<pause>0l~<dump>\r
+
+=== unix-word-rubout
+tags: vi-unix-word-rubout
+keys: one two.three\C-w<dump>\C-w<dump>\r
+
+=== unix-word-rubout-trailing-space
+tags: vi-unix-word-rubout
+keys: one two   \C-w<dump>\r
+
+=== back-to-indent
+tags: vi-back-to-indent
+keys:    abc\e<pause>$^<dump>\r
+
+=== column
+tags: vi-column numarg
+keys: abcdefgh\e<pause>4|<dump>\r
+
+=== dot-redo-insert
+tags: vi-redo
+keys: abc\e<pause>0iXY\e<pause>.<dump>\r

@@ -1,0 +1,279 @@
+# Multibyte (UTF-8) editing: insertion, movement, deletion, case,
+# transposition, wide and combining characters, invalid sequences.
+tags: utf8
+--- script
+readline "> "
+
+=== insert-two-byte
+keys: é<dump>ü<dump>\r
+
+=== insert-three-byte
+keys: 日<dump>本<dump><snap>\r
+
+=== insert-four-byte
+keys: a\u{1F600}b<dump><snap>\r
+
+=== insert-mixed-batch
+keys: aé日\u{1F600}z<dump>\r
+
+=== forward-backward-char-multibyte
+tags: forward-char backward-char
+keys: aé日\u{1F600}z\C-a\C-f<dump>\C-f<dump>\C-f<dump>\C-f<dump>\C-b<dump>\C-b<dump>\r
+
+=== forward-char-count-multibyte
+tags: forward-char numarg
+keys: éééé\C-a\M-3\C-f<dump>\M-2\C-b<dump>\r
+
+=== cursor-column-wide
+tags: display
+keys: 日本語\C-b<snap>\C-b<snap>\C-a<snap>\r
+
+=== delete-char-multibyte
+tags: delete-char
+keys: aé日b\C-a\C-f\C-d<dump>\C-d<dump>\r
+
+=== backward-delete-char-multibyte
+tags: backward-delete-char
+keys: aé日\u{1F600}\C-?<dump>\C-?<dump>\C-?<dump>\r
+
+=== backward-delete-char-count-multibyte
+tags: backward-delete-char numarg
+keys: aé日b\M-3\C-?<dump>\r
+
+=== transpose-chars-wide
+tags: transpose-chars
+keys: 日本\C-t<dump><snap>\r
+
+=== transpose-chars-mixed-widths
+tags: transpose-chars
+keys: a日b\C-b\C-t<dump><snap>\r
+
+=== transpose-words-multibyte
+tags: transpose-words
+keys: héllo wörld\M-t<dump>\r
+
+=== forward-word-multibyte-letters
+tags: forward-word
+keys: héllo wörld\C-a\M-f<dump>\M-f<dump>\M-b<dump>\r
+
+=== forward-word-cjk
+tags: forward-word
+keys: 日本語 テキスト\C-a\M-f<dump>\M-f<dump>\r
+
+=== kill-word-multibyte
+tags: kill-word
+keys: héllo wörld\C-a\M-d<dump>\C-e\C-y<dump>\r
+
+=== backward-kill-word-multibyte
+tags: backward-kill-word
+keys: héllo wörld\M-\C-?<dump>\r
+
+=== unix-word-rubout-multibyte
+tags: unix-word-rubout
+keys: 日本 語\C-w<dump>\r
+
+=== upcase-word-multibyte
+tags: upcase-word
+keys: straße éa\C-a\M-u<dump>\M-u<dump>\r
+
+=== downcase-word-multibyte
+tags: downcase-word
+keys: ÀÉÎ ÕÜ\C-a\M-l<dump>\M-l<dump>\r
+
+=== capitalize-word-multibyte
+tags: capitalize-word
+keys: éCOLE ñu\C-a\M-c<dump>\M-c<dump>\r
+
+=== combining-char-insert
+tags: combining
+keys: e\u{301}<dump><snap>\r
+
+=== combining-char-movement
+tags: combining forward-char backward-char
+keys: ae\u{301}b\C-a\C-f<dump>\C-f<dump>\C-f<dump>\C-b<dump>\r
+
+=== combining-char-delete
+tags: combining delete-char
+keys: ae\u{301}b\C-a\C-f\C-d<dump>\r
+
+=== combining-char-rubout
+tags: combining backward-delete-char
+keys: ae\u{301}\C-?<dump>\r
+
+=== combining-multiple-marks
+tags: combining
+keys: xa\u{301}\u{308}y\C-b\C-b<dump><snap>\r
+
+=== combining-at-line-start
+tags: combining
+keys: \u{301}ab\C-a\C-f<dump><snap>\r
+
+=== zero-width-joiner
+tags: combining
+keys: a\u{200d}b\C-b\C-b<dump>\r
+
+=== invalid-byte-insert
+tags: invalid
+keys: a\xffb<dump><snap>\C-b\C-b<dump>\r
+
+=== invalid-continuation-byte
+tags: invalid
+keys: a\x80b\C-b\C-b<dump>\C-d<dump>\r
+
+=== incomplete-sequence-then-ascii
+tags: invalid
+keys: a\xe6\x97b<dump><snap>\r
+
+=== incomplete-sequence-movement
+tags: invalid
+keys: a\xe6\x97b\C-a\C-f<dump>\C-f<dump>\C-f<dump>\r
+
+=== overlong-sequence
+tags: invalid
+keys: a\xc0\xafb<dump>\r
+
+=== insert-wide-char-count
+tags: numarg
+keys: \M-3日<dump>\r
+
+=== quoted-insert-wide-char
+tags: quoted-insert
+keys: \C-v日<dump>\r
+
+=== self-insert-utf8-one-byte-at-a-time
+description: the final screen is not compared (readline leaves a stale display here)
+ignore: screen cursor
+keys: \xe6<pause>\x97<pause>\xa5<pause>x<dump>\r
+
+=== rl-insert-text-multibyte
+tags: rl_insert_text api
+--- script
+def i
+rl_insert_text "日本"
+end
+defun ins i
+rl_bind_keyseq "\C-xi" ins
+readline "> "
+--- keys
+a\C-xi<dump>\C-b<dump>\r
+
+
+=== history-with-multibyte
+tags: history
+--- script
+add_history "日本語 テキスト"
+readline "> "
+--- keys
+\C-p\C-a\M-f<dump><snap>\r
+
+=== yank-multibyte
+tags: yank
+keys: 日本語\C-a\C-k\C-y\C-y<dump>\r
+
+=== character-search-multibyte-target
+tags: character-search
+keys: a日b日c\C-a\C-]日<dump>\C-]日<dump>\r
+
+=== byte-oriented-on
+tags: byte-oriented vars
+--- inputrc
+set byte-oriented on
+--- keys
+aé\C-b<dump>\C-?<dump>\r
+
+=== c-locale-bytes
+tags: locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- keys
+aé\C-b<dump><snap>\C-d<dump>\r
+
+=== c-locale-meta-display
+tags: locale visible
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- keys
+x\C-v\xe9y<snap><dump>\r
+
+=== latin1-locale-like-c
+tags: locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set convert-meta off
+set output-meta on
+set input-meta on
+--- keys
+x\xe9y\C-b\C-b<dump>\r
+
+=== wide-chars-wrap-cursor
+tags: display wrap
+screen: 11x5
+keys: 日本語日本語\C-a\C-f\C-f\C-f\C-f<snap>\C-f<snap>\r
+
+=== emoji-width
+tags: display
+keys: \u{1F600}\u{1F600}x<snap>\C-b<snap>\r
+
+=== utf8-prompt-and-editing
+tags: display prompt
+--- script
+readline "日本> "
+--- keys
+é\C-b<snap>\r
+
+=== vi-mode-multibyte-ops
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+日本語 テスト\e<pause>0x<dump>w<dump>dw<dump>u<dump>$X<dump>\r
+
+=== vi-mode-replace-multibyte
+tags: vi vi-change-char
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abc\e<pause>0rä<dump>lR日本\e<pause><dump>\r
+
+=== vi-mode-tilde-multibyte
+tags: vi vi-change-case
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+äöü\e<pause>0~~~<dump>\r
+
+=== vi-mode-f-multibyte
+tags: vi vi-char-search
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+a日b日c\e<pause>0f日<dump>;<dump>,<dump>t日<dump>\r
+
+=== vi-mode-p-multibyte
+tags: vi vi-put
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+日本\e<pause>0x<pause>p<dump>P<dump>\r
+
+=== isearch-multibyte-display
+tags: isearch display
+--- script
+add_history "über straße"
+readline "> "
+--- keys
+\C-rstraß<snap>\C-j<dump>\r
+
+=== overwrite-multibyte-over-ascii
+tags: overwrite-mode
+keys: abcd\C-a<ins>日é<dump><snap>\r
+
+=== delete-horizontal-space-multibyte
+tags: delete-horizontal-space
+keys: 日  本\C-b\M-\\<dump>\r

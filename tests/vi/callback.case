@@ -1,0 +1,176 @@
+# vi mode driven through the callback interface (rl_callback_read_char):
+# operators, motions with counts, char searches and replace commands take
+# their callback-specific code paths.  (A count typed after an operator,
+# e.g. d2w, crashes the 8.3 reference in callback mode and is not tested.)
+tags: vi callback
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+callback "> "
+
+=== cb-insert-and-escape
+tags: vi-movement-mode
+keys: hello\e<pause>0x<dump>\r
+
+=== cb-dw
+tags: vi-delete-to
+keys: one two three\e<pause>0dw<dump>\r
+
+=== cb-count-before-operator
+tags: vi-delete-to numarg
+keys: one two three four\e<pause>02dw<dump>\r
+
+=== cb-dd
+tags: vi-delete-to
+keys: one two\e<pause>dd<dump>\r
+
+=== cb-d-dollar
+tags: vi-delete-to
+keys: one two three\e<pause>0wd$<dump>\r
+
+=== cb-D
+tags: vi-delete-to
+keys: one two three\e<pause>0wD<dump>\r
+
+=== cb-d-invalid-motion
+tags: vi-delete-to
+keys: one two\e<pause>0dz<dump>\r
+
+=== cb-cw
+tags: vi-change-to
+keys: one two three\e<pause>0cwONE\e<pause><dump>\r
+
+=== cb-cc
+tags: vi-change-to
+keys: one two\e<pause>ccnew\e<pause><dump>\r
+
+=== cb-C
+tags: vi-change-to
+keys: one two\e<pause>0wCzz\e<pause><dump>\r
+
+=== cb-yw-p
+tags: vi-yank-to vi-put
+keys: one two\e<pause>0ywP<dump>\r
+
+=== cb-yy
+tags: vi-yank-to
+keys: abc\e<pause>yyp<dump>\r
+
+=== cb-Y
+tags: vi-yank-to
+keys: abc def\e<pause>0wY0P<dump>\r
+
+=== cb-df-char
+tags: vi-delete-to vi-char-search
+keys: one-two-three\e<pause>0df-<dump>\r
+
+=== cb-dt-char
+tags: vi-delete-to vi-char-search
+keys: one-two-three\e<pause>0dt-<dump>\r
+
+=== cb-df-failed
+tags: vi-delete-to vi-char-search quirk
+keys: one-two\e<pause>0dfz<dump>\r
+
+=== cb-cf-char
+tags: vi-change-to vi-char-search
+keys: one-two\e<pause>0cf-X\e<pause><dump>\r
+
+=== cb-yf-char
+tags: vi-yank-to vi-char-search
+keys: one-two\e<pause>0yf-$p<dump>\r
+
+=== cb-f-motion
+tags: vi-char-search
+keys: one-two-three\e<pause>0f-<dump>;<dump>,<dump>\r
+
+=== cb-F-motion
+tags: vi-char-search
+keys: one-two-three\e<pause>F-<dump>\r
+
+=== cb-t-and-T
+tags: vi-char-search
+keys: one-two-three\e<pause>0t-<dump>$T-<dump>\r
+
+=== cb-2f-motion
+tags: vi-char-search numarg
+keys: a-b-c-d\e<pause>02f-<dump>\r
+
+=== cb-semicolon-without-search
+tags: vi-char-search
+keys: abc\e<pause>0;<dump>\r
+
+=== cb-r-replace
+tags: vi-change-char
+keys: abc\e<pause>0rX<dump>\r
+
+=== cb-3r-replace
+tags: vi-change-char numarg
+keys: abcdef\e<pause>03rX<dump>\r
+
+=== cb-r-dot-repeat
+tags: vi-change-char vi-redo
+keys: abcdef\e<pause>0rXl.<dump>\r
+
+=== cb-R-overstrike
+tags: vi-replace
+keys: abcdef\e<pause>0RXY\e<pause><dump>\r
+
+=== cb-m-and-backtick
+tags: vi-set-mark vi-goto-mark
+keys: one two\e<pause>0wmb0`b<dump>\r
+
+=== cb-m-invalid
+tags: vi-set-mark
+keys: one two\e<pause>m1<dump>\r
+
+=== cb-goto-mark-unset
+tags: vi-goto-mark
+keys: one two\e<pause>`q<dump>\r
+
+=== cb-digit-count-motion
+tags: numarg vi-arg-digit
+keys: one two three four\e<pause>03w<dump>\r
+
+=== cb-tilde
+tags: vi-change-case
+keys: abc\e<pause>0~~<dump>\r
+
+=== cb-dot-repeat-dw
+tags: vi-redo vi-delete-to
+keys: one two three four\e<pause>0dw.<dump>\r
+
+=== cb-dot-repeat-cw
+tags: vi-redo vi-change-to
+keys: one two three\e<pause>0cwX\e<pause>w.<dump>\r
+
+=== cb-dot-repeat-dd
+tags: vi-redo vi-delete-to
+keys: one\e<pause>dd<pause>itwo\e<pause>.<dump>\r
+
+=== cb-percent-match
+tags: vi-match
+keys: (a (b) c)\e<pause>0%<dump>\r
+
+=== cb-d-percent
+tags: vi-match vi-delete-to
+keys: x(a (b) c)y\e<pause>0ld%<dump>\r
+
+=== cb-history-search
+tags: vi-search history
+--- script
+add_history "alpha one"
+add_history "beta two"
+callback "> "
+--- keys
+\e<pause>/alpha\r<dump>\r
+
+=== cb-history-k-j
+tags: history
+--- script
+add_history "alpha"
+add_history "beta"
+callback "> "
+--- keys
+\e<pause>kk<dump>j<dump>\r

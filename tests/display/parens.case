@@ -1,0 +1,124 @@
+# blink-matching-paren: inserting a closing bracket briefly moves the
+# cursor to the matching opening one.  The redisplay hook dumps the
+# point during the blink (readline redisplays with point at the match).
+tags: display parens blink-matching-paren
+--- inputrc
+set blink-matching-paren on
+--- script
+def rd
+rl_redisplay
+echo point
+get rl_point
+end
+rl_set_paren_blink_timeout 1000
+set rl_redisplay_function script:rd
+readline "> "
+
+=== blink-paren-simple
+keys: (<pause>a<pause>b<pause>c<pause>)<pause><dump>\r
+
+=== blink-bracket
+keys: x<pause>[<pause>a<pause>b<pause>]<pause><dump>\r
+
+=== blink-brace
+keys: x<pause>{<pause>a<pause>b<pause>}<pause><dump>\r
+
+=== blink-nested
+keys: (<pause>a<pause>(<pause>b<pause>)<pause>c<pause>)<pause><dump>\r
+
+=== blink-mixed-nesting
+keys: (<pause>[<pause>{<pause>}<pause>]<pause>)<pause><dump>\r
+
+=== blink-no-match-dings
+keys: a<pause>b<pause>c<pause>)<pause><dump>\r
+
+=== blink-mismatched-type
+keys: (<pause>a<pause>b<pause>c<pause>]<pause><dump>\r
+
+=== blink-quoted-paren-skipped
+keys: (<pause>a<pause>"<pause>)<pause>"<pause>b<pause>)<pause><dump>\r
+
+=== blink-single-quoted
+keys: (<pause>a<pause>'<pause>)<pause>'<pause>b<pause>)<pause><dump>\r
+
+=== blink-backslash-escaped
+keys: (<pause>a<pause>\\<pause>)<pause>b<pause>)<pause><dump>\r
+
+=== blink-with-numeric-arg
+keys: (<pause>\M-3)<pause><dump>\r
+
+=== blink-match-off-screen-line
+screen: 20x6
+keys: (<pause>0<pause>1<pause>2<pause>3<pause>4<pause>5<pause>6<pause>7<pause>8<pause>9<pause>a<pause>b<pause>c<pause>d<pause>e<pause>f<pause>g<pause>h<pause>i<pause>j<pause>k<pause>l<pause>m<pause>n<pause>o<pause>p<pause>)<pause><snap>\r
+
+=== blink-utf8
+keys: (<pause>日<pause>本<pause>)<pause><dump>\r
+
+=== blink-off-by-default
+--- inputrc
+--- keys
+(<pause>a<pause>b<pause>c<pause>)<pause><dump>\r
+
+=== blink-variable-runtime
+--- inputrc
+--- script
+def rd
+rl_redisplay
+echo point
+get rl_point
+end
+set rl_redisplay_function script:rd
+rl_variable_bind blink-matching-paren on
+rl_variable_value blink-matching-paren
+readline "> "
+--- keys
+(<pause>a<pause>)<pause>\r
+
+=== blink-timeout-api
+tags: rl_set_paren_blink_timeout
+--- inputrc
+--- script
+rl_set_paren_blink_timeout 200000
+rl_set_paren_blink_timeout 0
+rl_set_paren_blink_timeout -1
+rl_set_paren_blink_timeout 500000
+
+=== blink-insert-close-direct
+tags: rl_insert_close
+--- inputrc
+--- script
+def rd
+rl_redisplay
+echo point
+get rl_point
+end
+set rl_redisplay_function script:rd
+rl_bind_key ")" insert-close
+rl_variable_bind blink-matching-paren on
+readline "> "
+--- keys
+(<pause>x<pause>)<pause>\r
+
+=== blink-in-vi-insert
+tags: vi
+--- inputrc
+set editing-mode vi
+set blink-matching-paren on
+--- keys
+(<pause>a<pause>b<pause>)<pause><dump>\r
+
+=== blink-overwrite-mode
+tags: overwrite-mode
+keys: (<pause>a<pause>b<pause>c<pause>d<pause>\C-b<pause>\C-b<pause><ins>)<pause><dump>\r
+
+=== blink-pending-input-skips
+keys: (ab)cd<dump>\r
+
+
+=== blink-matching-paren-turned-off-again
+tags: blink-matching-paren
+--- inputrc
+set blink-matching-paren on
+set blink-matching-paren off
+--- keys
+(abc)<snap><dump>\r

@@ -1,0 +1,286 @@
+# Prompt rendering: invisible character markers, multi-line prompts,
+# prompts wider than the screen, color escapes, prompt expansion.
+tags: display prompt
+--- script
+readline "> "
+
+=== empty-prompt
+--- script
+readline ""
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== null-prompt
+--- script
+readline NULL
+--- keys
+abc<snap>\r
+
+=== prompt-with-color-ignored
+--- script
+readline "\001\e[31m\002red\001\e[0m\002> "
+--- keys
+abc<snap>\C-a<snap>\C-e\C-b<snap>\r
+
+=== prompt-color-without-markers
+description: unmarked escapes are counted as visible characters
+--- script
+readline "\e[31mred\e[0m> "
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== prompt-only-invisible
+--- script
+readline "\001\e[1m\002\001\e[0m\002"
+--- keys
+xyz<snap>\C-a<snap>\r
+
+=== prompt-unterminated-ignore
+--- script
+readline "a\001\e[1mb> "
+--- keys
+x<snap>\r
+
+=== prompt-multiline-two
+--- script
+readline "line one\nline two> "
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== prompt-multiline-three-with-color
+--- script
+readline "\001\e[1m\002top\001\e[0m\002\nmid\nbottom\001\e[32m\002$\001\e[0m\002 "
+--- keys
+xy<snap>\C-a<snap>\r
+
+=== prompt-multiline-trailing-newline
+--- script
+readline "header\n"
+--- keys
+abc<snap>\r
+
+=== prompt-multiline-wrap-input
+screen: 20x8
+--- script
+readline "first\nsecond> "
+--- keys
+0123456789abcdefghijklmnop<snap>\C-a<snap>\C-e<snap>\r
+
+=== prompt-multiline-clear-screen
+--- script
+readline "first\nsecond> "
+--- keys
+abc\C-l<snap>\r
+
+=== prompt-multiline-redraw
+--- inputrc
+"\C-xr": redraw-current-line
+--- script
+readline "first\nsecond> "
+--- keys
+abc\C-xr<snap>\r
+
+=== prompt-wider-than-screen
+screen: 20x6
+--- script
+readline "this prompt is longer than twenty> "
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== prompt-wider-than-screen-wrapped-input
+screen: 20x6
+--- script
+readline "this prompt is longer than twenty> "
+--- keys
+0123456789abcdefghijklmnop<snap>\C-a<snap>\r
+
+=== prompt-exactly-screen-width
+screen: 10x5
+--- script
+readline "0123456789"
+--- keys
+ab<snap>\C-a<snap>\r
+
+=== prompt-wide-chars
+screen: 20x5
+--- script
+readline "日本語> "
+--- keys
+abc<snap>\C-a<snap>\r
+
+=== prompt-wide-chars-wrapping
+screen: 10x5
+--- script
+readline "日本語日本> "
+--- keys
+abcdef<snap>\r
+
+=== prompt-with-tab
+--- script
+readline "a\tb> "
+--- keys
+x<snap>\r
+
+=== prompt-control-char
+--- script
+readline "\x01\x02x> "
+--- keys
+y<snap>\r
+
+=== prompt-color-wrapping
+screen: 20x6
+--- script
+readline "\001\e[1;34m\002long-colored-prompt-text\001\e[0m\002> "
+--- keys
+abcdefghij<snap>\C-a<snap>\r
+
+=== prompt-color-on-last-line-of-multiline
+screen: 30x6
+--- script
+readline "info\n\001\e[33m\002>>>\001\e[0m\002 "
+--- keys
+hello<snap>\C-a\C-f\C-f<snap>\r
+
+=== prompt-redisplay-after-numeric-arg
+--- script
+readline "first\nsecond> "
+--- keys
+abc\M-3<snap>\C-g<snap>\r
+
+=== prompt-in-isearch-multiline
+--- script
+add_history "foo"
+readline "first\nsecond> "
+--- keys
+\C-rfo<snap>\C-g<snap>\r
+
+=== rl-expand-prompt-api
+tags: rl_expand_prompt api
+--- script
+rl_initialize
+rl_expand_prompt "plain> "
+rl_expand_prompt "\001\e[1m\002bold\001\e[0m\002> "
+rl_expand_prompt "a\nb> "
+rl_expand_prompt ""
+rl_expand_prompt NULL
+
+=== rl-set-prompt-during-readline
+tags: rl_set_prompt api
+--- script
+def sp
+rl_set_prompt "new prompt$ "
+rl_redisplay
+snap
+end
+defun set-prompt sp
+rl_bind_keyseq "\C-xp" set-prompt
+readline "> "
+get rl_prompt
+--- keys
+abc\C-xp<dumpfull>\r
+
+=== rl-set-prompt-multiline
+tags: rl_set_prompt api
+--- script
+def sp
+rl_crlf
+rl_on_new_line
+rl_set_prompt "line1\nline2: "
+rl_redisplay
+end
+defun set-prompt sp
+rl_bind_keyseq "\C-xp" set-prompt
+readline "> "
+--- keys
+abc\C-xp<snap>\r
+
+=== rl-set-prompt-api-outside
+tags: rl_set_prompt api
+--- script
+rl_set_prompt "outside> "
+get rl_prompt
+get rl_display_prompt
+rl_set_prompt NULL
+get rl_prompt
+
+=== rl-on-new-line-with-prompt
+tags: rl_on_new_line_with_prompt api
+--- script
+def p
+rl_crlf
+rl_on_new_line_with_prompt
+rl_redisplay
+end
+defun onl p
+rl_bind_keyseq "\C-xn" onl
+readline "> "
+--- keys
+abc\C-xn<snap>d<snap>\r
+
+=== rl-redraw-prompt-last-line
+tags: rl_redraw_prompt_last_line api
+--- script
+def p
+rl_crlf
+rl_redraw_prompt_last_line
+end
+defun rplast p
+rl_bind_keyseq "\C-xp" rplast
+readline "first\nsecond> "
+--- keys
+abc\C-xp<snap>\r
+
+=== rl-redraw-prompt-last-line-single
+tags: rl_redraw_prompt_last_line api
+--- script
+def p
+rl_crlf
+rl_redraw_prompt_last_line
+end
+defun rplast p
+rl_bind_keyseq "\C-xp" rplast
+readline "> "
+--- keys
+abc\C-xp<snap>\r
+
+=== prompt-percent-chars-literal
+--- script
+readline "%s %d 100%> "
+--- keys
+x<snap>\r
+
+=== prompt-backslash-literal
+--- script
+readline "C:\\dir\\> "
+--- keys
+x<snap>\r
+
+=== long-prompt-with-invisible-tail
+screen: 20x6
+--- script
+readline "abcdefghijklmnopqrstuvwxyz\001\e[0m\002> "
+--- keys
+xyz<snap>\C-a<snap>\r
+
+=== prompt-ending-with-invisible-at-wrap
+screen: 10x5
+--- script
+readline "012345678\001\e[1m\002\001\e[0m\002"
+--- keys
+ab<snap>\r
+
+=== rl-already-prompted
+tags: rl_already_prompted
+--- script
+set rl_already_prompted 1
+echo x
+readline "pre> "
+--- keys
+abc<snap>\r
+
+=== prompt-redisplay-callback
+tags: callback
+--- script
+callback "\001\e[1m\002cb\001\e[0m\002> "
+--- keys
+abc<snap>\C-a<snap>\r

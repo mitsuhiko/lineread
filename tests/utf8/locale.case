@@ -1,0 +1,93 @@
+# Locale detection: which environment variables readline consults and how a
+# locale change between readline() calls resets the eight-bit variables.
+tags: utf8 locale
+--- script
+rl_initialize
+rl_variable_value convert-meta
+rl_variable_value input-meta
+rl_variable_value output-meta
+readline "> "
+
+=== lang-only-c
+tags: convert-meta
+env: LC_ALL
+env: LC_CTYPE
+env: LANG=C
+keys: a\xe9<dump>\r
+
+=== no-locale-variables
+tags: convert-meta
+env: LC_ALL
+env: LC_CTYPE
+env: LANG
+keys: a\xe9<dump>\r
+
+=== lc-all-overrides-lc-ctype
+tags: convert-meta
+env: LC_ALL=C
+keys: a\xe9<dump>\r
+
+=== posix-locale
+tags: convert-meta
+env: LC_ALL=POSIX
+env: LC_CTYPE=POSIX
+keys: a\xe9<dump>\r
+
+=== empty-lc-all-ignored
+tags: convert-meta
+env: LC_ALL=
+keys: a\u{e9}<dump>\r
+
+=== switch-to-c-between-calls
+tags: convert-meta rl_initialize
+--- script
+readline "> "
+rl_variable_value convert-meta
+setenv LC_ALL C
+readline "> "
+rl_variable_value convert-meta
+rl_variable_value input-meta
+rl_variable_value output-meta
+--- keys
+\u{e9}\r
+<pause>a\xe9<dump>\r
+
+=== switch-to-c-via-rl-initialize
+tags: convert-meta rl_initialize
+--- script
+rl_initialize
+rl_variable_value output-meta
+setenv LC_ALL C
+rl_initialize
+rl_variable_value convert-meta
+rl_variable_value input-meta
+rl_variable_value output-meta
+--- keys
+
+=== switch-from-c-between-calls
+tags: convert-meta rl_initialize
+env: LC_ALL=C
+--- script
+readline "> "
+rl_variable_value convert-meta
+unsetenv LC_ALL
+readline "> "
+rl_variable_value convert-meta
+rl_variable_value input-meta
+rl_variable_value output-meta
+--- keys
+x\r
+<pause>a\u{e9}<dump>\r
+
+=== unchanged-locale-keeps-settings
+tags: convert-meta rl_initialize
+--- inputrc
+set convert-meta on
+--- script
+readline "> "
+rl_variable_value convert-meta
+readline "> "
+rl_variable_value convert-meta
+--- keys
+a\r
+<pause>b\r

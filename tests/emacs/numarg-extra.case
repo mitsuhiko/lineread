@@ -1,0 +1,43 @@
+# universal-argument bound to a single key (so it is recognised while an
+# argument is being read), digit arguments in callback mode, EOF while
+# reading an argument.  (universal-argument in callback mode crashes the 8.3
+# reference in redisplay and is not tested.)
+tags: emacs numarg
+--- inputrc
+"\C-o": universal-argument
+--- script
+readline "> "
+
+=== universal-argument-key-twice
+tags: universal-argument
+keys: \C-o\C-ox<dump>\r
+
+=== universal-argument-digits-then-key-terminates
+tags: universal-argument
+keys: \C-o3\C-ox<dump>\r
+
+=== universal-argument-digits-then-key-then-command
+tags: universal-argument
+keys: abcdef\C-o2\C-o\C-b<dump>\r
+
+=== universal-argument-eof-after-digits
+tags: universal-argument eof
+keys: abc\C-o2\C-o
+
+=== digit-argument-eof
+tags: digit-argument eof
+keys: abc\M-2
+
+=== callback-digit-argument
+tags: digit-argument callback
+--- script
+callback "> "
+--- keys
+\M-1\M-2x<dump>\r
+
+=== callback-digit-argument-then-meta-command
+tags: digit-argument callback
+--- script
+callback "> "
+--- keys
+one two three\M-2\M-b<dump>\r

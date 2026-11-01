@@ -1,0 +1,239 @@
+{
+  "yank-nth-arg-default": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x alpha", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x alpha"}
+    ],
+    "screen": [
+      "> x alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x beta", "point": 6, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x beta"}
+    ],
+    "screen": [
+      "> x beta"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x echo", "point": 6, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x echo"}
+    ],
+    "screen": [
+      "> x echo"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-negative": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x beta", "point": 6, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x beta"}
+    ],
+    "screen": [
+      "> x beta"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-out-of-range": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-no-history": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-after-previous-history": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cmd first second third ", "point": 23, "end": 23, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cmd first second third "}
+    ],
+    "screen": [
+      "> cmd first second third"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x gamma", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x gamma"}
+    ],
+    "screen": [
+      "> x gamma"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-underscore": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x gamma", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x gamma"}
+    ],
+    "screen": [
+      "> x gamma"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-repeated": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x gamma", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "x third", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "x ", "point": 2, "end": 2, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x alpha", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x alpha"}
+    ],
+    "screen": [
+      "> x alpha"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-count-zero": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x echo", "point": 6, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x echo"}
+    ],
+    "screen": [
+      "> x echo"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x beta", "point": 6, "end": 6, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x beta"}
+    ],
+    "screen": [
+      "> x beta"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-repeat-with-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x third", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x third"}
+    ],
+    "screen": [
+      "> x third"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-negative-direction": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "two", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "three", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "three"}
+    ],
+    "screen": [
+      "> three"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-then-other-command": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "gammagamma", "point": 5, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "gammagamma"}
+    ],
+    "screen": [
+      "> gammagamma"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x ", "point": 2, "end": 2, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x "}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-quoted-words": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\"three four\"", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "\"three four\"'one two'", "point": 21, "end": 21, "mark": 12, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\"three four\"'one two'"}
+    ],
+    "screen": [
+      "> \"three four\"'one two'"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-history-expansion-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "c", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "c"}
+    ],
+    "screen": [
+      "> c"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-nth-arg-word-delimiters": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "| grep foo", "point": 10, "end": 10, "mark": 7, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "| grep foo"}
+    ],
+    "screen": [
+      "> | grep foo"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-last-arg-from-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x third", "point": 7, "end": 7, "mark": 2, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "x third"}
+    ],
+    "screen": [
+      "> x third",
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

@@ -1,0 +1,378 @@
+{
+  "kbd-macro-record-and-call": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abab", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abab"}
+    ],
+    "screen": [
+      "> abab"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-with-editing-commands": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xne two", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xne two"}
+    ],
+    "screen": [
+      "> Xne two"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xxxx", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xxxx"}
+    ],
+    "screen": [
+      "> xxxx"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-start-with-arg-appends": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aab", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aabaab", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aabaab"}
+    ],
+    "screen": [
+      "> aabaab"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-end-with-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zzz", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zzz"}
+    ],
+    "screen": [
+      "> zzz"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-call-none-defined": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-end-when-not-defining": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-start-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-state-flags": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "MACRODEF", "TTYCSAVED"], "undo": [["insert", 0, 1, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 97, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-abort-cancels": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-persists-across-lines": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "hi"},
+      {"op": "dump", "line": "hi", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hi"}
+    ],
+    "screen": [
+      "> hi",
+      "> hi"
+    ],
+    "cursor": [2, 0]
+  },
+  "kbd-macro-with-meta-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one TWO", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one TWO"}
+    ],
+    "screen": [
+      "> one TWO"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-calling-itself-while-defining": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "print-last-kbd-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a",
+      "a\\C-b\\ef\\t",
+      "> a"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a",
+          "a\\C-b\\ef\\t",
+          "> a"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "print-last-kbd-macro-none": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "macro-binding-inserts": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "> hello"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-binding-runs-commands": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "[abc]", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "[abc]"}
+    ],
+    "screen": [
+      "> [abc]"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-binding-nested": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ABA", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ABA"}
+    ],
+    "screen": [
+      "> ABA"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-binding-escapes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab\\c\"d'e", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab\\c\"d'e"}
+    ],
+    "screen": [
+      "> ab\\c\"d'e"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-binding-octal-hex": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "AB", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "AB"}
+    ],
+    "screen": [
+      "> AB"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-binding-accepts-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "first"},
+      {"op": "dump", "line": "second", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "second"}
+    ],
+    "screen": [
+      "> first",
+      "> second"
+    ],
+    "cursor": [2, 0]
+  },
+  "macro-executing-state": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MACROINPUT", "TTYCSAVED"], "undo": [["insert", 0, 1, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 100, "executing_keyseq": "\u0018d", "executing_macro": "a\u0018d", "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "push-macro-input-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-push push", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" do-push", "ret": 0},
+      {"op": "dump", "line": "pushed", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "pushed"}
+    ],
+    "screen": [
+      "> pushed"
+    ],
+    "cursor": [1, 0]
+  },
+  "push-macro-input-from-startup-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcd", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "push-macro-input-nested": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-push push", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xp\" do-push", "ret": 0},
+      {"op": "dump", "line": "21", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "21"}
+    ],
+    "screen": [
+      "> 21"
+    ],
+    "cursor": [1, 0]
+  },
+  "macro-with-numeric-arg-repeats": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "kbd-macro-display-message": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "kbd-macro-print-escapes": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "é"}
+    ],
+    "screen": [
+      "> é",
+      "\\C-v\\C-a\\e\\C-?\\M-C",
+      "> é"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> é",
+          "\\C-v\\C-a\\e\\C-?\\M-C",
+          "> é"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "kbd-macro-typeahead-quirk": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aba", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aba"}
+    ],
+    "screen": [
+      "> aba"
+    ],
+    "cursor": [1, 0]
+  },
+  "long-macro-definition": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdefghijklmnopqrstuvwxyz01-abcdefghijklmnopqrstuvwxyz01", "point": 57, "end": 57, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdefghijklmnopqrstuvwxyz01-abcdefghijklmnopqrstuvwxyz01"}
+    ],
+    "screen": [
+      "> abcdefghijklmnopqrstuvwxyz01-abcdefghijklmnopqrstuvwxyz01"
+    ],
+    "cursor": [1, 0]
+  }
+}

@@ -1,0 +1,372 @@
+# vi undo (u, U), redo (.), marks, history commands and searches in vi
+# command mode.
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== u-undoes-last-change
+tags: vi-undo
+keys: abc def\e<pause>0dw<dump>u<dump>\r
+
+=== u-twice-redoes
+tags: vi-undo
+keys: abc def\e<pause>0dw<pause>u<pause>u<dump>\r
+
+=== u-undoes-whole-insert
+tags: vi-undo
+keys: abc\e<pause>adef ghi\e<pause>u<dump>\r
+
+=== u-count
+tags: vi-undo numarg
+keys: abcdef\e<pause>0x<pause>x<pause>x<pause>2u<dump>\r
+
+=== u-on-empty-undo-list
+tags: vi-undo
+keys: \e<pause>u<dump>\r
+
+=== U-reverts-line
+tags: revert-line
+keys: abc\e<pause>0x<pause>x<pause>U<dump>\r
+
+=== undo-in-insert-ctrl-underscore
+tags: undo
+keys: abc\C-_<dump>\r
+
+=== dot-repeat-x
+tags: vi-redo
+keys: abcdef\e<pause>0x.<dump>..<dump>\r
+
+=== dot-repeat-dw
+tags: vi-redo
+keys: a b c d e\e<pause>0dw.<dump>\r
+
+=== dot-repeat-with-count
+tags: vi-redo numarg
+keys: a b c d e f\e<pause>0dw3.<dump>\r
+
+=== dot-repeat-count-replaces-original
+tags: vi-redo numarg
+keys: abcdefgh\e<pause>02x.<dump>3.<dump>\r
+
+=== dot-repeat-insert
+tags: vi-redo
+keys: x\e<pause>aab\e<pause>.<dump>\r
+
+=== dot-repeat-insert-typed-slowly
+tags: vi-redo
+keys: x\e<pause>aa<pause>b<pause>\e<pause>.<dump>\r
+
+=== dot-repeat-A
+tags: vi-redo
+keys: x\e<pause>A!\e<pause>0.<dump>\r
+
+=== dot-repeat-I
+tags: vi-redo
+keys: x\e<pause>I-\e<pause>$.<dump>\r
+
+=== dot-repeat-cw
+tags: vi-redo vi-change-to
+keys: one two three\e<pause>0cwX\e<pause>w.<dump>\r
+
+=== dot-repeat-cc
+tags: vi-redo vi-change-to
+keys: abc\e<pause>ccnew\e<pause>.<dump>\r
+
+=== dot-repeat-r
+tags: vi-redo vi-change-char
+keys: abcd\e<pause>0rXl.<dump>\r
+
+=== dot-repeat-tilde
+tags: vi-redo vi-change-case
+keys: abcd\e<pause>0~.<dump>\r
+
+=== dot-repeat-p
+tags: vi-redo vi-put
+keys: ab\e<pause>0x<pause>p.<dump>\r
+
+=== dot-repeat-s
+tags: vi-redo vi-subst
+keys: abcdef\e<pause>0sX\e<pause>l.<dump>\r
+
+=== dot-repeat-R
+tags: vi-redo vi-overstrike
+keys: abcdefgh\e<pause>0RXY\e<pause>l.<dump>\r
+
+=== dot-repeat-df
+tags: vi-redo vi-delete-to
+keys: a-b-c-d\e<pause>0df-.<dump>\r
+
+=== dot-repeat-d-dollar
+tags: vi-redo
+keys: abc def\e<pause>0wd$0.<dump>\r
+
+=== dot-without-previous
+tags: vi-redo
+keys: abc\e<pause>.<dump>\r
+
+=== dot-repeat-X
+tags: vi-redo vi-rubout
+keys: abcdef\e<pause>X.<dump>\r
+
+=== dot-repeat-undo-then-dot
+tags: vi-redo vi-undo
+keys: abcdef\e<pause>0x<pause>u.<dump>\r
+
+=== dot-repeat-after-history
+tags: vi-redo
+--- script
+add_history "hist one"
+readline "> " 2
+--- keys
+abc\e<pause>0x\r\e<pause>k0.<dump>\r
+
+=== dot-repeat-insert-count
+tags: vi-redo numarg
+keys: \e<pause>ix<pause>\e<pause>3.<dump>\r
+
+=== mark-and-goto
+tags: vi-set-mark vi-goto-mark
+keys: one two three\e<pause>0wma$`a<dump>\r
+
+=== mark-goto-unset
+tags: vi-goto-mark
+keys: one two\e<pause>0`b<dump>\r
+
+=== mark-invalid-name
+tags: vi-set-mark
+keys: one two\e<pause>m1`1<dump>\r
+
+=== mark-backtick-backtick
+tags: vi-goto-mark vi-set-mark
+keys: one two three\e<pause>0w``<dump>\r
+
+=== mark-c-to-mark
+tags: vi-goto-mark vi-change-to
+keys: one two three\e<pause>0mb$c`bX\e<pause><dump>\r
+
+=== mark-y-to-mark
+tags: vi-goto-mark vi-yank-to
+keys: one two three\e<pause>0mbwy`b$p<dump>\r
+
+=== mark-apostrophe
+tags: vi-goto-mark
+keys: one two three\e<pause>0wma$'a<dump>\r
+
+=== k-j-history
+tags: previous-history next-history
+--- script
+add_history "first"
+add_history "second"
+readline "> "
+--- keys
+\e<pause>k<dump>k<dump>j<dump>j<dump>\r
+
+=== minus-plus-history
+tags: previous-history next-history
+--- script
+add_history "first"
+add_history "second"
+readline "> "
+--- keys
+\e<pause>-<dump>-<dump>+<dump>\r
+
+=== k-count
+tags: previous-history numarg
+--- script
+add_history "a"
+add_history "b"
+add_history "c"
+readline "> "
+--- keys
+\e<pause>2k<dump>\r
+
+=== k-point-position
+tags: previous-history
+--- script
+add_history "first line"
+readline "> "
+--- keys
+\e<pause>k<dump>\r
+
+=== G-fetch-history
+tags: vi-fetch-history
+--- script
+add_history "a1"
+add_history "b2"
+add_history "c3"
+readline "> "
+--- keys
+\e<pause>G<dump>2G<dump>\r
+
+=== G-out-of-range
+tags: vi-fetch-history
+--- script
+add_history "a1"
+add_history "b2"
+readline "> "
+--- keys
+\e<pause>9G<dump>\r
+
+=== slash-search-history
+tags: vi-search
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+readline "> "
+--- keys
+\e<pause>/make\r<dump>n<dump>n<dump>N<dump>\r
+
+=== question-search-history
+tags: vi-search
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+readline "> "
+--- keys
+\e<pause>k k k?git\r<dump>n<dump>\r
+
+=== slash-search-prompt-display
+tags: vi-search display
+--- script
+add_history "make all"
+readline "> "
+--- keys
+abc\e<pause>/ma<snap>\C-g<snap><dump>\r
+
+=== slash-search-not-found
+tags: vi-search
+--- script
+add_history "make all"
+readline "> "
+--- keys
+abc\e<pause>/zzz\r<dump>\r
+
+=== slash-search-empty-uses-last
+tags: vi-search
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+readline "> "
+--- keys
+\e<pause>/make\r/\r<dump>\r
+
+=== slash-search-backspace-abort
+tags: vi-search
+--- script
+add_history "make all"
+readline "> "
+--- keys
+abc\e<pause>/m\C-?\C-?<dump>\r
+
+=== n-without-search
+tags: vi-search-again
+--- script
+add_history "make all"
+readline "> "
+--- keys
+abc\e<pause>n<dump>\r
+
+=== slash-search-anchored
+tags: vi-search
+--- script
+add_history "xmake"
+add_history "make it"
+add_history "foo"
+readline "> "
+--- keys
+\e<pause>/^make\r<dump>\r
+
+=== vi-search-from-insert-ctrl-r
+tags: reverse-search-history
+--- script
+add_history "make all"
+readline "> "
+--- keys
+\C-rmak\C-j<dump>\r
+
+=== vi-search-api
+tags: vi-search api
+--- script
+add_history "alpha"
+add_history "beta"
+def s
+rl_vi_search 1 "?"
+end
+defun srch s
+rl_bind_keyseq_in_map "\C-x" srch vi-command
+readline "> "
+--- keys
+\e<pause>\C-xalp\r<dump>\r
+
+=== history-edit-then-k-j-keeps-edit
+tags: previous-history
+--- script
+add_history "first"
+add_history "second"
+readline "> "
+--- keys
+\e<pause>kx<pause>kj<dump>\r
+
+=== escape-dot-redoes-initial-insert
+tags: yank-last-arg
+--- script
+add_history "echo one two"
+readline "> "
+--- keys
+x \e.<pause><dump>\r
+
+=== vi-tilde-expand
+tags: vi-tilde-expand
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"&": vi-tilde-expand
+--- keys
+ls ~/x\e<pause>&<dump>\r
+
+=== vi-complete-backslash
+tags: vi-complete
+--- script
+complete_words alpha alpine
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+alp\e<pause>\\<dump>\r
+
+=== vi-complete-star
+tags: vi-complete insert-completions
+--- script
+complete_words alpha alpine
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+alp\e<pause>*<dump>\r
+
+=== vi-complete-equals
+tags: vi-complete possible-completions
+--- script
+complete_words alpha alpine
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+alp\e<pause>=<snap><dump>\r
+
+=== vi-complete-unique-enters-insert
+tags: vi-complete
+--- script
+complete_words alpha
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+al\e<pause>\\<dump>X<dump>\r
+
+=== vi-insert-beg-dot
+tags: vi-insert-beg vi-redo
+keys: abc\e<pause>I-\e<pause>.<dump>\r

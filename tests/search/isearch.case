@@ -1,0 +1,278 @@
+# Incremental history search (C-r / C-s).
+tags: isearch history
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+add_history "git commit -m fix"
+add_history "echo done"
+readline "> "
+
+=== reverse-search-basic
+tags: reverse-search-history
+keys: \C-rmake<snap><dumpfull>\C-j<dump>\r
+
+=== reverse-search-prompt-empty
+tags: reverse-search-history display
+keys: \C-r<snap><dumpfull>\C-g\r
+
+=== reverse-search-repeat
+tags: reverse-search-history
+keys: \C-rmake\C-r<snap><dump>\C-r<snap><dump>\C-j\r
+
+=== reverse-search-incremental-chars
+tags: reverse-search-history
+keys: \C-rg<pause><snap>i<pause><snap>t<pause>\s<pause><snap>c<pause><snap>\C-j<dump>\r
+
+=== reverse-search-failing
+tags: reverse-search-history display
+keys: \C-rzzz<snap><dumpfull>\C-g<dump>\r
+
+=== reverse-search-failing-then-backspace
+tags: reverse-search-history
+keys: \C-rmakez<snap>\C-?<snap>\C-j<dump>\r
+
+=== reverse-search-backspace-goes-back
+tags: reverse-search-history
+keys: \C-rgit<pause>\s<pause>s<pause><snap>\C-?<pause><snap>\C-?<pause><snap>\C-j<dump>\r
+
+=== reverse-search-ctrl-h
+tags: reverse-search-history
+keys: \C-rgit c\C-h\C-h<snap>\C-j<dump>\r
+
+=== reverse-search-abort-restores
+tags: reverse-search-history abort
+keys: typed\C-a\C-f\C-rmake<pause>\C-g<dumpfull>\r
+
+=== reverse-search-escape-terminates
+tags: reverse-search-history isearch-terminators
+--- inputrc
+set keyseq-timeout 50
+--- keys
+\C-rgit<pause>\e<pause><dump>X<dump>\r
+
+=== reverse-search-ctrl-j-terminates
+tags: reverse-search-history isearch-terminators
+keys: \C-rstatus\C-j<dumpfull>\r
+
+=== reverse-search-enter-accepts
+tags: reverse-search-history
+--- script
+add_history "make all"
+add_history "git status"
+readline "> " 2
+--- keys
+\C-rall\rnext\r
+
+=== reverse-search-other-command-terminates
+tags: reverse-search-history
+keys: \C-rstatus\C-a<dump>\r
+
+=== reverse-search-arrow-terminates
+tags: reverse-search-history
+keys: \C-rstatus<left><dump>\r
+
+=== reverse-search-meta-key-terminates
+tags: reverse-search-history
+keys: \C-rmake\M-b<dump>\r
+
+=== reverse-search-point-at-match
+tags: reverse-search-history
+keys: \C-rstat\C-j<dump>\r
+
+=== reverse-search-multiple-matches-same-line
+tags: reverse-search-history
+--- script
+add_history "aXbXcX"
+readline "> "
+--- keys
+\C-rX<dump>\C-r<dump>\C-r<dump>\C-r<dump>\C-j\r
+
+=== reverse-search-last-string-reused
+tags: reverse-search-history
+--- script
+add_history "make all"
+add_history "make test"
+add_history "other"
+readline "> " 2 addhist
+--- keys
+\C-rmake\C-j\r\C-r\C-r<snap><dump>\C-j\r
+
+=== reverse-search-from-modified-line
+tags: reverse-search-history
+keys: \C-p\C-pXY\C-rmake<dump>\C-j\r
+
+=== forward-search-basic
+tags: forward-search-history
+keys: \M-<\C-sgit<snap><dump>\C-s<dump>\C-j\r
+
+=== forward-search-failing
+tags: forward-search-history display
+keys: \C-sgit<snap><dump>\C-g\r
+
+=== reverse-then-forward-switch
+tags: reverse-search-history forward-search-history
+keys: \C-rmake\C-r<dump>\C-s<snap><dump>\C-j\r
+
+=== forward-then-reverse-switch
+tags: reverse-search-history forward-search-history
+keys: \M-<\C-sgit\C-s<dump>\C-r<snap><dump>\C-j\r
+
+=== isearch-ctrl-w-yanks-word
+tags: reverse-search-history
+keys: \C-rgit\C-w<snap><dump>\C-j\r
+
+=== isearch-ctrl-w-multiple
+tags: reverse-search-history
+--- script
+add_history "alpha beta gamma"
+readline "> "
+--- keys
+\C-ralp\C-w\C-w<snap>\C-j<dump>\r
+
+=== isearch-ctrl-y-yanks-rest-of-line
+tags: reverse-search-history
+keys: \C-rgit c\C-y<snap><dump>\C-j\r
+
+=== isearch-quoted-insert
+tags: reverse-search-history quoted-insert
+--- script
+add_history "tab\there"
+add_history "other"
+readline "> "
+--- keys
+\C-r\C-v\t<snap><dump>\C-j\r
+
+=== isearch-negative-arg-forward
+tags: reverse-search-history numarg
+keys: \M-<\M--\C-rgit<snap><dump>\C-j\r
+
+=== isearch-custom-terminators
+tags: isearch-terminators vars
+--- inputrc
+set isearch-terminators "xy"
+--- keys
+\C-rmakex<dump>Z<dump>\r
+
+=== isearch-custom-terminators-escape-no-longer
+tags: isearch-terminators vars
+--- inputrc
+set isearch-terminators "x"
+set keyseq-timeout 50
+--- keys
+\C-rmake<pause>\e<pause>b<dump>\C-g\r
+
+=== isearch-search-ignore-case
+tags: search-ignore-case vars
+--- inputrc
+set search-ignore-case on
+--- keys
+\C-rMAKE<snap><dump>\C-j\r
+
+=== isearch-case-sensitive-default
+tags: reverse-search-history
+keys: \C-rMAKE<snap><dump>\C-g\r
+
+=== isearch-utf8
+tags: reverse-search-history utf8
+--- script
+add_history "café au lait"
+add_history "日本語のテキスト"
+add_history "plain"
+readline "> "
+--- keys
+\C-r本語<snap><dump>\C-r<pause>\C-rfé<snap><dump>\C-j\r
+
+=== isearch-utf8-backspace
+tags: reverse-search-history utf8
+--- script
+add_history "café au lait"
+add_history "cafx"
+readline "> "
+--- keys
+\C-rcafé<pause>\C-?<snap><dump>\C-j\r
+
+=== isearch-empty-history
+tags: reverse-search-history
+--- script
+readline "> "
+--- keys
+ab\C-rx<snap>\C-g<dump>\r
+
+=== isearch-matches-current-line
+tags: reverse-search-history
+keys: make foo\C-rfoo<snap><dump>\C-j\r
+
+=== isearch-wrap-not
+tags: reverse-search-history
+keys: \C-recho\C-r\C-r<snap><dump>\C-j\r
+
+=== isearch-display-wrapped
+tags: reverse-search-history display
+screen: 30x6
+--- script
+add_history "a very long command line that certainly wraps the screen"
+readline "> "
+--- keys
+\C-rcertainly<snap>\C-j<snap>\r
+
+=== isearch-yank-into-search-ctrl-w-at-end
+tags: reverse-search-history
+keys: \C-recho done\C-w<snap>\C-j\r
+
+=== isearch-dings-and-stays-on-fail
+tags: reverse-search-history
+keys: \C-rgit c<pause>x<pause>y<snap>\C-?\C-?<snap><dump>\C-j\r
+
+=== isearch-in-vi-insert-mode
+tags: reverse-search-history vi
+--- inputrc
+set editing-mode vi
+--- keys
+\C-rstatus<snap>\C-j<dump>\r
+
+=== isearch-macro-key-terminates
+tags: reverse-search-history macro
+--- inputrc
+"\C-xm": "MAC"
+--- keys
+\C-rstatus\C-xm<dump>\r
+
+=== isearch-numeric-arg-ignored
+tags: reverse-search-history numarg
+keys: \M-2\C-rmake<dump>\C-j\r
+
+=== isearch-ctrl-g-from-empty
+tags: reverse-search-history abort
+keys: abc\C-r\C-g<dump>\r
+
+=== isearch-mark-and-history-position
+tags: reverse-search-history
+keys: \C-rcommit\C-j<dumpfull>\C-n<dump>\r
+
+=== isearch-bound-to-other-key
+tags: reverse-search-history
+--- inputrc
+"\C-xr": reverse-search-history
+--- keys
+\C-xrmake\C-xr<dump>\C-j\r
+
+=== isearch-with-history-offset-moved
+tags: reverse-search-history
+keys: \C-p\C-p\C-p\C-rgit<dump>\C-j\r
+
+=== isearch-callback
+tags: reverse-search-history callback
+--- script
+add_history "make all"
+add_history "git status"
+callback "> "
+--- keys
+\C-rmak<pause>\C-r<pause>e\s<dump>\C-?<pause>\C-g<dump>\r
+
+=== isearch-state-flag
+tags: reverse-search-history
+--- inputrc
+"\C-xd": driver-dump-full
+--- keys
+\C-rmake<dumpfull>\C-g\r

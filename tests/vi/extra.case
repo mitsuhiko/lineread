@@ -1,0 +1,251 @@
+# vi mode corner cases: multi-digit motion counts, EOF inside commands,
+# redo of dd/cc/yy, replace-mode editing keys, negative counts through the
+# API, and functions bound to unexpected keys.
+tags: vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== d12l-multi-digit-motion-count
+tags: vi-delete-to numarg
+keys: abcdefghijklmnopq\e<pause>0d12l<dump>\r
+
+=== 2d3l-multiplied-counts
+tags: vi-delete-to numarg
+keys: abcdefghijklmnopq\e<pause>02d3l<dump>\r
+
+=== d-count-then-non-motion
+tags: vi-delete-to numarg
+keys: one two\e<pause>0d2z<dump>\r
+
+=== d-count-then-eof
+tags: vi-delete-to eof
+keys: one two\e<pause>0d2
+
+=== d-then-eof
+tags: vi-delete-to eof
+keys: one two\e<pause>0d
+
+=== f-then-eof
+tags: vi-char-search eof
+keys: one two\e<pause>0f
+
+=== r-then-eof
+tags: vi-change-char eof
+keys: one two\e<pause>0r
+
+=== dd-redo
+tags: vi-delete-to vi-redo
+keys: one two\e<pause>dd<pause>u<dump>.<dump>\r
+
+=== cc-redo
+tags: vi-change-to vi-redo
+keys: one\e<pause>ccX\e<pause>.<dump>\r
+
+=== yy-redo
+tags: vi-yank-to vi-redo
+keys: abc\e<pause>yy.P<dump>\r
+
+=== yw-redo
+tags: vi-yank-to vi-redo
+keys: one two\e<pause>0yw.P<dump>\r
+
+=== cf-failed-dings
+tags: vi-change-to vi-char-search
+keys: one two\e<pause>0cfz<dump>\r
+
+=== yf-failed-dings
+tags: vi-yank-to vi-char-search
+keys: one two\e<pause>0yfz<dump>\r
+
+=== replace-mode-ctrl-u
+tags: vi-replace unix-line-discard
+keys: abcdef\e<pause>0lRXYZ\C-u<dump>\e\r
+
+=== replace-mode-ctrl-w
+tags: vi-replace vi-unix-word-rubout
+keys: abc def\e<pause>0RX YZ\C-w<dump>\e\r
+
+=== replace-mode-ctrl-y
+tags: vi-replace yank
+keys: abc def\e<pause>0dwi\e<pause>Rxx\C-y<dump>\e<pause>\C-?<dump>\r
+
+=== replace-mode-bracketed-paste
+tags: vi-replace bracketed-paste
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set enable-bracketed-paste on
+--- keys
+abcdef\e<pause>0R<paste-start>XYZ<paste-end><dump>\e<pause><dump>\r
+
+=== replace-mode-bracketed-paste-empty
+tags: vi-replace bracketed-paste
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set enable-bracketed-paste on
+--- keys
+abcdef\e<pause>0R<paste-start><paste-end><dump>\e\r
+
+=== replace-mode-rubout-past-start
+tags: vi-replace vi-overstrike-delete
+keys: abcdef\e<pause>0lRX\C-?\C-?<dump>\e\r
+
+=== redo-replace-mode
+tags: vi-replace vi-redo
+keys: abcdefgh\e<pause>0RXY\e<pause>ll.<dump>\r
+
+=== redo-replace-mode-with-count
+tags: vi-replace vi-redo numarg
+keys: abcdefgh\e<pause>0RX\e<pause>l3.<dump>\r
+
+=== vi-search-other-key-dings
+tags: vi-search
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"Q": vi-search
+--- keys
+abc\e<pause>Q<dump>\r
+
+=== vi-complete-other-key
+tags: vi-complete completion
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"Q": vi-complete
+--- script
+complete_words alpha beta
+set rl_completion_entry_function words
+readline "> "
+--- keys
+al\e<pause>Q<dump>\r
+
+=== vi-complete-mid-word
+tags: vi-complete completion
+--- script
+complete_words alphabet beta
+set rl_completion_entry_function words
+readline "> "
+--- keys
+alp x\e<pause>0\\<dump>\r
+
+=== vi-complete-star
+tags: vi-complete completion
+--- script
+complete_words alpha alps beta
+set rl_completion_entry_function words
+readline "> "
+--- keys
+al\e<pause>*<dump>\r
+
+=== vi-complete-equals
+tags: vi-complete completion display
+--- script
+complete_words alpha alps beta
+set rl_completion_entry_function words
+readline "> "
+--- keys
+al\e<pause>=<snap>\r
+
+=== api-negative-counts
+tags: api vi-prev-word vi-next-word vi-end-word vi-delete vi-rubout
+--- script
+def n
+rl_vi_prev_word -1 0
+dump
+rl_vi_next_word -1 0
+dump
+rl_vi_end_word -1 0
+dump
+rl_vi_delete -1 0
+dump
+rl_vi_rubout -1 0
+dump
+end
+defun negs n
+rl_bind_keyseq_in_map "\C-xn" negs vi-command
+readline "> "
+--- keys
+one two three\e<pause>bl\C-xn\r
+
+=== api-rubout-count-beyond-start
+tags: api vi-rubout
+--- script
+def n
+rl_vi_rubout 9 0
+dump
+end
+defun rub n
+rl_bind_keyseq_in_map "\C-xn" rub vi-insert
+readline "> "
+--- keys
+abc\C-xn\r
+
+=== api-vi-prev-word-at-start-dings
+tags: api vi-prev-word
+--- script
+def n
+rl_vi_prev_word 1 0
+dump
+end
+defun pw n
+rl_bind_keyseq_in_map "\C-xn" pw vi-command
+readline "> "
+--- keys
+abc\e<pause>0\C-xn\r
+
+=== X-at-start-dings
+tags: vi-rubout
+keys: abc\e<pause>0X<dump>\r
+
+=== x-on-empty-line-dings
+tags: vi-delete
+keys: \e<pause>x<dump>\r
+
+=== 3X-rubout-count
+tags: vi-rubout numarg
+keys: abcdef\e<pause>3X<dump>\r
+
+=== tilde-on-non-letters
+tags: vi-change-case
+keys: a1-b\e<pause>04~<dump>\r
+
+=== tilde-on-empty-line
+tags: vi-change-case
+keys: \e<pause>~<dump>\r
+
+=== percent-no-bracket-dings
+tags: vi-match
+keys: abc def\e<pause>0%<dump>\r
+
+=== percent-unbalanced-dings
+tags: vi-match
+keys: ((abc\e<pause>0%<dump>\r
+
+=== percent-backward-unbalanced-dings
+tags: vi-match
+keys: abc))\e<pause>%<dump>\r
+
+=== semicolon-after-failed-search
+tags: vi-char-search
+keys: abc\e<pause>0fz;<dump>\r
+
+=== zero-after-count-is-digit
+tags: vi-arg-digit numarg
+keys: abcdefghijklmnop\e<pause>010l<dump>\r
+
+=== universal-argument-in-motion
+tags: universal-argument vi-delete-to
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"\C-u": universal-argument
+--- keys
+abcdefghijklmnop\e<pause>0d2\C-ul<dump>\r

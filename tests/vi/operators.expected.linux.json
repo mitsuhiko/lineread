@@ -1,0 +1,13 @@
+{
+  "dw-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "éllo wörld", "point": 0, "end": 12, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "éllo wörld"}
+    ],
+    "screen": [
+      "> éllo wörld"
+    ],
+    "cursor": [1, 0]
+  }
+}

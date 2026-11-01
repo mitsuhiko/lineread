@@ -1,0 +1,76 @@
+{
+  "abort-inside-macro-discards-rest": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xyab", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xyabz"}
+    ],
+    "screen": [
+      "> xyabz"
+    ],
+    "cursor": [1, 0]
+  },
+  "abort-inside-nested-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab12", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab12z"}
+    ],
+    "screen": [
+      "> ab12z"
+    ],
+    "cursor": [1, 0]
+  },
+  "recursive-macro-nesting-limit": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aaaaaaaaaaaaaaaaa", "point": 17, "end": 17, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aaaaaaaaaaaaaaaaa"}
+    ],
+    "screen": [
+      "> aaaaaaaaaaaaaaaaareadline: maximum macro execution nesting level exceeded"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> aaaaaaaaaaaaaaaaareadline: maximum macro execution nesting level exceeded"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
+  },
+  "tilde-expand-at-line-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "$HOME/x", "point": 24, "end": 24, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "$HOME/x"}
+    ],
+    "screen": [
+      "> $HOME/x"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-after-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ls $HOME", "point": 25, "end": 25, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ls $HOME"}
+    ],
+    "screen": [
+      "> ls $HOME"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-not-tilde-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ls abc", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ls abc"}
+    ],
+    "screen": [
+      "> ls abc"
+    ],
+    "cursor": [1, 0]
+  }
+}

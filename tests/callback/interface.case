@@ -1,0 +1,379 @@
+# The callback interface: partial input across rl_callback_read_char
+# calls, RL_STATE flags between calls, output interleaving, EOF.
+tags: callback
+--- script
+callback "cb> "
+
+=== state-between-keys
+keys: ab<dumpfull>\r
+
+=== state-mid-prefix-key
+tags: state multikey
+keys: ab\C-x<pause><dumpfull>\C-x<dump>\r
+
+=== state-mid-numeric-arg
+tags: state numarg
+keys: \M-1<pause><dumpfull>2<pause><dumpfull>x<dump>\r
+
+=== state-mid-isearch
+tags: state isearch
+--- script
+add_history "make all"
+callback "cb> "
+--- keys
+\C-rma<pause><dumpfull>\C-g\r
+
+=== state-mid-noninc-search
+tags: state search
+--- script
+add_history "make all"
+callback "cb> "
+--- keys
+\M-pma<pause><dumpfull>\r<dump>\r
+
+=== state-mid-quoted-insert
+tags: state quoted-insert
+keys: a\C-v<pause><dumpfull>\C-ab<dump>\r
+
+=== state-mid-char-search
+tags: state character-search
+keys: a-b-c\C-a\C-]<pause><dumpfull>-<dump>\r
+
+=== state-mid-escape-prefix
+tags: state
+--- inputrc
+set keyseq-timeout 5000
+--- keys
+one two\e<pause><dumpfull>b<dump>\r
+
+=== state-execute-named-command
+tags: state execute-named-command
+keys: abc\M-xback<pause><dumpfull>ward-char\r<dump>\r
+
+=== state-vi-motion-pending
+tags: state vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+one two\e<pause>0d<pause><dumpfull>w<dump>\r
+
+=== state-vi-char-search-pending
+tags: state vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+a-b\e<pause>0f<pause><dumpfull>-<dump>\r
+
+=== state-vi-numeric-pending
+tags: state vi numarg
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abcdef\e<pause>3<pause><dumpfull>h<dump>\r
+
+=== state-vi-replace-char-pending
+tags: state vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abc\e<pause>0r<pause><dumpfull>X<dump>\r
+
+=== state-vi-mark-pending
+tags: state vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- keys
+abc\e<pause>m<pause><dumpfull>a`a<dump>\r
+
+=== state-kbd-macro-definition
+tags: state macro
+keys: \C-x(a<pause><dumpfull>\C-x)\C-xe<dump>\r
+
+=== multi-key-sequence-split
+tags: multikey
+keys: abc\e<pause>[<pause>D<pause><dump>\r
+
+=== arrow-key-split-bytes
+tags: multikey
+--- inputrc
+set keyseq-timeout 5000
+--- keys
+abc\e<pause>[D<dump>\r
+
+=== handler-gets-null-on-eof
+tags: eof
+--- script
+callback "cb> " all
+
+=== eof-on-non-empty-line
+tags: eof
+--- script
+callback "cb> " all
+--- keys
+abc
+
+=== ctrl-d-on-empty-line
+tags: eof delete-char
+--- script
+callback "cb> " all
+--- keys
+\C-d
+
+=== multiple-lines-prompt-reprinted
+--- script
+callback "cb> " 3
+--- keys
+a\rb\rc\r
+
+=== install-prints-prompt
+--- script
+callback_install "first> "
+snap
+rl_callback_handler_remove
+echo removed
+snap
+--- keys
+
+=== install-twice-replaces
+--- script
+callback_install "one> "
+callback_install "two> "
+callback_read_char 4
+rl_callback_handler_remove
+--- keys
+x<pause>y<pause>z<pause>\r
+
+=== remove-restores-terminal
+tags: rltty
+--- script
+callback_install "cb> "
+callback_read_char 1
+get rl_readline_state
+rl_callback_handler_remove
+get rl_readline_state
+--- keys
+a
+
+=== remove-without-install
+--- script
+rl_callback_handler_remove
+get rl_readline_state
+
+=== interleave-output-with-save-restore
+tags: rl_save_prompt rl_restore_prompt
+--- script
+callback_install "cb> "
+callback_read_char 1
+rl_save_prompt
+rl_clear_visible_line
+echo async
+rl_restore_prompt
+rl_forced_update_display
+snap
+callback_read_char 2
+rl_callback_handler_remove
+--- keys
+a<pause>b<pause>\r
+
+=== interleave-crlf-on-new-line
+tags: rl_on_new_line rl_crlf
+--- script
+callback_install "cb> "
+callback_read_char 1
+rl_crlf
+rl_on_new_line
+rl_redisplay
+snap
+callback_read_char 2
+rl_callback_handler_remove
+--- keys
+a<pause>b<pause>\r
+
+=== line-buffer-after-accept
+--- script
+callback "cb> "
+get rl_line_buffer
+get rl_point
+get rl_end
+--- keys
+hello\r
+
+=== rl-done-in-callback
+tags: rl_done
+--- script
+def d
+set rl_done 1
+end
+defun finish d
+rl_bind_keyseq "\C-xd" finish
+callback "cb> "
+--- keys
+abc\C-xd
+
+=== accept-line-from-macro
+tags: macro
+--- inputrc
+"\C-xm": "macro line\r"
+--- script
+callback "cb> " 2
+--- keys
+\C-xmnext\r
+
+=== numeric-arg-across-calls
+tags: numarg
+keys: \M-3<pause>x<dump>\r
+
+=== isearch-across-calls
+tags: isearch
+--- script
+add_history "alpha beta"
+add_history "gamma"
+callback "cb> "
+--- keys
+\C-ra<pause>l<pause>p<pause><snap>\C-j<dump>\r
+
+=== completion-across-calls
+tags: complete
+--- script
+complete_words apple apricot
+set rl_attempted_completion_function words
+callback "cb> "
+--- keys
+ap\t<pause>\t<pause><snap>r\t<dump>\r
+
+=== kill-ring-across-lines
+tags: kill
+--- script
+callback "cb> " 2
+--- keys
+hello\C-a\C-k\r\C-y<dump>\r
+
+=== history-add-in-callback
+tags: history
+--- script
+callback "cb> " 2 addhist
+history_dump
+--- keys
+one\r\C-p\r
+
+=== callback-with-vi-mode-switch
+tags: vi
+--- inputrc
+set keyseq-timeout 50
+--- keys
+abc\M-\C-j\e<pause>0x<dump>\r
+
+=== callback-sigcleanup-api
+tags: rl_callback_sigcleanup
+--- script
+callback_install "cb> "
+callback_read_char 3
+rl_callback_sigcleanup
+get rl_readline_state
+dump
+rl_callback_handler_remove
+--- keys
+\M-1a
+
+=== callback-sigcleanup-isearch
+tags: rl_callback_sigcleanup isearch
+--- script
+add_history "abc"
+callback_install "cb> "
+callback_read_char 2
+get rl_readline_state
+rl_callback_sigcleanup
+get rl_readline_state
+rl_callback_handler_remove
+--- keys
+\C-ra
+
+=== callback-read-char-after-remove
+--- script
+callback_install "cb> "
+callback_read_char 1
+rl_callback_handler_remove
+dump
+--- keys
+a
+
+=== callback-pending-input-stuffed
+tags: rl_stuff_char
+--- script
+callback_install "cb> "
+rl_stuff_char "x"
+rl_stuff_char "y"
+callback_read_char 1
+dump
+rl_callback_handler_remove
+--- keys
+z
+
+=== callback-redisplay-each-char
+tags: display
+keys: a<pause><snap>b<pause><snap>\C-a<pause><snap>\r
+
+=== callback-prompt-multiline
+tags: display prompt
+--- script
+callback "line1\nline2> " 2
+--- keys
+ab\rcd<snap>\r
+
+=== callback-already-prompted
+tags: rl_already_prompted
+--- script
+set rl_already_prompted 1
+callback "cb> "
+--- keys
+ab<snap>\r
+
+=== callback-erase-empty-line
+tags: rl_erase_empty_line
+--- script
+set rl_erase_empty_line 1
+callback "cb> " 3
+--- keys
+a\r\rb\r
+
+=== callback-startup-hook
+tags: rl_startup_hook
+--- script
+def s
+rl_insert_text "start"
+end
+set rl_startup_hook script:s
+callback "cb> " 2
+--- keys
+!\r?\r
+
+=== callback-pre-input-hook
+tags: rl_pre_input_hook
+--- script
+set rl_pre_input_hook log
+callback "cb> " 2
+--- keys
+a\rb\r
+
+
+=== callback-operate-and-get-next
+tags: operate-and-get-next
+--- script
+add_history "one"
+add_history "two"
+callback "cb> " 2 addhist
+--- keys
+\C-p\C-p\C-o<dump>\r
+
+=== callback-bracketed-paste
+tags: bracketed-paste-begin
+keys: <paste-start>pasted text<paste-end><dump>\r
+
+=== callback-overwrite-mode
+tags: overwrite-mode
+keys: abc\C-a<ins>X<dump>\r

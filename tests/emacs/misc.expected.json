@@ -1,0 +1,871 @@
+{
+  "insert-comment-default": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "#echo hi"}
+    ],
+    "screen": [
+      "> #echo hi"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-comment-point-in-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "#echo hi"}
+    ],
+    "screen": [
+      "> #echo hi"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-comment-custom-string": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "// code"}
+    ],
+    "screen": [
+      "> // code"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-comment-with-arg-toggles-existing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "echo hi"}
+    ],
+    "screen": [
+      "> echo hi"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-comment-with-arg-adds-when-absent": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "#echo hi"}
+    ],
+    "screen": [
+      "> #echo hi"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-comment-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "#"}
+    ],
+    "screen": [
+      "> #"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-comment-history": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "#ls"},
+      {"op": "dump", "line": "#ls", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "#ls"},
+      {"op": "history_dump", "base": 1, "length": 2, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "#ls", "timestamp": "", "data": 0}, {"line": "#ls", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> #ls",
+      "> #ls"
+    ],
+    "cursor": [2, 0]
+  },
+  "insert-comment-vi-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "#abc"}
+    ],
+    "screen": [
+      "> #abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "dump-functions": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "vi-next-word is not bound to any keys",
+      "vi-overstrike is not bound to any keys",
+      "vi-overstrike-delete is not bound to any keys",
+      "vi-prev-word is not bound to any keys",
+      "vi-put is not bound to any keys",
+      "vi-redo is not bound to any keys",
+      "vi-replace is not bound to any keys",
+      "vi-rubout is not bound to any keys",
+      "vi-search is not bound to any keys",
+      "vi-search-again is not bound to any keys",
+      "vi-set-mark is not bound to any keys",
+      "vi-subst is not bound to any keys",
+      "vi-tilde-expand is not bound to any keys",
+      "vi-undo is not bound to any keys",
+      "vi-unix-word-rubout is not bound to any keys",
+      "vi-yank-arg is not bound to any keys",
+      "vi-yank-pop is not bound to any keys",
+      "vi-yank-to is not bound to any keys",
+      "yank can be found on \"\\C-y\".",
+      "yank-last-arg can be found on \"\\e.\", \"\\e_\".",
+      "yank-nth-arg can be found on \"\\e\\C-y\".",
+      "yank-pop can be found on \"\\ey\".",
+      ">"
+    ],
+    "cursor": [23, 0],
+    "snaps": [
+      {
+        "screen": [
+          "vi-movement-mode is not bound to any keys",
+          "vi-next-word is not bound to any keys",
+          "vi-overstrike is not bound to any keys",
+          "vi-overstrike-delete is not bound to any keys",
+          "vi-prev-word is not bound to any keys",
+          "vi-put is not bound to any keys",
+          "vi-redo is not bound to any keys",
+          "vi-replace is not bound to any keys",
+          "vi-rubout is not bound to any keys",
+          "vi-search is not bound to any keys",
+          "vi-search-again is not bound to any keys",
+          "vi-set-mark is not bound to any keys",
+          "vi-subst is not bound to any keys",
+          "vi-tilde-expand is not bound to any keys",
+          "vi-undo is not bound to any keys",
+          "vi-unix-word-rubout is not bound to any keys",
+          "vi-yank-arg is not bound to any keys",
+          "vi-yank-pop is not bound to any keys",
+          "vi-yank-to is not bound to any keys",
+          "yank can be found on \"\\C-y\".",
+          "yank-last-arg can be found on \"\\e.\", \"\\e_\".",
+          "yank-nth-arg can be found on \"\\e\\C-y\".",
+          "yank-pop can be found on \"\\ey\".",
+          ">"
+        ],
+        "cursor": [23, 2]
+      }
+    ]
+  },
+  "dump-functions-readable-capture": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_dump_functions 1 0", "ret": 0},
+      {"op": "capture", "out": "\nabort can be found on \"\\C-g\", \"\\C-x\\C-g\", \"\\e\\C-g\".\naccept-line can be found on \"\\C-j\", \"\\C-m\".\narrow-key-prefix is not bound to any keys\nbackward-byte is not bound to any keys\nbackward-char can be found on \"\\C-b\".\nbackward-delete-char can be found on \"\\C-h\", \"\\C-?\".\nbackward-kill-line can be found on \"\\C-x\\C-?\".\nbackward-kill-word can be found on \"\\e\\C-h\", \"\\e\\C-?\".\nbackward-word can be found on \"\\eb\".\nbeginning-of-history can be found on \"\\e<\".\nbeginning-of-line can be found on \"\\C-a\".\nbracketed-paste-begin is not bound to any keys\ncall-last-kbd-macro can be found on \"\\C-xe\".\ncapitalize-word can be found on \"\\ec\".\ncharacter-search can be found on \"\\C-]\".\ncharacter-search-backward can be found on \"\\e\\C-]\".\nclear-display can be found on \"\\e\\C-l\".\nclear-screen can be found on \"\\C-l\".\ncomplete can be found on \"\\C-i\", \"\\e\\e\".\ncopy-backward-word is not bound to any keys\ncopy-forward-word is not bound to any keys\ncopy-region-as-kill is not bound to any keys\ndelete-char can be found on \"\\C-d\".\ndelete-char-or-list is not bound to any keys\ndelete-horizontal-space can be found on \"\\e\\\\\".\ndigit-argument can be found on \"\\e-\", \"\\e0\", \"\\e1\", \"\\e2\", \"\\e3\", ...\ndo-lowercase-version can be found on \"\\C-xA\", \"\\C-xB\", \"\\C-xC\", \"\\C-xD\", \"\\C-xE\", ...\ndowncase-word can be found on \"\\el\".\ndriver-dump is not bound to any keys\ndriver-dump-full is not bound to any keys\ndriver-snap is not bound to any keys\ndump-functions is not bound to any keys\ndump-macros is not bound to any keys\ndump-variables is not bound to any keys\nemacs-editing-mode is not bound to any keys\nend-kbd-macro can be found on \"\\C-x)\".\nend-of-history can be found on \"\\e>\".\nend-of-line can be found on \"\\C-e\".\nexchange-point-and-mark can be found on \"\\C-x\\C-x\".\nexecute-named-command can be found on \"\\ex\".\nexport-completions is not bound to any keys\nfetch-history is not bound to any keys\nforward-backward-delete-char is not bound to any keys\nforward-byte is not bound to any keys\nforward-char can be found on \"\\C-f\".\nforward-search-history can be found on \"\\C-s\".\nforward-word can be found on \"\\ef\".\nhistory-search-backward is not bound to any keys\nhistory-search-forward is not bound to any keys\nhistory-substring-search-backward is not bound to any keys\nhistory-substring-search-forward is not bound to any keys\ninsert-comment can be found on \"\\e#\".\ninsert-completions can be found on \"\\e*\".\nkill-line can be found on \"\\C-k\".\nkill-region is not bound to any keys\nkill-whole-line is not bound to any keys\nkill-word can be found on \"\\ed\".\nmenu-complete is not bound to any keys\nmenu-complete-backward is not bound to any keys\nnext-history can be found on \"\\C-n\".\nnext-screen-line is not bound to any keys\nnon-incremental-forward-search-history can be found on \"\\en\".\nnon-incremental-forward-search-history-again is not bound to any keys\nnon-incremental-reverse-search-history can be found on \"\\ep\".\nnon-incremental-reverse-search-history-again is not bound to any keys\nold-menu-complete is not bound to any keys\noperate-and-get-next can be found on \"\\C-o\".\noverwrite-mode is not bound to any keys\npossible-completions can be found on \"\\e=\", \"\\e?\".\nprevious-history can be found on \"\\C-p\".\nprevious-screen-line is not bound to any keys\nprint-last-kbd-macro is not bound to any keys\nquoted-insert can be found on \"\\C-q\", \"\\C-v\".\nre-read-init-file can be found on \"\\C-x\\C-r\".\nredraw-current-line is not bound to any keys\nreverse-search-history can be found on \"\\C-r\".\nrevert-line can be found on \"\\e\\C-r\", \"\\er\".\nself-insert can be found on \" \", \"!\", \"\\\"\", \"#\", \"$\", ...\nset-mark can be found on \"\\C-@\", \"\\e \".\nskip-csi-sequence is not bound to any keys\nstart-kbd-macro can be found on \"\\C-x(\".\ntab-insert can be found on \"\\e\\C-i\".\ntilde-expand can be found on \"\\e&\", \"\\e~\".\ntranspose-chars can be found on \"\\C-t\".\ntranspose-words can be found on \"\\et\".\ntty-status is not bound to any keys\nundo can be found on \"\\C-x\\C-u\", \"\\C-_\".\nuniversal-argument is not bound to any keys\nunix-filename-rubout is not bound to any keys\nunix-line-discard can be found on \"\\C-u\".\nunix-word-rubout can be found on \"\\C-w\".\nupcase-word can be found on \"\\eu\".\nvi-append-eol is not bound to any keys\nvi-append-mode is not bound to any keys\nvi-arg-digit is not bound to any keys\nvi-bWord is not bound to any keys\nvi-back-to-indent is not bound to any keys\nvi-backward-bigword is not bound to any keys\nvi-backward-word is not bound to any keys\nvi-bword is not bound to any keys\nvi-change-case is not bound to any keys\nvi-change-char is not bound to any keys\nvi-change-to is not bound to any keys\nvi-char-search is not bound to any keys\nvi-column is not bound to any keys\nvi-complete is not bound to any keys\nvi-delete is not bound to any keys\nvi-delete-to is not bound to any keys\nvi-eWord is not bound to any keys\nvi-editing-mode can be found on \"\\e\\C-j\", \"\\e\\C-m\".\nvi-end-bigword is not bound to any keys\nvi-end-word is not bound to any keys\nvi-eof-maybe is not bound to any keys\nvi-eword is not bound to any keys\nvi-fWord is not bound to any keys\nvi-fetch-history is not bound to any keys\nvi-first-print is not bound to any keys\nvi-forward-bigword is not bound to any keys\nvi-forward-word is not bound to any keys\nvi-fword is not bound to any keys\nvi-goto-mark is not bound to any keys\nvi-insert-beg is not bound to any keys\nvi-insertion-mode is not bound to any keys\nvi-match is not bound to any keys\nvi-movement-mode is not bound to any keys\nvi-next-word is not bound to any keys\nvi-overstrike is not bound to any keys\nvi-overstrike-delete is not bound to any keys\nvi-prev-word is not bound to any keys\nvi-put is not bound to any keys\nvi-redo is not bound to any keys\nvi-replace is not bound to any keys\nvi-rubout is not bound to any keys\nvi-search is not bound to any keys\nvi-search-again is not bound to any keys\nvi-set-mark is not bound to any keys\nvi-subst is not bound to any keys\nvi-tilde-expand is not bound to any keys\nvi-undo is not bound to any keys\nvi-unix-word-rubout is not bound to any keys\nvi-yank-arg is not bound to any keys\nvi-yank-pop is not bound to any keys\nvi-yank-to is not bound to any keys\nyank can be found on \"\\C-y\".\nyank-last-arg can be found on \"\\e.\", \"\\e_\".\nyank-nth-arg can be found on \"\\e\\C-y\".\nyank-pop can be found on \"\\ey\".\n"},
+      {"op": "rl_initialize", "ret": 0}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "dump-functions-capture-default": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_dump_functions 0 0", "ret": 0},
+      {"op": "capture", "out": "\nabort can be found on \"\\C-g\", \"\\C-x\\C-g\", \"\\e\\C-g\".\naccept-line can be found on \"\\C-j\", \"\\C-m\".\narrow-key-prefix is not bound to any keys\nbackward-byte is not bound to any keys\nbackward-char can be found on \"\\C-b\", \"\\eOD\", \"\\e[D\".\nbackward-delete-char can be found on \"\\C-h\", \"\\C-?\".\nbackward-kill-line can be found on \"\\C-x\\C-?\".\nbackward-kill-word can be found on \"\\e\\C-h\", \"\\e\\C-?\".\nbackward-word can be found on \"\\e[1;3D\", \"\\e[1;5D\", \"\\eb\".\nbeginning-of-history can be found on \"\\e<\".\nbeginning-of-line can be found on \"\\C-a\", \"\\eOH\", \"\\e[H\".\nbracketed-paste-begin can be found on \"\\e[200~\".\ncall-last-kbd-macro can be found on \"\\C-xe\".\ncapitalize-word can be found on \"\\ec\".\ncharacter-search can be found on \"\\C-]\".\ncharacter-search-backward can be found on \"\\e\\C-]\".\nclear-display can be found on \"\\e\\C-l\".\nclear-screen can be found on \"\\C-l\".\ncomplete can be found on \"\\C-i\", \"\\e\\e\".\ncopy-backward-word is not bound to any keys\ncopy-forward-word is not bound to any keys\ncopy-region-as-kill is not bound to any keys\ndelete-char can be found on \"\\C-d\", \"\\e[3~\".\ndelete-char-or-list is not bound to any keys\ndelete-horizontal-space can be found on \"\\e\\\\\".\ndigit-argument can be found on \"\\e-\", \"\\e0\", \"\\e1\", \"\\e2\", \"\\e3\", ...\ndo-lowercase-version can be found on \"\\C-xA\", \"\\C-xB\", \"\\C-xC\", \"\\C-xD\", \"\\C-xE\", ...\ndowncase-word can be found on \"\\el\".\ndriver-dump is not bound to any keys\ndriver-dump-full is not bound to any keys\ndriver-snap is not bound to any keys\ndump-functions is not bound to any keys\ndump-macros is not bound to any keys\ndump-variables is not bound to any keys\nemacs-editing-mode is not bound to any keys\nend-kbd-macro can be found on \"\\C-x)\".\nend-of-history can be found on \"\\e>\".\nend-of-line can be found on \"\\C-e\", \"\\eOF\", \"\\e[F\".\nexchange-point-and-mark can be found on \"\\C-x\\C-x\".\nexecute-named-command can be found on \"\\ex\".\nexport-completions is not bound to any keys\nfetch-history is not bound to any keys\nforward-backward-delete-char is not bound to any keys\nforward-byte is not bound to any keys\nforward-char can be found on \"\\C-f\", \"\\eOC\", \"\\e[C\".\nforward-search-history can be found on \"\\C-s\".\nforward-word can be found on \"\\e[1;3C\", \"\\e[1;5C\", \"\\ef\".\nhistory-search-backward can be found on \"\\e[5~\".\nhistory-search-forward can be found on \"\\e[6~\".\nhistory-substring-search-backward is not bound to any keys\nhistory-substring-search-forward is not bound to any keys\ninsert-comment can be found on \"\\e#\".\ninsert-completions can be found on \"\\e*\".\nkill-line can be found on \"\\C-k\".\nkill-region is not bound to any keys\nkill-whole-line is not bound to any keys\nkill-word can be found on \"\\e[3;5~\", \"\\ed\".\nmenu-complete is not bound to any keys\nmenu-complete-backward is not bound to any keys\nnext-history can be found on \"\\C-n\", \"\\eOB\", \"\\e[B\".\nnext-screen-line is not bound to any keys\nnon-incremental-forward-search-history can be found on \"\\en\".\nnon-incremental-forward-search-history-again is not bound to any keys\nnon-incremental-reverse-search-history can be found on \"\\ep\".\nnon-incremental-reverse-search-history-again is not bound to any keys\nold-menu-complete is not bound to any keys\noperate-and-get-next can be found on \"\\C-o\".\noverwrite-mode can be found on \"\\e[2~\".\npossible-completions can be found on \"\\e=\", \"\\e?\".\nprevious-history can be found on \"\\C-p\", \"\\eOA\", \"\\e[A\".\nprevious-screen-line is not bound to any keys\nprint-last-kbd-macro is not bound to any keys\nquoted-insert can be found on \"\\C-q\", \"\\C-v\".\nre-read-init-file can be found on \"\\C-x\\C-r\".\nredraw-current-line is not bound to any keys\nreverse-search-history can be found on \"\\C-r\".\nrevert-line can be found on \"\\e\\C-r\", \"\\er\".\nself-insert can be found on \" \", \"!\", \"\\\"\", \"#\", \"$\", ...\nset-mark can be found on \"\\C-@\", \"\\e \".\nskip-csi-sequence is not bound to any keys\nstart-kbd-macro can be found on \"\\C-x(\".\ntab-insert can be found on \"\\e\\C-i\".\ntilde-expand can be found on \"\\e&\", \"\\e~\".\ntranspose-chars can be found on \"\\C-t\".\ntranspose-words can be found on \"\\et\".\ntty-status is not bound to any keys\nundo can be found on \"\\C-x\\C-u\", \"\\C-_\".\nuniversal-argument is not bound to any keys\nunix-filename-rubout is not bound to any keys\nunix-line-discard can be found on \"\\C-u\".\nunix-word-rubout can be found on \"\\C-w\".\nupcase-word can be found on \"\\eu\".\nvi-append-eol is not bound to any keys\nvi-append-mode is not bound to any keys\nvi-arg-digit is not bound to any keys\nvi-bWord is not bound to any keys\nvi-back-to-indent is not bound to any keys\nvi-backward-bigword is not bound to any keys\nvi-backward-word is not bound to any keys\nvi-bword is not bound to any keys\nvi-change-case is not bound to any keys\nvi-change-char is not bound to any keys\nvi-change-to is not bound to any keys\nvi-char-search is not bound to any keys\nvi-column is not bound to any keys\nvi-complete is not bound to any keys\nvi-delete is not bound to any keys\nvi-delete-to is not bound to any keys\nvi-eWord is not bound to any keys\nvi-editing-mode can be found on \"\\e\\C-j\", \"\\e\\C-m\".\nvi-end-bigword is not bound to any keys\nvi-end-word is not bound to any keys\nvi-eof-maybe is not bound to any keys\nvi-eword is not bound to any keys\nvi-fWord is not bound to any keys\nvi-fetch-history is not bound to any keys\nvi-first-print is not bound to any keys\nvi-forward-bigword is not bound to any keys\nvi-forward-word is not bound to any keys\nvi-fword is not bound to any keys\nvi-goto-mark is not bound to any keys\nvi-insert-beg is not bound to any keys\nvi-insertion-mode is not bound to any keys\nvi-match is not bound to any keys\nvi-movement-mode is not bound to any keys\nvi-next-word is not bound to any keys\nvi-overstrike is not bound to any keys\nvi-overstrike-delete is not bound to any keys\nvi-prev-word is not bound to any keys\nvi-put is not bound to any keys\nvi-redo is not bound to any keys\nvi-replace is not bound to any keys\nvi-rubout is not bound to any keys\nvi-search is not bound to any keys\nvi-search-again is not bound to any keys\nvi-set-mark is not bound to any keys\nvi-subst is not bound to any keys\nvi-tilde-expand is not bound to any keys\nvi-undo is not bound to any keys\nvi-unix-word-rubout is not bound to any keys\nvi-yank-arg is not bound to any keys\nvi-yank-pop is not bound to any keys\nvi-yank-to is not bound to any keys\nyank can be found on \"\\C-y\".\nyank-last-arg can be found on \"\\e.\", \"\\e_\".\nyank-nth-arg can be found on \"\\e\\C-y\".\nyank-pop can be found on \"\\ey\".\n"},
+      {"op": "rl_dump_functions 1 0", "ret": 0},
+      {"op": "capture", "out": "\nabort can be found on \"\\C-g\", \"\\C-x\\C-g\", \"\\e\\C-g\".\naccept-line can be found on \"\\C-j\", \"\\C-m\".\narrow-key-prefix is not bound to any keys\nbackward-byte is not bound to any keys\nbackward-char can be found on \"\\C-b\", \"\\eOD\", \"\\e[D\".\nbackward-delete-char can be found on \"\\C-h\", \"\\C-?\".\nbackward-kill-line can be found on \"\\C-x\\C-?\".\nbackward-kill-word can be found on \"\\e\\C-h\", \"\\e\\C-?\".\nbackward-word can be found on \"\\e[1;3D\", \"\\e[1;5D\", \"\\eb\".\nbeginning-of-history can be found on \"\\e<\".\nbeginning-of-line can be found on \"\\C-a\", \"\\eOH\", \"\\e[H\".\nbracketed-paste-begin can be found on \"\\e[200~\".\ncall-last-kbd-macro can be found on \"\\C-xe\".\ncapitalize-word can be found on \"\\ec\".\ncharacter-search can be found on \"\\C-]\".\ncharacter-search-backward can be found on \"\\e\\C-]\".\nclear-display can be found on \"\\e\\C-l\".\nclear-screen can be found on \"\\C-l\".\ncomplete can be found on \"\\C-i\", \"\\e\\e\".\ncopy-backward-word is not bound to any keys\ncopy-forward-word is not bound to any keys\ncopy-region-as-kill is not bound to any keys\ndelete-char can be found on \"\\C-d\", \"\\e[3~\".\ndelete-char-or-list is not bound to any keys\ndelete-horizontal-space can be found on \"\\e\\\\\".\ndigit-argument can be found on \"\\e-\", \"\\e0\", \"\\e1\", \"\\e2\", \"\\e3\", ...\ndo-lowercase-version can be found on \"\\C-xA\", \"\\C-xB\", \"\\C-xC\", \"\\C-xD\", \"\\C-xE\", ...\ndowncase-word can be found on \"\\el\".\ndriver-dump is not bound to any keys\ndriver-dump-full is not bound to any keys\ndriver-snap is not bound to any keys\ndump-functions is not bound to any keys\ndump-macros is not bound to any keys\ndump-variables is not bound to any keys\nemacs-editing-mode is not bound to any keys\nend-kbd-macro can be found on \"\\C-x)\".\nend-of-history can be found on \"\\e>\".\nend-of-line can be found on \"\\C-e\", \"\\eOF\", \"\\e[F\".\nexchange-point-and-mark can be found on \"\\C-x\\C-x\".\nexecute-named-command can be found on \"\\ex\".\nexport-completions is not bound to any keys\nfetch-history is not bound to any keys\nforward-backward-delete-char is not bound to any keys\nforward-byte is not bound to any keys\nforward-char can be found on \"\\C-f\", \"\\eOC\", \"\\e[C\".\nforward-search-history can be found on \"\\C-s\".\nforward-word can be found on \"\\e[1;3C\", \"\\e[1;5C\", \"\\ef\".\nhistory-search-backward can be found on \"\\e[5~\".\nhistory-search-forward can be found on \"\\e[6~\".\nhistory-substring-search-backward is not bound to any keys\nhistory-substring-search-forward is not bound to any keys\ninsert-comment can be found on \"\\e#\".\ninsert-completions can be found on \"\\e*\".\nkill-line can be found on \"\\C-k\".\nkill-region is not bound to any keys\nkill-whole-line is not bound to any keys\nkill-word can be found on \"\\e[3;5~\", \"\\ed\".\nmenu-complete is not bound to any keys\nmenu-complete-backward is not bound to any keys\nnext-history can be found on \"\\C-n\", \"\\eOB\", \"\\e[B\".\nnext-screen-line is not bound to any keys\nnon-incremental-forward-search-history can be found on \"\\en\".\nnon-incremental-forward-search-history-again is not bound to any keys\nnon-incremental-reverse-search-history can be found on \"\\ep\".\nnon-incremental-reverse-search-history-again is not bound to any keys\nold-menu-complete is not bound to any keys\noperate-and-get-next can be found on \"\\C-o\".\noverwrite-mode can be found on \"\\e[2~\".\npossible-completions can be found on \"\\e=\", \"\\e?\".\nprevious-history can be found on \"\\C-p\", \"\\eOA\", \"\\e[A\".\nprevious-screen-line is not bound to any keys\nprint-last-kbd-macro is not bound to any keys\nquoted-insert can be found on \"\\C-q\", \"\\C-v\".\nre-read-init-file can be found on \"\\C-x\\C-r\".\nredraw-current-line is not bound to any keys\nreverse-search-history can be found on \"\\C-r\".\nrevert-line can be found on \"\\e\\C-r\", \"\\er\".\nself-insert can be found on \" \", \"!\", \"\\\"\", \"#\", \"$\", ...\nset-mark can be found on \"\\C-@\", \"\\e \".\nskip-csi-sequence is not bound to any keys\nstart-kbd-macro can be found on \"\\C-x(\".\ntab-insert can be found on \"\\e\\C-i\".\ntilde-expand can be found on \"\\e&\", \"\\e~\".\ntranspose-chars can be found on \"\\C-t\".\ntranspose-words can be found on \"\\et\".\ntty-status is not bound to any keys\nundo can be found on \"\\C-x\\C-u\", \"\\C-_\".\nuniversal-argument is not bound to any keys\nunix-filename-rubout is not bound to any keys\nunix-line-discard can be found on \"\\C-u\".\nunix-word-rubout can be found on \"\\C-w\".\nupcase-word can be found on \"\\eu\".\nvi-append-eol is not bound to any keys\nvi-append-mode is not bound to any keys\nvi-arg-digit is not bound to any keys\nvi-bWord is not bound to any keys\nvi-back-to-indent is not bound to any keys\nvi-backward-bigword is not bound to any keys\nvi-backward-word is not bound to any keys\nvi-bword is not bound to any keys\nvi-change-case is not bound to any keys\nvi-change-char is not bound to any keys\nvi-change-to is not bound to any keys\nvi-char-search is not bound to any keys\nvi-column is not bound to any keys\nvi-complete is not bound to any keys\nvi-delete is not bound to any keys\nvi-delete-to is not bound to any keys\nvi-eWord is not bound to any keys\nvi-editing-mode can be found on \"\\e\\C-j\", \"\\e\\C-m\".\nvi-end-bigword is not bound to any keys\nvi-end-word is not bound to any keys\nvi-eof-maybe is not bound to any keys\nvi-eword is not bound to any keys\nvi-fWord is not bound to any keys\nvi-fetch-history is not bound to any keys\nvi-first-print is not bound to any keys\nvi-forward-bigword is not bound to any keys\nvi-forward-word is not bound to any keys\nvi-fword is not bound to any keys\nvi-goto-mark is not bound to any keys\nvi-insert-beg is not bound to any keys\nvi-insertion-mode is not bound to any keys\nvi-match is not bound to any keys\nvi-movement-mode is not bound to any keys\nvi-next-word is not bound to any keys\nvi-overstrike is not bound to any keys\nvi-overstrike-delete is not bound to any keys\nvi-prev-word is not bound to any keys\nvi-put is not bound to any keys\nvi-redo is not bound to any keys\nvi-replace is not bound to any keys\nvi-rubout is not bound to any keys\nvi-search is not bound to any keys\nvi-search-again is not bound to any keys\nvi-set-mark is not bound to any keys\nvi-subst is not bound to any keys\nvi-tilde-expand is not bound to any keys\nvi-undo is not bound to any keys\nvi-unix-word-rubout is not bound to any keys\nvi-yank-arg is not bound to any keys\nvi-yank-pop is not bound to any keys\nvi-yank-to is not bound to any keys\nyank can be found on \"\\C-y\".\nyank-last-arg can be found on \"\\e.\", \"\\e_\".\nyank-nth-arg can be found on \"\\e\\C-y\".\nyank-pop can be found on \"\\ey\".\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "dump-macros-capture": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_dump_macros 0 0", "ret": 0},
+      {"op": "capture", "out": "\\C-xm outputs macro text\n\\C-xn outputs \\C-a\\C-i\n"},
+      {"op": "rl_dump_macros 1 0", "ret": 0},
+      {"op": "capture", "out": "\\C-xm outputs macro text\n\\C-xn outputs \\C-a\\C-i\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "dump-variables-capture": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_dump_variables 0 0", "ret": 0},
+      {"op": "capture", "out": "bind-tty-special-chars is set to `on'\nblink-matching-paren is set to `off'\nbyte-oriented is set to `off'\ncolored-completion-prefix is set to `off'\ncolored-stats is set to `off'\ncompletion-ignore-case is set to `off'\ncompletion-map-case is set to `off'\nconvert-meta is set to `off'\ndisable-completion is set to `off'\necho-control-characters is set to `on'\nenable-active-region is set to `on'\nenable-bracketed-paste is set to `on'\nenable-keypad is set to `off'\nenable-meta-key is set to `on'\nexpand-tilde is set to `off'\nforce-meta-prefix is set to `off'\nhistory-preserve-point is set to `off'\nhorizontal-scroll-mode is set to `off'\ninput-meta is set to `on'\nmark-directories is set to `on'\nmark-modified-lines is set to `off'\nmark-symlinked-directories is set to `off'\nmatch-hidden-files is set to `on'\nmenu-complete-display-prefix is set to `off'\nmeta-flag is set to `on'\noutput-meta is set to `on'\npage-completions is set to `on'\nprefer-visible-bell is set to `on'\nprint-completions-horizontally is set to `off'\nrevert-all-at-newline is set to `off'\nsearch-ignore-case is set to `off'\nshow-all-if-ambiguous is set to `off'\nshow-all-if-unmodified is set to `off'\nshow-mode-in-prompt is set to `off'\nskip-completed-text is set to `off'\nvisible-stats is set to `off'\nactive-region-end-color is set to `\\e[27m'\nactive-region-start-color is set to `\\e[7m'\nbell-style is set to `audible'\ncomment-begin is set to `#'\ncompletion-display-width is set to `-1'\ncompletion-prefix-display-length is set to `0'\ncompletion-query-items is set to `100'\nediting-mode is set to `emacs'\nemacs-mode-string is set to `@'\nhistory-size is set to `-1'\nkeymap is set to `emacs'\nkeyseq-timeout is set to `500'\nvi-cmd-mode-string is set to `(cmd)'\nvi-ins-mode-string is set to `(ins)'\n"},
+      {"op": "rl_dump_variables 1 0", "ret": 0},
+      {"op": "capture", "out": "bind-tty-special-chars is set to `on'\nblink-matching-paren is set to `off'\nbyte-oriented is set to `off'\ncolored-completion-prefix is set to `off'\ncolored-stats is set to `off'\ncompletion-ignore-case is set to `off'\ncompletion-map-case is set to `off'\nconvert-meta is set to `off'\ndisable-completion is set to `off'\necho-control-characters is set to `on'\nenable-active-region is set to `on'\nenable-bracketed-paste is set to `on'\nenable-keypad is set to `off'\nenable-meta-key is set to `on'\nexpand-tilde is set to `off'\nforce-meta-prefix is set to `off'\nhistory-preserve-point is set to `off'\nhorizontal-scroll-mode is set to `off'\ninput-meta is set to `on'\nmark-directories is set to `on'\nmark-modified-lines is set to `off'\nmark-symlinked-directories is set to `off'\nmatch-hidden-files is set to `on'\nmenu-complete-display-prefix is set to `off'\nmeta-flag is set to `on'\noutput-meta is set to `on'\npage-completions is set to `on'\nprefer-visible-bell is set to `on'\nprint-completions-horizontally is set to `off'\nrevert-all-at-newline is set to `off'\nsearch-ignore-case is set to `off'\nshow-all-if-ambiguous is set to `off'\nshow-all-if-unmodified is set to `off'\nshow-mode-in-prompt is set to `off'\nskip-completed-text is set to `off'\nvisible-stats is set to `off'\nactive-region-end-color is set to `\\e[27m'\nactive-region-start-color is set to `\\e[7m'\nbell-style is set to `audible'\ncomment-begin is set to `#'\ncompletion-display-width is set to `-1'\ncompletion-prefix-display-length is set to `0'\ncompletion-query-items is set to `100'\nediting-mode is set to `emacs'\nemacs-mode-string is set to `@'\nhistory-size is set to `-1'\nkeymap is set to `emacs'\nkeyseq-timeout is set to `500'\nvi-cmd-mode-string is set to `(cmd)'\nvi-ins-mode-string is set to `(ins)'\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "dump-variables-in-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab",
+      "bind-tty-special-chars is set to `on'",
+      "blink-matching-paren is set to `off'",
+      "byte-oriented is set to `off'",
+      "colored-completion-prefix is set to `off'",
+      "colored-stats is set to `off'",
+      "completion-ignore-case is set to `off'",
+      "completion-map-case is set to `off'",
+      "convert-meta is set to `off'",
+      "disable-completion is set to `off'",
+      "echo-control-characters is set to `on'",
+      "enable-active-region is set to `on'",
+      "enable-bracketed-paste is set to `on'",
+      "enable-keypad is set to `off'",
+      "enable-meta-key is set to `on'",
+      "expand-tilde is set to `off'",
+      "force-meta-prefix is set to `off'",
+      "history-preserve-point is set to `off'",
+      "horizontal-scroll-mode is set to `off'",
+      "input-meta is set to `on'",
+      "mark-directories is set to `on'",
+      "mark-modified-lines is set to `off'",
+      "mark-symlinked-directories is set to `off'",
+      "match-hidden-files is set to `on'",
+      "menu-complete-display-prefix is set to `off'",
+      "meta-flag is set to `on'",
+      "output-meta is set to `on'",
+      "page-completions is set to `on'",
+      "prefer-visible-bell is set to `on'",
+      "print-completions-horizontally is set to `off'",
+      "revert-all-at-newline is set to `off'",
+      "search-ignore-case is set to `off'",
+      "show-all-if-ambiguous is set to `off'",
+      "show-all-if-unmodified is set to `off'",
+      "show-mode-in-prompt is set to `off'",
+      "skip-completed-text is set to `off'",
+      "visible-stats is set to `off'",
+      "active-region-end-color is set to `\\e[27m'",
+      "active-region-start-color is set to `\\e[7m'",
+      "bell-style is set to `audible'",
+      "comment-begin is set to `#'",
+      "completion-display-width is set to `-1'",
+      "completion-prefix-display-length is set to `0'",
+      "completion-query-items is set to `100'",
+      "editing-mode is set to `emacs'",
+      "emacs-mode-string is set to `@'",
+      "history-size is set to `-1'",
+      "keymap is set to `emacs'",
+      "keyseq-timeout is set to `500'",
+      "vi-cmd-mode-string is set to `(cmd)'",
+      "vi-ins-mode-string is set to `(ins)'",
+      "> ab"
+    ],
+    "cursor": [52, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab",
+          "bind-tty-special-chars is set to `on'",
+          "blink-matching-paren is set to `off'",
+          "byte-oriented is set to `off'",
+          "colored-completion-prefix is set to `off'",
+          "colored-stats is set to `off'",
+          "completion-ignore-case is set to `off'",
+          "completion-map-case is set to `off'",
+          "convert-meta is set to `off'",
+          "disable-completion is set to `off'",
+          "echo-control-characters is set to `on'",
+          "enable-active-region is set to `on'",
+          "enable-bracketed-paste is set to `on'",
+          "enable-keypad is set to `off'",
+          "enable-meta-key is set to `on'",
+          "expand-tilde is set to `off'",
+          "force-meta-prefix is set to `off'",
+          "history-preserve-point is set to `off'",
+          "horizontal-scroll-mode is set to `off'",
+          "input-meta is set to `on'",
+          "mark-directories is set to `on'",
+          "mark-modified-lines is set to `off'",
+          "mark-symlinked-directories is set to `off'",
+          "match-hidden-files is set to `on'",
+          "menu-complete-display-prefix is set to `off'",
+          "meta-flag is set to `on'",
+          "output-meta is set to `on'",
+          "page-completions is set to `on'",
+          "prefer-visible-bell is set to `on'",
+          "print-completions-horizontally is set to `off'",
+          "revert-all-at-newline is set to `off'",
+          "search-ignore-case is set to `off'",
+          "show-all-if-ambiguous is set to `off'",
+          "show-all-if-unmodified is set to `off'",
+          "show-mode-in-prompt is set to `off'",
+          "skip-completed-text is set to `off'",
+          "visible-stats is set to `off'",
+          "active-region-end-color is set to `\\e[27m'",
+          "active-region-start-color is set to `\\e[7m'",
+          "bell-style is set to `audible'",
+          "comment-begin is set to `#'",
+          "completion-display-width is set to `-1'",
+          "completion-prefix-display-length is set to `0'",
+          "completion-query-items is set to `100'",
+          "editing-mode is set to `emacs'",
+          "emacs-mode-string is set to `@'",
+          "history-size is set to `-1'",
+          "keymap is set to `emacs'",
+          "keyseq-timeout is set to `500'",
+          "vi-cmd-mode-string is set to `(cmd)'",
+          "vi-ins-mode-string is set to `(ins)'",
+          "> ab"
+        ],
+        "cursor": [51, 4]
+      }
+    ]
+  },
+  "dump-macros-in-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab",
+      "\"\\C-xm\": \"xyz\"",
+      "> ab"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab",
+          "\"\\C-xm\": \"xyz\"",
+          "> ab"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  },
+  "revert-line-meta-r": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "revert-line-history-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "original", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "original"}
+    ],
+    "screen": [
+      "> original"
+    ],
+    "cursor": [1, 0]
+  },
+  "revert-line-after-history-edit-and-move": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "twoX", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "twoX"}
+    ],
+    "screen": [
+      "> twoX"
+    ],
+    "cursor": [1, 0]
+  },
+  "revert-line-meta-ctrl-r": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "revert-line-empty-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
+  },
+  "clear-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "firstx"}
+    ],
+    "screen": [
+      "> firstx"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> first"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> first"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "clear-screen-with-arg-redraws": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> one",
+      "> abc"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> one",
+          "> abc"
+        ],
+        "cursor": [1, 5]
+      }
+    ]
+  },
+  "clear-screen-after-output": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "readline", "ret": "two"},
+      {"op": "readline", "ret": "three"}
+    ],
+    "screen": [
+      "> three"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "clear-display": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> two"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> two"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "clear-display-numarg": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> two"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> two"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "redraw-current-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "redraw-current-line-multiline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789012345678901234567"}
+    ],
+    "screen": [
+      "> 012345678901234567",
+      "8901234567"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 012345678901234567",
+          "8901234567"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "abort-clears-arg-and-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "abort-ctrl-x-ctrl-g": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "abort-meta-ctrl-g": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "abort-api": {
+    "exit": 0,
+    "results": [
+      {"op": "defun do-abort ab", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xa\" do-abort", "ret": 0},
+      {"op": "dump", "line": "xyz", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xyz"}
+    ],
+    "screen": [
+      "> xyz"
+    ],
+    "cursor": [1, 0]
+  },
+  "execute-named-command": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello", "point": 0, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "> hello"
+    ],
+    "cursor": [1, 0]
+  },
+  "execute-named-command-unknown": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "> hello"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> hello"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "execute-named-command-abort": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello"}
+    ],
+    "screen": [
+      "> hello"
+    ],
+    "cursor": [1, 0]
+  },
+  "execute-named-command-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> !kill"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "execute-named-command-with-arg": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 3, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "execute-named-command-editing": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "prefix-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one twob", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one twob"}
+    ],
+    "screen": [
+      "> one twob"
+    ],
+    "cursor": [1, 0]
+  },
+  "prefix-meta-escape-default": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two", "point": 4, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two"}
+    ],
+    "screen": [
+      "> one two"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ls $HOME/x", "point": 27, "end": 27, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ls $HOME/x"}
+    ],
+    "screen": [
+      "> ls $HOME/x"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-meta-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd $HOME", "point": 25, "end": 25, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd $HOME"}
+    ],
+    "screen": [
+      "> cd $HOME"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-not-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "echo abc", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo abc"}
+    ],
+    "screen": [
+      "> echo abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-mid-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a $HOME/foo bar", "point": 28, "end": 32, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a $HOME/foo bar"}
+    ],
+    "screen": [
+      "> a $HOME/foo bar"
+    ],
+    "cursor": [1, 0]
+  },
+  "tilde-expand-unknown-user": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "~nosuchuserxyz", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "~nosuchuserxyz"}
+    ],
+    "screen": [
+      "> ~nosuchuserxyz"
+    ],
+    "cursor": [1, 0]
+  },
+  "emacs-to-vi-editing-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc0x", "point": 5, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc0x"}
+    ],
+    "screen": [
+      "> abc0x"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-insert-ctrl-e-self-inserts": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc\u0005", "point": 4, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc\u0005\u0001d", "point": 6, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc\u0005\u0001d"}
+    ],
+    "screen": [
+      "> abc^E^Ad"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-to-emacs-from-command-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "xabc", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xabc"}
+    ],
+    "screen": [
+      "> xabc"
+    ],
+    "cursor": [1, 0]
+  },
+  "accept-line-ctrl-j": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "one"},
+      {"op": "readline", "ret": "two"}
+    ],
+    "screen": [
+      "> one",
+      "> two"
+    ],
+    "cursor": [2, 0]
+  },
+  "accept-line-in-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "accept-line-ctrl-m": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "accept-line-moves-cursor-after-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdef"}
+    ],
+    "screen": [
+      "> 01234567",
+      "89abcdef"
+    ],
+    "cursor": [2, 0]
+  },
+  "tty-status": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ]
+  },
+  "re-read-init-file": {
+    "exit": 0,
+    "results": [
+      {"op": "defun change-inputrc change", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xc\" change-inputrc", "ret": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "zzz", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zzz"}
+    ],
+    "screen": [
+      "> zzz"
+    ],
+    "cursor": [1, 0]
+  },
+  "eof-with-text-not-eof": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "bc", "point": 0, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bc"}
+    ],
+    "screen": [
+      "> bc"
+    ],
+    "cursor": [1, 0]
+  },
+  "eof-char-returns-null-and-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null},
+      {"op": "echo", "args": ["after"]}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "stop-start-output": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  }
+}

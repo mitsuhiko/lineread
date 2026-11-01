@@ -1,0 +1,138 @@
+{
+  "lang-only-c": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "rl_variable_value input-meta", "ret": "off"},
+      {"op": "rl_variable_value output-meta", "ret": "off"},
+      {"op": "dump", "line": "a\udce9", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9"}
+    ],
+    "screen": [
+      "> a\\351"
+    ],
+    "cursor": [1, 0]
+  },
+  "no-locale-variables": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "rl_variable_value input-meta", "ret": "off"},
+      {"op": "rl_variable_value output-meta", "ret": "off"},
+      {"op": "dump", "line": "a\udce9", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9"}
+    ],
+    "screen": [
+      "> a\\351"
+    ],
+    "cursor": [1, 0]
+  },
+  "lc-all-overrides-lc-ctype": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "rl_variable_value input-meta", "ret": "off"},
+      {"op": "rl_variable_value output-meta", "ret": "off"},
+      {"op": "dump", "line": "a\udce9", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9"}
+    ],
+    "screen": [
+      "> a\\351"
+    ],
+    "cursor": [1, 0]
+  },
+  "posix-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "rl_variable_value input-meta", "ret": "off"},
+      {"op": "rl_variable_value output-meta", "ret": "off"},
+      {"op": "dump", "line": "a\udce9", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9"}
+    ],
+    "screen": [
+      "> a\\351"
+    ],
+    "cursor": [1, 0]
+  },
+  "empty-lc-all-ignored": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value convert-meta", "ret": "off"},
+      {"op": "rl_variable_value input-meta", "ret": "on"},
+      {"op": "rl_variable_value output-meta", "ret": "on"},
+      {"op": "dump", "line": "aé", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé"}
+    ],
+    "screen": [
+      "> aé"
+    ],
+    "cursor": [1, 0]
+  },
+  "switch-to-c-between-calls": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "é"},
+      {"op": "rl_variable_value convert-meta", "ret": "off"},
+      {"op": "dump", "line": "a\udce9", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce9"},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "rl_variable_value input-meta", "ret": "off"},
+      {"op": "rl_variable_value output-meta", "ret": "off"}
+    ],
+    "screen": [
+      "> é",
+      "> a\\351"
+    ],
+    "cursor": [2, 0]
+  },
+  "switch-to-c-via-rl-initialize": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value output-meta", "ret": "on"},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "rl_variable_value input-meta", "ret": "off"},
+      {"op": "rl_variable_value output-meta", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "switch-from-c-between-calls": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "x"},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "dump", "line": "aé", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé"},
+      {"op": "rl_variable_value convert-meta", "ret": "off"},
+      {"op": "rl_variable_value input-meta", "ret": "on"},
+      {"op": "rl_variable_value output-meta", "ret": "on"}
+    ],
+    "screen": [
+      "> x",
+      "> aé"
+    ],
+    "cursor": [2, 0]
+  },
+  "unchanged-locale-keeps-settings": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "a"},
+      {"op": "rl_variable_value convert-meta", "ret": "on"},
+      {"op": "readline", "ret": "b"},
+      {"op": "rl_variable_value convert-meta", "ret": "on"}
+    ],
+    "screen": [
+      "> a",
+      "> b"
+    ],
+    "cursor": [2, 0]
+  }
+}

@@ -1,0 +1,702 @@
+# Application hooks and globals: startup/pre-input/event hooks, terminal
+# prep hooks, input stuffing, rl_read_key, rl_done, state save/restore.
+tags: hooks api
+--- script
+readline "> "
+
+=== startup-hook-called-once-per-line
+tags: rl_startup_hook
+--- script
+set rl_startup_hook log
+readline "> " 2
+--- keys
+a\rb\r
+
+=== startup-hook-inserts-and-moves
+tags: rl_startup_hook rl_insert_text
+--- script
+def s
+rl_insert_text "hello world"
+set rl_point 5
+end
+set rl_startup_hook script:s
+readline "> "
+--- keys
+X<dump><snap>\r
+
+=== startup-hook-sets-done
+tags: rl_startup_hook rl_done
+--- script
+def s
+rl_insert_text "auto"
+set rl_done 1
+end
+set rl_startup_hook script:s
+readline "> "
+--- keys
+
+=== startup-hook-state
+tags: rl_startup_hook rl_readline_state
+--- script
+def s
+get rl_readline_state
+get rl_prompt
+end
+set rl_startup_hook script:s
+readline "pp> "
+--- keys
+\r
+
+=== pre-input-hook-order
+tags: rl_pre_input_hook rl_startup_hook
+--- script
+def s
+echo startup
+end
+def p
+echo pre-input
+get rl_readline_state
+end
+set rl_startup_hook script:s
+set rl_pre_input_hook script:p
+readline "> "
+--- keys
+\r
+
+=== pre-input-hook-insert-and-redisplay
+tags: rl_pre_input_hook
+--- script
+def p
+rl_insert_text "pre"
+rl_redisplay
+end
+set rl_pre_input_hook script:p
+readline "> "
+--- keys
+<snap>X<dump>\r
+
+=== input-available-hook
+tags: rl_input_available_hook
+--- inputrc
+set keyseq-timeout 50
+"\ez": "Z"
+--- script
+set rl_input_available_hook log
+readline "> "
+--- keys
+a\e<pause>\r
+
+=== input-available-hook-returns-true
+tags: rl_input_available_hook
+--- inputrc
+set keyseq-timeout 50
+--- script
+def h
+return 1
+end
+set rl_input_available_hook script:h
+readline "> "
+--- keys
+ab\e<pause>b<dump>\r
+
+=== prep-term-hooks
+tags: rl_prep_term_function rl_deprep_term_function
+--- script
+set rl_prep_term_function log
+set rl_deprep_term_function log
+readline "> " 2
+--- keys
+a\rb\r
+
+=== prep-term-hook-meta-flag
+tags: rl_prep_term_function input-meta
+--- inputrc
+set input-meta off
+--- script
+set rl_prep_term_function log
+readline "> "
+--- keys
+\r
+
+=== prep-terminal-api
+tags: rl_prep_terminal rl_deprep_terminal rltty
+--- script
+rl_initialize
+rl_prep_terminal 1
+get rl_readline_state
+rl_deprep_terminal
+get rl_readline_state
+rl_deprep_terminal
+
+=== prep-terminal-in-callback
+tags: rl_prep_term_function callback
+--- script
+set rl_prep_term_function log
+set rl_deprep_term_function log
+callback "cb> "
+--- keys
+a\r
+
+=== stuff-char-from-startup
+tags: rl_stuff_char rl_pending_input
+--- script
+def s
+rl_stuff_char "x"
+rl_stuff_char "y"
+get rl_pending_input
+end
+set rl_startup_hook script:s
+readline "> "
+--- keys
+z<dump>\r
+
+=== stuff-char-queue-full
+tags: rl_stuff_char
+--- script
+def s
+rl_stuff_char "1"
+rl_stuff_char "2"
+rl_stuff_char "3"
+rl_stuff_char "4"
+rl_stuff_char "5"
+rl_stuff_char "6"
+rl_stuff_char "7"
+rl_stuff_char "8"
+rl_stuff_char "9"
+end
+set rl_startup_hook script:s
+readline "> "
+--- keys
+<dump>\r
+
+=== stuff-char-runs-commands
+tags: rl_stuff_char
+--- script
+def s
+rl_stuff_char "\C-a"
+end
+defun stuff s
+rl_bind_keyseq "\C-xs" stuff
+readline "> "
+--- keys
+abc\C-xs<pause>X<dump>\r
+
+=== execute-next
+tags: rl_execute_next rl_pending_input
+--- script
+def e
+rl_execute_next "\C-a"
+get rl_pending_input
+end
+defun exnext e
+rl_bind_keyseq "\C-xe" exnext
+readline "> "
+--- keys
+abc\C-xeX<dump>\r
+
+=== execute-next-overrides
+tags: rl_execute_next
+--- script
+def e
+rl_execute_next "a"
+rl_execute_next "b"
+end
+defun exnext e
+rl_bind_keyseq "\C-xe" exnext
+readline "> "
+--- keys
+\C-xe<dump>\r
+
+=== clear-pending-input
+tags: rl_clear_pending_input rl_execute_next
+--- script
+def e
+rl_execute_next "q"
+rl_clear_pending_input
+get rl_pending_input
+end
+defun exnext e
+rl_bind_keyseq "\C-xe" exnext
+readline "> "
+--- keys
+\C-xe<dump>\r
+
+=== read-key-in-command
+tags: rl_read_key
+--- script
+def r
+rl_read_key
+rl_read_key
+end
+defun readkeys r
+rl_bind_keyseq "\C-xr" readkeys
+readline "> "
+--- keys
+a\C-xrbcd<dump>\r
+
+=== read-key-gets-stuffed-first
+tags: rl_read_key rl_stuff_char
+--- script
+def r
+rl_stuff_char "S"
+rl_read_key
+rl_read_key
+end
+defun readkeys r
+rl_bind_keyseq "\C-xr" readkeys
+readline "> "
+--- keys
+\C-xrK<dump>\r
+
+=== read-key-from-macro
+tags: rl_read_key macro
+--- script
+def r
+rl_read_key
+end
+defun readkey r
+rl_bind_keyseq "\C-xr" readkey
+readline "> "
+--- inputrc
+"\C-xm": "\C-xrM"
+--- keys
+\C-xm<dump>\r
+
+=== read-key-from-push-macro
+tags: rl_read_key rl_push_macro_input
+--- script
+def r
+rl_push_macro_input "PM"
+rl_read_key
+end
+defun readkey r
+rl_bind_keyseq "\C-xr" readkey
+readline "> "
+--- keys
+\C-xr<dump>\r
+
+=== read-key-eof
+tags: rl_read_key
+--- script
+rl_initialize
+rl_read_key
+
+=== keyboard-input-timeout
+tags: rl_set_keyboard_input_timeout
+--- script
+rl_set_keyboard_input_timeout 1000
+rl_set_keyboard_input_timeout 50000
+rl_set_keyboard_input_timeout -1
+rl_set_keyboard_input_timeout 0
+
+=== set-timeout-and-remaining
+tags: rl_set_timeout rl_timeout_remaining
+--- script
+rl_timeout_remaining
+rl_set_timeout 0 0
+rl_timeout_remaining
+
+=== rl-done-from-command
+tags: rl_done
+--- script
+def d
+set rl_done 1
+end
+defun finish d
+rl_bind_keyseq "\C-xd" finish
+readline "> "
+--- keys
+abc\C-xd
+
+=== rl-num-chars-to-read
+tags: rl_num_chars_to_read
+--- script
+set rl_num_chars_to_read 3
+readline "> "
+set rl_num_chars_to_read 0
+readline "> "
+--- keys
+abcdef\r
+
+=== rl-num-chars-to-read-with-editing
+tags: rl_num_chars_to_read
+--- script
+set rl_num_chars_to_read 3
+readline "> "
+--- keys
+ab\C-?cd
+
+=== rl-num-chars-to-read-newline-early
+tags: rl_num_chars_to_read
+--- script
+set rl_num_chars_to_read 5
+readline "> "
+--- keys
+ab\r
+
+=== replace-line-api
+tags: rl_replace_line
+--- script
+def r
+rl_replace_line "brand new" 1
+end
+defun repl r
+rl_bind_keyseq "\C-xr" repl
+readline "> "
+--- keys
+old text\C-xr<dumpfull><snap>\r
+
+=== replace-line-empty
+tags: rl_replace_line
+--- script
+def r
+rl_replace_line "" 0
+end
+defun repl r
+rl_bind_keyseq "\C-xr" repl
+readline "> "
+--- keys
+old\C-xr<dump>\r
+
+=== copy-text-api
+tags: rl_copy_text
+--- script
+def c
+rl_copy_text 0 3
+rl_copy_text 2 1
+rl_copy_text 0 100
+end
+defun cp c
+rl_bind_keyseq "\C-xc" cp
+readline "> "
+--- keys
+abcdef\C-xc\r
+
+=== delete-text-api-variants
+tags: rl_delete_text
+--- script
+def d
+rl_delete_text 4 2
+set rl_point 0
+rl_delete_text 0 0
+rl_delete_text 10 20
+end
+defun del d
+rl_bind_keyseq "\C-xd" del
+readline "> "
+--- keys
+abcdefgh\C-xd<dump>\r
+
+=== insert-text-empty-and-long
+tags: rl_insert_text rl_extend_line_buffer
+--- script
+def i
+rl_insert_text ""
+rl_extend_line_buffer 5000
+rl_insert_text "0123456789012345678901234567890123456789"
+end
+defun ins i
+rl_bind_keyseq "\C-xi" ins
+readline "> "
+--- keys
+\C-xi<dump>\r
+
+=== insert-text-outside-readline
+tags: rl_insert_text
+--- script
+rl_initialize
+rl_insert_text "abc"
+dump
+rl_delete_text 0 1
+dump
+rl_kill_text 0 1
+dump
+
+=== executing-keymap-and-key
+tags: rl_executing_keymap rl_executing_key rl_executing_keyseq
+--- script
+def k
+get rl_executing_keymap
+get rl_executing_key
+get rl_executing_keyseq
+get rl_key_sequence_length
+get rl_dispatching
+get rl_binding_keymap
+end
+defun keyinfo k
+rl_bind_keyseq "\C-xk" keyinfo
+rl_bind_keyseq "\M-k" keyinfo
+rl_bind_keyseq "\C-k" keyinfo
+readline "> "
+get rl_dispatching
+--- keys
+\C-xk\M-k\C-k\r
+
+=== executing-keyseq-vi
+tags: rl_executing_keymap vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def k
+get rl_executing_keymap
+get rl_executing_keyseq
+end
+defun keyinfo k
+rl_bind_keyseq_in_map "\C-x" keyinfo vi-insert
+rl_bind_keyseq_in_map "\C-x" keyinfo vi-command
+readline "> "
+--- keys
+\C-x\e<pause>\C-x\r
+
+=== last-func-tracking
+tags: rl_last_func
+--- script
+def l
+get rl_last_func
+end
+defun lastf l
+rl_bind_keyseq "\C-xl" lastf
+readline "> "
+get rl_last_func
+--- keys
+a\C-xl\C-b\C-xl\M-f\C-xl\r
+
+=== set-last-func
+tags: rl_last_func
+--- script
+def l
+set rl_last_func yank
+end
+defun setlast l
+rl_bind_keyseq "\C-xl" setlast
+readline "> "
+--- keys
+aa<pause>\C-ubb<pause>\C-u\C-xl\M-y<dump>\r
+
+=== insert-mode-variable-runtime
+tags: rl_insert_mode overwrite-mode
+--- script
+def o
+set rl_insert_mode 0
+end
+defun ovr o
+rl_bind_keyseq "\C-xo" ovr
+readline "> "
+--- keys
+abc\C-a\C-xoX<dump>\r
+
+=== editing-mode-variable-get
+tags: rl_editing_mode
+--- script
+def g
+get rl_editing_mode
+end
+defun gm g
+rl_bind_keyseq "\C-xg" gm
+rl_bind_keyseq_in_map "\C-xg" gm vi-insert
+readline "> "
+--- keys
+\C-xg\M-\C-j\C-xg\r
+
+=== readline-state-during-command
+tags: rl_readline_state
+--- script
+def s
+get rl_readline_state
+end
+defun st s
+rl_bind_keyseq "\C-xs" st
+get rl_readline_state
+readline "> "
+get rl_readline_state
+--- keys
+\C-xs\r
+
+=== save-restore-state
+tags: rl_save_state rl_restore_state
+--- script
+def s
+rl_save_state 0
+set rl_point 0
+set rl_mark 3
+dump
+rl_restore_state 0
+dump
+end
+defun svst s
+rl_bind_keyseq "\C-xs" svst
+readline "> "
+--- keys
+original\C-a\C-f\C-xs<dump>\r
+
+=== variable-value-runtime-change
+tags: rl_variable_bind rl_variable_value
+--- script
+def v
+rl_variable_bind mark-modified-lines on
+rl_variable_bind bell-style none
+rl_variable_bind completion-query-items 5
+rl_variable_bind editing-mode vi
+end
+defun setv v
+rl_bind_keyseq "\C-xv" setv
+readline "> "
+rl_variable_value mark-modified-lines
+rl_variable_value bell-style
+rl_variable_value completion-query-items
+rl_variable_value editing-mode
+--- keys
+\C-xv<dump>\r
+
+=== variable-value-unknown
+tags: rl_variable_value rl_variable_bind
+--- script
+rl_variable_value no-such-variable
+rl_variable_bind no-such-variable on
+rl_variable_bind bell-style nonsense
+rl_variable_value bell-style
+rl_variable_bind mark-modified-lines 1
+rl_variable_value mark-modified-lines
+rl_variable_bind mark-modified-lines nope
+rl_variable_value mark-modified-lines
+
+=== alphabetic
+tags: rl_alphabetic
+--- script
+rl_alphabetic "a"
+rl_alphabetic "Z"
+rl_alphabetic "5"
+rl_alphabetic "_"
+rl_alphabetic "-"
+rl_alphabetic " "
+
+=== alphabetic-c-locale
+tags: rl_alphabetic locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+rl_alphabetic 233
+rl_alphabetic "a"
+
+=== readline-name-conditional
+tags: rl_readline_name
+--- inputrc
+$if myapp
+"\C-xa": "in myapp"
+$else
+"\C-xa": "not myapp"
+$endif
+--- script
+set rl_readline_name myapp
+readline "> "
+--- keys
+\C-xa<dump>\r
+
+=== readline-name-default
+tags: rl_readline_name
+--- inputrc
+$if other
+"\C-xa": "in other"
+$endif
+--- script
+get rl_readline_name
+readline "> "
+--- keys
+\C-xa<dump>\r
+
+=== version-globals
+tags: rl_readline_version
+--- script
+get rl_readline_version
+get rl_library_version
+get rl_gnu_readline_p
+
+=== terminal-name-and-reset
+tags: rl_terminal_name rl_reset_terminal
+--- script
+get rl_terminal_name
+rl_initialize
+rl_reset_terminal "vt100"
+get rl_terminal_name
+rl_reset_terminal NULL
+readline "> "
+--- keys
+abc\C-b<snap>\r
+
+=== terminal-name-dumb
+tags: rl_terminal_name terminal
+env: TERM=dumb
+--- script
+readline "> "
+--- keys
+abcdef\C-b\C-b<dump><snap>\C-a<snap>\r
+
+=== terminal-unknown
+tags: terminal
+env: TERM=no-such-terminal-xyz
+--- script
+readline "> "
+--- keys
+abc\C-b<dump><snap>\r
+
+=== terminal-unset
+tags: terminal
+env: TERM
+--- script
+readline "> "
+--- keys
+abc\C-b<dump><snap>\r
+
+=== get-termcap
+tags: rl_get_termcap terminal
+--- script
+rl_initialize
+rl_get_termcap "le"
+rl_get_termcap "cl"
+rl_get_termcap "xx"
+rl_get_termcap "co"
+
+=== initialize-resets-line
+tags: rl_initialize
+--- script
+rl_initialize
+rl_insert_text "xyz"
+rl_initialize
+dump
+get rl_readline_state
+
+=== nested-readline-in-command
+tags: readline
+--- script
+def n
+readline "inner> "
+end
+defun nested n
+rl_bind_keyseq "\C-xn" nested
+readline "outer> "
+--- keys
+ab\C-xnin\r<dump>c\r
+
+=== dispatching-flag
+tags: rl_dispatching
+--- script
+def d
+get rl_dispatching
+end
+defun disp d
+rl_bind_keyseq "\C-xd" disp
+readline "> "
+invoke disp
+--- keys
+\C-xd\r
+
+=== invoke-bindable-outside-readline
+tags: api
+--- script
+rl_initialize
+rl_insert_text "hello world"
+invoke backward-word
+dump
+invoke upcase-word
+dump

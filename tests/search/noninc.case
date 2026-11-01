@@ -1,0 +1,303 @@
+# Non-incremental searches (M-p / M-n and the -again variants) and the
+# prefix / substring history searches.
+tags: history search
+--- script
+add_history "make all"
+add_history "git status"
+add_history "make test"
+add_history "git commit"
+add_history "echo done"
+readline "> "
+
+=== noninc-reverse-search
+tags: non-incremental-reverse-search-history
+keys: \M-pmake<snap>\r<dumpfull>\r
+
+=== noninc-reverse-search-prompt
+tags: non-incremental-reverse-search-history display
+keys: abc\M-p<snap>gi<snap>\C-g<dump>\r
+
+=== noninc-reverse-search-not-found
+tags: non-incremental-reverse-search-history
+keys: abc\M-pzzz\r<snap><dump>\r
+
+=== noninc-reverse-search-empty-reuses-last
+tags: non-incremental-reverse-search-history
+keys: \M-pmake\r<dump>\M-p\r<dump>\r
+
+=== noninc-reverse-search-empty-no-previous
+tags: non-incremental-reverse-search-history
+keys: ab\M-p\r<dump>\r
+
+=== noninc-reverse-search-abort
+tags: non-incremental-reverse-search-history abort
+keys: typed\M-pgit\C-g<dump>\r
+
+=== noninc-reverse-search-editing
+tags: non-incremental-reverse-search-history
+keys: \M-pgix\C-?t s\C-a\C-e\r<dump>\r
+
+=== noninc-reverse-search-backspace-empty-aborts
+tags: non-incremental-reverse-search-history
+keys: abc\M-pa\C-?\C-?<snap><dump>\r
+
+=== noninc-reverse-search-ctrl-u-clears
+tags: non-incremental-reverse-search-history
+keys: \M-pxyz\C-ugit\r<dump>\r
+
+=== noninc-reverse-search-ctrl-w
+tags: non-incremental-reverse-search-history
+keys: \M-pxyz abc\C-wgit\r<dump>\r
+
+=== noninc-reverse-search-quoted-insert
+tags: non-incremental-reverse-search-history
+--- script
+add_history "a\tb"
+add_history "zz"
+readline "> "
+--- keys
+\M-p\C-v\t\r<dump>\r
+
+=== noninc-forward-search
+tags: non-incremental-forward-search-history
+keys: \M-<\M-ngit\r<dump>\M-n\r<dump>\r
+
+=== noninc-forward-search-not-found
+tags: non-incremental-forward-search-history
+keys: \M-ngit\r<dump>\r
+
+=== noninc-reverse-search-again
+tags: non-incremental-reverse-search-history-again
+--- inputrc
+"\C-xp": non-incremental-reverse-search-history-again
+"\C-xn": non-incremental-forward-search-history-again
+--- keys
+\M-pmake\r<dump>\C-xp<dump>\C-xn<dump>\r
+
+=== noninc-search-again-without-previous
+tags: non-incremental-reverse-search-history-again
+--- inputrc
+"\C-xp": non-incremental-reverse-search-history-again
+--- keys
+ab\C-xp<dump>\r
+
+=== noninc-search-again-count
+tags: non-incremental-reverse-search-history-again numarg
+--- inputrc
+"\C-xp": non-incremental-reverse-search-history-again
+--- keys
+\M-pgit\r\M-2\C-xp<dump>\r
+
+=== noninc-search-point-position
+tags: non-incremental-reverse-search-history
+keys: \M-pstat\r<dump>\r
+
+=== noninc-search-history-preserve-point
+tags: non-incremental-reverse-search-history history-preserve-point
+--- inputrc
+set history-preserve-point on
+--- keys
+abc\C-b\M-pgit\r<dump>\r
+
+=== noninc-search-ignore-case
+tags: non-incremental-reverse-search-history search-ignore-case
+--- inputrc
+set search-ignore-case on
+--- keys
+\M-pGIT\r<dump>\r
+
+=== noninc-search-anchored-caret
+tags: non-incremental-reverse-search-history
+--- script
+add_history "xmake"
+add_history "make it"
+add_history "foo make"
+readline "> "
+--- keys
+\M-p^make\r<dump>\r
+
+=== noninc-search-vi-mode-uses-colon-prompt
+tags: non-incremental-reverse-search-history vi
+--- inputrc
+set editing-mode vi
+"\C-p": non-incremental-reverse-search-history
+--- keys
+\C-p<snap>git\r<dump>\r
+
+=== noninc-search-utf8
+tags: non-incremental-reverse-search-history utf8
+--- script
+add_history "日本語"
+add_history "other"
+readline "> "
+--- keys
+\M-p本\r<dump>\r
+
+=== noninc-search-callback
+tags: non-incremental-reverse-search-history callback
+--- script
+add_history "make all"
+add_history "git status"
+callback "> "
+--- keys
+\M-pmake\r<dump>\r
+
+=== history-search-backward
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+"\C-xn": history-search-forward
+--- keys
+make\C-xp<dump>\C-xp<dump>\C-xp<dump>\C-xn<dump>\C-xn<dump>\r
+
+=== history-search-backward-page-up
+tags: history-search-backward
+keys: git<pgup><dump><pgup><dump><pgdn><dump>\r
+
+=== history-search-empty-prefix
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+\C-xp<dump>\C-xp<dump>\r
+
+=== history-search-prefix-uses-point
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+mazzz\C-a\C-f\C-f\C-xp<dump>\r
+
+=== history-search-not-found
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+xyz\C-xp<dump>\r
+
+=== history-search-count
+tags: history-search-backward numarg
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+git\M-2\C-xp<dump>\r
+
+=== history-search-negative-count
+tags: history-search-backward numarg
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+make\C-xp\C-xp\M--\C-xp<dump>\r
+
+=== history-search-forward-from-start
+tags: history-search-forward
+--- inputrc
+"\C-xn": history-search-forward
+--- keys
+\M-<\C-e\C-a\C-k\C-y\C-a\C-xn<dump>\r
+
+=== history-search-skips-duplicates
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+--- script
+add_history "make x"
+add_history "make x"
+add_history "make y"
+add_history "make x"
+readline "> "
+--- keys
+make\C-xp<dump>\C-xp<dump>\C-xp<dump>\r
+
+=== history-search-point-at-prefix-end
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+ma\C-xp<dumpfull>\r
+
+=== history-search-back-to-original
+tags: history-search-forward
+--- inputrc
+"\C-xp": history-search-backward
+"\C-xn": history-search-forward
+--- keys
+git\C-xp\C-xn<dump>\C-xn<dump>\r
+
+=== history-search-sets-mark-region
+tags: history-search-backward
+--- inputrc
+"\C-xp": history-search-backward
+--- keys
+mak\C-xp<dumpfull>\r
+
+=== history-substring-search-backward
+tags: history-substring-search-backward
+--- inputrc
+"\C-xp": history-substring-search-backward
+"\C-xn": history-substring-search-forward
+--- keys
+it\C-xp<dump>\C-xp<dump>\C-xp<dump>\C-xn<dump>\r
+
+=== history-substring-search-empty
+tags: history-substring-search-backward
+--- inputrc
+"\C-xp": history-substring-search-backward
+--- keys
+\C-xp<dump>\r
+
+=== history-substring-search-not-found
+tags: history-substring-search-backward
+--- inputrc
+"\C-xp": history-substring-search-backward
+--- keys
+qq\C-xp<dump>\r
+
+=== history-substring-search-count
+tags: history-substring-search-backward numarg
+--- inputrc
+"\C-xp": history-substring-search-backward
+--- keys
+e\M-3\C-xp<dump>\r
+
+=== history-substring-search-forward-negative
+tags: history-substring-search-forward numarg
+--- inputrc
+"\C-xn": history-substring-search-forward
+--- keys
+ma\M--\C-xn<dump>\r
+
+=== history-substring-search-uses-text-before-point
+tags: history-substring-search-backward
+--- inputrc
+"\C-xp": history-substring-search-backward
+--- keys
+tatXYZ\C-b\C-b\C-b\C-xp<dump>\r
+
+=== history-search-ignore-case
+tags: history-search-backward search-ignore-case
+--- inputrc
+set search-ignore-case on
+"\C-xp": history-search-backward
+"\C-xs": history-substring-search-backward
+--- keys
+GIT\C-xp<dump>\C-a\C-kSTAT\C-xs<dump>\r
+
+=== history-search-utf8
+tags: history-search-backward utf8
+--- inputrc
+"\C-xp": history-search-backward
+--- script
+add_history "日本語 x"
+add_history "plain"
+readline "> "
+--- keys
+日本\C-xp<dump>\r
+
+=== noninc-reverse-search-rubout-in-string
+tags: non-incremental-reverse-search-history
+keys: \M-pgix\C-?t\r<dump>\r
+
+=== noninc-reverse-search-movement-in-string
+tags: non-incremental-reverse-search-history
+keys: \M-pgt\C-bi\r<dump>\r

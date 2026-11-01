@@ -1,0 +1,285 @@
+# Killing text and the kill ring.  The kill ring is only observable via
+# yank/yank-pop.
+tags: kill
+--- script
+readline "> "
+
+=== kill-line-from-middle
+tags: kill-line
+keys: hello world\C-a\M-f\C-k<dump>\C-y<dump>\r
+
+=== kill-line-at-end-is-noop
+tags: kill-line
+keys: abc\C-k<dump>\C-y<dump>\r
+
+=== kill-line-negative-arg
+tags: kill-line numarg
+keys: hello world\M-b\M--\C-k<dump>\C-e\C-y<dump>\r
+
+=== kill-line-with-arg-ignored
+tags: kill-line numarg
+keys: hello world\C-a\M-f\M-5\C-k<dump>\r
+
+=== backward-kill-line
+tags: backward-kill-line
+keys: hello world\M-b\C-x\C-?<dump>\C-e\C-y<dump>\r
+
+=== backward-kill-line-at-start
+tags: backward-kill-line
+keys: abc\C-a\C-x\C-?<dump>\r
+
+=== backward-kill-line-negative-arg
+tags: backward-kill-line numarg
+keys: hello world\C-a\M-f\M--\C-x\C-?<dump>\C-a\C-y<dump>\r
+
+=== kill-whole-line
+tags: kill-whole-line
+--- inputrc
+"\C-xk": kill-whole-line
+--- keys
+hello world\C-a\M-f\C-xk<dump>\C-y<dump>\r
+
+=== unix-line-discard
+tags: unix-line-discard
+keys: hello world\M-b\C-u<dump>\C-e\C-y<dump>\r
+
+=== unix-line-discard-at-start
+tags: unix-line-discard
+keys: abc\C-a\C-u<dump>\r
+
+=== kill-word
+tags: kill-word
+keys: one two three\C-a\M-d<dump>\M-d<dump>\C-y<dump>\r
+
+=== kill-word-count
+tags: kill-word numarg
+keys: one two three four\C-a\M-2\M-d<dump>\C-y<dump>\r
+
+=== kill-word-negative
+tags: kill-word numarg
+keys: one two three\M--\M-d<dump>\C-a\C-y<dump>\r
+
+=== kill-word-at-end
+tags: kill-word
+keys: abc\M-d<dump>\r
+
+=== backward-kill-word
+tags: backward-kill-word
+keys: one two three\M-\C-?<dump>\M-\C-h<dump>\C-y<dump>\r
+
+=== backward-kill-word-punct
+tags: backward-kill-word
+keys: foo/bar.baz\M-\C-?<dump>\M-\C-?<dump>\r
+
+=== backward-kill-word-count
+tags: backward-kill-word numarg
+keys: one two three\M-2\M-\C-?<dump>\C-y<dump>\r
+
+=== backward-kill-word-negative
+tags: backward-kill-word numarg
+keys: one two three\C-a\M--\M-\C-?<dump>\r
+
+=== unix-word-rubout
+tags: unix-word-rubout
+keys: foo/bar baz.qux  \C-w<dump>\C-w<dump>\C-w<dump>\C-w<dump>\r
+
+=== unix-word-rubout-count
+tags: unix-word-rubout numarg
+keys: a b c d\M-3\C-w<dump>\C-y<dump>\r
+
+=== unix-filename-rubout
+tags: unix-filename-rubout
+--- inputrc
+"\C-xw": unix-filename-rubout
+--- keys
+ls /usr/local/bin/ \C-xw<dump>\C-xw<dump>\C-xw<dump>\C-xw<dump>\r
+
+=== unix-filename-rubout-count
+tags: unix-filename-rubout numarg
+--- inputrc
+"\C-xw": unix-filename-rubout
+--- keys
+cd /a/b/c\M-2\C-xw<dump>\C-y<dump>\r
+
+=== kill-region
+tags: kill-region set-mark
+--- inputrc
+"\C-xr": kill-region
+--- keys
+hello big world\C-a\M-f\C-@\M-f<dump>\C-xr<dump>\C-e\C-y<dump>\r
+
+=== kill-region-mark-after-point
+tags: kill-region set-mark
+--- inputrc
+"\C-xr": kill-region
+--- keys
+abcdef\C-b\C-@\C-a\C-f\C-xr<dump>\C-y<dump>\r
+
+=== copy-region-as-kill
+tags: copy-region-as-kill
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+hello world\C-a\C-@\M-f\C-xc<dump>\C-e\C-y<dump>\r
+
+=== copy-region-empty
+tags: copy-region-as-kill
+--- inputrc
+"\C-xc": copy-region-as-kill
+--- keys
+abc\C-@\C-xc\C-y<dump>\r
+
+=== copy-forward-word
+tags: copy-forward-word
+--- inputrc
+"\C-xf": copy-forward-word
+--- keys
+one two three\C-a\C-xf<dump>\C-e \C-y<dump>\r
+
+=== copy-forward-word-count
+tags: copy-forward-word numarg
+--- inputrc
+"\C-xf": copy-forward-word
+--- keys
+one two three\C-a\M-2\C-xf\C-e \C-y<dump>\r
+
+=== copy-backward-word
+tags: copy-backward-word
+--- inputrc
+"\C-xb": copy-backward-word
+--- keys
+one two three\C-xb<dump> \C-y<dump>\r
+
+=== copy-backward-word-negative
+tags: copy-backward-word numarg
+--- inputrc
+"\C-xb": copy-backward-word
+--- keys
+one two three\C-a\M--\C-xb\C-e \C-y<dump>\r
+
+=== consecutive-kills-append-forward
+tags: kill-word kill-line
+keys: one two three\C-a\M-d\M-d\C-k<dump>\C-y<dump>\r
+
+=== consecutive-kills-prepend-backward
+tags: backward-kill-word
+keys: one two three\M-\C-?\M-\C-?<dump>\C-y<dump>\r
+
+=== consecutive-mixed-direction
+tags: kill-word backward-kill-word
+keys: one two three\M-b\M-d\M-\C-?<dump>\C-y<dump>\r
+
+=== kill-after-movement-starts-new-entry
+tags: kill-word yank-pop
+keys: one two three\C-a\M-d\M-f\M-d<dump>\C-y<dump>\M-y<dump>\r
+
+=== yank-empty-ring
+tags: yank
+keys: abc\C-y<dump>\r
+
+=== yank-sets-mark
+tags: yank
+keys: xy\C-b\C-a\C-k\C-y<dump>\r
+
+=== yank-twice
+tags: yank
+keys: ab\C-a\C-k\C-y\C-y<dump>\r
+
+=== yank-pop-cycles
+tags: yank-pop
+keys: aa<pause>\C-ubb<pause>\C-ucc<pause>\C-u\C-y<dump>\M-y<dump>\M-y<dump>\M-y<dump>\r
+
+=== yank-pop-without-yank
+tags: yank-pop
+keys: aa<pause>\C-ubb<pause>\C-u\M-y<dump>\r
+
+=== yank-pop-after-other-command
+tags: yank-pop
+keys: aa<pause>\C-ubb<pause>\C-u\C-y\C-b\M-y<dump>\r
+
+=== yank-pop-count
+tags: yank-pop numarg
+keys: aa<pause>\C-ubb<pause>\C-ucc<pause>\C-udd<pause>\C-u\C-y\M-2\M-y<dump>\r
+
+=== yank-pop-negative
+tags: yank-pop numarg
+keys: aa<pause>\C-ubb<pause>\C-ucc<pause>\C-u\C-y\M--\M-y<dump>\M--\M-y<dump>\r
+
+=== yank-count-selects-entry
+tags: yank numarg
+keys: aa<pause>\C-ubb<pause>\C-ucc<pause>\C-u\M-2\C-y<dump>\r
+
+=== kill-ring-max-default
+tags: yank-pop
+--- keys
+a1<pause>\C-ua2<pause>\C-ua3<pause>\C-ua4<pause>\C-ua5<pause>\C-ua6<pause>\C-ua7<pause>\C-ua8<pause>\C-ua9<pause>\C-ub0<pause>\C-ub1<pause>\C-u\C-y\M-y\M-y\M-y\M-y\M-y\M-y\M-y\M-y\M-y<dump>\M-y<dump>\M-y<dump>\r
+
+=== kill-ring-entries-ten
+tags: yank-pop
+--- keys
+a1<pause>\C-ua2<pause>\C-ua3<pause>\C-ua4<pause>\C-ua5<pause>\C-ua6<pause>\C-ua7<pause>\C-ua8<pause>\C-ua9<pause>\C-ub0<pause>\C-u\C-y\M-y\M-y\M-y\M-y\M-y\M-y\M-y\M-y\M-y<dump>\M-y<dump>\r
+
+=== kill-ring-across-readline-calls
+tags: yank
+--- script
+readline "> " 2
+--- keys
+hello\C-a\C-k\r\C-y<dump>\r
+
+=== kill-text-api
+tags: rl_kill_text api
+--- script
+def k
+rl_kill_text 1 4
+set rl_point 1
+dump
+end
+defun do-kill k
+rl_bind_keyseq "\C-xk" do-kill
+readline "> "
+--- keys
+abcdef\C-xk\C-e\C-y<dump>\r
+
+=== kill-text-api-reversed
+tags: rl_kill_text api
+--- script
+def k
+rl_kill_text 4 1
+set rl_point 1
+dump
+end
+defun do-kill k
+rl_bind_keyseq "\C-xk" do-kill
+readline "> "
+--- keys
+abcdef\C-xk\C-e\C-y<dump>\r
+
+=== kill-text-api-append
+tags: rl_kill_text api
+--- script
+def k
+rl_kill_text 0 2
+set rl_point 0
+set rl_last_func kill-word
+end
+defun do-kill k
+rl_bind_keyseq "\C-xk" do-kill
+readline "> "
+--- keys
+abcdef\C-xk\C-xk<dump>\C-y<dump>\r
+
+=== kill-region-with-mark-at-zero-length
+tags: kill-region
+--- inputrc
+"\C-xr": kill-region
+--- keys
+abc\C-@\C-xr<dump>\r
+
+=== typeahead-insert-keeps-kill-chain
+description: quirk: characters inserted as one typeahead batch do not reset rl_last_func, so two kills separated by such typing are merged
+tags: unix-line-discard quirk typeahead
+keys: a1\C-ua2\C-u\C-y<dump>\M-y<dump>\r
+
+=== separate-kills-with-pause
+tags: unix-line-discard yank-pop
+keys: a1\C-u<pause>a2<pause>\C-u\C-y<dump>\M-y<dump>\r

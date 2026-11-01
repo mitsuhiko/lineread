@@ -1,0 +1,153 @@
+# Kill/yank corner cases: empty kills joining the kill chain, negative
+# counts, yank-pop text mismatches, vi-yank-pop, bracketed text reading.
+tags: kill
+--- script
+readline "> "
+
+=== empty-kill-keeps-chain
+tags: kill-line kill-word
+keys: one two\C-a\M-d\C-e\C-k\C-a\M-d\C-y<dump>\r
+
+=== unix-word-rubout-negative-count
+tags: unix-word-rubout numarg
+keys: one two\M--\C-w<dump>\r
+
+=== unix-filename-rubout-at-start
+tags: unix-filename-rubout
+--- inputrc
+"\C-xw": unix-filename-rubout
+--- keys
+a/b\C-a\C-xw<dump>\r
+
+=== unix-filename-rubout-negative-count
+tags: unix-filename-rubout numarg
+--- inputrc
+"\C-xw": unix-filename-rubout
+--- keys
+/usr/local/bin\M--\C-xw<dump>\r
+
+=== copy-forward-word-negative
+tags: copy-forward-word numarg
+--- inputrc
+"\C-xf": copy-forward-word
+--- keys
+one two three\M--\C-xf\C-a\C-y<dump>\r
+
+=== yank-pop-text-mismatch
+tags: yank-pop api
+--- script
+def p
+rl_insert_text "zz"
+rl_yank_pop 1 0
+end
+defun pop-after-edit p
+rl_bind_keyseq "\C-xp" pop-after-edit
+readline "> "
+--- keys
+one<pause>\C-u<pause>two<pause>\C-u\C-y\C-xp<dump>\r
+
+=== yank-last-arg-negative-direction
+tags: yank-last-arg history numarg
+--- script
+add_history "a b c"
+add_history "d e f"
+add_history "g h i"
+readline "> "
+--- keys
+\M-.\M-.\M-.\M--\M-.<dump>\M-.<dump>\r
+
+=== yank-last-arg-negative-past-start
+tags: yank-last-arg history numarg
+--- script
+add_history "a b c"
+add_history "d e f"
+readline "> "
+--- keys
+\M-.\M--\M-.<dump>\r
+
+=== bracketed-paste-during-macro-definition
+tags: bracketed-paste start-kbd-macro call-last-kbd-macro macro
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+\C-x(<paste-start>hi<paste-end>\C-x)<pause> \C-xe<dump>\r
+
+=== bracketed-paste-long-text
+tags: bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+<paste-start>0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789<paste-end><dump>\r
+
+=== bracketed-paste-as-char-search-argument
+tags: bracketed-paste character-search
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+abcabc\C-a\C-]<paste-start>c<paste-end><dump>\r
+
+=== bracketed-paste-multichar-as-char-search-argument
+tags: bracketed-paste character-search
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+abcabc\C-a\C-]<paste-start>cXY<paste-end><dump>\r
+
+=== bracketed-paste-empty-as-char-search-argument
+tags: bracketed-paste character-search
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+abcabc\C-a\C-]<paste-start><paste-end><dump>\r
+
+=== bracketed-paste-as-quoted-insert
+tags: bracketed-paste quoted-insert
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+ab\C-v<paste-start>xyz<paste-end><dump>\r
+
+=== bracketed-paste-into-vi-replace-char
+tags: bracketed-paste vi vi-change-char
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set enable-bracketed-paste on
+--- keys
+abcdef\e<pause>0r<paste-start>XY<paste-end><dump>\r
+
+=== vi-yank-pop-cycles
+tags: vi vi-yank-pop vi-put
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"Q": vi-yank-pop
+--- keys
+one two three\e<pause>0dwdwP<dump>Q<dump>Q<dump>\r
+
+=== vi-yank-pop-without-put
+tags: vi vi-yank-pop
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set keymap vi-command
+"Q": vi-yank-pop
+--- keys
+one two\e<pause>0dwQ<dump>\r
+
+=== vi-yank-pop-text-mismatch
+tags: vi vi-yank-pop api
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+def p
+rl_insert_text "zz"
+rl_vi_yank_pop 1 0
+end
+defun vpop p
+rl_bind_keyseq_in_map "\C-xp" vpop vi-command
+readline "> "
+--- keys
+one two\e<pause>0dwdwP\C-xp<dump>\r

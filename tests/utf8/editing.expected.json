@@ -1,0 +1,811 @@
+{
+  "insert-two-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "é", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "éü", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "éü"}
+    ],
+    "screen": [
+      "> éü"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-three-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "日本", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本"}
+    ],
+    "screen": [
+      "> 日本"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日本"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "insert-four-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a😀b", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a😀b"}
+    ],
+    "screen": [
+      "> a😀b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a😀b"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "insert-mixed-batch": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé日😀z", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé日😀z"}
+    ],
+    "screen": [
+      "> aé日😀z"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-backward-char-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé日😀z", "point": 1, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日😀z", "point": 3, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日😀z", "point": 6, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日😀z", "point": 10, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日😀z", "point": 6, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日😀z", "point": 3, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé日😀z"}
+    ],
+    "screen": [
+      "> aé日😀z"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-char-count-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "éééé", "point": 6, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "éééé", "point": 2, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "éééé"}
+    ],
+    "screen": [
+      "> éééé"
+    ],
+    "cursor": [1, 0]
+  },
+  "cursor-column-wide": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "日本語"}
+    ],
+    "screen": [
+      "> 日本語"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日本語"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 日本語"
+        ],
+        "cursor": [0, 4]
+      },
+      {
+        "screen": [
+          "> 日本語"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "delete-char-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a日b", "point": 1, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ab", "point": 1, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-delete-char-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé日", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-delete-char-count-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "transpose-chars-wide": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "本日", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "本日"}
+    ],
+    "screen": [
+      "> 本日"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 本日"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "transpose-chars-mixed-widths": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab日", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab日"}
+    ],
+    "screen": [
+      "> ab日"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab日"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "transpose-words-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "wörld héllo", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "wörld héllo"}
+    ],
+    "screen": [
+      "> wörld héllo"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-multibyte-letters": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "héllo wörld", "point": 6, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "héllo wörld", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "héllo wörld", "point": 7, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "héllo wörld"}
+    ],
+    "screen": [
+      "> héllo wörld"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-cjk": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本語 テキスト", "point": 9, "end": 22, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "日本語 テキスト", "point": 22, "end": 22, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本語 テキスト"}
+    ],
+    "screen": [
+      "> 日本語 テキスト"
+    ],
+    "cursor": [1, 0]
+  },
+  "kill-word-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": " wörld", "point": 0, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": " wörldhéllo", "point": 13, "end": 13, "mark": 7, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": " wörldhéllo"}
+    ],
+    "screen": [
+      ">  wörldhéllo"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-kill-word-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "héllo ", "point": 7, "end": 7, "mark": 7, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "héllo "}
+    ],
+    "screen": [
+      "> héllo"
+    ],
+    "cursor": [1, 0]
+  },
+  "unix-word-rubout-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本 ", "point": 7, "end": 7, "mark": 7, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本 "}
+    ],
+    "screen": [
+      "> 日本"
+    ],
+    "cursor": [1, 0]
+  },
+  "upcase-word-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "STRAßE éa", "point": 7, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "STRAßE ÉA", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "STRAßE ÉA"}
+    ],
+    "screen": [
+      "> STRAßE ÉA"
+    ],
+    "cursor": [1, 0]
+  },
+  "downcase-word-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "àéî ÕÜ", "point": 6, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "àéî õü", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "àéî õü"}
+    ],
+    "screen": [
+      "> àéî õü"
+    ],
+    "cursor": [1, 0]
+  },
+  "capitalize-word-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "École ñu", "point": 6, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "École Ñu", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "École Ñu"}
+    ],
+    "screen": [
+      "> École Ñu"
+    ],
+    "cursor": [1, 0]
+  },
+  "combining-char-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "é", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "é"}
+    ],
+    "screen": [
+      "> é"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> é"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "combining-char-movement": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aéb", "point": 1, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aéb", "point": 4, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aéb", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aéb", "point": 4, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aéb"}
+    ],
+    "screen": [
+      "> aéb"
+    ],
+    "cursor": [1, 0]
+  },
+  "combining-char-delete": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab", "point": 1, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "combining-char-rubout": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "combining-multiple-marks": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "xá̈y", "point": 1, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "xá̈y"}
+    ],
+    "screen": [
+      "> xá̈y"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> xá̈y"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "combining-at-line-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "́ab", "point": 3, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "́ab"}
+    ],
+    "screen": [
+      "> ́ab"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ́ab"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "zero-width-joiner": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a‍b", "point": 0, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a‍b"}
+    ],
+    "screen": [
+      "> a"
+    ],
+    "cursor": [1, 0]
+  },
+  "invalid-byte-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udcffb", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udcffb", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcffb"}
+    ],
+    "screen": [
+      "> a�b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a�b"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "invalid-continuation-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udc80b", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ab", "point": 1, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "incomplete-sequence-then-ascii": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udce6\udc97b", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce6\udc97b"}
+    ],
+    "screen": [
+      "> a�b"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a�b"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "incomplete-sequence-movement": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udce6\udc97b", "point": 1, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udce6\udc97b", "point": 2, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udce6\udc97b", "point": 3, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udce6\udc97b"}
+    ],
+    "screen": [
+      "> a�b"
+    ],
+    "cursor": [1, 0]
+  },
+  "overlong-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a\udcc0\udcafb", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcc0\udcafb"}
+    ],
+    "screen": [
+      "> a��b"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-wide-char-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日日日", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日日日"}
+    ],
+    "screen": [
+      "> 日日日"
+    ],
+    "cursor": [1, 0]
+  },
+  "quoted-insert-wide-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日"}
+    ],
+    "screen": [
+      "> 日"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-utf8-one-byte-at-a-time": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日x", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日x"}
+    ]
+  },
+  "rl-insert-text-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "defun ins i", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xi\" ins", "ret": 0},
+      {"op": "rl_insert_text \"日本\"", "ret": 6},
+      {"op": "dump", "line": "a日本", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a日本", "point": 4, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a日本"}
+    ],
+    "screen": [
+      "> a日本"
+    ],
+    "cursor": [1, 0]
+  },
+  "history-with-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本語 テキスト", "point": 9, "end": 22, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本語 テキスト"}
+    ],
+    "screen": [
+      "> 日本語 テキスト"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日本語 テキスト"
+        ],
+        "cursor": [0, 8]
+      }
+    ]
+  },
+  "yank-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本語日本語", "point": 18, "end": 18, "mark": 9, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本語日本語"}
+    ],
+    "screen": [
+      "> 日本語日本語"
+    ],
+    "cursor": [1, 0]
+  },
+  "character-search-multibyte-target": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a日b日c", "point": 1, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a日b日c", "point": 5, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a日b日c"}
+    ],
+    "screen": [
+      "> a日b日c"
+    ],
+    "cursor": [1, 0]
+  },
+  "byte-oriented-on": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udca9", "point": 1, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udca9"}
+    ],
+    "screen": [
+      "> �"
+    ],
+    "cursor": [1, 0]
+  },
+  "c-locale-bytes": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a\udcc3", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a\udcc3"}
+    ],
+    "screen": [
+      "> a\\303"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a\\303\\251"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "c-locale-meta-display": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\udce9y", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\udce9y"}
+    ],
+    "screen": [
+      "> x\\351y"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> x\\351y"
+        ],
+        "cursor": [0, 8]
+      }
+    ]
+  },
+  "latin1-locale-like-c": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\udce9y", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\udce9y"}
+    ],
+    "screen": [
+      "> x�y"
+    ],
+    "cursor": [1, 0]
+  },
+  "wide-chars-wrap-cursor": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "日本語日本語"}
+    ],
+    "screen": [
+      "> 日本語日",
+      "本語"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日本語日",
+          "本語"
+        ],
+        "cursor": [1, 0]
+      },
+      {
+        "screen": [
+          "> 日本語日",
+          "本語"
+        ],
+        "cursor": [1, 2]
+      }
+    ]
+  },
+  "emoji-width": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "😀😀x"}
+    ],
+    "screen": [
+      "> 😀😀x"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 😀😀x"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "> 😀😀x"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "utf8-prompt-and-editing": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "é"}
+    ],
+    "screen": [
+      "日本> é"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "日本> é"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "vi-mode-multibyte-ops": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "本語 テスト", "point": 0, "end": 16, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "本語 テスト", "point": 7, "end": 16, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "本語 ", "point": 6, "end": 7, "mark": 7, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "本語 テスト", "point": 13, "end": 16, "mark": 7, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "本語 テト", "point": 10, "end": 13, "mark": 7, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "本語 テト"}
+    ],
+    "screen": [
+      "> 本語 テト"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-mode-replace-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "äbc", "point": 0, "end": 4, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "ä日本", "point": 5, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ä日本"}
+    ],
+    "screen": [
+      "> ä日本"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-mode-tilde-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ÄÖÜ", "point": 4, "end": 6, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ÄÖÜ"}
+    ],
+    "screen": [
+      "> ÄÖÜ"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-mode-f-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a日b日c", "point": 1, "end": 9, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a日b日c", "point": 5, "end": 9, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a日b日c", "point": 1, "end": 9, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a日b日c", "point": 4, "end": 9, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a日b日c"}
+    ],
+    "screen": [
+      "> a日b日c"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-mode-p-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "本日", "point": 3, "end": 6, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "本日日", "point": 3, "end": 9, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "本日日"}
+    ],
+    "screen": [
+      "> 本日日"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch-multibyte-display": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "über straße", "point": 6, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "über straße"}
+    ],
+    "screen": [
+      "> über straße"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`straß': über straße"
+        ],
+        "cursor": [0, 32]
+      }
+    ]
+  },
+  "overwrite-multibyte-over-ascii": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日écd", "point": 5, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "日écd"}
+    ],
+    "screen": [
+      "> 日écd"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 日écd"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "delete-horizontal-space-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "日本", "point": 3, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "日本"}
+    ],
+    "screen": [
+      "> 日本"
+    ],
+    "cursor": [1, 0]
+  }
+}
