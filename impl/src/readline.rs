@@ -167,9 +167,7 @@ fn rl_already_prompted() -> bool {
 pub unsafe fn line_step() -> bool {
     // a new command: the numeric argument of the previous one is gone
     // (it stays visible between commands, like the reference)
-    if crate::input::rl_pending_input.get() == 0 {
-        crate::numarg::reset();
-    }
+    crate::numarg::reset();
     crate::dispatch::keyseq_reset();
     set_state(RL_STATE_READCMD);
     let c = crate::input::rl_read_key();
