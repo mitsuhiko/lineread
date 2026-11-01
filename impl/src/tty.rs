@@ -200,3 +200,25 @@ pub unsafe extern "C" fn rl_tty_unset_default_bindings(map: Keymap) {
 pub unsafe extern "C" fn rl_tty_set_echoing(v: c_int) -> c_int {
     ECHOING.replace(v)
 }
+
+/// Temporarily turn the terminal's signal characters off (`false`) or back
+/// on (`true`), e.g. while quoted-insert reads its character.  Only acts
+/// while the terminal is prepped.  Returns whether they were on before.
+pub unsafe fn set_tty_signals(on: bool) -> bool {
+    if !is_state(RL_STATE_TERMPREPPED) {
+        return false;
+    }
+    let fd = tty_fd();
+    let mut t: libc::termios = core::mem::zeroed();
+    if libc::tcgetattr(fd, &mut t) != 0 {
+        return false;
+    }
+    let was = t.c_lflag & libc::ISIG != 0;
+    if on {
+        t.c_lflag |= libc::ISIG;
+    } else {
+        t.c_lflag &= !libc::ISIG;
+    }
+    libc::tcsetattr(fd, libc::TCSADRAIN, &t);
+    was
+}
