@@ -321,5 +321,28 @@
       "> foo.c bar"
     ],
     "cursor": [1, 0]
+  },
+  "noninc-search-ignore-case-byte-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "MAKE x", "point": 0, "end": 6, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "Make All", "point": 5, "end": 8, "mark": 8, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Make All"}
+    ],
+    "screen": [
+      "> Make All"
+    ],
+    "cursor": [1, 0]
+  },
+  "vi-search-pattern-forward": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ls -l", "point": 0, "end": 5, "mark": 5, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ls -l"}
+    ],
+    "screen": [
+      "> ls -l"
+    ],
+    "cursor": [1, 0]
   }
 }

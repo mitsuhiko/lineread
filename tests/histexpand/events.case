@@ -347,3 +347,11 @@ add_history "echo"
 using_history
 get_history_event "!" 0
 get_history_event "! x" 0
+
+=== substring-search-percent-match-on-space
+# a match starting on whitespace is not inside a word: % is empty
+--- script
+add_history "a b"
+using_history
+history_expand "!? b?"
+history_expand "!? b?%"

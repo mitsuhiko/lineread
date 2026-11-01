@@ -479,5 +479,40 @@
     ],
     "screen": [],
     "cursor": [0, 0]
+  },
+  "subst-ampersand-rhs-grows": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/ab/&&x/\"", "ret": 1, "out": "ababx"},
+      {"op": "history_expand \"!!:s/ab/&&&xyz/\"", "ret": 1, "out": "abababxyz"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-byte-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:s/a\\\\/b/X/\"", "ret": 1, "out": "X c"},
+      {"op": "history_expand \"!!:s|c|d|\"", "ret": 1, "out": "a/b d"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-bywords-extra-whitespace": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Gs/x/y/\"", "ret": 1, "out": "ya   yb  yc"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "long-word-result": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"},
+      {"op": "history_expand \"!$:s/0/X/\"", "ret": 1, "out": "X123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
   }
 }

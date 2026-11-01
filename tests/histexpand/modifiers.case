@@ -322,3 +322,28 @@ add_history "vi /etc/x.conf"
 history_expand "!$:h"
 history_expand "!$:t:r"
 history_expand "!vi:1:e"
+
+=== subst-ampersand-rhs-grows
+--- script
+add_history "ab"
+history_expand "!!:s/ab/&&x/"
+history_expand "!!:s/ab/&&&xyz/"
+
+=== subst-byte-locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+add_history "a/b c"
+history_expand "!!:s/a\\/b/X/"
+history_expand "!!:s|c|d|"
+
+=== subst-bywords-extra-whitespace
+--- script
+add_history "xa   xb  xc"
+history_expand "!!:Gs/x/y/"
+
+=== long-word-result
+--- script
+add_history "cmd 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+history_expand "!$"
+history_expand "!$:s/0/X/"

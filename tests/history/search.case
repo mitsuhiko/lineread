@@ -298,3 +298,30 @@ add_history "ls -l"
 readline "> "
 --- keys
 \e<pause>/*.c\r<dump>\r
+
+=== noninc-search-ignore-case-byte-locale
+tags: readline
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set search-ignore-case on
+--- script
+add_history "Make All"
+add_history "MAKE x"
+add_history "ls"
+readline "> "
+--- keys
+\M-p^make\r<dump>\M-pall\r<dump>\r
+
+=== vi-search-pattern-forward
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+add_history "make all"
+add_history "git status"
+add_history "ls -l"
+readline "> "
+--- keys
+\e<pause>kkk?l*s\r<dump>\r

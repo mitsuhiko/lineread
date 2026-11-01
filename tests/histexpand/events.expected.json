@@ -440,5 +440,14 @@
     ],
     "screen": [],
     "cursor": [0, 0]
+  },
+  "substring-search-percent-match-on-space": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!? b?\"", "ret": 1, "out": "a b"},
+      {"op": "history_expand \"!? b?%\"", "ret": 1, "out": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
   }
 }
