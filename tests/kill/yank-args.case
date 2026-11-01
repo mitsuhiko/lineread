@@ -1,0 +1,123 @@
+# yank-nth-arg (M-C-y) and yank-last-arg (M-. M-_) take words from the
+# previous history entry.
+tags: kill history
+--- script
+add_history "cmd first second third"
+add_history "echo alpha beta gamma"
+using_history
+readline "> "
+
+=== yank-nth-arg-default
+tags: yank-nth-arg
+keys: x \M-\C-y<dump>\r
+
+=== yank-nth-arg-count
+tags: yank-nth-arg numarg
+keys: x \M-2\M-\C-y<dump>\r
+
+=== yank-nth-arg-zero
+tags: yank-nth-arg numarg
+keys: x \M-0\M-\C-y<dump>\r
+
+=== yank-nth-arg-negative
+tags: yank-nth-arg numarg
+keys: x \M--\M-\C-y<dump>\r
+
+=== yank-nth-arg-out-of-range
+tags: yank-nth-arg numarg
+keys: x \M-9\M-\C-y<dump>\r
+
+=== yank-nth-arg-no-history
+tags: yank-nth-arg
+--- script
+readline "> "
+--- keys
+x \M-\C-y<dump>\r
+
+=== yank-nth-arg-after-previous-history
+tags: yank-nth-arg
+keys: \C-p\C-p\C-e \M-\C-y<dump>\r
+
+=== yank-last-arg
+tags: yank-last-arg
+keys: x \M-.<dump>\r
+
+=== yank-last-arg-underscore
+tags: yank-last-arg
+keys: x \M-_<dump>\r
+
+=== yank-last-arg-repeated
+tags: yank-last-arg
+keys: x \M-.<dump>\M-.<dump>\M-.<dump>\r
+
+=== yank-last-arg-count
+tags: yank-last-arg numarg
+keys: x \M-1\M-.<dump>\r
+
+=== yank-last-arg-count-zero
+tags: yank-last-arg numarg
+keys: x \M-0\M-.<dump>\r
+
+=== yank-last-arg-negative-count
+tags: yank-last-arg numarg
+keys: x \M--\M-.<dump>\r
+
+=== yank-last-arg-repeat-with-arg
+tags: yank-last-arg numarg
+keys: x \M-.\M-2\M-.<dump>\r
+
+=== yank-last-arg-negative-direction
+tags: yank-last-arg numarg
+--- script
+add_history "a one"
+add_history "b two"
+add_history "c three"
+using_history
+readline "> "
+--- keys
+\M-.\M-.\M-.<dump>\M--\M-.<dump>\M-.<dump>\r
+
+=== yank-last-arg-then-other-command
+tags: yank-last-arg
+keys: \M-.\C-a\M-.<dump>\r
+
+=== yank-last-arg-undo
+tags: yank-last-arg undo
+keys: x \M-.\M-.\C-_<dump>\r
+
+=== yank-last-arg-quoted-words
+tags: yank-last-arg
+--- script
+add_history "echo 'one two' \"three four\""
+using_history
+readline "> "
+--- keys
+\M-.<dump>\M-1\M-\C-y<dump>\r
+
+=== yank-last-arg-history-expansion-chars
+tags: yank-last-arg
+--- script
+add_history "echo a!b c"
+using_history
+readline "> "
+--- keys
+\M-.<dump>\r
+
+=== yank-nth-arg-word-delimiters
+tags: yank-nth-arg
+--- script
+add_history "ls -l | grep foo>out"
+using_history
+readline "> "
+--- keys
+\M-2\M-\C-y \M-3\M-\C-y \M-4\M-\C-y<dump>\r
+
+=== yank-last-arg-from-callback
+tags: yank-last-arg callback
+--- script
+add_history "cmd first second third"
+add_history "echo alpha beta gamma"
+using_history
+callback "> "
+--- keys
+x \M-.\M-.<dump>\r

@@ -1,0 +1,360 @@
+{
+  "forward-char-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-char-at-end-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-char-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 4, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdef", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-char-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-char-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-char-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 3, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdef", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-char-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "arrow-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "arrow-keys-ss3": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 1, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-byte": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "aé日b", "point": 1, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日b", "point": 2, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日b", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "aé日b", "point": 2, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "aé日b"}
+    ],
+    "screen": [
+      "> aé日b"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-byte-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcdef", "point": 4, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdef", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcdef", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcdef"}
+    ],
+    "screen": [
+      "> abcdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "beginning-end-of-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello world", "point": 0, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hello world", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hello world", "point": 0, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello world"}
+    ],
+    "screen": [
+      "> hello world"
+    ],
+    "cursor": [1, 0]
+  },
+  "home-end-keys-variants": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello", "point": 0, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hello", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hello", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hello~", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello~"}
+    ],
+    "screen": [
+      "> hello~"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two  three", "point": 3, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two  three", "point": 7, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two  three", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two  three", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two  three"}
+    ],
+    "screen": [
+      "> one two  three"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-punctuation": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "foo.bar-baz_qux  (x)", "point": 3, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "foo.bar-baz_qux  (x)", "point": 7, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "foo.bar-baz_qux  (x)", "point": 11, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "foo.bar-baz_qux  (x)", "point": 15, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "foo.bar-baz_qux  (x)", "point": 19, "end": 20, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "foo.bar-baz_qux  (x)"}
+    ],
+    "screen": [
+      "> foo.bar-baz_qux  (x)"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a b c d e", "point": 5, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a b c d e", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a b c d e"}
+    ],
+    "screen": [
+      "> a b c d e"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-word-basic": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two  three  ", "point": 9, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two  three  ", "point": 4, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two  three  ", "point": 0, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two  three  ", "point": 0, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two  three  "}
+    ],
+    "screen": [
+      "> one two  three"
+    ],
+    "cursor": [1, 0]
+  },
+  "backward-word-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a b c d e", "point": 4, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "a b c d e", "point": 9, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a b c d e"}
+    ],
+    "screen": [
+      "> a b c d e"
+    ],
+    "cursor": [1, 0]
+  },
+  "word-motion-keys-modified": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "one two three", "point": 8, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two three", "point": 4, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "one two three", "point": 7, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one two three"}
+    ],
+    "screen": [
+      "> one two three"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-digits-are-word-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc123 456", "point": 6, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abc123 456", "point": 10, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc123 456"}
+    ],
+    "screen": [
+      "> abc123 456"
+    ],
+    "cursor": [1, 0]
+  },
+  "forward-word-from-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "hello world", "point": 5, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "hello world", "point": 0, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "hello world"}
+    ],
+    "screen": [
+      "> hello world"
+    ],
+    "cursor": [1, 0]
+  },
+  "next-previous-screen-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 22, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 42, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 46, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 26, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 6, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 0, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmnopqrstuvwxyzAB",
+      "CDEFGHIJ"
+    ],
+    "cursor": [3, 0]
+  },
+  "next-screen-line-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 20, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ", "point": 0, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmnopqrstuvwxyzAB",
+      "CDEFGHIJ"
+    ],
+    "cursor": [3, 0]
+  },
+  "next-screen-line-short-last-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "0123456789abcdefghijklmnopqrstuvwxyz", "point": 36, "end": 36, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmnopqrstuvwxyz"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopqrstuvwxyz"
+        ],
+        "cursor": [1, 18]
+      }
+    ]
+  },
+  "skip-csi-sequence-unbound-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab9~cd", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab9~cd"}
+    ],
+    "screen": [
+      "> ab9~cd"
+    ],
+    "cursor": [1, 0]
+  },
+  "skip-csi-sequence-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcd", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "arrow-key-prefix-bound": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abcDD", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcDDC", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcDDCH", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcDDCHF", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcDDCHF"}
+    ],
+    "screen": [
+      "> abcDDCHF"
+    ],
+    "cursor": [1, 0]
+  }
+}

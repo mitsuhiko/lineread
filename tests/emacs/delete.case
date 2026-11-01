@@ -1,0 +1,95 @@
+# Deleting characters and whitespace (non-killing deletions).
+tags: emacs delete
+--- script
+readline "> "
+
+=== delete-char-middle
+tags: delete-char
+keys: abcd\C-a\C-f\C-d<dump>\C-d<dump>\r
+
+=== delete-char-at-end-dings
+tags: delete-char
+keys: ab\C-d<dump>\r
+
+=== delete-char-count-kills
+tags: delete-char numarg kill
+keys: abcdef\C-a\M-3\C-d<dump>\C-e\C-y<dump>\r
+
+=== delete-char-negative-count
+tags: delete-char numarg
+keys: abcdef\M--\M-2\C-d<dump>\r
+
+=== delete-key
+tags: delete-char
+keys: abcd\C-a<del><dump>\r
+
+=== delete-char-eof-empty-line
+tags: delete-char
+--- script
+readline "> " 2
+--- keys
+\C-d
+
+=== delete-char-eof-after-edit
+tags: delete-char
+--- script
+readline "> "
+--- keys
+a\C-?\C-d<dump>\r
+
+=== backward-delete-char
+tags: backward-delete-char
+keys: abcd<bs><dump>\C-h<dump>\C-a<bs><dump>\r
+
+=== backward-delete-char-count-kills
+tags: backward-delete-char numarg kill
+keys: abcdef\M-3\C-?<dump>\C-a\C-y<dump>\r
+
+=== backward-delete-char-negative-count
+tags: backward-delete-char numarg
+keys: abcdef\C-a\M--\M-2\C-?<dump>\r
+
+=== backward-delete-char-count-too-large
+tags: backward-delete-char numarg
+keys: abc\M-9\C-?<dump>\r
+
+=== forward-backward-delete-char
+tags: forward-backward-delete-char
+--- inputrc
+"\C-xd": forward-backward-delete-char
+--- keys
+abcd\C-b\C-b\C-xd<dump>\C-e\C-xd<dump>\C-a\C-xd<dump>\r
+
+=== forward-backward-delete-char-empty
+tags: forward-backward-delete-char
+--- inputrc
+"\C-xd": forward-backward-delete-char
+--- keys
+\C-xd<dump>x\r
+
+=== delete-horizontal-space-middle
+tags: delete-horizontal-space
+keys: a    b\C-b\C-b\M-\\<dump>\r
+
+=== delete-horizontal-space-end
+tags: delete-horizontal-space
+keys: ab  \t \M-\\<dump>\r
+
+=== delete-horizontal-space-none
+tags: delete-horizontal-space
+keys: ab\C-b\M-\\<dump>\r
+
+=== delete-horizontal-space-start
+tags: delete-horizontal-space
+keys:    x\C-a\M-\\<dump>\r
+
+=== rubout-in-overwrite-mode
+tags: backward-delete-char overwrite-mode
+keys: abcd\C-a\e[2~XY<dump><bs><dump><bs><dump>\r
+
+=== delete-char-or-list-deletes
+tags: delete-char-or-list
+--- inputrc
+"\C-xd": delete-char-or-list
+--- keys
+abc\C-a\C-xd<dump>\r

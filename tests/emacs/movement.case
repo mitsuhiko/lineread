@@ -1,0 +1,145 @@
+# Emacs movement commands: characters, words, line, screen lines, arrows.
+tags: emacs movement
+--- script
+readline "> "
+
+=== forward-char-basic
+tags: forward-char
+keys: abc\C-a\C-f<dump>\C-f\C-f<dump>\C-f<dump>\r
+
+=== forward-char-at-end-dings
+tags: forward-char
+keys: abc\C-f<dump>\r
+
+=== forward-char-count
+tags: forward-char numarg
+keys: abcdef\C-a\M-4\C-f<dump>\M-9\C-f<dump>\r
+
+=== forward-char-negative-count
+tags: forward-char numarg
+keys: abcdef\M--\M-2\C-f<dump>\r
+
+=== backward-char-basic
+tags: backward-char
+keys: abc\C-b<dump>\C-b\C-b<dump>\C-b<dump>\r
+
+=== backward-char-count
+tags: backward-char numarg
+keys: abcdef\M-3\C-b<dump>\M-9\C-b<dump>\r
+
+=== backward-char-negative-count
+tags: backward-char numarg
+keys: abcdef\C-a\M--\M-3\C-b<dump>\r
+
+=== arrow-keys
+tags: forward-char backward-char
+keys: abc<left><left><dump><right><dump><home><dump><end><dump>\r
+
+=== arrow-keys-ss3
+tags: forward-char backward-char
+keys: abc\eOD\eOD<dump>\eOC<dump>\eOH<dump>\eOF<dump>\r
+
+=== forward-byte
+tags: forward-byte
+--- inputrc
+"\C-xf": forward-byte
+"\C-xb": backward-byte
+--- keys
+aé\u{65e5}b\C-a\C-xf<dump>\C-xf<dump>\C-xf<dump>\C-xb<dump>\r
+
+=== backward-byte-count
+tags: backward-byte numarg
+--- inputrc
+"\C-xb": backward-byte
+"\C-xf": forward-byte
+--- keys
+abcdef\M-2\C-xb<dump>\M--\M-1\C-xb<dump>\M--\M-2\C-xf<dump>\r
+
+=== beginning-end-of-line
+tags: beginning-of-line end-of-line
+keys: hello world\C-a<dump>\C-e<dump>\C-a\C-a<dump>\r
+
+=== home-end-keys-variants
+tags: beginning-of-line end-of-line
+keys: hello\e[H<dump>\e[F<dump>\e[1~<dump>\e[4~<dump>\r
+
+=== forward-word-basic
+tags: forward-word
+keys: one two  three\C-a\M-f<dump>\M-f<dump>\M-f<dump>\M-f<dump>\r
+
+=== forward-word-punctuation
+tags: forward-word
+keys: foo.bar-baz_qux  (x)\C-a\M-f<dump>\M-f<dump>\M-f<dump>\M-f<dump>\M-f<dump>\r
+
+=== forward-word-count
+tags: forward-word numarg
+keys: a b c d e\C-a\M-3\M-f<dump>\M--\M-2\M-f<dump>\r
+
+=== backward-word-basic
+tags: backward-word
+keys: one two  three  \M-b<dump>\M-b<dump>\M-b<dump>\M-b<dump>\r
+
+=== backward-word-count
+tags: backward-word numarg
+keys: a b c d e\M-3\M-b<dump>\M--\M-1\M-b<dump>\r
+
+=== word-motion-keys-modified
+tags: forward-word backward-word
+--- inputrc
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+--- keys
+one two three<c-left><dump><c-left><dump><c-right><dump>\r
+
+=== forward-word-digits-are-word-chars
+tags: forward-word
+keys: abc123 456\C-a\M-f<dump>\M-f<dump>\r
+
+=== forward-word-from-middle
+tags: forward-word
+keys: hello world\C-a\C-f\C-f\M-f<dump>\M-b<dump>\r
+
+=== next-previous-screen-line
+tags: next-screen-line previous-screen-line
+screen: 20x8
+--- inputrc
+"\C-xn": next-screen-line
+"\C-xp": previous-screen-line
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ\C-a\C-f\C-f\C-xn<dump>\C-xn<dump>\C-xn<dump>\C-xp<dump>\C-xp<dump>\C-xp<dump>\r
+
+=== next-screen-line-count
+tags: next-screen-line numarg
+screen: 20x8
+--- inputrc
+"\C-xn": next-screen-line
+"\C-xp": previous-screen-line
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJ\C-a\M-2\C-xn<dump>\M-2\C-xp<dump>\r
+
+=== next-screen-line-short-last-line
+tags: next-screen-line
+screen: 20x8
+--- inputrc
+"\C-xn": next-screen-line
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-a\M-9\C-f\M-9\C-f\C-xn<dump><snap>\r
+
+=== skip-csi-sequence-unbound-key
+tags: skip-csi-sequence
+--- keys
+ab\e[99~cd<dump>\r
+
+=== skip-csi-sequence-bound
+tags: skip-csi-sequence
+--- inputrc
+"\e[": skip-csi-sequence
+--- keys
+ab\e[1;2Pcd<dump>\r
+
+=== arrow-key-prefix-bound
+tags: arrow-key-prefix
+--- inputrc
+"\M-o": arrow-key-prefix
+--- keys
+abc\eoD\eoD<dump>\eoC<dump>\eoH<dump>\eoF<dump>\r
