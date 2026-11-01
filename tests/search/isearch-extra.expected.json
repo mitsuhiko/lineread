@@ -1,0 +1,373 @@
+{
+  "failed-search-then-accept": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`qqq': abc"
+        ],
+        "cursor": [0, 35]
+      }
+    ]
+  },
+  "failed-after-match-then-terminate": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(failed reverse-i-search)`make tex': make test"
+        ],
+        "cursor": [0, 37]
+      }
+    ]
+  },
+  "eof-during-search": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "(reverse-i-search)`mak': make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "eof-during-quoted-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "(reverse-i-search)`mak': make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "repeat-without-previous-string": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`':"
+        ],
+        "cursor": [0, 22]
+      }
+    ]
+  },
+  "uppercase-prefix-key-uses-lowercase": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "prefix-key-then-unbound-ends-search": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "printable-prefix-key-then-self-insert": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zap things", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zap things"}
+    ],
+    "screen": [
+      "> zap things"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`za': zap things"
+        ],
+        "cursor": [0, 24]
+      }
+    ]
+  },
+  "printable-prefix-key-then-bound-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 4, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0]
+  },
+  "printable-prefix-key-timeout": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zap things", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zap things"}
+    ],
+    "screen": [
+      "> zap things"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`zap': zap things"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "bracketed-paste-into-search": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`git st': git status"
+        ],
+        "cursor": [0, 28]
+      }
+    ]
+  },
+  "bracketed-paste-active-region": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zap things", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "zap things"}
+    ],
+    "screen": [
+      "> zap things"
+    ],
+    "cursor": [1, 0]
+  },
+  "bracketed-paste-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "echo done", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`echo': echo done"
+        ],
+        "cursor": [0, 26]
+      }
+    ]
+  },
+  "escape-terminator-with-bracketed-paste-enabled": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "Xgit status", "point": 1, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "Xgit status"}
+    ],
+    "screen": [
+      "> Xgit status"
+    ],
+    "cursor": [1, 0]
+  },
+  "long-search-string-grows": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", "point": 0, "end": 160, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [
+      "> 012345678901234567890123456789012345678901234567890123456789012345678901234567",
+      "89012345678901234567890123456789012345678901234567890123456789012345678901234567",
+      "89"
+    ],
+    "cursor": [3, 0]
+  },
+  "ctrl-w-grows-search-string": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "point": 0, "end": 93, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+    ],
+    "screen": [
+      "> x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "aaaaaaaaaaaaaaa"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`x': x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "cursor": [0, 23]
+      }
+    ]
+  },
+  "ctrl-y-grows-search-string": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "point": 0, "end": 93, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}
+    ],
+    "screen": [
+      "> x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "aaaaaaaaaaaaaaa"
+    ],
+    "cursor": [2, 0]
+  },
+  "ctrl-y-at-end-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "echo done", "point": 5, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "echo done"}
+    ],
+    "screen": [
+      "> echo done"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`done': echo done"
+        ],
+        "cursor": [0, 31]
+      }
+    ]
+  },
+  "ctrl-w-not-in-word-dings": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "make test", "point": 0, "end": 9, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "make test"}
+    ],
+    "screen": [
+      "> make test"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`make': make test"
+        ],
+        "cursor": [0, 26]
+      }
+    ]
+  },
+  "c-locale-search": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0]
+  },
+  "c-locale-case-fold": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "git status", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "git status"}
+    ],
+    "screen": [
+      "> git status"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`GIT': git status"
+        ],
+        "cursor": [0, 25]
+      }
+    ]
+  },
+  "c-locale-meta-char-ends-search": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\udce9caf\udce9 au lait"}
+    ],
+    "screen": [
+      "> \\351caf\\351 au lait"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> \\351caf\\351 au lait"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "multibyte-search-string-rubout": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "café au lait", "point": 3, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "café au lait"}
+    ],
+    "screen": [
+      "> café au lait"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "(reverse-i-search)`é a': café au lait"
+        ],
+        "cursor": [0, 28]
+      }
+    ]
+  },
+  "callback-printable-prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "zap things", "point": 0, "end": 10, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "callback", "ret": "zap things"}
+    ],
+    "screen": [
+      "> zap things",
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}

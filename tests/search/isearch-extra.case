@@ -1,0 +1,167 @@
+# Incremental search corner cases: keymap prefixes inside the search,
+# bracketed paste, EOF, byte locales and search-string growth.
+tags: isearch history
+--- script
+add_history "make all"
+add_history "git status"
+add_history "zap things"
+add_history "make test"
+add_history "echo done"
+readline "> "
+
+=== failed-search-then-accept
+tags: reverse-search-history
+keys: abc\C-rqqq<snap>\C-j<dump>\r
+
+=== failed-after-match-then-terminate
+tags: reverse-search-history
+keys: \C-rmake tex<snap>\C-j<dump>\r
+
+=== eof-during-search
+tags: reverse-search-history eof
+keys: \C-rmak
+
+=== eof-during-quoted-insert
+tags: reverse-search-history quoted-insert eof
+keys: \C-rmak\C-v
+
+=== repeat-without-previous-string
+tags: reverse-search-history
+keys: \C-r\C-r<snap>\C-g<dump>\r
+
+=== uppercase-prefix-key-uses-lowercase
+tags: reverse-search-history do-lowercase-version
+keys: \C-rgit\C-xU<dump>\r
+
+=== prefix-key-then-unbound-ends-search
+tags: reverse-search-history
+keys: \C-rgit\C-xz<dump>\r
+
+=== printable-prefix-key-then-self-insert
+tags: reverse-search-history keymap
+--- inputrc
+"zq": backward-char
+--- keys
+\C-rza<snap>\C-j<dump>\r
+
+=== printable-prefix-key-then-bound-key
+tags: reverse-search-history keymap
+--- inputrc
+"zq": backward-char
+--- keys
+\C-rtestzq<dump>\r
+
+=== printable-prefix-key-timeout
+tags: reverse-search-history keymap keyseq-timeout
+--- inputrc
+"zq": backward-char
+set keyseq-timeout 20
+--- keys
+\C-rz<pause>ap<snap>\C-j<dump>\r
+
+=== bracketed-paste-into-search
+tags: reverse-search-history bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+\C-r<paste-start>git st<paste-end><snap>\C-j<dump>\r
+
+=== bracketed-paste-active-region
+tags: reverse-search-history bracketed-paste active-region
+--- inputrc
+set enable-bracketed-paste on
+set enable-active-region on
+--- keys
+\C-r<paste-start>zap<paste-end>\C-j<dump>\r
+
+=== bracketed-paste-empty
+tags: reverse-search-history bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+\C-recho<paste-start><paste-end><snap>\C-j<dump>\r
+
+=== escape-terminator-with-bracketed-paste-enabled
+tags: reverse-search-history bracketed-paste
+--- inputrc
+set enable-bracketed-paste on
+--- keys
+\C-rgit\e<pause>X<dump>\r
+
+=== long-search-string-grows
+tags: reverse-search-history
+--- script
+add_history "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+readline "> "
+--- keys
+\C-r0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\C-j<dump>\r
+
+=== ctrl-w-grows-search-string
+tags: reverse-search-history
+--- script
+add_history "x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+readline "> "
+--- keys
+\C-rx\C-w<snap>\C-j<dump>\r
+
+=== ctrl-y-grows-search-string
+tags: reverse-search-history
+--- script
+add_history "x aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+readline "> "
+--- keys
+\C-rx\C-y\C-j<dump>\r
+
+=== ctrl-y-at-end-dings
+tags: reverse-search-history
+keys: \C-rdone\C-y<snap>\C-j<dump>\r
+
+=== ctrl-w-not-in-word-dings
+tags: reverse-search-history
+keys: \C-rmake\C-w<snap>\C-j<dump>\r
+
+=== c-locale-search
+tags: reverse-search-history locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+keys: \C-rmakx\C-?\C-?\C-?\C-?\C-?git\C-a<dump>\r
+
+=== c-locale-case-fold
+tags: reverse-search-history locale completion-ignore-case
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set search-ignore-case on
+--- keys
+\C-rGIT<snap>\C-j<dump>\r
+
+=== c-locale-meta-char-ends-search
+tags: reverse-search-history locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set convert-meta off
+set input-meta on
+--- script
+add_history "caf\xe9 au lait"
+readline "> "
+--- keys
+\C-rcaf\xe9<snap>\C-j
+
+=== multibyte-search-string-rubout
+tags: reverse-search-history utf8
+--- script
+add_history "café au lait"
+readline "> "
+--- keys
+\C-ré\C-?é a<snap>\C-j<dump>\r
+
+=== callback-printable-prefix
+tags: reverse-search-history callback keymap
+--- inputrc
+"zq": backward-char
+--- script
+add_history "zap things"
+callback "> "
+--- keys
+\C-rza\C-j<dump>\r
