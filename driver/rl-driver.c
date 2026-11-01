@@ -465,7 +465,11 @@ static void json_hist_entry(buf_t *b, HIST_ENTRY *e) {
     json_strn(b, t, n);
     free(t);
   } else buf_puts(b, "null");
-  buf_printf(b, ", \"data\": %ld}", (long)(intptr_t)e->data);
+  /* readline stores undo lists (heap pointers) as the data of edited
+     entries: show those as "<ptr>", small integers set by tests as is */
+  intptr_t d = (intptr_t)e->data;
+  if (d > 0xffffffffL || d < -0xffffffffL) buf_puts(b, ", \"data\": \"<ptr>\"}");
+  else buf_printf(b, ", \"data\": %ld}", (long)d);
 }
 
 static void rec_hist_entry(rec_t *r, const char *k, HIST_ENTRY *e) {

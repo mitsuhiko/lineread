@@ -83,8 +83,32 @@ def _normalize(obj, repl):
     return obj
 
 
+def _display(screen: pyte.Screen) -> list[str]:
+    """pyte's Screen.display, but robust against the empty stub cell that
+    remains when the first half of a wide character is overwritten (pyte
+    raises IndexError there); such a cell shows as a space."""
+    from wcwidth import wcwidth
+    rows = []
+    for y in range(screen.lines):
+        line = screen.buffer[y]
+        out = []
+        wide = False
+        for x in range(screen.columns):
+            if wide:
+                wide = False
+                continue
+            ch = line[x].data
+            if not ch:
+                out.append(" ")
+                continue
+            wide = wcwidth(ch[0]) == 2
+            out.append(ch)
+        rows.append("".join(out))
+    return rows
+
+
 def _screen_state(screen: pyte.Screen) -> dict:
-    rows = [line.rstrip() for line in screen.display]
+    rows = [line.rstrip() for line in _display(screen)]
     while rows and not rows[-1]:
         rows.pop()
     return {"screen": rows, "cursor": [screen.cursor.y, screen.cursor.x]}

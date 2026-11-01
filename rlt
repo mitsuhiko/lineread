@@ -1,5 +1,5 @@
 #!/bin/sh
-# lineread test runner: ./rlt --help (see docs/TESTING.md)
+# lineread test runner: ./rlt --help (see docs/TESTING.md); ./rlt fuzz --help
 HERE=$(cd "$(dirname "$0")" && pwd)
 PLAT="$(uname -s | tr A-Z a-z)-$(uname -m)"
 VENV="$HERE/runner/.venv-$PLAT"
@@ -11,4 +11,6 @@ else
   "$HERE/runner/setup.sh" >/dev/null || exit 1
   PY="$VENV/bin/python"
 fi
-PYTHONPATH="$HERE/runner${PYTHONPATH:+:$PYTHONPATH}" exec "$PY" -m lrt.cli "$@"
+MOD=lrt.cli
+if [ "${1:-}" = fuzz ]; then MOD=lrt.fuzz; shift; fi
+PYTHONPATH="$HERE/runner${PYTHONPATH:+:$PYTHONPATH}" exec "$PY" -m $MOD "$@"
