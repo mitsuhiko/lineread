@@ -162,10 +162,25 @@ unsafe fn read_mb_rest(first: u8) -> Vec<u8> {
 /// Read a character argument (r, f, t, m, `): None on ESC / EOF.
 unsafe fn read_char_arg() -> Option<Vec<u8>> {
     let c = read_raw_key();
-    if c < 0 || c == ESC {
+    if c < 0 {
+        return None;
+    }
+    if c == ESC {
+        // cancels the command; the ESC itself is then read as a key
+        crate::input::rl_execute_next(ESC);
         return None;
     }
     Some(read_mb_rest(c as u8))
+}
+
+/// In callback mode the reference reports a failed character command
+/// (f F t T m ` without a usable character) as end of file: the EOF state
+/// and rl_eof_found are set (the line itself goes on).
+fn callback_char_fail() {
+    if is_state(RL_STATE_CALLBACK) && !is_state(RL_STATE_VIMOTION) {
+        set_state(RL_STATE_EOF);
+        crate::readline::rl_eof_found.set(1);
+    }
 }
 
 fn set_keymap(m: Keymap) {
@@ -747,7 +762,10 @@ pub unsafe extern "C" fn rl_vi_char_search(count: c_int, key: c_int) -> c_int {
                 unset_state(RL_STATE_CHARSEARCH);
                 match c {
                     Some(c) => c,
-                    None => return -1,
+                    None => {
+                        callback_char_fail();
+                        return -1;
+                    }
                 }
             };
             let s = st();
@@ -759,14 +777,22 @@ pub unsafe extern "C" fn rl_vi_char_search(count: c_int, key: c_int) -> c_int {
             (kind, ch)
         }
     };
-    char_search(count, kind, &ch)
+    let r = char_search(count, kind, &ch);
+    if r != 0 && k != b';' && k != b',' {
+        callback_char_fail();
+    }
+    r
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_set_mark(_count: c_int, _key: c_int) -> c_int {
-    let Some(c) = read_char_arg() else { return -1 };
+    let Some(c) = read_char_arg() else {
+        callback_char_fail();
+        return -1;
+    };
     if c.len() != 1 || !c[0].is_ascii_lowercase() {
         rl_ding();
+        callback_char_fail();
         return 1;
     }
     st().marks[(c[0] - b'a') as usize] = point() as c_int;
@@ -775,18 +801,23 @@ pub unsafe extern "C" fn rl_vi_set_mark(_count: c_int, _key: c_int) -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_goto_mark(_count: c_int, _key: c_int) -> c_int {
-    let Some(c) = read_char_arg() else { return -1 };
+    let Some(c) = read_char_arg() else {
+        callback_char_fail();
+        return -1;
+    };
     if c.len() == 1 && c[0] == b'`' {
         set_point(buffer::mark());
         return 0;
     }
     if c.len() != 1 || !c[0].is_ascii_lowercase() {
         rl_ding();
+        callback_char_fail();
         return 1;
     }
     let m = st().marks[(c[0] - b'a') as usize];
     if m < 0 || m as usize > end() {
         rl_ding();
+        callback_char_fail();
         return 1;
     }
     set_point(m as usize);
@@ -796,7 +827,7 @@ pub unsafe extern "C" fn rl_vi_goto_mark(_count: c_int, _key: c_int) -> c_int {
 // ---------------------------------------------------------------- operators
 
 const MOTIONS: &[u8] = b" hl^$0ftFT;,%wbeWBE|`";
-const INCLUSIVE: &[u8] = b"eEftFT;,%";
+const INCLUSIVE: &[u8] = b"eEft;,%";
 
 fn is_universal_arg(k: c_int) -> bool {
     if !(0..256).contains(&k) {
@@ -884,7 +915,12 @@ unsafe fn domove(op: u8, count: c_int) -> Option<(c_int, c_int)> {
     let r = crate::dispatch::dispatch_key(c, crate::keymap::current());
     crate::numarg::reset();
     unset_state(RL_STATE_VIMOTION);
-    if r != 0 && cb != b'w' && cb != b'W' && cb != b'b' && cb != b'B' {
+    // in callback mode the reference does not see a failed f/t search
+    // inside an operator: the motion "succeeds" without moving
+    let cb_search = is_state(RL_STATE_CALLBACK) && matches!(cb, b'f' | b'F' | b't' | b'T');
+    if r != 0 && cb_search {
+        set_point(start);
+    } else if r != 0 && cb != b'w' && cb != b'W' && cb != b'b' && cb != b'B' {
         set_point(start);
         return None;
     }
@@ -1434,7 +1470,22 @@ pub unsafe extern "C" fn rl_vi_tilde_expand(_count: c_int, key: c_int) -> c_int 
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_fetch_history(count: c_int, key: c_int) -> c_int {
-    crate::histcmds::rl_fetch_history(count, key)
+    use crate::history::{history_base, history_length, history_offset};
+    if crate::numarg::rl_explicit_arg.get() == 0 {
+        // G: the oldest entry
+        return crate::histcmds::rl_beginning_of_history(1, key);
+    }
+    let wanted = count - history_base.get();
+    if wanted < 0 || wanted >= history_length.get() {
+        rl_ding();
+        return 0;
+    }
+    // the reference only moves back in the history here
+    let off = history_offset.get();
+    if wanted < off {
+        crate::histcmds::rl_get_previous_history(off - wanted, key);
+    }
+    0
 }
 
 #[no_mangle]
