@@ -188,11 +188,25 @@ pub unsafe fn get_screen_size(ignore_env: bool) {
         rows = 24;
     }
     set_size(rows, cols);
+    export_size();
 }
 
 fn set_size(rows: c_int, cols: c_int) {
     SCREEN_ROWS.set(rows);
     SCREEN_COLS.set(cols);
+}
+
+/// Export LINES/COLUMNS (rl_change_environment).
+fn export_size() {
+    if crate::signals::rl_change_environment.get() == 0 {
+        return;
+    }
+    unsafe {
+        let l = format!("{}\0", SCREEN_ROWS.get());
+        let c = format!("{}\0", SCREEN_COLS.get());
+        libc::setenv(c"LINES".as_ptr(), l.as_ptr() as *const c_char, 1);
+        libc::setenv(c"COLUMNS".as_ptr(), c.as_ptr() as *const c_char, 1);
+    }
 }
 
 /// Columns usable for text: one less when the terminal cannot write the

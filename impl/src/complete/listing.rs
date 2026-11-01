@@ -284,6 +284,26 @@ unsafe fn pager(lines: c_int) -> Result<Option<c_int>, ()> {
     })
 }
 
+/// Width for the listing: completion-display-width when it fits, else
+/// $COLUMNS, else the screen width.
+fn listing_width(sw: usize) -> usize {
+    let cdw = crate::vars::completion_display_width.get();
+    if cdw >= 0 && (cdw as usize) <= sw {
+        return cdw as usize;
+    }
+    let mut cols = cdw;
+    if let Some(e) = unsafe { crate::util::getenv_bytes(c"COLUMNS") } {
+        if !e.is_empty() {
+            cols = crate::vars::atoi(e);
+        }
+    }
+    if cols <= 0 {
+        sw
+    } else {
+        cols as usize
+    }
+}
+
 /// Lay out and print the matches (`m[0]` is the common prefix).  Errors
 /// mean the user aborted at the pager.
 pub unsafe fn display_match_list(m: &[Vec<u8>], len: usize, max: usize) -> Result<(), ()> {
@@ -319,8 +339,7 @@ pub unsafe fn display_match_list(m: &[Vec<u8>], len: usize, max: usize) -> Resul
     }
     let _ = common_len;
     max += 2;
-    let cdw = crate::vars::completion_display_width.get();
-    let cols = if cdw >= 0 && (cdw as usize) < sw { cdw as usize } else { sw };
+    let cols = listing_width(sw);
     let mut limit: isize = (cols / max) as isize;
     if limit != 1 && limit as usize * max == cols {
         limit -= 1;

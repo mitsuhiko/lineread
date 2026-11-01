@@ -211,8 +211,8 @@ fn funky_string(buf: &mut [u8], q: &mut usize, src: &[u8], p: &mut usize, equals
                     put(buf, q, c & 0x1f);
                     *p += 1;
                 } else if c == b'?' {
+                    // (the '?' itself is not consumed)
                     put(buf, q, 127);
-                    *p += 1;
                 } else {
                     st = S::Error;
                 }

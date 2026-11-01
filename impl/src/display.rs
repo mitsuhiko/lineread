@@ -233,6 +233,15 @@ fn layout_line(lay: &mut Lay, line: &[u8], point: usize) -> (usize, usize) {
         // compute the representation and its width
         tmp.clear();
         let w;
+        if b == b'\n' && crate::vars::horizontal_scroll_mode.get() == 0 && terminal::cap("cuu1").is_some() {
+            // a newline in the line starts a new screen row
+            if i == point {
+                cursor = Some(lay.pos());
+            }
+            lay.newline();
+            i += 1;
+            continue;
+        }
         if b == b'\t' {
             let stop = (lay.col / 8 + 1) * 8;
             let mut sp = stop - lay.col;
@@ -786,7 +795,8 @@ pub fn screen_changed() {}
 pub fn screen_resized() {
     unsafe {
         if is_state(RL_STATE_INITIALIZED) && crate::readline::in_readline() {
-            rl_forced_update_display();
+            clear_displayed();
+            redisplay();
         }
     }
 }

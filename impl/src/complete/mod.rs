@@ -128,8 +128,8 @@ pub fn map_case() -> bool {
 
 /// Fold one character for case-insensitive comparison (and map `-` to `_`
 /// when completion-map-case is on).
-fn fold_char(c: u32) -> u32 {
-    if map_case() && c == b'-' as u32 {
+fn fold_char(c: u32, map: bool) -> u32 {
+    if map && c == b'-' as u32 {
         return b'_' as u32;
     }
     unsafe { crate::util::towlower(c) }
@@ -137,11 +137,15 @@ fn fold_char(c: u32) -> u32 {
 
 /// Compare two strings character-wise and return the length (in bytes of
 /// `a`) of their common prefix, ignoring case when `fold`.
-pub fn common_prefix_len(a: &[u8], b: &[u8], fold: bool) -> usize {
+pub fn common_prefix_len(a: &[u8], b: &[u8], fold: bool, map: bool) -> usize {
     if !fold {
         let mut i = 0;
         while i < a.len() && i < b.len() && a[i] == b[i] {
             i += 1;
+        }
+        if crate::mb::multibyte() && i < a.len() {
+            // back up to the start of a partially shared character
+            return crate::mb::align(a, i);
         }
         return i;
     }
@@ -151,12 +155,12 @@ pub fn common_prefix_len(a: &[u8], b: &[u8], fold: bool) -> usize {
         let (cb, nb) = crate::mb::decode_at(b, j);
         let eq = match (ca, cb) {
             (Some(x), Some(y)) if na > 1 || nb > 1 || crate::mb::multibyte() || (x < 0x80 && y < 0x80) => {
-                fold_char(x) == fold_char(y)
+                fold_char(x, map) == fold_char(y, map)
             }
             (Some(x), Some(y)) => {
                 // byte locale: tolower on bytes
-                let fx = if map_case() && x == b'-' as u32 { b'_' as i32 } else { unsafe { libc::tolower(x as i32) } };
-                let fy = if map_case() && y == b'-' as u32 { b'_' as i32 } else { unsafe { libc::tolower(y as i32) } };
+                let fx = if map && x == b'-' as u32 { b'_' as i32 } else { unsafe { libc::tolower(x as i32) } };
+                let fy = if map && y == b'-' as u32 { b'_' as i32 } else { unsafe { libc::tolower(y as i32) } };
                 fx == fy
             }
             _ => a[i] == b[j] && na == nb,
@@ -182,7 +186,7 @@ pub fn prefix_matches(prefix: &[u8], name: &[u8]) -> bool {
         if j >= name.len() {
             return false;
         }
-        let n = common_prefix_len(&name[j..], &prefix[i..], true);
+        let n = common_prefix_len(&name[j..], &prefix[i..], true, map_case());
         if n == 0 {
             return false;
         }
@@ -274,7 +278,7 @@ fn compute_lcd(list: &mut Matches, text: &[u8]) {
     let fold = case_fold();
     let mut low = usize::MAX;
     for i in 1..n {
-        let l = common_prefix_len(&list[i], &list[i + 1], fold);
+        let l = common_prefix_len(&list[i], &list[i + 1], fold, false);
         low = low.min(l);
     }
     if low == 0 && !text.is_empty() {
@@ -283,7 +287,21 @@ fn compute_lcd(list: &mut Matches, text: &[u8]) {
     }
     if fold {
         // consistent answers: sort, then prefer a match with the case the
-        // user typed
+        // user typed (dequoted)
+        let mut dtext = text.to_vec();
+        unsafe {
+            if rl_filename_completion_desired.get() != 0
+                && rl_completion_found_quote.get() != 0
+                && rl_filename_quoting_desired.get() != 0
+            {
+                if let Some(f) = rl_filename_dequoting_function.get() {
+                    if let Some(d) = call_dequote(f, text, rl_completion_quote_character.get()) {
+                        dtext = d;
+                    }
+                }
+            }
+        }
+        let text = &dtext[..];
         list[1..].sort();
         let first = (1..=n).find(|&i| text.len() <= low && list[i].starts_with(text)).unwrap_or(1);
         list[0] = list[first][..low.min(list[first].len())].to_vec();
@@ -491,11 +509,20 @@ unsafe fn postprocess(mut m: Matches, text: &[u8]) -> Option<Matches> {
     }
     if rl_filename_completion_desired.get() != 0 {
         if let Some(f) = rl_ignore_some_completions_function.get() {
+            let before = m.len();
             let v = to_c_vec(&m);
             f(v);
-            let r = from_c_vec(v)?;
+            let mut r = from_c_vec(v)?;
             if r.is_empty() {
                 return None;
+            }
+            // some removed: recompute the common prefix
+            if r.len() > 1 && r.len() < before {
+                let t = r[0].clone();
+                compute_lcd(&mut r, &t);
+                if r.len() == 2 {
+                    r.truncate(1);
+                }
             }
             m = r;
         }
@@ -503,9 +530,26 @@ unsafe fn postprocess(mut m: Matches, text: &[u8]) -> Option<Matches> {
     Some(m)
 }
 
+/// Does the common prefix add something to the typed text?  (The text is
+/// dequoted even when there are no matches.)
+unsafe fn nontrivial_lcd(text: &[u8], m: Option<&Matches>) -> bool {
+    let mut t = text.to_vec();
+    if rl_completion_found_quote.get() != 0 && !text.is_empty() {
+        if let Some(f) = rl_filename_dequoting_function.get() {
+            if let Some(d) = call_dequote(f, text, rl_completion_quote_character.get()) {
+                t = d;
+            }
+        }
+    }
+    match m {
+        Some(m) if !m.is_empty() => t != m[0],
+        _ => false,
+    }
+}
+
 /// Is `m` different from the typed text (dequoted when necessary)?
 unsafe fn compare_match(text: &[u8], m: &[u8]) -> bool {
-    if rl_completion_found_quote.get() != 0 {
+    if rl_completion_found_quote.get() != 0 && !text.is_empty() {
         if let Some(f) = rl_filename_dequoting_function.get() {
             if let Some(t) = call_dequote(f, text, rl_completion_quote_character.get()) {
                 return t != m;
@@ -702,7 +746,7 @@ pub unsafe fn complete_internal(what: c_int) -> c_int {
     let start = w.start;
     let text = buffer::line()[start..end].to_vec();
     let matches = gen_matches(&text, start, end, func, &w);
-    let nontrivial = matches.as_ref().map(|m| compare_match(&text, &m[0])).unwrap_or(false);
+    let nontrivial = nontrivial_lcd(&text, matches.as_ref());
     let matches = match matches {
         Some(m) if !m.is_empty() => postprocess(m, &text),
         _ => None,
@@ -807,7 +851,7 @@ pub unsafe extern "C" fn rl_completion_mode(cfunc: Option<rl_command_func_t>) ->
 }
 
 fn completion_disabled() -> bool {
-    rl_inhibit_completion.get() != 0
+    rl_inhibit_completion.get() != 0 || crate::vars::disable_completion.get() != 0
 }
 
 #[no_mangle]
@@ -920,7 +964,7 @@ unsafe fn menu_start(menu: &CVar<Menu>, what: c_int, func: rl_compentry_func_t) 
     buffer::set_point(end);
     let text = buffer::line()[w.start..end].to_vec();
     let matches = gen_matches(&text, w.start, end, func, &w);
-    let nontrivial = matches.as_ref().map(|m| compare_match(&text, &m[0])).unwrap_or(false);
+    let nontrivial = nontrivial_lcd(&text, matches.as_ref());
     let matches = match matches {
         Some(m) if !m.is_empty() => postprocess(m, &text),
         _ => None,

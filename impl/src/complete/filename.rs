@@ -106,11 +106,8 @@ pub unsafe extern "C" fn rl_filename_completion_function(text: *const c_char, st
                 }
             }
         }
-        if rl_completion_found_quote.get() != 0 && !filename.is_empty() {
+        if rl_completion_found_quote.get() != 0 {
             if let Some(f) = rl_filename_dequoting_function.get() {
-                // (the reference dequotes the name twice: once for the
-                // text to match and once for the name it remembers)
-                let _ = call_dequote(f, &filename, rl_completion_quote_character.get());
                 if let Some(d) = call_dequote(f, &filename, rl_completion_quote_character.get()) {
                     filename = d;
                 }
@@ -128,6 +125,9 @@ pub unsafe extern "C" fn rl_filename_completion_function(text: *const c_char, st
         cfree(cd);
         let st = FN_STATE.get_mut();
         st.dir = dir;
+        if dirname != b"." && !users_dirname.is_empty() && users_dirname.last() != Some(&b'/') {
+            users_dirname.push(b'/');
+        }
         st.users_dirname = users_dirname;
         st.filename = filename;
         rl_filename_completion_desired.set(1);
