@@ -1,0 +1,258 @@
+# Editing variables that change input handling: meta handling,
+# keypad, tty special characters.
+tags: emacs vars
+--- script
+readline "> "
+
+=== convert-meta-on-8bit-is-meta
+tags: convert-meta meta
+--- inputrc
+set convert-meta on
+--- keys
+one two\xe2<dump>\r
+
+=== convert-meta-off-8bit-inserted
+tags: convert-meta meta
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set convert-meta off
+--- keys
+one two\xe2<dump>\r
+
+=== convert-meta-default-c-locale
+tags: convert-meta meta locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+rl_initialize
+rl_variable_value convert-meta
+rl_variable_value input-meta
+rl_variable_value output-meta
+readline "> "
+--- keys
+one two\xe2<dump>\r
+
+=== convert-meta-default-utf8-locale
+tags: convert-meta meta locale
+--- script
+rl_initialize
+rl_variable_value convert-meta
+rl_variable_value input-meta
+rl_variable_value output-meta
+rl_variable_value meta-flag
+
+=== input-meta-off-strips-bit
+tags: input-meta meta
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set input-meta off
+set convert-meta off
+--- keys
+x\xe1\xe2<dump>\r
+
+=== meta-flag-synonym
+tags: meta-flag input-meta
+--- inputrc
+set meta-flag off
+--- script
+rl_initialize
+rl_variable_value input-meta
+rl_variable_value meta-flag
+
+=== output-meta-off-c-locale
+tags: output-meta meta display
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+set input-meta on
+set output-meta off
+set convert-meta off
+--- keys
+a\xe9b<snap>\r
+
+=== enable-meta-key-off
+tags: enable-meta-key
+--- inputrc
+set enable-meta-key off
+--- keys
+abc\M-b<dump>\r
+
+=== enable-keypad-on
+tags: enable-keypad
+--- inputrc
+set enable-keypad on
+--- keys
+abc<left><left><dump><home><dump><end><dump>\r
+
+=== force-meta-prefix
+tags: force-meta-prefix meta
+--- inputrc
+set force-meta-prefix on
+set convert-meta on
+--- keys
+one two\xe2<dump>\r
+
+=== meta-keybinding-via-escape-with-convert-meta
+tags: convert-meta meta
+--- inputrc
+set convert-meta on
+"\M-q": "META-Q"
+--- keys
+\eq<dump>\xf1<dump>\r
+
+=== bind-tty-special-chars-on
+tags: bind-tty-special-chars rltty
+--- script
+readline "> "
+--- keys
+one two\C-w<dump>\C-u<dump>\r
+
+=== bind-tty-special-chars-off
+tags: bind-tty-special-chars rltty
+--- inputrc
+set bind-tty-special-chars off
+--- keys
+one two\C-w<dump>\C-u<dump>\r
+
+=== tty-special-chars-override-inputrc
+tags: bind-tty-special-chars rltty
+--- inputrc
+"\C-w": backward-kill-word
+--- keys
+foo/bar\C-w<dump>\r
+
+=== tty-special-chars-override-off
+tags: bind-tty-special-chars rltty
+--- inputrc
+set bind-tty-special-chars off
+"\C-w": backward-kill-word
+--- keys
+foo/bar\C-w<dump>\r
+
+=== tty-set-default-bindings-api
+tags: rl_tty_set_default_bindings rltty
+--- script
+rl_initialize
+rl_unbind_key_in_map "\C-w" emacs
+rl_tty_set_default_bindings emacs
+readline "> "
+--- keys
+foo bar\C-w<dump>\r
+
+=== tty-unset-default-bindings-api
+tags: rl_tty_unset_default_bindings rltty
+--- script
+rl_initialize
+rl_tty_unset_default_bindings emacs
+rl_function_of_keyseq "\x17" emacs
+rl_function_of_keyseq "\x15" emacs
+rl_function_of_keyseq "\x7f" emacs
+rl_function_of_keyseq "\x16" emacs
+
+=== tty-set-default-bindings-vi
+tags: rl_tty_set_default_bindings rltty vi
+--- script
+rl_initialize
+rl_tty_unset_default_bindings vi-insert
+rl_function_of_keyseq "\x17" vi-insert
+rl_tty_set_default_bindings vi-insert
+rl_function_of_keyseq "\x17" vi-insert
+rl_function_of_keyseq "\x15" vi-insert
+
+=== tty-set-echoing
+tags: rl_tty_set_echoing rltty
+--- script
+rl_tty_set_echoing 0
+rl_tty_set_echoing 1
+rl_tty_set_echoing 1
+
+=== keyseq-timeout-escape-alone
+tags: keyseq-timeout
+--- inputrc
+set keyseq-timeout 20
+"\ez": "ZED"
+--- keys
+a\e<pause>z<dump>\ez<dump>\r
+
+=== keyseq-timeout-zero-waits
+tags: keyseq-timeout
+--- inputrc
+set keyseq-timeout 0
+"\C-xz": "ZED"
+--- keys
+a\C-x<pause>z<dump>\r
+
+=== keyseq-timeout-variable
+tags: keyseq-timeout
+--- script
+rl_variable_bind keyseq-timeout 100
+rl_variable_value keyseq-timeout
+rl_variable_bind keyseq-timeout -5
+rl_variable_value keyseq-timeout
+rl_variable_bind keyseq-timeout abc
+rl_variable_value keyseq-timeout
+
+=== prefix-key-timeout-then-shorter-binding
+tags: keyseq-timeout
+--- inputrc
+set keyseq-timeout 20
+"a": "X"
+"ab": "Y"
+--- keys
+a<pause>c<dump>ab<dump>\r
+
+=== isearch-terminators-variable
+tags: isearch-terminators
+--- script
+rl_variable_bind isearch-terminators "abc"
+rl_variable_value isearch-terminators
+
+=== comment-begin-variable
+tags: comment-begin insert-comment
+--- script
+rl_variable_bind comment-begin "REM "
+rl_variable_value comment-begin
+readline "> "
+--- keys
+x\M-#
+
+=== history-size-variable
+tags: history-size history
+--- inputrc
+set history-size 2
+--- script
+readline "> " 4 addhist
+history_dump
+--- keys
+a\rb\rc\rd\r
+
+=== history-size-zero
+tags: history-size history
+--- inputrc
+set history-size 0
+--- script
+readline "> " 2 addhist
+history_dump
+--- keys
+a\rb\r
+
+=== history-size-negative-unstifles
+tags: history-size history
+--- inputrc
+set history-size -1
+--- script
+stifle_history 1
+rl_initialize
+history_is_stifled
+
+=== editing-mode-variable-vi-keymap
+tags: editing-mode keymap
+--- inputrc
+set editing-mode vi
+--- script
+rl_initialize
+rl_variable_value editing-mode
+rl_variable_value keymap
+get rl_editing_mode
