@@ -648,7 +648,8 @@ pub unsafe extern "C" fn rl_insert_close(count: c_int, key: c_int) -> c_int {
     if crate::numarg::rl_explicit_arg.get() != 0 || crate::vars::blink_matching_paren.get() == 0 {
         return rl_insert(count, key);
     }
-    self_insert(1, key, false);
+    // (always inserted, also in overwrite mode; no typeahead)
+    insert_chars(&read_mb_rest(key as u8), 1);
     crate::display::redisplay();
     let p = point();
     if p == 0 {
