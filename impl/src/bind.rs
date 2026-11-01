@@ -460,6 +460,227 @@ pub unsafe extern "C" fn rl_function_of_keyseq_len(seq: *const c_char, len: usiz
     function_of(core::slice::from_raw_parts(seq as *const u8, len), map, type_)
 }
 
+// ---------------------------------------------------------------- dumpers
+
+/// Dumper notation for one key of a key sequence: `\C-a`, `\e`, `\C-?`,
+/// `\"`, `\\`, octal for bytes >= 128.
+pub fn keyseq_key_text(k: u8, out: &mut Vec<u8>) {
+    match k {
+        27 => out.extend_from_slice(b"\\e"),
+        127 => out.extend_from_slice(b"\\C-?"),
+        0..=31 => {
+            out.extend_from_slice(b"\\C-");
+            let c = (k + 64).to_ascii_lowercase();
+            if c == b'\\' {
+                out.push(b'\\');
+            }
+            out.push(c);
+        }
+        b'\\' | b'"' => {
+            out.push(b'\\');
+            out.push(k);
+        }
+        128..=255 => {
+            out.push(b'\\');
+            out.push(b'0' + (k >> 6));
+            out.push(b'0' + ((k >> 3) & 7));
+            out.push(b'0' + (k & 7));
+        }
+        _ => out.push(k),
+    }
+}
+
+/// Dumper notation for a macro value: like keys, but meta bytes as `\M-`.
+pub fn macro_value_text(v: &[u8]) -> Vec<u8> {
+    let mut out = Vec::new();
+    for &b in v {
+        let mut k = b;
+        if k >= 128 {
+            out.extend_from_slice(b"\\M-");
+            k -= 128;
+        }
+        keyseq_key_text(k, &mut out);
+    }
+    out
+}
+
+fn same_func(a: Option<rl_command_func_t>, b: Option<rl_command_func_t>) -> bool {
+    a.map(|f| f as usize) == b.map(|f| f as usize)
+}
+
+/// Key sequences (dumper notation) bound to `f` in `map`, depth first in
+/// key order; a prefix's ANYOTHERKEY binding is reported as the prefix.
+unsafe fn invoking_keyseqs(f: Option<rl_command_func_t>, map: Keymap, prefix: &[u8], out: &mut Vec<Vec<u8>>) {
+    for k in 0..KEYMAP_SIZE {
+        let e = *entry(map, k);
+        let mut seq = prefix.to_vec();
+        if k < ANYOTHERKEY {
+            keyseq_key_text(k as u8, &mut seq);
+        }
+        match e.type_ {
+            ISFUNC => {
+                if same_func(e.function.func, f) {
+                    out.push(seq);
+                }
+            }
+            ISKMAP => {
+                let sub = e.function.map;
+                if !sub.is_null() && k < ANYOTHERKEY {
+                    invoking_keyseqs(f, sub, &seq, out);
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+pub unsafe fn invoking_keyseqs_vec(f: Option<rl_command_func_t>, map: Keymap) -> Vec<Vec<u8>> {
+    let mut out = Vec::new();
+    if !map.is_null() {
+        invoking_keyseqs(f, map, b"", &mut out);
+    }
+    out
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_invoking_keyseqs_in_map(f: Option<rl_command_func_t>, map: Keymap) -> *mut *mut c_char {
+    let v = invoking_keyseqs_vec(f, map);
+    if v.is_empty() {
+        return null_mut();
+    }
+    crate::util::c_strvec(&v)
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_invoking_keyseqs(f: Option<rl_command_func_t>) -> *mut *mut c_char {
+    rl_invoking_keyseqs_in_map(f, current())
+}
+
+/// One function's line(s) in the function dumper format.
+unsafe fn print_binding(buf: &mut Vec<u8>, name: &[u8], f: Option<rl_command_func_t>, map: Keymap, readable: c_int) {
+    let seqs = if f.is_some() { invoking_keyseqs_vec(f, map) } else { Vec::new() };
+    if readable != 0 {
+        if seqs.is_empty() {
+            buf.extend_from_slice(b"# ");
+            buf.extend_from_slice(name);
+            buf.extend_from_slice(b" (not bound)\n");
+        }
+        for s in &seqs {
+            buf.push(b'"');
+            buf.extend_from_slice(s);
+            buf.extend_from_slice(b"\": ");
+            buf.extend_from_slice(name);
+            buf.push(b'\n');
+        }
+    } else if seqs.is_empty() {
+        buf.extend_from_slice(name);
+        buf.extend_from_slice(b" is not bound to any keys\n");
+    } else {
+        buf.extend_from_slice(name);
+        buf.extend_from_slice(b" can be found on ");
+        for (i, s) in seqs.iter().take(5).enumerate() {
+            if i > 0 {
+                buf.extend_from_slice(b", ");
+            }
+            buf.push(b'"');
+            buf.extend_from_slice(s);
+            buf.push(b'"');
+        }
+        if seqs.len() > 5 {
+            buf.extend_from_slice(b", ...\n");
+        } else {
+            buf.extend_from_slice(b".\n");
+        }
+    }
+}
+
+unsafe fn write_out(buf: &[u8]) {
+    let out = crate::readline::outstream();
+    crate::util::fwrite_bytes(out, buf);
+    crate::util::fflush(out);
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_print_keybinding(name: *const c_char, map: Keymap, readable: c_int) {
+    let map = if map.is_null() { current() } else { map };
+    let n = cstr(name);
+    let f = crate::funmap::named_function(n);
+    let mut buf = Vec::new();
+    print_binding(&mut buf, n, f, map, readable);
+    write_out(&buf);
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_function_dumper(readable: c_int) {
+    let names = crate::funmap::rl_funmap_names();
+    let map = current();
+    let mut buf = b"\n".to_vec();
+    for p in crate::util::strvec_iter(names as *const *mut c_char) {
+        let n = cstr(p);
+        let f = crate::funmap::named_function(n);
+        print_binding(&mut buf, n, f, map, readable);
+    }
+    cfree(names);
+    write_out(&buf);
+}
+
+unsafe fn macro_dump(map: Keymap, prefix: &[u8], readable: c_int, buf: &mut Vec<u8>) {
+    for k in 0..KEYMAP_SIZE {
+        let e = *entry(map, k);
+        match e.type_ {
+            ISMACR => {
+                let mut key = Vec::new();
+                if k < ANYOTHERKEY {
+                    keyseq_key_text(k as u8, &mut key);
+                }
+                let val = macro_value_text(cstr(e.function.macro_));
+                if let Some(h) = rl_macro_display_hook.get() {
+                    write_out(buf);
+                    buf.clear();
+                    let kc = c_strdup(&key);
+                    let vc = c_strdup(&val);
+                    let pc = if prefix.is_empty() { null_mut() } else { c_strdup(prefix) };
+                    h(kc, vc, readable, pc);
+                    cfree(kc);
+                    cfree(vc);
+                    cfree(pc);
+                    continue;
+                }
+                if readable != 0 {
+                    buf.push(b'"');
+                    buf.extend_from_slice(prefix);
+                    buf.extend_from_slice(&key);
+                    buf.extend_from_slice(b"\": \"");
+                    buf.extend_from_slice(&val);
+                    buf.extend_from_slice(b"\"\n");
+                } else {
+                    buf.extend_from_slice(prefix);
+                    buf.extend_from_slice(&key);
+                    buf.extend_from_slice(b" outputs ");
+                    buf.extend_from_slice(&val);
+                    buf.push(b'\n');
+                }
+            }
+            ISKMAP if k < ANYOTHERKEY => {
+                let sub = e.function.map;
+                if !sub.is_null() {
+                    let mut p = prefix.to_vec();
+                    keyseq_key_text(k as u8, &mut p);
+                    macro_dump(sub, &p, readable, buf);
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_macro_dumper(readable: c_int) {
+    let mut buf = Vec::new();
+    macro_dump(current(), b"", readable, &mut buf);
+    write_out(&buf);
+}
+
 // ---------------------------------------------------------------- stubs
 
 #[no_mangle]
@@ -469,43 +690,27 @@ pub unsafe extern "C" fn rl_trim_arg_from_keyseq(_a0: *const c_char, _a1: usize,
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_invoking_keyseqs_in_map(_a0: Option<rl_command_func_t>, _a1: Keymap) -> *mut *mut c_char {
-    todo_stub!("rl_invoking_keyseqs_in_map");
-    null_mut()
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn rl_invoking_keyseqs(f: Option<rl_command_func_t>) -> *mut *mut c_char {
-    rl_invoking_keyseqs_in_map(f, current())
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn rl_function_dumper(_a0: c_int) {
-    todo_stub!("rl_function_dumper");
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn rl_macro_dumper(_a0: c_int) {
-    todo_stub!("rl_macro_dumper");
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn rl_print_keybinding(_a0: *const c_char, _a1: Keymap, _a2: c_int) {
-    todo_stub!("rl_print_keybinding");
-}
-
-#[no_mangle]
 pub unsafe extern "C" fn rl_dump_functions(_count: c_int, _key: c_int) -> c_int {
-    crate::display::output_before_listing();
+    let disp = crate::dispatch::rl_dispatching.get() != 0;
+    if disp {
+        crate::display::output_before_listing();
+    }
     rl_function_dumper(crate::numarg::rl_explicit_arg.get());
-    crate::display::after_listing();
+    if disp {
+        crate::display::after_listing();
+    }
     0
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_dump_macros(_count: c_int, _key: c_int) -> c_int {
-    crate::display::output_before_listing();
+    let disp = crate::dispatch::rl_dispatching.get() != 0;
+    if disp {
+        crate::display::output_before_listing();
+    }
     rl_macro_dumper(crate::numarg::rl_explicit_arg.get());
-    crate::display::after_listing();
+    if disp {
+        crate::display::after_listing();
+    }
     0
 }

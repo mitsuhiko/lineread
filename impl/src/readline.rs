@@ -84,6 +84,7 @@ unsafe fn initialize_everything() {
     crate::vars::apply_locale_defaults();
     crate::keymap::bind_default_keyseqs();
     crate::inputrc::read_startup_init_file();
+    crate::keymap::rl_set_keymap_from_edit_mode();
     if crate::complete::rl_completer_word_break_characters.get().is_null() {
         crate::complete::rl_completer_word_break_characters.set(crate::complete::rl_basic_word_break_characters.get());
     }

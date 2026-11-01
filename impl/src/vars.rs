@@ -405,7 +405,10 @@ pub unsafe extern "C" fn rl_variable_dumper(readable: c_int) {
         line(&mut buf, v.name.to_bytes(), val.as_bytes(), readable);
     }
     for n in STRING_VARS {
-        if let Some(val) = string_var_value(n) {
+        if let Some(mut val) = string_var_value(n) {
+            if n.to_bytes().ends_with(b"-color") {
+                val = crate::bind::macro_value_text(&val);
+            }
             line(&mut buf, n.to_bytes(), &val, readable);
         }
     }
@@ -431,9 +434,14 @@ fn line(buf: &mut Vec<u8>, name: &[u8], val: &[u8], readable: c_int) {
 #[no_mangle]
 pub unsafe extern "C" fn rl_dump_variables(_count: c_int, _key: c_int) -> c_int {
     let readable = crate::numarg::rl_explicit_arg.get();
-    crate::display::output_before_listing();
+    let disp = crate::dispatch::rl_dispatching.get() != 0;
+    if disp {
+        crate::display::output_before_listing();
+    }
     rl_variable_dumper(readable);
-    crate::display::after_listing();
+    if disp {
+        crate::display::after_listing();
+    }
     0
 }
 
