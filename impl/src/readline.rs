@@ -137,6 +137,7 @@ fn rl_display_prompt_is_null() -> bool {
 /// Per-line setup: hooks, initial display.
 pub unsafe fn line_setup() {
     LAST_KEY.set(0);
+    ABORTED_LAST.set(false);
     rl_done.set(0);
     rl_eof_found.set(0);
     IN_READLINE.set(true);
@@ -202,6 +203,11 @@ pub unsafe fn line_step() -> bool {
     }
     unset_state(RL_STATE_READCMD);
     let mut c = c;
+    if ABORTED_LAST.replace(false) && c == EOF && buffer::rl_end.get() > 0 && !is_state(RL_STATE_CALLBACK) {
+        // EOF right after an aborted command is taken as the tty's EOF
+        // character once (delete-char on a non-empty line; observed)
+        c = crate::tty::SPECIALS.get().eof as c_int;
+    }
     if c == EOF && buffer::rl_end.get() > 0 && !is_state(RL_STATE_TERMPREPPED) {
         // end of a file without a final newline: the partial line is
         // accepted
@@ -222,6 +228,7 @@ pub unsafe fn line_step() -> bool {
         crate::dispatch::dispatch_key(c, crate::keymap::current());
     }) {
         // the command was aborted (rl_abort and friends)
+        ABORTED_LAST.set(true);
         crate::dispatch::rl_last_func.set(None);
         crate::dispatch::reset_command_stack();
     }
@@ -256,6 +263,9 @@ pub fn after_command() {
     crate::kill::after_command();
     crate::vi::after_command();
 }
+
+/// The previous command was aborted (see line_step).
+static ABORTED_LAST: CVar<bool> = CVar::new(false);
 
 /// The previous key read by the key loop in this line.
 static LAST_KEY: CVar<c_int> = CVar::new(0);
