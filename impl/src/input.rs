@@ -97,10 +97,10 @@ pub unsafe extern "C" fn rl_getc(stream: *mut FILE) -> c_int {
         if let Some(rem) = remaining_us() {
             let r = if rem == 0 { 0 } else { wait_readable(fd, rem) };
             if r == 0 {
-                set_state(RL_STATE_TIMEOUT);
                 if let Some(h) = rl_timeout_event_hook.get() {
                     h();
                 }
+                set_state(RL_STATE_TIMEOUT);
                 return READERR;
             }
             if r < 0 {
@@ -196,20 +196,20 @@ pub unsafe fn read_key() -> c_int {
     } else if let Some(b) = IBUFFER.get_mut().pop_front() {
         c = b as c_int;
     } else {
-        if let Some(_) = rl_event_hook.get() {
-            loop {
-                if input_available(KEYBOARD_INPUT_TIMEOUT.get() as i64) {
-                    break;
-                }
-                // the hook may have been unset meanwhile
-                let Some(h) = rl_event_hook.get() else { break };
-                h();
-                if crate::readline::rl_done.get() != 0 {
-                    return b'\n' as c_int;
-                }
-                if rl_pending_input.get() != 0 || !IBUFFER.get_mut().is_empty() {
-                    return read_key();
-                }
+        // with an event hook: call it while waiting for input (it is
+        // called before the first check)
+        loop {
+            // the hook may have been unset meanwhile
+            let Some(h) = rl_event_hook.get() else { break };
+            h();
+            if crate::readline::rl_done.get() != 0 {
+                return 0;
+            }
+            if rl_pending_input.get() != 0 || !IBUFFER.get_mut().is_empty() {
+                return read_key();
+            }
+            if input_available(KEYBOARD_INPUT_TIMEOUT.get() as i64) {
+                break;
             }
         }
         c = getc_raw();

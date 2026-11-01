@@ -132,6 +132,7 @@ fn rl_display_prompt_is_null() -> bool {
 
 /// Per-line setup: hooks, initial display.
 pub unsafe fn line_setup() {
+    LAST_KEY.set(0);
     rl_done.set(0);
     rl_eof_found.set(0);
     IN_READLINE.set(true);
@@ -170,9 +171,21 @@ pub unsafe fn line_step() -> bool {
     crate::dispatch::keyseq_reset();
     set_state(RL_STATE_READCMD);
     let c = crate::input::rl_read_key();
+    if is_state(RL_STATE_TIMEOUT) && (c == EOF || c == READERR) {
+        // rl_set_timeout expired: the line is abandoned as it is
+        handle_timeout();
+        return false;
+    }
     unset_state(RL_STATE_READCMD);
     if c == EOF || c == READERR {
         handle_eof(c);
+        return false;
+    }
+    let last = LAST_KEY.replace(c);
+    // the terminal's EOF character on an empty line ends the input before
+    // any key binding is consulted
+    if c == crate::tty::SPECIALS.get().eof as c_int && last != c && buffer::rl_end.get() == 0 {
+        handle_eof(EOF);
         return false;
     }
     if crate::commands::misc::catch_abort(&mut || {
@@ -211,7 +224,19 @@ pub fn after_command() {
     crate::vi::after_command();
 }
 
-/// EOF (or a read error / timeout) while reading a key.
+/// The previous key read by the key loop in this line.
+static LAST_KEY: CVar<c_int> = CVar::new(0);
+
+/// rl_set_timeout expired while reading a key: readline returns NULL,
+/// the line buffer and the screen stay as they are.
+unsafe fn handle_timeout() {
+    LINE_EOF.set(true);
+    rl_eof_found.set(1);
+    rl_done.set(1);
+    set_state(RL_STATE_DONE | RL_STATE_EOF);
+}
+
+/// EOF (or a read error) while reading a key.
 unsafe fn handle_eof(c: c_int) {
     LINE_EOF.set(true);
     rl_eof_found.set((c == EOF) as c_int);
