@@ -105,6 +105,8 @@ def main(argv=None) -> int:
                     help=f"write reference-only overrides (ref-{PLATFORM}): libc quirks of the reference that "
                          "implementations must not copy; they are compared to the common expectation")
     ap.add_argument("--json", action="store_true", help="machine-readable summary on stdout")
+    ap.add_argument("--score", action="store_true",
+                    help="print only the score line: SCORE <0-100> cases=P/T fields=P/T impl=... platform=...")
     ap.add_argument("-v", "--verbose", action="store_true", help="list passing cases too")
     ap.add_argument("--show", action="store_true", help="print actual results and screens")
     ap.add_argument("--trace", action="store_true", help="trace the runner/driver protocol (implies -j1)")
@@ -329,11 +331,33 @@ def main(argv=None) -> int:
             if runs:
                 print_actual(c, runs[0])
 
-    if opts.json:
+    # single hill-climbing number: mean per-case credit (passing case = 1,
+    # failing case = its fraction of matching fields), in percent
+    scored = [rep for _, rep, _ in case_reports if rep["status"] != "skip"]
+    credit = 0.0
+    for rep in scored:
+        if rep["status"] in ("pass", "recorded"):
+            credit += 1.0
+        elif rep["status"] == "fail" and rep.get("fields_total"):
+            credit += rep.get("fields_passed", 0) / rep["fields_total"]
+    score = {
+        "score": round(100.0 * credit / len(scored), 3) if scored else 0.0,
+        "cases_passed": sum(1 for r in scored if r["status"] in ("pass", "recorded")),
+        "cases_total": len(scored),
+        "fields_passed": sum(r.get("fields_passed", 0) for r in scored),
+        "fields_total": sum(r.get("fields_total", 0) for r in scored),
+    }
+    score_line = (f"SCORE {score['score']:.3f} cases={score['cases_passed']}/{score['cases_total']} "
+                  f"fields={score['fields_passed']}/{score['fields_total']} impl={opts.impl} platform={PLATFORM}")
+
+    if opts.score:
+        print(score_line)
+    elif opts.json:
         summary = {
             "impl": opts.impl, "platform": PLATFORM, "elapsed": round(elapsed, 2),
             "total": sum(v for k, v in counts.items() if k != "skip"),
             "counts": dict(counts),
+            "score": score,
             "areas": {k: dict(v) for k, v in sorted(areas.items())},
             "tags": {k: dict(v) for k, v in sorted(tags.items())},
             "cases": [rep for _, rep, _ in case_reports],
@@ -368,6 +392,8 @@ def main(argv=None) -> int:
         parts = [f"{k} {v}" for k, v in sorted(counts.items())]
         print(f"\n{good}/{total} ok  [{', '.join(parts)}]  impl={opts.impl} repeat={opts.repeat} "
               f"in {elapsed:.1f}s")
+        if not record_mode:
+            print(score_line)
 
     if opts.coverage:
         coverage.report(covdir, driver, os.path.join(REF, "src"), opts.coverage_html, opts.json)
