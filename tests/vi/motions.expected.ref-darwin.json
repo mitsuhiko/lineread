@@ -1,0 +1,16 @@
+{
+  "word-motions-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "héllo wörld 日本 x", "point": 7, "end": 22, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "héllo wörld 日本 x", "point": 14, "end": 22, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "héllo wörld 日本 x", "point": 17, "end": 22, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "héllo wörld 日本 x", "point": 14, "end": 22, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "héllo wörld 日本 x"}
+    ],
+    "screen": [
+      "> héllo wörld 日本 x"
+    ],
+    "cursor": [1, 0]
+  }
+}

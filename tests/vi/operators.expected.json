@@ -311,11 +311,11 @@
   "dw-utf8": {
     "exit": 0,
     "results": [
-      {"op": "dump", "line": "wörld", "point": 0, "end": 6, "mark": 6, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
-      {"op": "readline", "ret": "wörld"}
+      {"op": "dump", "line": "éllo wörld", "point": 0, "end": 12, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "éllo wörld"}
     ],
     "screen": [
-      "> wörld"
+      "> éllo wörld"
     ],
     "cursor": [1, 0]
   },

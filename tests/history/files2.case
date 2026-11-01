@@ -166,7 +166,8 @@ get history_lines_read_from_file
 history_get 2000
 
 === read-directory-fails
-# EFTYPE on macOS, EINVAL on Linux (see the .expected.linux.json)
+description: the error code differs by platform (EFTYPE on macOS, EINVAL on Linux); only the unchanged history is compared
+ignore: results[0].ret
 --- dir adir
 --- script
 read_history "adir"

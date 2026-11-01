@@ -212,7 +212,7 @@
   "read-directory-fails": {
     "exit": 0,
     "results": [
-      {"op": "read_history \"adir\"", "ret": 79},
+      {"op": "read_history \"adir\""},
       {"op": "history_dump", "base": 1, "length": 0, "max": 0, "stifled": 0, "pos": 0, "entries": []}
     ],
     "screen": [],

@@ -17,16 +17,33 @@ def expected_path(case_file: str, platform: str | None = None) -> str:
     return f"{stem}.expected.json"
 
 
-def load_expected(case_file_abs: str, platform: str) -> tuple[dict, dict]:
-    """Returns (common, platform_overrides) dicts keyed by case name."""
-    out = []
-    for p in (expected_path(case_file_abs), expected_path(case_file_abs, platform)):
-        if os.path.exists(p):
-            with open(p, encoding="utf-8") as f:
-                out.append(json.load(f))
-        else:
-            out.append({})
-    return out[0], out[1]
+# Implementations that are the GNU reference (plain, coverage, ASan builds).
+REF_IMPLS = ("ref", "cov", "asan")
+
+
+def _load(path: str) -> dict:
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def load_expected(case_file_abs: str, platform: str, impl: str | None = None) -> tuple[dict, dict]:
+    """Returns (common, overrides) dicts keyed by case name.
+
+    ``platform`` is the override file key: ``darwin``/``linux`` (genuine
+    platform differences, apply to every implementation) or
+    ``ref-darwin``/``ref-linux`` (reference quirks, see
+    ``load_expected(..., impl)``).  With ``impl`` given, the overrides are
+    those of ``platform`` plus, for the reference implementations only, the
+    ``ref-<platform>`` quirk overrides: libc quirks of the reference that a
+    reimplementation must not copy, so it is compared to the common
+    expectation instead."""
+    common = _load(expected_path(case_file_abs))
+    over = dict(_load(expected_path(case_file_abs, platform)))
+    if impl is not None and impl in REF_IMPLS and not platform.startswith("ref-"):
+        over.update(_load(expected_path(case_file_abs, "ref-" + platform)))
+    return common, over
 
 
 _CTRL_RE = re.compile("[\x7f-\x9f\u2028\u2029]")

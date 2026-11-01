@@ -101,6 +101,9 @@ def main(argv=None) -> int:
     ap.add_argument("--record", action="store_true", help="write expectations (common file)")
     ap.add_argument("--record-platform", action="store_true",
                     help=f"write per-platform overrides ({PLATFORM}) for cases that differ from the common file")
+    ap.add_argument("--record-ref-quirk", action="store_true",
+                    help=f"write reference-only overrides (ref-{PLATFORM}): libc quirks of the reference that "
+                         "implementations must not copy; they are compared to the common expectation")
     ap.add_argument("--json", action="store_true", help="machine-readable summary on stdout")
     ap.add_argument("-v", "--verbose", action="store_true", help="list passing cases too")
     ap.add_argument("--show", action="store_true", help="print actual results and screens")
@@ -118,6 +121,8 @@ def main(argv=None) -> int:
                     help="also run the header/ABI conformance tier (default when no paths/filters are given)")
     ap.add_argument("--no-conformance", action="store_true")
     opts = ap.parse_args(argv)
+    if opts.record_ref_quirk:
+        opts.record_platform = True
     if not (opts.paths or opts.tag or opts.exclude_tag or opts.name or opts.record or
             opts.record_platform or opts.no_conformance):
         opts.conformance = True
@@ -152,7 +157,7 @@ def main(argv=None) -> int:
             print(f"{c.id}  [{' '.join(c.tags)}]")
         return 0
 
-    driver = opts.driver or driver_path(opts.impl)
+    driver = os.path.abspath(opts.driver) if opts.driver else driver_path(opts.impl)
     if not opts.driver and not opts.no_build:
         build(opts.impl)
     if not os.path.exists(driver):
@@ -206,7 +211,11 @@ def main(argv=None) -> int:
     record_mode = opts.record or opts.record_platform
     for f, fcases in by_file.items():
         absf = os.path.join(ROOT, f)
-        common, plat = cmp.load_expected(absf, PLATFORM)
+        plat_key = f"ref-{PLATFORM}" if opts.record_ref_quirk else PLATFORM
+        if record_mode:
+            common, plat = cmp.load_expected(absf, plat_key)
+        else:
+            common, plat = cmp.load_expected(absf, PLATFORM, opts.impl)
         changed = False
         for c in fcases:
             runs = [cmp.apply_ignores(r, c.ignore) for r in results[c.id]]
@@ -277,7 +286,7 @@ def main(argv=None) -> int:
                 cmp.write_expected(cmp.expected_path(absf), common)
             else:
                 plat = {k: plat[k] for k in sorted(plat, key=lambda n: order.get(n, 1 << 30)) if k in order}
-                cmp.write_expected(cmp.expected_path(absf, PLATFORM), plat)
+                cmp.write_expected(cmp.expected_path(absf, plat_key), plat)
 
     for c in skipped:
         case_reports.append((c, {"id": c.id, "file": c.file, "name": c.name, "area": c.area,
