@@ -1741,10 +1741,8 @@ unsafe fn read_search_string(pchar: u8) -> Option<Vec<u8>> {
 }
 
 fn search_matches(line: &[u8], pat: &[u8]) -> bool {
-    if let Some(rest) = pat.strip_prefix(b"^") {
-        return line.starts_with(rest);
-    }
-    pat.is_empty() || line.windows(pat.len()).any(|w| w == pat)
+    // shell wildcard patterns (search.rs)
+    crate::search::vi_pattern_match(line, pat)
 }
 
 /// Search the history from the current entry in `dir` and show the match.
