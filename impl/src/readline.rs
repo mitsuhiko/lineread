@@ -197,6 +197,7 @@ pub unsafe fn signal_eof() {
 pub fn after_command() {
     crate::commands::text::after_command();
     crate::kill::after_command();
+    crate::vi::after_command();
 }
 
 /// EOF (or a read error / timeout) while reading a key.
