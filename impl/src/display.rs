@@ -71,16 +71,63 @@ fn ctl_repr(b: u8, out: &mut Vec<u8>) {
     }
 }
 
-/// The prompt bytes to display (message, mode string and prompt).
+/// Split a prompt into the lines before the last newline (printed once
+/// when the line starts) and the last line (managed by redisplay).
+pub fn split_prompt(p: &[u8]) -> (&[u8], &[u8]) {
+    let mut invis = false;
+    let mut last_nl = None;
+    for (i, &b) in p.iter().enumerate() {
+        match b {
+            RL_PROMPT_START_IGNORE => invis = true,
+            RL_PROMPT_END_IGNORE => invis = false,
+            b'\n' if !invis => last_nl = Some(i),
+            _ => {}
+        }
+    }
+    match last_nl {
+        Some(i) => (&p[..=i], &p[i + 1..]),
+        None => (&p[..0], p),
+    }
+}
+
+/// The prompt bytes redisplay shows: the mode string and the last line of
+/// the prompt (or of the message).
 pub fn display_prompt_bytes() -> Vec<u8> {
     let mut p = Vec::new();
     unsafe {
         if MESSAGE.get_mut().is_none() && crate::vars::show_mode_in_prompt.get() != 0 {
             p.extend_from_slice(&mode_string());
         }
-        p.extend_from_slice(cstr(rl_display_prompt.get()));
+        let full = cstr(rl_display_prompt.get());
+        p.extend_from_slice(split_prompt(full).1);
     }
     p
+}
+
+/// Print the lines of a multi-line prompt before its last line (done once
+/// when a line starts).
+pub fn print_prompt_prefix() {
+    unsafe {
+        let full = cstr(rl_display_prompt.get());
+        let (prefix, _) = split_prompt(full);
+        if prefix.is_empty() {
+            return;
+        }
+        let mut out_b = Vec::new();
+        let mut invis = false;
+        for &b in prefix {
+            match b {
+                RL_PROMPT_START_IGNORE => invis = true,
+                RL_PROMPT_END_IGNORE => invis = false,
+                _ => {
+                    let _ = invis;
+                    out_b.push(b)
+                }
+            }
+        }
+        out(&out_b);
+        terminal::flush();
+    }
 }
 
 /// The mode indicator for show-mode-in-prompt (with invisible markers as
@@ -566,6 +613,7 @@ pub unsafe extern "C" fn rl_clear_screen(_count: c_int, _key: c_int) -> c_int {
     if !out_cap("clear") {
         out_byte(b'\n');
     }
+    print_prompt_prefix();
     rl_on_new_line();
     redisplay();
     0

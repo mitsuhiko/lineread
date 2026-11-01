@@ -51,6 +51,10 @@ unsafe fn arg_loop() -> c_int {
         let c = crate::input::rl_read_key();
         if c < 0 {
             reset();
+            crate::display::clear_arg_message();
+            crate::display::redisplay();
+            // let the key loop see the end of file too
+            crate::input::rl_execute_next(c);
             return 0;
         }
         let k = c & 0x7f;

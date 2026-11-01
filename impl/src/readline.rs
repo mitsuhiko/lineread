@@ -140,6 +140,7 @@ pub unsafe fn line_setup() {
     if rl_already_prompted() {
         display::rl_on_new_line_with_prompt();
     } else {
+        display::print_prompt_prefix();
         display::rl_on_new_line();
         display::redisplay();
     }
