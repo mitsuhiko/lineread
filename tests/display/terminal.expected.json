@@ -1,0 +1,191 @@
+{
+  "prefer-env-winsize": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 7, "cols": 30},
+      {"op": "readline", "ret": "0123456789012345678901234567890123"}
+    ],
+    "screen": [
+      "> 0123456789012345678901234567890123"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789012345678901234567890123"
+        ],
+        "cursor": [0, 36]
+      }
+    ]
+  },
+  "prefer-env-winsize-invalid-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 40}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefer-env-winsize-unset-env": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 40}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "env-ignored-by-default": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 40}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "change-environment-exports-size": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "getenv COLUMNS", "ret": "40"},
+      {"op": "getenv LINES", "ret": "10"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "change-environment-off": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "getenv COLUMNS", "ret": null},
+      {"op": "getenv LINES", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-screen-size-before-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_screen_size", "rows": 5, "cols": 25},
+      {"op": "readline", "ret": "0123456789012345678901234567"},
+      {"op": "rl_get_screen_size", "rows": 5, "cols": 25}
+    ],
+    "screen": [
+      "> 0123456789012345678901234567"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789012345678901234567"
+        ],
+        "cursor": [0, 30]
+      }
+    ]
+  },
+  "reset-screen-size-after-set": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 40}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "resize-terminal-api-same-size": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rz r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rz", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "resize-terminal-api-after-set": {
+    "exit": 0,
+    "results": [
+      {"op": "defun rz r", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xr\" rz", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 40},
+      {"op": "readline", "ret": "abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "> abcdefghijklmnopqrstuvwxyz"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abcdefghijklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 28]
+      }
+    ]
+  },
+  "no-auto-margins-terminal": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 39},
+      {"op": "dump", "line": "0123456789012345678901234567890123456789012345", "point": 46, "end": 46, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "0123456789012345678901234567890123456789012345"}
+    ],
+    "screen": [
+      "> 0123456789012345678901234567890123456",
+      "789012345"
+    ],
+    "cursor": [2, 0]
+  },
+  "non-ansi-terminal-disables-bracketed-paste": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value enable-bracketed-paste", "ret": "off"},
+      {"op": "rl_variable_value enable-active-region", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unlisted-ansi-terminal-keeps-bracketed-paste": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value enable-bracketed-paste", "ret": "on"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-terminal-screen-size": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 39},
+      {"op": "rl_variable_value enable-bracketed-paste", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-terminal-preset-size": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 6, "cols": 29}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

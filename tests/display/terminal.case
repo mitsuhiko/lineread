@@ -1,0 +1,158 @@
+# Terminal initialisation: screen size sources (ioctl, COLUMNS/LINES with
+# rl_prefer_env_winsize), terminals without auto-margins, ANSI detection.
+tags: display terminal
+screen: 40x10
+--- script
+readline "> "
+
+=== prefer-env-winsize
+tags: rl_prefer_env_winsize rl_get_screen_size
+env: COLUMNS=30
+env: LINES=7
+--- script
+set rl_prefer_env_winsize 1
+rl_initialize
+rl_get_screen_size
+readline "> "
+--- keys
+0123456789012345678901234567890123<snap>\r
+
+=== prefer-env-winsize-invalid-values
+tags: rl_prefer_env_winsize rl_get_screen_size
+env: COLUMNS=0
+env: LINES=junk
+--- script
+set rl_prefer_env_winsize 1
+rl_initialize
+rl_get_screen_size
+--- keys
+
+=== prefer-env-winsize-unset-env
+tags: rl_prefer_env_winsize rl_get_screen_size
+env: COLUMNS
+env: LINES
+--- script
+set rl_prefer_env_winsize 1
+rl_initialize
+rl_get_screen_size
+--- keys
+
+=== env-ignored-by-default
+tags: rl_get_screen_size
+env: COLUMNS=30
+env: LINES=7
+--- script
+rl_initialize
+rl_get_screen_size
+--- keys
+
+=== change-environment-exports-size
+tags: rl_change_environment
+env: COLUMNS
+env: LINES
+--- script
+rl_initialize
+getenv COLUMNS
+getenv LINES
+--- keys
+
+=== change-environment-off
+tags: rl_change_environment
+env: COLUMNS
+env: LINES
+--- script
+set rl_change_environment 0
+rl_initialize
+getenv COLUMNS
+getenv LINES
+--- keys
+
+=== set-screen-size-before-init
+tags: rl_set_screen_size rl_get_screen_size
+--- script
+rl_set_screen_size 5 25
+rl_get_screen_size
+readline "> "
+rl_get_screen_size
+--- keys
+0123456789012345678901234567<snap>\r
+
+=== reset-screen-size-after-set
+tags: rl_reset_screen_size rl_get_screen_size
+--- script
+rl_initialize
+rl_set_screen_size 5 25
+rl_reset_screen_size
+rl_get_screen_size
+--- keys
+
+=== resize-terminal-api-same-size
+tags: rl_resize_terminal
+--- script
+def r
+rl_resize_terminal
+end
+defun rz r
+rl_bind_keyseq "\C-xr" rz
+readline "> "
+--- keys
+abc\C-xr<snap>\r
+
+=== resize-terminal-api-after-set
+tags: rl_resize_terminal rl_set_screen_size
+--- script
+def r
+rl_set_screen_size 5 20
+rl_resize_terminal
+rl_get_screen_size
+end
+defun rz r
+rl_bind_keyseq "\C-xr" rz
+readline "> "
+--- keys
+abcdefghijklmnopqrstuvwxyz\C-xr<snap>\r
+
+=== no-auto-margins-terminal
+tags: wrap
+env: TERM=vt52
+--- script
+rl_initialize
+rl_get_screen_size
+readline "> "
+--- keys
+0123456789012345678901234567890123456789012345<dump>\r
+
+=== non-ansi-terminal-disables-bracketed-paste
+tags: bracketed-paste
+env: TERM=vt52
+--- script
+rl_initialize
+rl_variable_value enable-bracketed-paste
+rl_variable_value enable-active-region
+--- keys
+
+=== unlisted-ansi-terminal-keeps-bracketed-paste
+tags: bracketed-paste
+env: TERM=putty
+--- script
+rl_initialize
+rl_variable_value enable-bracketed-paste
+--- keys
+
+=== unknown-terminal-screen-size
+tags: rl_get_screen_size
+env: TERM=no-such-terminal-xyz
+--- script
+rl_initialize
+rl_get_screen_size
+rl_variable_value enable-bracketed-paste
+--- keys
+
+=== unknown-terminal-preset-size
+tags: rl_get_screen_size rl_set_screen_size
+env: TERM=no-such-terminal-xyz
+--- script
+rl_set_screen_size 6 30
+rl_initialize
+rl_get_screen_size
+--- keys
