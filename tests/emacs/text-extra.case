@@ -1,0 +1,166 @@
+# Edge cases of the basic text commands: zero counts, very large counts,
+# long lines and the arrow-keys dispatcher.
+tags: emacs
+--- script
+readline "> "
+
+=== arrow-keys-up
+tags: arrow-key-prefix history
+--- script
+add_history "older"
+readline "> "
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+abc\C-xaA<dump>\r
+
+=== arrow-keys-down
+tags: arrow-key-prefix history
+--- script
+add_history "one"
+add_history "two"
+readline "> "
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+\C-p\C-p\C-xaB<dump>\r
+
+=== arrow-keys-right-left
+tags: arrow-key-prefix
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+abcdef\C-a\C-xaC\C-xaC<dump>\C-e\C-xaD<dump>\r
+
+=== arrow-keys-lowercase
+tags: arrow-key-prefix
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+abcdef\C-xad<dump>\r
+
+=== arrow-keys-count
+tags: arrow-key-prefix numarg
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+abcdef\M-3\C-xaD<dump>\r
+
+=== arrow-keys-other-dings
+tags: arrow-key-prefix
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+abc\C-xaZ<dump>\r
+
+=== arrow-keys-c-locale
+tags: arrow-key-prefix locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- inputrc
+"\C-xa": arrow-key-prefix
+--- keys
+abcdef\C-a\C-xaC<dump>\C-xaD<dump>\r
+
+=== self-insert-count-over-1024
+tags: self-insert numarg
+--- script
+readline "> "
+get rl_end
+--- keys
+\M-1\M-5\M-0\M-0x\r
+
+=== self-insert-count-over-1024-multibyte
+tags: self-insert numarg utf8
+--- script
+readline "> "
+get rl_end
+--- keys
+\M-1\M-1\M-0\M-0\u{e9}\r
+
+=== self-insert-count-multibyte
+tags: self-insert numarg utf8
+keys: \M-3\u{e9}<dump>\r
+
+=== long-line-typed
+tags: self-insert
+--- script
+readline "> "
+get rl_end
+--- keys
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\r
+
+=== transpose-words-zero-count
+tags: transpose-words numarg
+keys: one two\M-0\M-t<dump>\r
+
+=== transpose-chars-zero-count
+tags: transpose-chars numarg
+keys: abc\C-b\M-0\C-t<dump>\r
+
+=== transpose-chars-count
+tags: transpose-chars numarg
+keys: abcdef\C-a\C-f\M-3\C-t<dump>\r
+
+=== transpose-chars-negative-count
+tags: transpose-chars numarg
+keys: abcdef\C-b\M--\M-2\C-t<dump>\r
+
+=== character-search-eof
+tags: character-search
+keys: abc\C-]
+
+=== character-search-backward-callback
+tags: character-search-backward callback
+--- script
+callback "> "
+--- keys
+abcabc\M-\C-]b<dump>\r
+
+=== character-search-backward-callback-count
+tags: character-search-backward callback numarg
+--- script
+callback "> "
+--- keys
+abcabc\M-2\M-\C-]b<dump>\r
+
+=== exchange-point-and-mark-mark-past-end
+tags: exchange-point-and-mark set-mark
+keys: abcdef\C-@\C-b\C-b\C-?\C-?\C-?\C-x\C-x<dump>\r
+
+=== exchange-point-and-mark-no-mark
+tags: exchange-point-and-mark
+--- script
+def s
+set rl_mark -1
+end
+set rl_startup_hook script:s
+readline "> "
+--- keys
+abc\C-x\C-x<dump>\r
+
+=== exchange-point-and-mark-mark-beyond-end
+tags: exchange-point-and-mark
+--- script
+def s
+rl_insert_text "abc"
+set rl_mark 50
+end
+set rl_startup_hook script:s
+readline "> "
+--- keys
+\C-x\C-x<dump>\r
+
+=== forward-word-negative
+tags: forward-word numarg
+keys: one two three\M--\M-2\M-f<dump>\r
+
+=== backward-word-negative
+tags: backward-word numarg
+keys: one two three\C-a\M--\M-2\M-b<dump>\r
+
+=== forward-word-trailing-space
+tags: forward-word
+keys: one two   \C-a\M-3\M-f<dump>\r
