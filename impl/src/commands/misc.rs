@@ -36,7 +36,10 @@ pub fn abort_internal() {
     crate::display::clear_arg_message();
     unsafe {
         crate::input::rl_clear_pending_input();
-        if lr_catching() != 0 {
+        if crate::callback::on_worker() {
+            // (no longjmp across the coroutine stack)
+            crate::callback::abort_command();
+        } else if lr_catching() != 0 {
             lr_throw();
         }
     }
