@@ -183,6 +183,23 @@ static void rec_strv(rec_t *r, const char *k, char **v) {
 
 static FILE *results_fp;
 
+/* Usage trace for tools/audit.py (RLD_TRACE=PATH): commands, variables,
+   hooks and dispatched bindable functions.  Function pointers are collected
+   and only resolved to names at exit, so tracing has no effect on readline. */
+static FILE *trace_fp;
+static void trace(const char *kind, const char *name) {
+  if (trace_fp && name) fprintf(trace_fp, "%s %s\n", kind, name);
+}
+#define MAX_TRACED_FUNCS 2048
+static void *traced_funcs[MAX_TRACED_FUNCS];
+static int ntraced_funcs;
+static void trace_func(void *f) {
+  if (!trace_fp || !f) return;
+  for (int i = 0; i < ntraced_funcs; i++)
+    if (traced_funcs[i] == f) return;
+  if (ntraced_funcs < MAX_TRACED_FUNCS) traced_funcs[ntraced_funcs++] = f;
+}
+
 static void rec_begin(rec_t *r, const char *op) {
   memset(r, 0, sizeof *r);
   rec_str(r, "op", op);
@@ -475,6 +492,28 @@ static const char *func_name(rl_command_func_t *f) {
   return "?unknown";
 }
 
+/* the function being dispatched right now (it may be reading more keys)
+   and the last one that completed */
+static void trace_dispatch(void) {
+  if (!trace_fp) return;
+  trace_func((void *)rl_last_func);
+  if (RL_ISSTATE(RL_STATE_DISPATCHING) && rl_executing_keymap && rl_executing_key >= 0 &&
+      rl_executing_key < KEYMAP_SIZE && rl_executing_keymap[rl_executing_key].type == ISFUNC)
+    trace_func((void *)rl_executing_keymap[rl_executing_key].function);
+}
+
+static void trace_finish(void) {
+  if (!trace_fp) return;
+  trace_dispatch();
+  for (int i = 0; i < ntraced_funcs; i++) {
+    const char *n = func_name((rl_command_func_t *)traced_funcs[i]);
+    if (n && strcmp(n, "?unknown") != 0) trace("func", n);
+  }
+  ntraced_funcs = 0;
+  fclose(trace_fp);
+  trace_fp = NULL;
+}
+
 static struct {
   char *name;
   Keymap map;
@@ -683,9 +722,27 @@ static void sync_write(const char *fmt, ...) {
   do w = write(sync_fd, tmp, (size_t)n); while (w < 0 && errno == EINTR);
 }
 
+static int lib_getc;           /* option libgetc: block in the library's rl_getc */
+
 static void drv_sig_handler(int sig) {
   int e = errno;
   if (sig > 0 && sig < NSIG) sig_count[sig]++;
+  if (lib_getc && sync_fd >= 0 && sig > 0 && sig < NSIG) {
+    /* the main thread may be blocked inside rl_getc: tell the runner now
+       (async-signal-safe formatting) */
+    char tmp[48], num[24];
+    int n = 0, k = 0;
+    long v = sig_count[sig];
+    tmp[n++] = 'G'; tmp[n++] = ' ';
+    if (sig >= 10) tmp[n++] = (char)('0' + sig / 10);
+    tmp[n++] = (char)('0' + sig % 10);
+    tmp[n++] = ' ';
+    do num[k++] = (char)('0' + v % 10); while ((v /= 10) > 0);
+    while (k) tmp[n++] = num[--k];
+    tmp[n++] = '\n';
+    ssize_t w = write(sync_fd, tmp, (size_t)n);
+    (void)w;
+  }
   if (sigpipe_fds[1] >= 0) {
     char c = (char)sig;
     ssize_t w = write(sigpipe_fds[1], &c, 1);
@@ -748,7 +805,7 @@ static void report_signals(void) {
       rec_str(&r, "sig", sig_name(s));
       rec_end(&r);
       if (in_callback_wait && onsig_block) run_block_named(onsig_block);
-      sync_write("G %d %ld\n", s, c);
+      if (!lib_getc) sync_write("G %d %ld\n", s, c);
     }
   }
 }
@@ -840,6 +897,21 @@ static int wait_for_input(void) {
 }
 
 static int drv_getc(FILE *f) {
+  trace_dispatch();
+  if (lib_getc) {
+    /* option libgetc: report idleness, then let the library's rl_getc block
+       in its own pselect/read (timeouts, EINTR handling).  Control commands
+       (<dump>, EOF) are only seen between keys. */
+    report_signals();
+    while (ctl_fd >= 0 && fd_readable(ctl_fd)) ctl_read(NULL);
+    if (!fd_readable(0)) {
+      if (eof_flag) return EOF;
+      sync_write("I %ld\n", consumed);
+    }
+    int c = rl_getc(f);
+    if (c >= 0) consumed++;
+    return c;
+  }
   if (!wait_for_input()) return EOF;
   int c = rl_getc(f);
   if (c >= 0) consumed++;
@@ -894,6 +966,8 @@ static char *empty_gen(const char *text, int state) {
 }
 
 static rl_compentry_func_t *generator_by_name(const char *n, int *ok) {
+  if (n && strcmp(n, "filename") == 0) trace("api", "rl_filename_completion_function");
+  if (n && strcmp(n, "username") == 0) trace("api", "rl_username_completion_function");
   *ok = 1;
   if (!n) return NULL;
   if (strcmp(n, "words") == 0) return words_gen;
@@ -983,6 +1057,7 @@ static hook_t hooks[H_COUNT];
 static void hook_run(int id, hctx_t *c) {
   hook_t *h = &hooks[id];
   c->hook = h->name;
+  trace("hook", h->name);
   c->prev = hctx;
   hctx = c;
   if (h->log) emit_hook_args(c);
@@ -1025,6 +1100,7 @@ static int t_event(void) {
     }
   }
   int r = 0;
+  trace("hook", "rl_event_hook");
   if (hooks[H_EVENT].block || hooks[H_EVENT].log) r = t_hook_common(H_EVENT);
   return r;
 }
@@ -1441,6 +1517,7 @@ typedef struct {
 #define APIC(n, s) {#n, s, (void (*)(void))n, 1}
 
 static int drv_rl_getc(void) {
+  trace_dispatch();
   if (!wait_for_input()) return EOF;
   int c = rl_getc(rl_instream ? rl_instream : stdin);
   if (c >= 0) consumed++;
@@ -1803,6 +1880,13 @@ static int convert_args(cmd_t *c, const char *argsig, val_t *a, char **owned, ch
   return 0;
 }
 
+/* option rlfree: free strings returned by the library with rl_free() */
+static int use_rl_free;
+static void lib_free(void *p) {
+  if (use_rl_free) rl_free(p);
+  else free(p);
+}
+
 static void run_api(cmd_t *c, const api_t *api) {
   char shape[16];
   const char *colon = strchr(api->sig, ':');
@@ -1825,6 +1909,7 @@ static void run_api(cmd_t *c, const api_t *api) {
   shape[k] = 0;
   cap_t cp;
   if (api->capture) capture_begin(&cp);
+  if (strcmp(api->sig, "i:ii") == 0) trace_func((void *)api->fn);
   if (call_shape(shape, api->fn, a, &r)) die("no call shape %s", shape);
   size_t outlen = 0;
   char *out = api->capture ? capture_end(&cp, &outlen) : NULL;
@@ -1836,11 +1921,11 @@ static void run_api(cmd_t *c, const api_t *api) {
     case 'i': rec_int(&rec, "ret", r.i); break;
     case 't': rec_time(&rec, "ret", r.t); break;
     case 's': rec_str(&rec, "ret", (char *)r.p); break;
-    case 'S': rec_str(&rec, "ret", (char *)r.p); free(r.p); break;
+    case 'S': rec_str(&rec, "ret", (char *)r.p); lib_free(r.p); break;
     case 'L': {
       char **v = r.p;
       rec_strv(&rec, "ret", v);
-      if (v) { for (int i = 0; v[i]; i++) free(v[i]); free(v); }
+      if (v) { for (int i = 0; v[i]; i++) lib_free(v[i]); lib_free(v); }
       break;
     }
     case 'N': rec_strv(&rec, "ret", (char **)r.p); free(r.p); break;
@@ -1964,6 +2049,7 @@ static void c_repeat(cmd_t *c) {
 static void c_set(cmd_t *c) {
   if (c->n < 2 || !c->v[1]) { rec_error(c, "usage: set VAR VALUE"); return; }
   const char *name = c->v[1];
+  trace("set", name);
   hook_t *h = hook_find(name);
   if (h) {
     NEED(2, 2);
@@ -2030,6 +2116,7 @@ static void c_set(cmd_t *c) {
 static void c_get(cmd_t *c) {
   NEED(1, 1);
   const char *name = c->v[1] ? c->v[1] : "";
+  trace("get", name);
   rec_t r;
   hook_t *h = hook_find(name);
   const var_t *v = var_find(name);
@@ -2235,6 +2322,7 @@ static void c_readline(cmd_t *c) {
   }
   for (long n = 0; count < 0 || n < count; n++) {
     char *line = readline(c->v[1]);
+    trace_dispatch();
     rec_t r;
     rec_begin(&r, "readline");
     rec_str(&r, "ret", line);
@@ -2269,6 +2357,7 @@ static void cb_read_one(void) {
   in_callback_wait = 0;
   (void)have;
   rl_callback_read_char();
+  trace_dispatch();
 }
 
 static void c_callback(cmd_t *c) {
@@ -2339,6 +2428,7 @@ static void c_invoke(cmd_t *c) {
   long count = 1, key = 0;
   if (c->n > 2 && parse_int_arg(c, 2, &count)) { rec_error(c, "bad count"); return; }
   if (c->n > 3 && parse_int_arg(c, 3, &key)) { rec_error(c, "bad key"); return; }
+  trace_func((void *)f);
   int ret = f((int)count, (int)key);
   rec_t r;
   rec_begin(&r, c->text);
@@ -2544,9 +2634,10 @@ static void c_keymap_new(cmd_t *c) {
   if (!c->v[1]) { rec_error(c, "name required"); return; }
   const char *kind = c->v[2] ? c->v[2] : "";
   Keymap m;
-  if (strcmp(kind, "bare") == 0) m = rl_make_bare_keymap();
-  else if (strcmp(kind, "full") == 0) m = rl_make_keymap();
+  if (strcmp(kind, "bare") == 0) { trace("api", "rl_make_bare_keymap"); m = rl_make_bare_keymap(); }
+  else if (strcmp(kind, "full") == 0) { trace("api", "rl_make_keymap"); m = rl_make_keymap(); }
   else if (strcmp(kind, "copy") == 0 && c->n == 4) {
+    trace("api", "rl_copy_keymap");
     KEYMAPARG(3, src);
     m = rl_copy_keymap(src);
   } else { rec_error(c, "usage: keymap_new NAME bare|full|copy SRC"); return; }
@@ -2856,6 +2947,7 @@ static const custom_t custom_table[] = {
 static void run_cmd(cmd_t *c) {
   const char *name = c->v[0];
   if (!name) { rec_error(c, "NULL command"); return; }
+  trace("cmd", name);
   for (size_t i = 0; i < sizeof custom_table / sizeof custom_table[0]; i++)
     if (strcmp(custom_table[i].name, name) == 0) { custom_table[i].fn(c); return; }
   const api_t *api = api_find(name);
@@ -2903,8 +2995,17 @@ int main(int argc, char **argv) {
     list_commands();
     return 0;
   }
+  if (argc == 2 && strcmp(argv[1], "--bindable") == 0) {
+    /* C name and funmap name of every bindable command callable as rl_xxx */
+    for (size_t i = 0; i < sizeof api_table / sizeof api_table[0]; i++)
+      if (strcmp(api_table[i].sig, "i:ii") == 0) {
+        const char *n = func_name((rl_command_func_t *)api_table[i].fn);
+        printf("%s %s\n", api_table[i].name, n ? n : "?unknown");
+      }
+    return 0;
+  }
   if (argc != 2) {
-    fprintf(stderr, "usage: rl-driver SCRIPT | --commands\n");
+    fprintf(stderr, "usage: rl-driver SCRIPT | --commands | --bindable\n");
     return 64;
   }
   const char *res = getenv("RLD_RESULTS");
@@ -2913,6 +3014,12 @@ int main(int argc, char **argv) {
     if (!results_fp) die("cannot open %s: %s", res, strerror(errno));
   } else results_fp = stderr;
   unsetenv("RLD_RESULTS");
+  const char *tr = getenv("RLD_TRACE");
+  if (tr && *tr) {
+    trace_fp = fopen(tr, "w");
+    if (trace_fp) atexit(trace_finish);
+  }
+  unsetenv("RLD_TRACE");
   sync_fd = env_fd("RLD_SYNC_FD");
   ctl_fd = env_fd("RLD_CTL_FD");
   if (sync_fd >= 0) fcntl(sync_fd, F_SETFD, FD_CLOEXEC);
@@ -2921,6 +3028,9 @@ int main(int argc, char **argv) {
   parse_script(argv[1]);
 
   if (!has_option("nosetlocale")) setlocale(LC_ALL, "");
+  lib_getc = has_option("libgetc");
+  use_rl_free = has_option("rlfree");
+  if (use_rl_free) trace("api", "rl_free");
 
   if (pipe(sigpipe_fds) != 0) die("pipe: %s", strerror(errno));
   for (int i = 0; i < 2; i++) {

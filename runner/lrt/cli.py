@@ -110,6 +110,9 @@ def main(argv=None) -> int:
     ap.add_argument("--max-diff", type=int, default=12, help="mismatches shown per failing case")
     ap.add_argument("--coverage", action="store_true", help="run against the coverage build and report")
     ap.add_argument("--coverage-html", metavar="DIR", help="also write an llvm-cov HTML report")
+    ap.add_argument("--audit", action="store_true",
+                    help="completeness audit: count cases exercising every public name (runner/lrt/audit.py)")
+    ap.add_argument("--audit-out", metavar="FILE", help="write the audit report to FILE (e.g. docs/AUDIT.txt)")
     ap.add_argument("--timeout-scale", type=float, default=1.0)
     ap.add_argument("--conformance", action="store_true",
                     help="also run the header/ABI conformance tier (default when no paths/filters are given)")
@@ -160,6 +163,8 @@ def main(argv=None) -> int:
     covdir = os.path.join(ROOT, "build", PLAT_DIR, "coverage")
     if opts.coverage:
         extra_env.update(coverage.prepare(covdir))
+    if opts.audit:
+        extra_env["RLD_TRACE"] = "1"
 
     # validate key notation up front
     from .keys import KeyError_, parse_keys
@@ -357,6 +362,12 @@ def main(argv=None) -> int:
 
     if opts.coverage:
         coverage.report(covdir, driver, os.path.join(REF, "src"), opts.coverage_html, opts.json)
+    if opts.audit:
+        from . import audit
+        inv = audit.inventory(driver, PLAT_DIR)
+        runs = [(c, (results[c.id][0].get("_trace") or []) if results[c.id] else []) for c in runnable]
+        res = audit.analyse(inv, runs)
+        audit.report(inv, res, len(runnable), opts.audit_out, opts.json)
 
     bad = counts["fail"] + counts["error"] + counts["flaky"]
     return 1 if bad else 0

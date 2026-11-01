@@ -358,6 +358,8 @@ def run_case(case: Case, driver: str, impl: str, trace_enabled: bool = False,
         _write_fixtures(case, base, home)
         extra = dict(extra_env or {})
         extra["RLD_RESULTS"] = os.path.join(base, "results.jsonl")
+        if extra.get("RLD_TRACE") == "1":  # usage trace for the audit
+            extra["RLD_TRACE"] = os.path.join(base, "trace")
         if impl in ("asan", "rust-asan"):
             extra["ASAN_OPTIONS"] = f"log_path={base}/asan:detect_leaks=0:abort_on_error=0"
             extra["UBSAN_OPTIONS"] = f"log_path={base}/ubsan:print_stacktrace=1"
@@ -439,6 +441,10 @@ def run_case(case: Case, driver: str, impl: str, trace_enabled: bool = False,
             result["sanitizer"] = "\n".join(san)
         if trace_enabled:
             result["_raw"] = bytes(sess.raw)
+        tpath = os.path.join(base, "trace")
+        if os.path.exists(tpath):
+            with open(tpath, encoding="utf-8", errors="replace") as f:
+                result["_trace"] = sorted(set(line.strip() for line in f if line.strip()))
         real = os.path.realpath(base)
         repl = [(home, "$HOME"), (base, "$BASE")]
         if real != base:
