@@ -782,14 +782,23 @@ pub fn show_arg_message() {
 }
 
 pub fn clear_arg_message() {
+    if drop_message() {
+        unsafe { redisplay() };
+    }
+}
+
+/// Forget the message (the prompt is displayed again at the next
+/// redisplay).  Returns whether there was one.
+pub fn drop_message() -> bool {
     unsafe {
         if MESSAGE.get_mut().is_some() {
             MESSAGE.set(None);
             rl_display_prompt.set(if rl_prompt.get().is_null() { cs_mut!("") } else { rl_prompt.get() });
             let old = MESSAGE_C.replace(null_mut());
             cfree(old);
-            redisplay();
+            return true;
         }
+        false
     }
 }
 
