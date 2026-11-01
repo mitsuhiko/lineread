@@ -187,15 +187,35 @@ exported variables directly, so:
 output bytes and widths, rows relative to the first row of the prompt's
 last line, and the physical cursor).  `rl_redisplay` lays out the prompt's
 last line (invisible `\001..\002` sequences attach to the next cell) and the
-line (control characters as `^X`, tabs expanded, wide characters via
-`wcwidth`, wrapping at `usable_width()`), rewrites the differing tail of each
-changed row and moves the cursor to point.  Lines of a multi-line prompt
-before its last line are printed once (`print_prompt_prefix`) when a line
-starts.  `rl_on_new_line` resets the model (cursor assumed at column 0 of an
-empty line).  Only the final terminal state is compared, so the byte
-stream is free-form.  Missing: horizontal-scroll-mode, dumb terminals,
-lines taller than the screen, resize re-layout, mark-modified-lines,
-active-region highlighting, paren blinking, `rl_message` with newlines.
+line (control characters as `^X`, tabs expanded to the next multiple of 8
+of the screen row, wide characters via `wcwidth`, wrapping at
+`usable_width()`), updates each changed row and moves the cursor to point.
+Lines of a multi-line prompt before its last line are printed once
+(`print_prompt_prefix`) when a line starts and again on
+`rl_forced_update_display`.  `rl_on_new_line` resets the model (cursor
+assumed at column 0 of an empty line); `rl_forced_update_display` redraws
+from where the cursor is (it does not move up first).
+
+The screen is compared, but the reference's cursor-motion choices become
+visible whenever its idea of the screen is out of sync with the terminal
+(width mismatches, messages with newlines, byte-oriented mode on a UTF-8
+terminal), so the update imitates them: rows with a common suffix are
+updated with insert/delete-character (deleting only when at least half as
+many columns are written), a carriage return is used when shorter than
+moving back, single-byte locales move forward by rewriting characters, at
+the right margin the next row's first character is written directly
+(auto-margins), and a terminal without `xenl` keeps the cursor in its spare
+last column.  Also implemented: horizontal scrolling (positions in bytes,
+`<`/`>` markers; also for one-row screens and terminals without `cuu1`),
+a custom `rl_redisplay_function` at terminal init means no capabilities
+(dumb terminal), lines taller than the screen (only rows around the cursor
+are drawn; moving above the first visible row clears the screen),
+mark-modified-lines, paren blinking (`insert_close`), `rl_message` text is
+shown whole (a newline is written as is and counted as one column),
+`rl_erase_empty_line`, no output while `rl_tty_set_echoing(0)`.
+Completion listings (complete/listing.rs) go to `rl_outstream` while
+`rl_crlf` and the redisplay go to the stream remembered at line start
+(`terminal::line_setup`).
 
 ## 10. Probing the reference
 
