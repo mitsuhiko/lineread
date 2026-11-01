@@ -1,0 +1,19 @@
+--- inputrc
+set search-ignore-case on
+"\C-xp": history-search-backward
+"\C-xs": history-substring-search-backward
+--- script
+add_history "ÉTÉ chaud"
+readline "> "
+=== prefix
+--- keys
+été\C-xp<dump>\r
+=== substring
+--- keys
+té\C-xs<dump>\r
+=== isearch
+--- keys
+\C-rété\C-j<dump>\r
+=== noninc
+--- keys
+\M-pété\r<dump>\r

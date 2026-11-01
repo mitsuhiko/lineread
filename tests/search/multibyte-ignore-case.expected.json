@@ -1,0 +1,46 @@
+{
+  "prefix": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ÉTÉ chaud", "point": 5, "end": 11, "mark": 11, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ÉTÉ chaud"}
+    ],
+    "screen": [
+      "> ÉTÉ chaud"
+    ],
+    "cursor": [1, 0]
+  },
+  "substring": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ÉTÉ chaud", "point": 2, "end": 11, "mark": 11, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ÉTÉ chaud"}
+    ],
+    "screen": [
+      "> ÉTÉ chaud"
+    ],
+    "cursor": [1, 0]
+  },
+  "isearch": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ÉTÉ chaud", "point": 0, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ÉTÉ chaud"}
+    ],
+    "screen": [
+      "> ÉTÉ chaud"
+    ],
+    "cursor": [1, 0]
+  },
+  "noninc": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ÉTÉ chaud", "point": 0, "end": 11, "mark": 5, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ÉTÉ chaud"}
+    ],
+    "screen": [
+      "> ÉTÉ chaud"
+    ],
+    "cursor": [1, 0]
+  }
+}

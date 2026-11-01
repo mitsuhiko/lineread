@@ -26,11 +26,25 @@ fn ignore_case() -> bool {
 }
 
 fn bytes_eq(a: &[u8], b: &[u8]) -> bool {
-    if ignore_case() {
-        a.eq_ignore_ascii_case(b)
-    } else {
-        a == b
+    if !ignore_case() {
+        return a == b;
     }
+    if !crate::mb::multibyte() {
+        return a.eq_ignore_ascii_case(b);
+    }
+    let (mut i, mut j) = (0, 0);
+    while i < a.len() && j < b.len() {
+        let (ca, na) = crate::mb::decode_at(a, i);
+        let (cb, nb) = crate::mb::decode_at(b, j);
+        match (ca, cb) {
+            (Some(ca), Some(cb)) if unsafe { crate::util::towlower(ca) == crate::util::towlower(cb) } => {}
+            (None, None) if a[i] == b[j] => {}
+            _ => return false,
+        }
+        i += na;
+        j += nb;
+    }
+    i == a.len() && j == b.len()
 }
 
 /// Does `needle` occur in `line` at `i`?
