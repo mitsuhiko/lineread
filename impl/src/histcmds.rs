@@ -119,10 +119,12 @@ unsafe fn load_entry(e: *mut HIST_ENTRY) {
         buffer::rl_end.get()
     };
     buffer::rl_point.set(p);
-    if crate::vi::in_command_mode() {
-        buffer::rl_point.set(0);
-    }
     buffer::rl_mark.set(0);
+    if crate::vi::in_command_mode() {
+        // vi command mode: point at the start, mark at the end
+        buffer::rl_point.set(0);
+        buffer::rl_mark.set(buffer::rl_end.get());
+    }
 }
 
 #[no_mangle]
