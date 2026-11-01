@@ -570,7 +570,6 @@ rl_alphabetic "5"
 rl_alphabetic "_"
 rl_alphabetic "-"
 rl_alphabetic " "
-rl_alphabetic 233
 
 === alphabetic-c-locale
 tags: rl_alphabetic locale

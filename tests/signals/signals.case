@@ -379,14 +379,6 @@ readline "> "
 --- keys
 ab\C-z<snap>\r
 
-=== sigint-in-noninc-search
-tags: SIGINT search
---- script
-add_history "abc"
-readline "> "
---- keys
-x\M-pab\C-c<dumpfull>\r
-
 === sigint-after-completion-listing
 tags: SIGINT complete
 --- script

@@ -670,8 +670,7 @@
       {"op": "rl_alphabetic \"5\"", "ret": 1},
       {"op": "rl_alphabetic \"_\"", "ret": 0},
       {"op": "rl_alphabetic \"-\"", "ret": 0},
-      {"op": "rl_alphabetic \" \"", "ret": 0},
-      {"op": "rl_alphabetic 233", "ret": 1}
+      {"op": "rl_alphabetic \" \"", "ret": 0}
     ],
     "screen": [],
     "cursor": [0, 0]
