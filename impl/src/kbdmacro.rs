@@ -19,6 +19,8 @@ static STACK: CVar<Vec<MacroInput>> = CVar::new(Vec::new());
 static CURRENT: CVar<Vec<u8>> = CVar::new(Vec::new());
 /// The last defined keyboard macro.
 static LAST: CVar<Vec<u8>> = CVar::new(Vec::new());
+/// A keyboard macro was defined (possibly empty).
+static DEFINED: CVar<bool> = CVar::new(false);
 
 /// Macro input may nest this deep (pushes beyond fail with an error).
 const MAX_MACRO_LEVEL: usize = 16;
@@ -122,23 +124,34 @@ pub unsafe extern "C" fn rl_end_kbd_macro(count: c_int, _key: c_int) -> c_int {
     let n = (crate::dispatch::rl_key_sequence_length.get().max(0) as usize).min(cur.len());
     cur.truncate(cur.len() - n);
     *LAST.get_mut() = cur.clone();
+    DEFINED.set(true);
     unset_state(RL_STATE_MACRODEF);
-    rl_call_last_kbd_macro(count - 1, 0)
+    // a count runs the new macro count - 1 more times
+    let last = LAST.get_mut().clone();
+    if !last.is_empty() {
+        for _ in 1..count.max(1) {
+            push_macro_input(&last);
+        }
+    }
+    0
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_call_last_kbd_macro(count: c_int, _key: c_int) -> c_int {
-    let last = LAST.get_mut().clone();
-    if last.is_empty() {
-        crate::commands::misc::abort_internal();
-        return 0;
-    }
     if is_state(RL_STATE_MACRODEF) {
         // calling a macro while defining one: ding, keep going
         crate::terminal::rl_ding();
         let cur = CURRENT.get_mut();
         let n = (crate::dispatch::rl_key_sequence_length.get().max(0) as usize).min(cur.len());
         cur.truncate(cur.len() - n);
+        return 0;
+    }
+    if !DEFINED.get() {
+        crate::commands::misc::abort_internal();
+        return 0;
+    }
+    let last = LAST.get_mut().clone();
+    if last.is_empty() {
         return 0;
     }
     for _ in 0..count.max(0) {
@@ -188,11 +201,11 @@ pub fn macro_text(v: &[u8]) -> Vec<u8> {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_print_last_kbd_macro(_count: c_int, _key: c_int) -> c_int {
-    let last = LAST.get_mut().clone();
-    if last.is_empty() {
+    if !DEFINED.get() {
         crate::terminal::rl_ding();
         return 0;
     }
+    let last = LAST.get_mut().clone();
     crate::display::output_before_listing();
     let mut t = macro_text(&last);
     t.push(b'\n');

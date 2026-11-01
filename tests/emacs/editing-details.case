@@ -1,0 +1,67 @@
+# Editing details found by differential fuzzing (emacs mode): undo
+# groups, aborts, overwrite mode, self-insert typeahead and counts.
+tags: emacs
+--- script
+readline "> "
+
+=== kill-whole-line-undo-group
+tags: kill-whole-line undo
+--- inputrc
+"\C-xk": kill-whole-line
+--- keys
+abc<pause>\C-xk<pause>\C-xk<dumpfull>\C-_<dump>\r
+
+=== yank-empty-kill-ring-aborts
+tags: yank abort
+keys: abc\C-y<dumpfull>x<dumpfull>\r
+
+=== transpose-chars-end-negative-count
+tags: transpose-chars numarg
+keys: abcd\M--\C-t<dump>\M--2\C-t<dump>\r
+
+=== downcase-word-unchanged-records-undo
+tags: downcase-word undo
+keys: abc def\C-a\M-l<dumpfull>\C-_<dump>\r
+
+=== overwrite-typeahead-executing-key
+tags: overwrite-mode typeahead
+keys: abcdef\C-a<ins><pause>XYZ<dumpfull>\r
+
+=== overwrite-zero-count-empty-group
+tags: overwrite-mode numarg undo
+keys: abc\C-a<ins><pause>\M-0<pause>x<dumpfull>\r
+
+=== overwrite-rubout-at-end-group
+tags: overwrite-mode backward-delete-char undo
+keys: abc<ins><pause><bs><dumpfull>\C-_<dump>\r
+
+=== self-insert-negative-count-takes-typeahead
+tags: self-insert numarg typeahead
+keys: ab\M--<pause> xyz<dumpfull>\r
+
+=== self-insert-count-takes-typeahead
+tags: self-insert numarg typeahead
+keys: ab\M-2<pause>-xyz<dumpfull>\r
+
+=== self-insert-negative-count-multibyte
+tags: self-insert numarg utf8
+keys: ab\M--<pause>日<dumpfull>\r
+
+=== call-macro-while-defining-without-macro
+tags: call-last-kbd-macro start-kbd-macro
+keys: ab\C-x(\C-xe<dumpfull>c\C-x)<dumpfull>\r
+
+=== end-empty-macro
+tags: end-kbd-macro
+keys: ab\C-x(\C-x)<dumpfull>\C-xe<dumpfull>\r
+
+=== command-after-abort-clears-dispatching
+tags: abort
+keys: abc\C-g<dumpfull>\C-b<dumpfull>\r
+
+=== print-empty-macro
+tags: print-last-kbd-macro
+--- inputrc
+"\C-xp": print-last-kbd-macro
+--- keys
+ab\C-x(\C-x)\C-xp<snap>\r

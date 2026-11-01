@@ -48,7 +48,7 @@ pub fn insert_chars(bytes: &[u8], count: usize) {
 /// Self-insert `count` copies of `bytes`, replacing characters in
 /// overwrite mode (one undo group per command).
 fn self_insert_chars(bytes: &[u8], count: usize) {
-    if count == 0 || bytes.is_empty() {
+    if bytes.is_empty() {
         return;
     }
     if rl_insert_mode.get() != 0 {
@@ -116,20 +116,18 @@ pub unsafe extern "C" fn rl_insert(count: c_int, key: c_int) -> c_int {
 /// self-insert; with `batch`, typeahead that is also self-insert is
 /// inserted right away.
 unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
-    if count <= 0 {
-        return 0;
+    // (without a positive count the rest of a multibyte character is not
+    // read: it arrives as separate keys)
+    let ch = if count > 0 { read_mb_rest(key as u8) } else { vec![key as u8] };
+    // (a count of zero or less inserts nothing, in overwrite mode an empty
+    // undo group; typeahead is still taken)
+    if count > 0 || (count == 0 && rl_insert_mode.get() == 0) {
+        self_insert_chars(&ch, count.max(0) as usize);
     }
-    let ch = read_mb_rest(key as u8);
-    if count > 1 {
-        self_insert_chars(&ch, count as usize);
-        return 0;
-    }
-    self_insert_chars(&ch, 1);
     // typeahead that is also self-insert is inserted right away; those
     // keys are not recorded into a keyboard macro being defined
     if batch
         && !input::is_state(RL_STATE_MACROINPUT)
-        && rl_insert_mode.get() == 1
         && crate::readline::rl_num_chars_to_read.get() == 0
     {
         let map = crate::keymap::current();
@@ -195,8 +193,10 @@ pub unsafe extern "C" fn rl_rubout(count: c_int, key: c_int) -> c_int {
     }
     let l = line();
     let from = mb::backward_chars_nz(l, p, count as usize);
-    // overwrite mode (not at the end): the characters become spaces
-    let overwrite = rl_insert_mode.get() == 0 && p < end();
+    // overwrite mode: one undo group; the characters become spaces unless
+    // point is at the end of the line
+    let overwrite = rl_insert_mode.get() == 0;
+    let spaces = overwrite && p < end();
     if overwrite {
         crate::undo::rl_begin_undo_group();
     }
@@ -205,8 +205,10 @@ pub unsafe extern "C" fn rl_rubout(count: c_int, key: c_int) -> c_int {
     } else {
         buffer::delete(from, p);
     }
-    if overwrite {
+    if spaces {
         buffer::insert_at(from, &vec![b' '; count as usize]);
+    }
+    if overwrite {
         crate::undo::rl_end_undo_group();
     }
     set_point(from);
@@ -327,7 +329,7 @@ unsafe fn change_case(count: c_int, op: u8) -> c_int {
         in_word = is_w;
         i += n;
     }
-    if out != l[a..b] {
+    if a < b {
         crate::undo::rl_modifying(a as c_int, b as c_int);
         let mut nl = l[..a].to_vec();
         nl.extend_from_slice(&out);
@@ -408,8 +410,11 @@ pub unsafe extern "C" fn rl_transpose_chars(count: c_int, _key: c_int) -> c_int 
     }
     let l = line();
     let mut p = point();
+    let mut count = count;
     if p == e {
+        // at the end the last two characters are swapped, whatever the count
         p = mb::prev_char(l, p);
+        count = 1;
     }
     // drag the character before point forward over `count` characters
     let a = mb::prev_char(l, p);

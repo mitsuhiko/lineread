@@ -1,0 +1,175 @@
+{
+  "kill-whole-line-undo-group": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 0, 3, "abc"], ["begin", 0, 0, null], ["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "kill-whole-line", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 107, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "yank-empty-kill-ring-aborts": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 25, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "abcx", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 4, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abcx"}
+    ],
+    "screen": [
+      "> abcx"
+    ],
+    "cursor": [1, 0]
+  },
+  "transpose-chars-end-negative-count": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abdc", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "abcd", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcd"
+    ],
+    "cursor": [1, 0]
+  },
+  "downcase-word-unchanged-records-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc def", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["insert", 0, 3, null], ["delete", 0, 3, "abc"], ["begin", 0, 0, null], ["insert", 0, 7, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "downcase-word", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 108, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "abc def", "point": 3, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abc def"}
+    ],
+    "screen": [
+      "> abc def"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-typeahead-executing-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "XYZdef", "point": 3, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "OVERWRITE", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["delete", 3, 4, "c"], ["insert", 2, 3, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 2, 3, "b"], ["insert", 1, 2, null], ["begin", 0, 0, null], ["end", 0, 0, null], ["delete", 1, 2, "a"], ["insert", 0, 1, null], ["begin", 0, 0, null], ["insert", 0, 6, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 88, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "XYZdef"}
+    ],
+    "screen": [
+      "> XYZdef"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-zero-count-empty-group": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 0, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "OVERWRITE", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["begin", 0, 0, null], ["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "overwrite-rubout-at-end-group": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "OVERWRITE", "TTYCSAVED"], "undo": [["end", 0, 0, null], ["delete", 2, 3, "c"], ["begin", 0, 0, null], ["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "backward-delete-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 127, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dump", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-negative-count-takes-typeahead": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abxyz", "point": 5, "end": 5, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 5, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 32, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abxyz"}
+    ],
+    "screen": [
+      "> abxyz"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-count-takes-typeahead": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab--xyz", "point": 7, "end": 7, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 2, 7, null], ["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 45, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ab--xyz"}
+    ],
+    "screen": [
+      "> ab--xyz"
+    ],
+    "cursor": [1, 0]
+  },
+  "self-insert-negative-count-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab\udc97\udca5", "point": 4, "end": 4, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 4, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 230, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ab\udc97\udca5"}
+    ],
+    "screen": [
+      "> ab��"
+    ],
+    "cursor": [1, 0]
+  },
+  "call-macro-while-defining-without-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "MACRODEF", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "call-last-kbd-macro", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 101, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "end-kbd-macro", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 41, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "end-empty-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "end-kbd-macro", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 41, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "ab", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "call-last-kbd-macro", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 101, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "command-after-abort-clears-dispatching": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "DISPATCHING", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 7, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "abc", "point": 2, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "backward-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 2, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "print-empty-macro": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "> ab",
+      "",
+      "> ab"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> ab",
+          "",
+          "> ab"
+        ],
+        "cursor": [2, 4]
+      }
+    ]
+  }
+}

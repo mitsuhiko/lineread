@@ -128,9 +128,11 @@ pub unsafe extern "C" fn rl_backward_kill_line(count: c_int, key: c_int) -> c_in
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_kill_full_line(_count: c_int, _key: c_int) -> c_int {
+    crate::undo::rl_begin_undo_group();
     set_point(0);
     rl_kill_text(0, end() as c_int);
     set_point(0);
+    crate::undo::rl_end_undo_group();
     mark_at_point();
     0
 }
@@ -293,7 +295,8 @@ fn ring_entry(back: usize) -> Option<Vec<u8>> {
 #[no_mangle]
 pub unsafe extern "C" fn rl_yank(_count: c_int, _key: c_int) -> c_int {
     let Some(t) = ring_entry(0) else {
-        rl_ding();
+        // nothing to yank
+        crate::commands::misc::abort_internal();
         return 1;
     };
     YANK_INDEX.set(0);
