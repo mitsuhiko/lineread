@@ -237,3 +237,15 @@ keys: abc\e<pause>0cfz.<dump>\r
 === failed-yank-recorded
 tags: vi-yank-to
 keys: abc\e<pause>0yfz.<dump>\r
+
+=== eof-after-count-next-prompt
+tags: vi-arg-digit eof show-mode-in-prompt
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+set show-mode-in-prompt on
+--- script
+readline "> "
+readline "> "
+--- keys
+ñ\e<pause>026

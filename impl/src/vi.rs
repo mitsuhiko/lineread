@@ -618,6 +618,8 @@ pub unsafe extern "C" fn rl_vi_arg_digit(count: c_int, key: c_int) -> c_int {
             // end of input inside a vi count: the reference accepts the line
             crate::input::rl_clear_pending_input();
             crate::readline::rl_newline(1, b'\n' as c_int);
+            // the count's message stays on that line only
+            crate::display::drop_message();
         }
         r
     }

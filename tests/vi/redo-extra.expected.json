@@ -455,5 +455,17 @@
       "> abc"
     ],
     "cursor": [1, 0]
+  },
+  "eof-after-count-next-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ñ"},
+      {"op": "readline", "ret": null}
+    ],
+    "screen": [
+      "(arg: 26) ñ",
+      "(ins)>"
+    ],
+    "cursor": [2, 0]
   }
 }
