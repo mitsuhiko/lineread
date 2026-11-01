@@ -19,6 +19,20 @@ are parsed by the audit: the backticked name must come first.
 
 ## Known display divergences
 
+- `tests/search/isearch.case::isearch-quoted-insert`: accepting an
+  incremental search containing a literal tab leaves extra spaces on the
+  reference screen. For a history entry `abc\there`, its trace writes the
+  literal search tab, then deletes 24 columns and writes `> abc   ` while
+  preserving part of the old tab expansion; the resulting screen has seven
+  spaces before `here`, versus our freshly rendered three. Varying the
+  prefix length from one to eight changes the tab expansions and the delete
+  count; this is not just a fixed extra-padding rule. The message layout
+  counts the literal tab differently from the physical terminal, and the
+  result depends on the subsequent suffix update. Simply enabling more
+  delete-column updates produces a different wrong screen and regressions in
+  unrelated signal and byte-oriented cases. A general fix requires tracking
+  that physical/logical divergence through the update rather than padding
+  this search case.
 - `tests/display/terminals.case::wrap-edit-ansi`: on `TERM=ansi` (`am`
   without `xenl`), the reference explicitly writes `\r\n\r` at each
   full physical row; our renderer relies on auto-wrap while tracking a
