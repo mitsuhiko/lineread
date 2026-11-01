@@ -18,6 +18,11 @@ static LAST_KILL: CVar<bool> = CVar::new(false);
 static THIS_YANK: CVar<bool> = CVar::new(false);
 static LAST_YANK: CVar<bool> = CVar::new(false);
 
+/// Was the previous command a yank (so yank-pop can work)?
+pub fn last_command_was_yank() -> bool {
+    LAST_YANK.get() && !RING.get_mut().is_empty()
+}
+
 /// Called after every command by the key loop.
 pub fn after_command() {
     // the kill sequence survives a command run while input is pushed back
