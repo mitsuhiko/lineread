@@ -340,7 +340,7 @@ impl Isearch {
     }
 
     unsafe fn finish(&mut self) {
-        display::clear_arg_message();
+        display::drop_message();
         crate::commands::text::rl_deactivate_mark();
         if !self.search.is_empty() {
             LAST_ISEARCH.set(Some(self.search.clone()));
@@ -363,7 +363,7 @@ impl Isearch {
     }
 
     unsafe fn abort(&mut self) {
-        display::clear_arg_message();
+        display::drop_message();
         crate::commands::text::rl_deactivate_mark();
         self.restore();
         buffer::rl_point.set(self.orig_point.min(buffer::rl_end.get()));
@@ -373,6 +373,7 @@ impl Isearch {
 
 unsafe fn isearch(count: c_int, dir: isize) -> c_int {
     let dir = if count < 0 { -dir } else { dir };
+    unset_state(RL_STATE_MULTIKEY);
     let mut cx = Isearch::new(dir);
     crate::dispatch::keyseq_reset();
     set_state(RL_STATE_ISEARCH);
@@ -386,7 +387,7 @@ unsafe fn isearch(count: c_int, dir: isize) -> c_int {
                 unset_state(RL_STATE_ISEARCH);
                 crate::commands::text::rl_deactivate_mark();
                 crate::readline::signal_eof();
-                display::clear_arg_message();
+                display::drop_message();
                 return -1;
             }
             Key::Terminator => {
@@ -466,7 +467,7 @@ unsafe fn isearch(count: c_int, dir: isize) -> c_int {
                         unset_state(RL_STATE_ISEARCH);
                         crate::commands::text::rl_deactivate_mark();
                         crate::readline::signal_eof();
-                        display::clear_arg_message();
+                        display::drop_message();
                         return -1;
                     }
                     let ch = read_mb_rest(c as u8);
@@ -561,6 +562,7 @@ unsafe fn noninc_do(s: &[u8], dir: isize, count: c_int) -> c_int {
 
 /// Read the search string in the minibuffer; None when aborted.
 unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
+    unset_state(RL_STATE_MULTIKEY);
     let full = cstr(display::rl_prompt.get()).to_vec();
     let mut prompt = display::split_prompt(&full).1.to_vec();
     prompt.push(b':');
@@ -572,17 +574,22 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
         buffer::set_line(&orig_line);
         buffer::rl_point.set(orig_point.min(buffer::rl_end.get()));
         buffer::rl_mark.set(orig_mark.min(buffer::rl_end.get()));
-        rl_undo_list.set(orig_undo);
-        display::clear_arg_message();
+        crate::undo::free_list(rl_undo_list.replace(orig_undo));
+        display::drop_message();
         if redisplay {
             display::redisplay();
         }
     };
-    let mut s: Vec<u8> = Vec::new();
+    // the search string is edited in the line buffer
+    buffer::set_line(b"");
+    buffer::rl_point.set(0);
+    buffer::rl_mark.set(0);
     display::set_message(&prompt);
-    loop {
-        buffer::set_line(&s);
+    let ins = |b: &[u8]| {
         buffer::rl_point.set(buffer::rl_end.get());
+        buffer::insert(b);
+    };
+    loop {
         display::redisplay();
         set_state(RL_STATE_NSEARCH);
         let c = input::rl_read_key();
@@ -592,6 +599,7 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
             crate::readline::signal_eof();
             return Err(true);
         }
+        let s = buffer::line().to_vec();
         match c as u8 {
             0x07 => {
                 rl_ding();
@@ -606,9 +614,13 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
                 }
                 let n = s.len();
                 let p = if crate::mb::multibyte() { crate::mb::prev_char(&s, n) } else { n - 1 };
-                s.truncate(p);
+                buffer::delete(p, n);
+                buffer::rl_point.set(p as c_int);
             }
-            0x15 => s.clear(),
+            0x15 => {
+                buffer::delete(0, s.len());
+                buffer::rl_point.set(0);
+            }
             0x17 => {
                 let mut e = s.len();
                 while e > 0 && (s[e - 1] == b' ' || s[e - 1] == b'\t') {
@@ -617,7 +629,8 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
                 while e > 0 && s[e - 1] != b' ' && s[e - 1] != b'\t' {
                     e -= 1;
                 }
-                s.truncate(e);
+                buffer::delete(e, s.len());
+                buffer::rl_point.set(e as c_int);
             }
             0x16 | 0x11 => {
                 let k = input::rl_read_key();
@@ -626,7 +639,7 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
                     crate::readline::signal_eof();
                     return Err(true);
                 }
-                s.extend_from_slice(&read_mb_rest(k as u8));
+                ins(&read_mb_rest(k as u8));
             }
             0x1b => {
                 // a bracketed paste start, else a literal ESC
@@ -643,15 +656,18 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
                     }
                     if got == START {
                         let p = read_paste();
-                        s.extend_from_slice(&p);
+                        if !p.is_empty() {
+                            ins(&p);
+                        }
                         continue;
                     }
                 }
-                s.extend_from_slice(&got);
+                ins(&got);
             }
-            b => s.extend_from_slice(&read_mb_rest(b)),
+            b => ins(&read_mb_rest(b)),
         }
     }
+    let s = buffer::line().to_vec();
     restore(false);
     Ok(s)
 }
@@ -799,4 +815,118 @@ pub unsafe extern "C" fn rl_history_substr_search_backward(count: c_int, _key: c
 #[no_mangle]
 pub unsafe extern "C" fn rl_history_substr_search_forward(count: c_int, _key: c_int) -> c_int {
     hsearch(count, 1, true)
+}
+
+// ---------------------------------------------------------------- vi patterns
+
+/// Glob match (`*`, `?`, `[...]`, `\` escapes) of the whole `s`.
+fn glob(p: &[u8], s: &[u8]) -> bool {
+    let (mut pi, mut si) = (0usize, 0usize);
+    let mut star: Option<(usize, usize)> = None;
+    loop {
+        if pi < p.len() {
+            match p[pi] {
+                b'*' => {
+                    star = Some((pi, si));
+                    pi += 1;
+                    continue;
+                }
+                b'?' if si < s.len() => {
+                    pi += 1;
+                    si += 1;
+                    continue;
+                }
+                b'[' if si < s.len() => {
+                    if let Some((ok, next)) = bracket(p, pi, s[si]) {
+                        if ok {
+                            pi = next;
+                            si += 1;
+                            continue;
+                        }
+                    } else if s[si] == b'[' {
+                        pi += 1;
+                        si += 1;
+                        continue;
+                    }
+                }
+                b'\\' => {
+                    // a trailing backslash matches nothing
+                    if pi + 1 < p.len() && si < s.len() && s[si] == p[pi + 1] {
+                        pi += 2;
+                        si += 1;
+                        continue;
+                    }
+                }
+                c if c != b'*' && c != b'?' && c != b'[' && si < s.len() && s[si] == c => {
+                    pi += 1;
+                    si += 1;
+                    continue;
+                }
+                _ => {}
+            }
+        } else if si == s.len() {
+            return true;
+        }
+        match star {
+            Some((sp, ss)) if ss < s.len() => {
+                star = Some((sp, ss + 1));
+                pi = sp + 1;
+                si = ss + 1;
+            }
+            _ => return false,
+        }
+    }
+}
+
+/// A bracket expression at `p[i] == '['` against byte `c`: (matched, index
+/// after the expression), None when unterminated.
+fn bracket(p: &[u8], i: usize, c: u8) -> Option<(bool, usize)> {
+    let mut j = i + 1;
+    let neg = j < p.len() && (p[j] == b'!' || p[j] == b'^');
+    if neg {
+        j += 1;
+    }
+    let mut ok = false;
+    let mut first = true;
+    while j < p.len() && (p[j] != b']' || first) {
+        first = false;
+        let mut lo = p[j];
+        if lo == b'\\' && j + 1 < p.len() {
+            j += 1;
+            lo = p[j];
+        }
+        if j + 2 < p.len() && p[j + 1] == b'-' && p[j + 2] != b']' {
+            let hi = p[j + 2];
+            if lo <= c && c <= hi {
+                ok = true;
+            }
+            j += 3;
+        } else {
+            if lo == c {
+                ok = true;
+            }
+            j += 1;
+        }
+    }
+    if j >= p.len() {
+        return None;
+    }
+    Some((ok != neg, j + 1))
+}
+
+/// vi-mode history search patterns: shell wildcards matched anywhere in
+/// the line (`^` anchors at the start).
+pub fn vi_pattern_match(line: &[u8], pat: &[u8]) -> bool {
+    let mut p = Vec::new();
+    match pat.strip_prefix(b"^") {
+        Some(rest) => p.extend_from_slice(rest),
+        None => {
+            p.push(b'*');
+            p.extend_from_slice(pat);
+        }
+    }
+    if !p.ends_with(b"*") || p.ends_with(b"\\*") {
+        p.push(b'*');
+    }
+    glob(&p, line)
 }
