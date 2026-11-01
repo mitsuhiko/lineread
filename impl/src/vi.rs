@@ -274,14 +274,18 @@ fn done_inserting() {
     if s.doing_insert {
         // c s S C R: the text typed replaces the saved insertion
         if s.overstrike {
-            s.insert_text = s.ostext.clone();
+            if !s.ostext.is_empty() {
+                s.insert_text = s.ostext.clone();
+            }
         } else {
             s.insert_text = top_insert.unwrap_or_default();
         }
     } else if matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A') {
-        if let Some(t) = top_insert {
-            s.insert_text = t;
-        }
+        s.insert_text = top_insert.unwrap_or_default();
+    }
+    if matches!(s.last_cmd as u8, b'i' | b'a' | b'I' | b'A' | b'R') {
+        // a count given to an insertion is not repeated by `.`
+        s.last_count = 1;
     }
     for _ in 0..s.open_groups {
         unsafe { crate::undo::rl_end_undo_group() };
@@ -341,7 +345,7 @@ unsafe fn redo_insert(count: c_int) {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_insert_mode(count: c_int, key: c_int) -> c_int {
-    if redoing() {
+    if redoing() && !st().insert_text.is_empty() {
         redo_insert(count);
         return 0;
     }
@@ -354,7 +358,7 @@ pub unsafe extern "C" fn rl_vi_append_mode(count: c_int, key: c_int) -> c_int {
     if point() < end() {
         set_point(mb::next_char(line(), point()));
     }
-    if redoing() {
+    if redoing() && !st().insert_text.is_empty() {
         redo_insert(count);
         return 0;
     }
@@ -365,7 +369,7 @@ pub unsafe extern "C" fn rl_vi_append_mode(count: c_int, key: c_int) -> c_int {
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_append_eol(count: c_int, key: c_int) -> c_int {
     set_point(end());
-    if redoing() {
+    if redoing() && !st().insert_text.is_empty() {
         redo_insert(count);
         return 0;
     }
@@ -376,7 +380,7 @@ pub unsafe extern "C" fn rl_vi_append_eol(count: c_int, key: c_int) -> c_int {
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_insert_beg(count: c_int, key: c_int) -> c_int {
     set_point(0);
-    if redoing() {
+    if redoing() && !st().insert_text.is_empty() {
         redo_insert(count);
         return 0;
     }
@@ -605,7 +609,13 @@ pub unsafe extern "C" fn rl_vi_arg_digit(count: c_int, key: c_int) -> c_int {
     if key == b'0' as c_int && crate::numarg::rl_explicit_arg.get() == 0 {
         crate::commands::movement::rl_beg_of_line(1, key)
     } else {
-        crate::numarg::rl_digit_argument(count, key)
+        let r = crate::numarg::rl_digit_argument(count, key);
+        if crate::input::rl_pending_input.get() == EOF {
+            // end of input inside a vi count: the reference accepts the line
+            crate::input::rl_clear_pending_input();
+            crate::readline::rl_newline(1, b'\n' as c_int);
+        }
+        r
     }
 }
 
@@ -1014,12 +1024,24 @@ pub unsafe extern "C" fn rl_vi_delete_to(count: c_int, key: c_int) -> c_int {
     0
 }
 
+/// c s S C open an undo group (when redoing only if there is text to
+/// insert again).
+fn change_group() -> bool {
+    let g = !redoing() || !st().insert_text.is_empty();
+    if g {
+        unsafe { crate::undo::rl_begin_undo_group() };
+    }
+    g
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_change_to(count: c_int, key: c_int) -> c_int {
     let count = op_count(count);
-    crate::undo::rl_begin_undo_group();
+    let g = change_group();
     let Some((_m, count)) = operator_range(b'c', key, count) else {
-        crate::undo::rl_end_undo_group();
+        if g {
+            crate::undo::rl_end_undo_group();
+        }
         return -1;
     };
     let a = point();
@@ -1037,8 +1059,10 @@ pub unsafe extern "C" fn rl_vi_change_to(count: c_int, key: c_int) -> c_int {
 unsafe fn finish_change(key: c_int, count: c_int) {
     if redoing() {
         let t = st().insert_text.clone();
-        buffer::insert(&t);
-        crate::undo::rl_end_undo_group();
+        if !t.is_empty() {
+            buffer::insert(&t);
+            crate::undo::rl_end_undo_group();
+        }
         return;
     }
     rl_vi_start_inserting(key, count, 1);
@@ -1111,10 +1135,12 @@ pub unsafe extern "C" fn rl_vi_rubout(count: c_int, key: c_int) -> c_int {
 pub unsafe extern "C" fn rl_vi_subst(count: c_int, key: c_int) -> c_int {
     // s = c with an l motion, S = cc
     let count = op_count(count);
-    crate::undo::rl_begin_undo_group();
+    let g = change_group();
     let motion = if upper(key) { b'c' } else { b'l' } as c_int;
     let Some((_m, count)) = domove_with(b'c', count, Some(motion)) else {
-        crate::undo::rl_end_undo_group();
+        if g {
+            crate::undo::rl_end_undo_group();
+        }
         return -1;
     };
     let a = point();
@@ -1254,7 +1280,7 @@ unsafe fn replace_keymap() -> Keymap {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_vi_replace(count: c_int, key: c_int) -> c_int {
-    if redoing() {
+    if redoing() && !st().insert_text.is_empty() {
         // replace as many characters as the saved text has, in one change
         let t = st().insert_text.clone();
         let mut text = Vec::new();

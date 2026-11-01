@@ -1,0 +1,80 @@
+# vi redo (`.`) details: counts (stored for x and c, not for insertions),
+# insertions with nothing typed (redo enters insert mode again), changes
+# with nothing typed, replace mode with nothing typed, end of input inside
+# a count.
+tags: vi vi-redo
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+
+=== count-stored-for-x
+tags: vi-delete numarg
+keys: abcdefghijklmnop\e<pause>02x<pause>3.<pause>.<dump>\r
+
+=== insert-count-not-repeated
+tags: vi-insertion-mode numarg
+keys: \e<pause>3ix\e<pause>.<dump>\r
+
+=== count-reset-by-insert
+tags: vi-insertion-mode numarg
+keys: abcdefgh\e<pause>0x3.ix\e<pause>.<dump>\r
+
+=== redo-empty-insert-enters-insert-mode
+tags: vi-insertion-mode
+keys: \e<pause>.R<dumpfull>\r
+
+=== redo-empty-insert-with-count
+tags: vi-insertion-mode numarg
+keys: \e<pause>3.R<dumpfull>\e<pause>.<dumpfull>\r
+
+=== redo-count-then-empty-append
+tags: vi-append-mode numarg
+keys: abcdefghij\e<pause>0x<pause>3.<pause>a\e<pause>.<dump>\r
+
+=== redo-empty-replace-uses-older-text
+tags: vi-replace
+keys: abcdef\e<pause>0R\e<pause>l.X<dumpfull>\r
+
+=== redo-empty-append
+tags: vi-append-mode
+keys: abcdef\e<pause>0a\e<pause>l.X<dumpfull>\r
+
+=== redo-empty-append-eol
+tags: vi-append-eol
+keys: abcdef\e<pause>0A\e<pause>0.X<dumpfull>\r
+
+=== redo-empty-change
+tags: vi-change-to
+keys: abc def\e<pause>0cw\e<pause>w.<dumpfull>\r
+
+=== redo-count-before-c
+tags: vi-change-to numarg
+keys: a b c d e f\e<pause>02cwX\e<pause>w.<dump>\r
+
+=== redo-motion-count-of-c
+tags: vi-change-to numarg
+keys: a b c d e f\e<pause>0c2wX\e<pause>w.<dump>\r
+
+=== redo-replace-count-not-repeated
+tags: vi-replace numarg
+keys: abcdefgh\e<pause>02RX\e<pause>l.<dump>\r
+
+=== redo-subst-count
+tags: vi-subst numarg
+keys: abcdefgh\e<pause>02sX\e<pause>l.<dump>\r
+
+=== eof-after-count
+tags: vi-arg-digit eof
+keys: abc\e<pause>2
+
+=== eof-after-two-digit-count
+tags: vi-arg-digit eof
+keys: abc\e<pause>23
+
+=== emacs-eof-after-count
+tags: digit-argument eof
+--- inputrc
+--- keys
+abc\M-2
