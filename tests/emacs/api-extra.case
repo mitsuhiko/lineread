@@ -812,3 +812,37 @@ rl_bind_keyseq_in_map "\C-xt" t vi-command
 readline "> "
 --- keys
 x\e<pause>\C-xtab\e<pause><dump>\r
+
+=== stop-restart-output-in-callback
+tags: rl_stop_output rl_restart_output callback
+--- script
+def b
+rl_stop_output 1 0
+rl_insert_text "S"
+rl_restart_output 1 0
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+callback "> "
+--- keys
+q\C-xtr<snap>\r
+
+=== vi-bracktype-in-vi-mode
+tags: rl_vi_bracktype vi
+--- inputrc
+set editing-mode vi
+--- script
+rl_initialize
+rl_vi_bracktype "("
+rl_vi_bracktype "a"
+rl_vi_bracktype "}"
+
+=== do-lowercase-version-via-api-bound-keys
+tags: rl_do_lowercase_version do-lowercase-version
+--- script
+rl_bind_keyseq "\C-xU" do-lowercase-version
+rl_bind_keyseq "\C-xu" upcase-word
+rl_function_of_keyseq "\x18U" emacs
+readline "> "
+--- keys
+abc\C-a\C-xU<dump>\r

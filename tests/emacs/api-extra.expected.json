@@ -919,5 +919,54 @@
       "> abx"
     ],
     "cursor": [1, 0]
+  },
+  "stop-restart-output-in-callback": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_stop_output 1 0", "ret": 0},
+      {"op": "rl_insert_text \"S\"", "ret": 1},
+      {"op": "rl_restart_output 1 0", "ret": 0},
+      {"op": "callback", "ret": "qSr"}
+    ],
+    "screen": [
+      "> qSr",
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> qSr"
+        ],
+        "cursor": [0, 5]
+      }
+    ]
+  },
+  "vi-bracktype-in-vi-mode": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_vi_bracktype \"(\"", "ret": 1},
+      {"op": "rl_vi_bracktype \"a\"", "ret": 0},
+      {"op": "rl_vi_bracktype \"}\"", "ret": -3}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "do-lowercase-version-via-api-bound-keys": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_bind_keyseq \"\\C-xU\" do-lowercase-version", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xu\" upcase-word", "ret": 0},
+      {"op": "rl_function_of_keyseq \"\\x18U\" emacs", "type": "func", "value": "do-lowercase-version"},
+      {"op": "dump", "line": "ABC", "point": 3, "end": 3, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ABC"}
+    ],
+    "screen": [
+      "> ABC"
+    ],
+    "cursor": [1, 0]
   }
 }

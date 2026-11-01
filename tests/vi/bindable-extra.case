@@ -301,3 +301,53 @@ add_history "one two"
 readline "> "
 --- keys
 x\e<pause>7_<dump>\r
+
+=== eword-c-function-direct
+tags: vi-eword rl_vi_eword
+description: the name vi-eword is shadowed by vi-eWord (case-insensitive lookup), so the C function is called directly
+--- script
+def e
+rl_vi_eword 1 "e"
+dump
+rl_vi_eword 2 "e"
+dump
+end
+defun ew e
+rl_bind_keyseq_in_map "\C-xq" ew vi-command
+readline "> "
+--- keys
+foo.bar baz qux\e<pause>0\C-xq\r
+
+=== eword-c-function-punctuation
+tags: rl_vi_eword
+--- script
+def e
+rl_vi_eword 1 "e"
+dump
+end
+defun ew e
+rl_bind_keyseq_in_map "\C-xq" ew vi-command
+readline "> "
+--- keys
+a.b(c) d\e<pause>0\C-xq\C-xq\C-xq\r
+
+=== eword-c-function-at-end
+tags: rl_vi_eword
+--- script
+def e
+rl_vi_eword 3 "e"
+dump
+end
+defun ew e
+rl_bind_keyseq_in_map "\C-xq" ew vi-command
+readline "> "
+--- keys
+one\e<pause>\C-xq\r
+
+=== eword-name-binds-eWord
+tags: vi-eword vi-eWord rl_named_function
+--- script
+rl_named_function "vi-eword"
+rl_named_function "VI-EWORD"
+rl_named_function "vi-bword"
+rl_named_function "vi-fword"

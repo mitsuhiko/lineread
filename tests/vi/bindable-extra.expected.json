@@ -529,5 +529,64 @@
       "> x"
     ],
     "cursor": [1, 0]
+  },
+  "eword-c-function-direct": {
+    "exit": 0,
+    "results": [
+      {"op": "defun ew e", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xq\" ew vi-command", "ret": 0},
+      {"op": "rl_vi_eword 1 \"e\"", "ret": 0},
+      {"op": "dump", "line": "foo.bar baz qux", "point": 2, "end": 15, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_vi_eword 2 \"e\"", "ret": 0},
+      {"op": "dump", "line": "foo.bar baz qux", "point": 6, "end": 15, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "foo.bar baz qux"}
+    ],
+    "screen": [
+      "> foo.bar baz qux"
+    ],
+    "cursor": [1, 0]
+  },
+  "eword-c-function-punctuation": {
+    "exit": 0,
+    "results": [
+      {"op": "defun ew e", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xq\" ew vi-command", "ret": 0},
+      {"op": "rl_vi_eword 1 \"e\"", "ret": 0},
+      {"op": "dump", "line": "a.b(c) d", "point": 1, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_vi_eword 1 \"e\"", "ret": 0},
+      {"op": "dump", "line": "a.b(c) d", "point": 2, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "rl_vi_eword 1 \"e\"", "ret": 0},
+      {"op": "dump", "line": "a.b(c) d", "point": 3, "end": 8, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a.b(c) d"}
+    ],
+    "screen": [
+      "> a.b(c) d"
+    ],
+    "cursor": [1, 0]
+  },
+  "eword-c-function-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "defun ew e", "ret": 0},
+      {"op": "rl_bind_keyseq_in_map \"\\C-xq\" ew vi-command", "ret": 0},
+      {"op": "rl_vi_eword 3 \"e\"", "ret": 0},
+      {"op": "dump", "line": "one", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "one"}
+    ],
+    "screen": [
+      "> one"
+    ],
+    "cursor": [1, 0]
+  },
+  "eword-name-binds-eWord": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_named_function \"vi-eword\"", "ret": "vi-eWord"},
+      {"op": "rl_named_function \"VI-EWORD\"", "ret": "vi-eWord"},
+      {"op": "rl_named_function \"vi-bword\"", "ret": "vi-backward-bigword"},
+      {"op": "rl_named_function \"vi-fword\"", "ret": "vi-fWord"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
   }
 }
