@@ -60,11 +60,12 @@ pub unsafe fn dup_timestamp(ts: &[u8]) -> *mut c_char {
     p as *mut c_char
 }
 
-/// Timestamp for a new entry: the comment character slot is NUL followed
-/// by the decimal time, so it reads as "" but `history_get_time` sees it.
-unsafe fn now_timestamp() -> *mut c_char {
+/// Timestamp for a new entry: the history comment character followed by
+/// the decimal time.  With the default comment character (NUL) it reads as
+/// "" but `history_get_time` sees it.
+pub unsafe fn now_timestamp() -> *mut c_char {
     let t = libc::time(null_mut());
-    let mut s = vec![0u8];
+    let mut s = vec![expand::history_comment_char.get() as u8];
     s.extend_from_slice(t.to_string().as_bytes());
     let p = xmalloc(s.len() + 1) as *mut u8;
     ptr::copy_nonoverlapping(s.as_ptr(), p, s.len());
@@ -72,13 +73,26 @@ unsafe fn now_timestamp() -> *mut c_char {
     p as *mut c_char
 }
 
-unsafe fn ensure_capacity(n: c_int) {
-    if n + 1 > HISTORY_SIZE.get() || THE_HISTORY.get().is_null() {
-        let size = (n + 1).max(HISTORY_SIZE.get() * 2).max(50);
-        let p = xrealloc(THE_HISTORY.get() as *mut c_void, size as usize * core::mem::size_of::<*mut HIST_ENTRY>());
-        THE_HISTORY.set(p as *mut *mut HIST_ENTRY);
-        HISTORY_SIZE.set(size);
-    }
+/// Make room for one more entry plus the NULL terminator: the first
+/// allocation has 502 slots (max + 2 when stifled), then grows by 256.
+unsafe fn ensure_capacity() {
+    let len = history_length.get();
+    let size = HISTORY_SIZE.get();
+    let new = if size == 0 || THE_HISTORY.get().is_null() {
+        if HISTORY_STIFLED.get() != 0 && history_max_entries.get() > 0 {
+            history_max_entries.get() + 2
+        } else {
+            502
+        }
+        .max(len + 2)
+    } else if len + 1 >= size {
+        size + 256
+    } else {
+        return;
+    };
+    let p = xrealloc(THE_HISTORY.get() as *mut c_void, new as usize * core::mem::size_of::<*mut HIST_ENTRY>());
+    THE_HISTORY.set(p as *mut *mut HIST_ENTRY);
+    HISTORY_SIZE.set(new);
 }
 
 /// Remove the first `n` entries (freeing them).
@@ -115,9 +129,11 @@ pub unsafe fn push_entry(e: *mut HIST_ENTRY) {
         }
         drop_oldest(history_length.get() - history_max_entries.get() + 1);
         history_base.add(1);
+        // observed: the reference's notion of the array size shrinks here
+        HISTORY_SIZE.set(HISTORY_SIZE.get() - 1);
     }
+    ensure_capacity();
     let len = history_length.get();
-    ensure_capacity(len + 1);
     let h = THE_HISTORY.get();
     *h.add(len as usize) = e;
     *h.add(len as usize + 1) = null_mut();
@@ -211,7 +227,7 @@ pub unsafe extern "C" fn remove_history_range(first: c_int, last: c_int) -> *mut
 
 #[no_mangle]
 pub unsafe extern "C" fn alloc_history_entry(line: *mut c_char, ts: *mut c_char) -> *mut HIST_ENTRY {
-    let ts = if ts.is_null() { now_timestamp() } else { dup_timestamp(cstr(ts)) };
+    let ts = if ts.is_null() { null_mut() } else { dup_timestamp(cstr(ts)) };
     let e = xmalloc(core::mem::size_of::<HIST_ENTRY>()) as *mut HIST_ENTRY;
     (*e).line = if line.is_null() { null_mut() } else { c_strdup(cstr(line)) };
     (*e).timestamp = ts;
@@ -279,6 +295,7 @@ pub unsafe extern "C" fn clear_history() {
     }
     history_length.set(0);
     history_offset.set(0);
+    history_base.set(1);
 }
 
 #[no_mangle]
@@ -342,7 +359,21 @@ pub unsafe extern "C" fn history_get_time(e: *mut HIST_ENTRY) -> time_t {
     if *ts == 0 && *ts.add(1) == 0 {
         return 0;
     }
-    libc::strtol(ts.add(1) as *const c_char, null_mut(), 10) as time_t
+    *errno_ptr() = 0;
+    let t = libc::strtol(ts.add(1) as *const c_char, null_mut(), 10);
+    if *errno_ptr() == libc::ERANGE {
+        return 0;
+    }
+    t as time_t
+}
+
+#[cfg(target_os = "macos")]
+unsafe fn errno_ptr() -> *mut c_int {
+    libc::__error()
+}
+#[cfg(not(target_os = "macos"))]
+unsafe fn errno_ptr() -> *mut c_int {
+    libc::__errno_location()
 }
 
 #[no_mangle]
@@ -357,7 +388,7 @@ pub unsafe extern "C" fn history_total_bytes() -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn history_set_pos(pos: c_int) -> c_int {
-    if pos < 0 || pos > history_length.get() {
+    if pos < 0 || pos > history_length.get() || THE_HISTORY.get().is_null() {
         return 0;
     }
     history_offset.set(pos);
