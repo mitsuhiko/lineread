@@ -177,6 +177,12 @@ pub unsafe fn line_step() -> bool {
         return false;
     }
     unset_state(RL_STATE_READCMD);
+    let mut c = c;
+    if c == EOF && buffer::rl_end.get() > 0 && !is_state(RL_STATE_TERMPREPPED) {
+        // end of a file without a final newline: the partial line is
+        // accepted
+        c = b'\n' as c_int;
+    }
     if c == EOF || c == READERR {
         handle_eof(c);
         return false;
@@ -246,7 +252,8 @@ unsafe fn handle_eof(c: c_int) {
     *buffer::rl_line_buffer.get() = 0;
     rl_done.set(1);
     set_state(RL_STATE_DONE | RL_STATE_EOF);
-    display::update_final();
+    // (the cursor stays; restoring the terminal moves to the next line)
+    crate::terminal::flush();
 }
 
 /// Finish the line: the result (malloc'd) or NULL at EOF.
@@ -269,8 +276,11 @@ pub unsafe fn readline_internal() -> *mut c_char {
 
 #[no_mangle]
 pub unsafe extern "C" fn readline(prompt: *const c_char) -> *mut c_char {
-    if is_state(RL_STATE_READCMD) {
-        // recursive call from a bound function
+    // an EOF pushed as pending input (rl_stuff_char(EOF), rl_execute_next)
+    // ends the call before anything happens
+    if crate::input::rl_pending_input.get() == EOF {
+        crate::input::rl_clear_pending_input();
+        return null_mut();
     }
     display::rl_set_prompt(prompt);
     rl_initialize();

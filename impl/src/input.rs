@@ -251,7 +251,9 @@ pub unsafe extern "C" fn rl_stuff_char(key: c_int) -> c_int {
         return 0;
     }
     if key == EOF {
-        b.push_back(0);
+        // a newline, and EOF as the pending input
+        b.push_back(b'\n');
+        rl_pending_input.set(EOF);
     } else {
         b.push_back(key as u8);
     }

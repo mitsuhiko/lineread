@@ -135,6 +135,10 @@ pub unsafe extern "C" fn rl_deprep_terminal() {
         crate::terminal::out(b"\x1b[?2004l\r");
         // the carriage return moved the cursor to the first column
         crate::display::SCREEN.get_mut().cur_col = 0;
+        // after EOF (not a timeout) the next output starts on a new line
+        if (crate::readline::rl_eof_found.get() != 0 && !is_state(RL_STATE_TIMEOUT)) || ECHOING.get() == 0 {
+            crate::terminal::out(b"\n");
+        }
     }
     if crate::vars::enable_keypad.get() != 0 {
         crate::terminal::out_cap("rmkx");
