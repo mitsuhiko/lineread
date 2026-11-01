@@ -650,7 +650,6 @@ fn subst_part(s: &[u8], mut i: usize, delim: u8, is_rhs: bool) -> (Vec<u8>, usiz
 /// Expand one history reference at `s[start]`.  Returns the text and the
 /// index after the reference.
 fn expand_one(s: &[u8], start: usize, qc: u8, so_far: &[u8], print: &mut bool) -> Result<(Vec<u8>, usize), Vec<u8>> {
-    let ec = history_expansion_char.get() as u8;
     let mut i = start + 1;
     let line: Vec<u8>;
     let c = s.get(i).copied().unwrap_or(0);
