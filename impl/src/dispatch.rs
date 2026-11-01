@@ -29,6 +29,13 @@ pub fn same_fn(a: Option<rl_command_func_t>, b: rl_command_func_t) -> bool {
     a.map(|a| a as usize) == Some(b as usize)
 }
 
+/// Make sure rl_executing_keyseq exists (empty unless a key was read).
+pub fn keyseq_ensure() {
+    if rl_executing_keyseq.get().is_null() {
+        keyseq_reset();
+    }
+}
+
 /// Start a new key sequence (top-level dispatch).
 pub fn keyseq_reset() {
     KEYSEQ_LEN.set(0);

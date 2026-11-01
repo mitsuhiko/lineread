@@ -120,6 +120,7 @@ pub unsafe extern "C" fn rl_initialize() -> c_int {
     unset_state(RL_STATE_DONE | RL_STATE_EOF | RL_STATE_TIMEOUT);
     crate::numarg::reset();
     // (rl_executing_keyseq keeps the last sequence until a key is read)
+    crate::dispatch::keyseq_ensure();
     crate::commands::text::reset_per_line();
     crate::history::using_history();
     if rl_display_prompt_is_null() {
