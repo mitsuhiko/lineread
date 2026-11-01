@@ -219,12 +219,8 @@ pub unsafe extern "C" fn rl_callback_read_char() {
     }
     if STATE.get() == WState::LineDone {
         let line = LINE.replace(null_mut());
-        if !line.is_null() && crate::readline::rl_eof_found.get() != 0 {
-            // the reference ends a line on which a command reported EOF
-            // (a failed vi character command) with one more newline
-            crate::terminal::rl_crlf();
-            crate::terminal::flush();
-        }
+        // (a line finished while rl_eof_found is set gets one more newline
+        // when the terminal is restored, see tty::rl_deprep_terminal)
         crate::tty::deprep();
         if persistent {
             crate::signals::rl_clear_signals();
