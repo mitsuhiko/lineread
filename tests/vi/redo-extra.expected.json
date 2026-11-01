@@ -467,5 +467,93 @@
       "(ins)>"
     ],
     "cursor": [2, 0]
+  },
+  "redo-kill-x": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "bc", "point": 0, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "bc"}
+    ],
+    "screen": [
+      "> bc"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-dw": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd ef", "point": 2, "end": 5, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd ef"}
+    ],
+    "screen": [
+      "> cd ef"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-cw": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "X Xab ef", "point": 4, "end": 8, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "X Xab ef"}
+    ],
+    "screen": [
+      "> X Xab ef"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-cl": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XXacd", "point": 2, "end": 5, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "XXacd"}
+    ],
+    "screen": [
+      "> XXacd"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-s": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "XXacd", "point": 2, "end": 5, "mark": 2, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "XXacd"}
+    ],
+    "screen": [
+      "> XXacd"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-X": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "abd", "point": 1, "end": 3, "mark": 1, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "abd"}
+    ],
+    "screen": [
+      "> abd"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-D": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ab ", "point": 2, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ab "}
+    ],
+    "screen": [
+      "> ab"
+    ],
+    "cursor": [1, 0]
+  },
+  "redo-kill-cw2": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "X Xab ef", "point": 4, "end": 8, "mark": 3, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "X Xab ef"}
+    ],
+    "screen": [
+      "> X Xab ef"
+    ],
+    "cursor": [1, 0]
   }
 }

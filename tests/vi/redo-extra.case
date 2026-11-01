@@ -249,3 +249,35 @@ readline "> "
 readline "> "
 --- keys
 ñ\e<pause>026
+
+=== redo-kill-x
+tags: vi-redo kill
+keys: abc\e<pause>0x.P<dump>\r
+
+=== redo-kill-dw
+tags: vi-redo kill
+keys: ab cd ef\e<pause>0dw.P<dump>\r
+
+=== redo-kill-cw
+tags: vi-redo kill
+keys: ab cd ef\e<pause>0cwX\e<pause>w.P<dump>\r
+
+=== redo-kill-cl
+tags: vi-redo kill
+keys: abcd\e<pause>0c\sX\e<pause>l.P<dump>\r
+
+=== redo-kill-s
+tags: vi-redo kill
+keys: abcd\e<pause>0sX\e<pause>l.P<dump>\r
+
+=== redo-kill-X
+tags: vi-redo kill
+keys: abcd\e<pause>X.P<dump>\r
+
+=== redo-kill-D
+tags: vi-redo kill
+keys: ab cd\e<pause>0wD0.P<dump>\r
+
+=== redo-kill-cw2
+tags: vi-redo kill
+keys: ab cd ef\e<pause>0cwX\e<pause>w.<pause>P<dump>\r

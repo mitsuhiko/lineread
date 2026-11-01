@@ -1065,6 +1065,21 @@ pub unsafe extern "C" fn rl_vi_delete_to(count: c_int, key: c_int) -> c_int {
     0
 }
 
+/// Delete the range of a change: killed, except when redoing (the
+/// reference does not put the text in the kill ring again).
+unsafe fn change_delete() {
+    let a = point();
+    let b = buffer::mark();
+    if a < b {
+        if redoing() {
+            buffer::delete(a, b);
+        } else {
+            kill_range(a, b);
+        }
+    }
+    set_point(a.min(end()));
+}
+
 /// c s S C open an undo group (when redoing only if there is text to
 /// insert again).
 fn change_group() -> bool {
@@ -1082,12 +1097,7 @@ pub unsafe extern "C" fn rl_vi_change_to(count: c_int, key: c_int) -> c_int {
         return -1;
     };
     change_group();
-    let a = point();
-    let b = buffer::mark();
-    if a < b {
-        kill_range(a, b);
-    }
-    set_point(a.min(end()));
+    change_delete();
     finish_change(key, count);
     0
 }
@@ -1180,12 +1190,7 @@ pub unsafe extern "C" fn rl_vi_subst(count: c_int, key: c_int) -> c_int {
         return -1;
     };
     change_group();
-    let a = point();
-    let b = buffer::mark();
-    if a < b {
-        kill_range(a, b);
-    }
-    set_point(a.min(end()));
+    change_delete();
     finish_change(key, count);
     0
 }
