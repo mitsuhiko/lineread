@@ -17,6 +17,27 @@ are parsed by the audit: the backticked name must come first.
   it corrupts the line buffer. The behaviour of vi operators and motions is
   covered by tests/vi/*.
 
+## Known display divergences
+
+- `tests/display/terminals.case::wrap-edit-ansi`: on `TERM=ansi` (`am`
+  without `xenl`), the reference explicitly writes `\r\n\r` at each
+  full physical row; our renderer relies on auto-wrap while tracking a
+  narrower logical row. Probes at widths 10, 20 and 30 show cursor drift
+  when moving back up and editing. The same probes with `TERM=xterm`
+  (`am` and `xenl`) use implicit wrapping in the reference; `TERM=dumb`
+  scrolls horizontally instead. Correcting this needs a consistent model
+  of the logical and physical margins, not a case-specific escape sequence.
+- `tests/emacs/bindable-extra.case::byte-motion-then-insert-utf8`: inserting
+  inside a multibyte character gives the correct line buffer but different
+  terminal output. For example, after inserting `Z` in `äb`, the reference
+  writes an isolated `\xc3` followed by cursor-right; our renderer inserts
+  columns and writes `\xc3Z\xa4`. Three-byte and longer suffix probes show
+  the same distinction. The runner feeds bytes into `pyte.ByteStream`, whose
+  incremental UTF-8 decoder renders the interrupted `\xc3` as a replacement
+  character when it sees the escape sequence. This is a real difference in
+  emitted bytes, though the exact invalid-byte appearance is emulator-dependent;
+  modelling the reference's malformed-character update generally remains open.
+
 ## Covered indirectly
 
 These are counted by the audit through the driver, but are worth knowing:
