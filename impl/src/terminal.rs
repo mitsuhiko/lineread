@@ -132,12 +132,18 @@ pub unsafe fn init_terminal(name: Option<&[u8]>) {
     let n = if n.is_empty() { b"dumb".to_vec() } else { n };
     TERM.set(Some(load(&n)));
     line_setup();
-    static NAME: CVar<Vec<u8>> = CVar::new(Vec::new());
-    let mut v = n.clone();
-    v.push(0);
-    *NAME.get_mut() = v;
-    rl_terminal_name.set(NAME.get_mut().as_ptr() as *const c_char);
+    set_terminal_name(&n);
     get_screen_size(false);
+}
+
+/// Storage for rl_terminal_name when the library sets it.
+static TERM_NAME: CVar<Vec<u8>> = CVar::new(Vec::new());
+
+fn set_terminal_name(n: &[u8]) {
+    let mut v = n.to_vec();
+    v.push(0);
+    *TERM_NAME.get_mut() = v;
+    rl_terminal_name.set(TERM_NAME.get_mut().as_ptr() as *const c_char);
 }
 
 /// Determine the screen size: tty (TIOCGWINSZ), then COLUMNS/LINES, then
@@ -308,7 +314,12 @@ pub unsafe extern "C" fn rl_crlf() -> c_int {
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_reset_terminal(name: *const c_char) -> c_int {
+    // rl_terminal_name keeps its value (observed)
+    let old = cstr_opt(rl_terminal_name.get()).map(|v| v.to_vec());
     init_terminal(cstr_opt(name));
+    if let Some(o) = old {
+        set_terminal_name(&o);
+    }
     crate::display::screen_changed();
     0
 }
