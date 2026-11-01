@@ -1,0 +1,27 @@
+# The newline written when a line is accepted: also with an empty prompt
+# and an empty line; listings below an empty prompt.
+tags: display
+--- file dir1/inner
+x
+
+=== accept-empty-prompt-empty-line
+--- script
+readline ""
+readline ""
+--- keys
+\rabc\r
+
+=== list-single-match-empty-prompt
+tags: complete
+--- script
+readline ""
+--- keys
+\M-?<snap>\r
+
+=== list-matches-empty-prompt
+tags: complete
+--- file dir2/x
+--- script
+readline ""
+--- keys
+\M-?<snap>\r

@@ -1,0 +1,54 @@
+{
+  "accept-empty-prompt-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "",
+      "abc"
+    ],
+    "cursor": [2, 0]
+  },
+  "list-single-match-empty-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "",
+      "dir1/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "",
+          "dir1/"
+        ],
+        "cursor": [2, 0]
+      }
+    ]
+  },
+  "list-matches-empty-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "",
+      "dir1/ dir2/"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "",
+          "dir1/ dir2/"
+        ],
+        "cursor": [2, 0]
+      }
+    ]
+  }
+}

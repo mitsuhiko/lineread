@@ -373,6 +373,9 @@ pub fn layout() -> (Vec<Row>, (usize, usize)) {
 
 // ---------------------------------------------------------------- horizontal scrolling
 
+/// rl_redisplay has run at least once.
+static LINES_INITIALIZED: CVar<bool> = CVar::new(false);
+
 /// Left margin (in columns) of the horizontally scrolled line.
 static LAST_LMARGIN: CVar<usize> = CVar::new(0);
 
@@ -732,6 +735,7 @@ pub unsafe extern "C" fn rl_redisplay() {
         return;
     }
     set_state(RL_STATE_REDISPLAYING);
+    LINES_INITIALIZED.set(true);
     if horizontal_mode() {
         let (rows, cursor) = layout_hscroll();
         update(rows, cursor);
@@ -892,10 +896,9 @@ pub fn update_final() {
         return;
     }
     move_to_end();
-    // nothing displayed (e.g. a redisplay function that draws nothing):
-    // no newline
-    let s = SCREEN.get_mut();
-    if s.cur_col > 0 || s.cur_row > 0 || s.rows.iter().any(|r| !r.is_empty()) {
+    // rl_redisplay never ran (e.g. a redisplay function that draws
+    // nothing): no newline
+    if LINES_INITIALIZED.get() {
         out_byte(b'\n');
     }
     terminal::flush();
