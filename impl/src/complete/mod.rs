@@ -569,9 +569,12 @@ unsafe fn make_quoted_replacement(m: &[u8], mtype: c_int, qc: &mut u8) -> Vec<u8
         should_quote = *qc == 0 || contains(rl_completer_quote_characters.get(), *qc);
     }
     if should_quote {
+        // quote when the name has a filename quote character, or when the
+        // word had quoting but no quote is open (the first insertion then
+        // opens one)
         let fq = rl_filename_quote_characters.get();
-        should_quote = !fq.is_null()
-            && (rl_completion_found_quote.get() != 0 || m.iter().any(|&c| contains(fq, c)));
+        should_quote = (rl_completion_found_quote.get() != 0 && *qc == 0)
+            || (!fq.is_null() && m.iter().any(|&c| contains(fq, c)));
     }
     if should_quote {
         if let Some(f) = rl_filename_quoting_function.get() {

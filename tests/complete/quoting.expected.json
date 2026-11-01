@@ -1,0 +1,101 @@
+{
+  "backslash-tab-quotes-name": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\\ \"a'quote\" ", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\\ \"a'quote\" "}
+    ],
+    "screen": [
+      "> x\\ \"a'quote\""
+    ],
+    "cursor": [1, 0]
+  },
+  "no-quoting-in-word-no-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a'quote ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a'quote "}
+    ],
+    "screen": [
+      "> a'quote"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-all-after-backslash-quotes-first": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\\ \"a b c(d e&f i'j ", "point": 19, "end": 19, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\\ \"a b c(d e&f i'j "}
+    ],
+    "screen": [
+      "> \\ \"a b c(d e&f i'j"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-all-single-quote-char": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\\ 'a b c(d i'j ", "point": 15, "end": 15, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\\ 'a b c(d i'j "}
+    ],
+    "screen": [
+      "> \\ 'a b c(d i'j"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-all-in-open-quote-drops-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "a b i'j ", "point": 8, "end": 8, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "a b i'j "}
+    ],
+    "screen": [
+      "> a b i'j"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-all-after-closed-quote": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\"x\" \"a b i'j ", "point": 13, "end": 13, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\"x\" \"a b i'j "}
+    ],
+    "screen": [
+      "> \"x\" \"a b i'j"
+    ],
+    "cursor": [1, 0]
+  },
+  "quote-chars-backslash-plain-name": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\\ \"plain\" ", "point": 11, "end": 11, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\\ \"plain\" "}
+    ],
+    "screen": [
+      "> x\\ \"plain\""
+    ],
+    "cursor": [1, 0]
+  },
+  "quote-chars-insert-all-after-backslash": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x\\ \"a b plain ", "point": 14, "end": 14, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x\\ \"a b plain "}
+    ],
+    "screen": [
+      "> x\\ \"a b plain"
+    ],
+    "cursor": [1, 0]
+  },
+  "quote-chars-closed-quote-plain-name": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "\"x\" \"plain\" ", "point": 12, "end": 12, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "\"x\" \"plain\" "}
+    ],
+    "screen": [
+      "> \"x\" \"plain\""
+    ],
+    "cursor": [1, 0]
+  }
+}

@@ -1,0 +1,89 @@
+# Filename quoting when the word contains quoting (a backslash or a closed
+# quoted string) but no quote is open: the first inserted name opens a
+# quote (rl_completer_quote_characters set, rl_filename_quote_characters
+# set or not).
+tags: complete filename quoting
+
+=== backslash-tab-quotes-name
+--- script
+file_write "a'quote" "x"
+set rl_completer_quote_characters "\"'"
+readline "> "
+--- keys
+x\\ a\t<dump>\r
+
+=== no-quoting-in-word-no-quote
+--- script
+file_write "a'quote" "x"
+set rl_completer_quote_characters "\"'"
+readline "> "
+--- keys
+a\t<dump>\r
+
+=== insert-all-after-backslash-quotes-first
+--- script
+file_write "a b" "x"
+file_write "c(d" "x"
+file_write "e&f" "x"
+file_write "i'j" "x"
+set rl_completer_quote_characters "\"'"
+readline "> "
+--- keys
+\\ \M-*<dump>\r
+
+=== insert-all-single-quote-char
+--- script
+file_write "a b" "x"
+file_write "c(d" "x"
+file_write "i'j" "x"
+set rl_completer_quote_characters "'"
+readline "> "
+--- keys
+\\ \M-*<dump>\r
+
+=== insert-all-in-open-quote-drops-quote
+--- script
+file_write "a b" "x"
+file_write "i'j" "x"
+set rl_completer_quote_characters "\"'"
+readline "> "
+--- keys
+"\M-*<dump>\r
+
+=== insert-all-after-closed-quote
+--- script
+file_write "a b" "x"
+file_write "i'j" "x"
+set rl_completer_quote_characters "\"'"
+readline "> "
+--- keys
+"x" \M-*<dump>\r
+
+=== quote-chars-backslash-plain-name
+--- script
+file_write "plain" "x"
+file_write "a b" "x"
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x\\ p\t<dump>\r
+
+=== quote-chars-insert-all-after-backslash
+--- script
+file_write "plain" "x"
+file_write "a b" "x"
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+x\\ \M-*<dump>\r
+
+=== quote-chars-closed-quote-plain-name
+--- script
+file_write "plain" "x"
+set rl_completer_quote_characters "\"'"
+set rl_filename_quote_characters " "
+readline "> "
+--- keys
+"x" p\t<dump>\r
