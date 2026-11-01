@@ -292,7 +292,6 @@ pub fn bind_default_keyseqs() {
         (b"\x1b[1;5D", rl_backward_word),
         (b"\x1b[1;3C", rl_forward_word),
         (b"\x1b[1;3D", rl_backward_word),
-        (b"\x1b[2~", rl_overwrite_mode),
         (b"\x1b[3~", rl_delete),
         (b"\x1b[3;5~", rl_kill_word),
         (b"\x1b[5~", rl_history_search_backward),
@@ -301,6 +300,9 @@ pub fn bind_default_keyseqs() {
     for map in [emacs_std(), vi_movement(), vi_insertion()] {
         for (seq, f) in arrows {
             b(seq, *f, map);
+        }
+        if crate::terminal::cap("kich1").is_some() {
+            b(b"\x1b[2~", rl_overwrite_mode, map);
         }
     }
     // vi command mode (and an insert mode whose ESC was unbound): ESC

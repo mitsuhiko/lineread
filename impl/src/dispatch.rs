@@ -320,6 +320,8 @@ unsafe fn dispatch_prefix(key: c_int, sub: Keymap, fallback: bool) -> c_int {
             crate::input::unread_keys(&[next as u8]);
             return BACKTRACK;
         }
+        // A failed sequence redisplays before returning to the key loop.
+        crate::display::redisplay();
         // (the unbound key is not part of the sequence; no command ran)
         unbound_key();
         rl_last_func.set(None);
