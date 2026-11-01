@@ -183,7 +183,7 @@ unsafe fn self_insert(count: c_int, key: c_int, batch: bool) -> c_int {
         // (not beyond rl_num_chars_to_read: the line ends there)
         let limit = crate::readline::rl_num_chars_to_read.get();
         let mut taken = 0;
-        while (limit <= 0 || crate::buffer::rl_end.get() < limit) && input::input_available(0) {
+        while (limit <= 0 || crate::buffer::rl_end.get() < limit) && input::typeahead_available() {
             let c = crate::input::rl_read_key();
             if c < 0 {
                 break;
