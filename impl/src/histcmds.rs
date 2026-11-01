@@ -90,6 +90,26 @@ pub fn line_finished() {
             buffer::set_line(&text);
             buffer::rl_point.set(pt);
         }
+        if crate::vars::revert_all_at_newline.get() != 0 {
+            // every other edited entry goes back to its original text too
+            let (text, pt, cur) = (buffer::line().to_vec(), buffer::rl_point.get(), rl_undo_list.get());
+            for i in 0..history_length.get() {
+                let e = history::entry_at(i);
+                if e.is_null() || (*e).data.is_null() || (*e).data == cur as histdata_t {
+                    continue;
+                }
+                buffer::set_line(cstr((*e).line));
+                rl_undo_list.set((*e).data as *mut UNDO_LIST);
+                crate::undo::rl_revert_line(1, 0);
+                let c = c_strdup(buffer::line());
+                history::free_history_entry(history::replace_history_entry(i, c, null_mut()));
+                cfree(c);
+                crate::undo::rl_free_undo_list();
+            }
+            rl_undo_list.set(cur);
+            buffer::set_line(&text);
+            buffer::rl_point.set(pt);
+        }
         if let Some(s) = SAVED.get_mut().take() {
             if s.undo != rl_undo_list.get() {
                 crate::undo::free_list(s.undo);
