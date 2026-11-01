@@ -1,0 +1,108 @@
+{
+  "listing-reprints-multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      "two",
+      "lines>",
+      "x",
+      "two",
+      "lines>"
+    ],
+    "cursor": [5, 0],
+    "snaps": [
+      {
+        "screen": [
+          "two",
+          "lines>",
+          "x",
+          "two",
+          "lines>"
+        ],
+        "cursor": [4, 7]
+      }
+    ]
+  },
+  "hscroll-long-prompt-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "語We3"}
+    ],
+    "screen": [
+      "<ing> 語We3"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<ing> 語We3"
+        ],
+        "cursor": [0, 11]
+      },
+      {
+        "screen": [
+          "<ing> 語We3"
+        ],
+        "cursor": [0, 6]
+      }
+    ]
+  },
+  "byte-oriented-vi-append-after-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ö"}
+    ],
+    "screen": [
+      "日本> �"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "日本> �"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "byte-oriented-move-over-multibyte": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "ж"}
+    ],
+    "screen": [
+      "bold> �",
+      "bold>"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "bold> �"
+        ],
+        "cursor": [0, 7]
+      }
+    ]
+  },
+  "byte-oriented-insert-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "callback", "ret": "tral'ж6;5*w"}
+    ],
+    "screen": [
+      "日本> tral'ж6;5*w",
+      "日本>"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "日本> tral'ж6;5*w"
+        ],
+        "cursor": [0, 8]
+      }
+    ]
+  }
+}

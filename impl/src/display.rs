@@ -551,10 +551,17 @@ fn move_to(rows: &[Row], row: usize, col: usize) {
     }
     let n = col - s.cur_col;
     if n > 0 {
-        if let Some(seq) = terminal::cap_param("cuf", n as i32) {
-            out(&seq);
-            s.cur_col = col;
-        } else {
+        // single-byte locales move forward by writing the characters
+        // again (the reference does that); multibyte ones use cuf
+        let reprint = !mb::multibyte() || terminal::cap("cuf").is_none();
+        if !reprint {
+            if let Some(seq) = terminal::cap_param("cuf", n as i32) {
+                out(&seq);
+                s.cur_col = col;
+                return;
+            }
+        }
+        {
             // rewrite the cells between
             let r = rows.get(row);
             let mut c = 0;

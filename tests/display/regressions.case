@@ -20,3 +20,33 @@ set horizontal-scroll-mode on
 readline "a much longer prompt string> "
 --- keys
 語We3<snap>\C-a<snap>\r
+
+=== byte-oriented-vi-append-after-multibyte
+tags: byte-oriented vi utf8
+screen: 40x10
+--- inputrc
+set editing-mode vi
+set byte-oriented on
+set keyseq-timeout 50
+--- script
+readline "日本> "
+--- keys
+ö\e<pause>A<snap>\r
+
+=== byte-oriented-move-over-multibyte
+tags: byte-oriented utf8 callback
+--- inputrc
+set byte-oriented on
+--- script
+callback "\001\e[1m\002bold\001\e[0m\002> "
+--- keys
+ж<left>\M-f<snap>\r
+
+=== byte-oriented-insert-at-start
+tags: byte-oriented utf8 callback
+--- inputrc
+set byte-oriented on
+--- script
+callback "日本> "
+--- keys
+al'ж6;5*w\C-atr<snap>\r
