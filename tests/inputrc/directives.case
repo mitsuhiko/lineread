@@ -1,0 +1,540 @@
+# Init file parser directives: $if (mode=, term=, version, application
+# name, variable tests), $else, $endif, $include, nesting and errors.
+# Every case reads its inputrc with rl_initialize and dumps the macros
+# that ended up bound; parse errors appear on the screen (stderr).
+tags: inputrc directives
+screen: 160x24
+--- script
+rl_initialize
+rl_macro_dumper 1
+
+=== if-mode-emacs
+--- inputrc
+$if mode=emacs
+"\C-xa": "yes"
+$endif
+
+=== if-mode-vi-in-emacs
+--- inputrc
+$if mode=vi
+"\C-xa": "yes"
+$endif
+"\C-xb": "after"
+
+=== if-mode-vi-after-set
+--- inputrc
+set editing-mode vi
+$if mode=vi
+set keymap vi-insert
+"\C-xa": "vi"
+$endif
+set keymap emacs
+$if mode=emacs
+"\C-xb": "emacs"
+$endif
+--- script
+rl_initialize
+rl_function_of_keyseq "\x18a" vi-insert
+rl_function_of_keyseq "\x18b" emacs
+
+=== if-mode-case-insensitive
+--- inputrc
+$if MODE=Emacs
+"\C-xa": "yes"
+$endif
+
+=== if-mode-unknown
+--- inputrc
+$if mode=foo
+"\C-xa": "yes"
+$else
+"\C-xb": "else"
+$endif
+
+=== if-term-short-name
+# TERM is xterm-256color: both the full name and the part before '-' match
+--- inputrc
+$if term=xterm
+"\C-xa": "short"
+$endif
+$if term=xterm-256color
+"\C-xb": "full"
+$endif
+$if term=XTERM
+"\C-xc": "case"
+$endif
+$if term=xterm-256
+"\C-xd": "partial"
+$endif
+$if term=vt100
+"\C-xe": "other"
+$endif
+
+=== if-term-custom-terminal-name
+env: TERM=vt100
+--- inputrc
+$if term=vt100
+"\C-xa": "vt100"
+$endif
+$if term=xterm
+"\C-xb": "xterm"
+$endif
+
+=== if-term-set-by-application
+--- script
+set rl_terminal_name "sun-cmd"
+rl_initialize
+rl_macro_dumper 1
+--- inputrc
+$if term=sun
+"\C-xa": "sun"
+$endif
+$if term=sun-cmd
+"\C-xb": "sun-cmd"
+$endif
+$if term=xterm
+"\C-xc": "xterm"
+$endif
+
+=== if-version-operators
+--- inputrc
+$if version == 8.3
+"\C-xa": "eq"
+$endif
+$if version = 8.3
+"\C-xb": "eq-single"
+$endif
+$if version != 8.3
+"\C-xc": "ne"
+$endif
+$if version < 9
+"\C-xd": "lt"
+$endif
+$if version <= 8.3
+"\C-xe": "le"
+$endif
+$if version > 8.2
+"\C-xf": "gt"
+$endif
+$if version >= 8.4
+"\C-xg": "ge"
+$endif
+$if version > 8.3
+"\C-xh": "gt-false"
+$endif
+$if version < 8.3
+"\C-xi": "lt-false"
+$endif
+
+=== if-version-no-spaces
+--- inputrc
+$if version>=8
+"\C-xa": "nospace"
+$endif
+$if version==8.3
+"\C-xb": "eq"
+$endif
+$if version<8.3
+"\C-xc": "lt"
+$endif
+
+=== if-version-major-only
+--- inputrc
+$if version == 8
+"\C-xa": "eq8"
+$endif
+$if version > 8
+"\C-xb": "gt8"
+$endif
+$if version < 80
+"\C-xc": "lt80"
+$endif
+
+=== if-version-trailing-comment
+--- inputrc
+$if version >= 8.0 # comment
+"\C-xa": "yes"
+$endif
+
+=== if-version-errors
+--- inputrc
+$if version
+"\C-xa": "noop"
+$endif
+$if version 8.3
+"\C-xb": "noop2"
+$endif
+$if version == x
+"\C-xc": "nonnum"
+$endif
+$if version == 8.x
+"\C-xd": "badminor"
+$endif
+$if version == 8.3 garbage
+"\C-xe": "garbage"
+$endif
+$if version =! 8
+"\C-xf": "badop"
+$endif
+"\C-xz": "end"
+
+=== if-version-case-insensitive
+--- inputrc
+$if VERSION >= 8
+"\C-xa": "yes"
+$endif
+
+=== if-application-name
+--- script
+set rl_readline_name "MyApp"
+rl_initialize
+rl_macro_dumper 1
+--- inputrc
+$if MyApp
+"\C-xa": "exact"
+$endif
+$if myapp
+"\C-xb": "lower"
+$endif
+$if Other
+"\C-xc": "other"
+$endif
+
+=== if-application-default-name
+--- inputrc
+$if other
+"\C-xa": "default name is other"
+$endif
+
+=== if-application-name-trailing-words
+--- script
+set rl_readline_name "app"
+rl_initialize
+rl_macro_dumper 1
+--- inputrc
+$if app extra words
+"\C-xa": "yes"
+$endif
+
+=== if-unknown-word-is-false
+--- inputrc
+$if nosuchthing
+"\C-xa": "yes"
+$else
+"\C-xb": "else"
+$endif
+
+=== if-bool-variable
+--- inputrc
+set mark-directories on
+$if mark-directories == on
+"\C-xa": "eq-on"
+$endif
+$if mark-directories == off
+"\C-xb": "eq-off"
+$endif
+$if mark-directories != off
+"\C-xc": "ne-off"
+$endif
+$if mark-directories=on
+"\C-xd": "nospace"
+$endif
+$if mark-directories == ON
+"\C-xe": "case"
+$endif
+$if mark-directories = on
+"\C-xf": "single-eq"
+$endif
+
+=== if-string-variable
+--- inputrc
+set bell-style visible
+set completion-query-items 42
+$if bell-style == visible
+"\C-xa": "bell"
+$endif
+$if completion-query-items == 42
+"\C-xb": "num"
+$endif
+$if editing-mode == emacs
+"\C-xc": "mode"
+$endif
+$if keymap == emacs
+"\C-xd": "keymap"
+$endif
+$if comment-begin != #
+"\C-xe": "comment"
+$endif
+
+=== if-variable-errors
+--- inputrc
+$if bell-style
+"\C-xa": "noop"
+$endif
+$if bell-style < audible
+"\C-xb": "lt"
+$endif
+$if bell-style ==
+"\C-xc": "noarg"
+$endif
+$if bell-style audible
+"\C-xd": "nooperator"
+$endif
+"\C-xz": "end"
+
+=== if-variable-value-trailing-text
+--- inputrc
+$if bell-style == audible trailing
+"\C-xa": "yes"
+$endif
+
+=== if-variable-case-insensitive-name
+--- inputrc
+$if Bell-Style == audible
+"\C-xa": "yes"
+$endif
+
+=== else-branch
+--- inputrc
+$if mode=vi
+"\C-xa": "if"
+$else
+"\C-xb": "else"
+$endif
+
+=== else-of-true
+--- inputrc
+$if mode=emacs
+"\C-xa": "if"
+$else
+"\C-xb": "else"
+$endif
+
+=== else-without-if
+--- inputrc
+$else
+"\C-xa": "after"
+
+=== endif-without-if
+--- inputrc
+$endif
+"\C-xa": "after"
+
+=== missing-endif
+--- inputrc
+$if mode=vi
+"\C-xa": "inside"
+
+=== missing-endif-does-not-leak-to-next-read
+--- file next.inputrc
+"\C-xb": "next file"
+--- inputrc
+$if mode=vi
+"\C-xa": "inside"
+--- script
+rl_initialize
+rl_read_init_file "next.inputrc"
+rl_macro_dumper 1
+
+=== nested-true-true
+--- inputrc
+$if mode=emacs
+$if term=xterm
+"\C-xa": "both"
+$endif
+"\C-xb": "outer"
+$endif
+
+=== nested-false-outer
+--- inputrc
+$if mode=vi
+$if term=xterm
+"\C-xa": "inner"
+$else
+"\C-xb": "inner-else"
+$endif
+"\C-xc": "outer"
+$else
+"\C-xd": "outer-else"
+$endif
+
+=== nested-false-inner
+--- inputrc
+$if mode=emacs
+$if term=vt52
+"\C-xa": "inner"
+$else
+"\C-xb": "inner-else"
+$endif
+"\C-xc": "outer"
+$endif
+
+=== nested-deep
+--- inputrc
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+$if mode=emacs
+"\C-xa": "deep"
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+$endif
+"\C-xb": "after"
+
+=== multiple-else
+--- inputrc
+$if mode=vi
+"\C-xa": "if"
+$else
+"\C-xb": "else1"
+$else
+"\C-xc": "else2"
+$endif
+
+=== directive-case-and-spacing
+--- inputrc
+$IF mode=emacs
+"\C-xa": "upper"
+$ENDIF
+$  if mode=emacs
+"\C-xb": "spaced"
+$  endif
+   $if mode=emacs
+"\C-xc": "indented"
+   $endif
+
+=== directive-trailing-comment-on-endif
+--- inputrc
+$if mode=emacs
+"\C-xa": "a"
+$endif # comment
+"\C-xb": "b"
+
+=== unknown-directive
+--- inputrc
+$foo bar
+"\C-xa": "after"
+
+=== empty-directive
+--- inputrc
+$
+"\C-xa": "after"
+
+=== set-inside-false-if
+--- inputrc
+$if mode=vi
+set bell-style none
+$endif
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+
+=== include-basic
+--- file inc.inputrc
+"\C-xi": "included"
+--- inputrc
+"\C-xa": "before"
+$include inc.inputrc
+"\C-xb": "after"
+
+=== include-tilde
+--- file sub/inc.inputrc
+"\C-xi": "included"
+--- inputrc
+$include ~/sub/inc.inputrc
+
+=== include-missing
+--- inputrc
+$include nosuchfile
+"\C-xa": "after"
+
+=== include-nested
+--- file one.inputrc
+"\C-x1": "one"
+$include two.inputrc
+"\C-x3": "back in one"
+--- file two.inputrc
+"\C-x2": "two"
+--- inputrc
+$include one.inputrc
+"\C-x4": "main"
+
+=== include-in-false-if
+--- file inc.inputrc
+"\C-xi": "included"
+--- inputrc
+$if mode=vi
+$include inc.inputrc
+$endif
+
+=== include-error-line-numbers
+--- file inc.inputrc
+
+$bogus
+--- inputrc
+"\C-xa": "a"
+$include inc.inputrc
+$alsobogus
+
+=== include-conditional-spans-files
+# the conditional stack is shared across included files
+--- file inc.inputrc
+$if mode=vi
+--- inputrc
+$include inc.inputrc
+"\C-xa": "after include"
+$endif
+"\C-xb": "after endif"
+
+=== include-sets-variables
+--- file inc.inputrc
+set bell-style visible
+--- inputrc
+$include inc.inputrc
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+
+=== include-trailing-whitespace-in-name
+--- file inc.inputrc
+"\C-xi": "included"
+--- inputrc
+$include inc.inputrc  
+"\C-xa": "after"

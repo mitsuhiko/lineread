@@ -1,0 +1,313 @@
+{
+  "bool-value-rules": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set mark-modified-lines on\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines yes\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "off"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines ON\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines true\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "off"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines oN\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines 2\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "off"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines 1\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines 10\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bool-empty-value-is-on": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set mark-modified-lines\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines off\"", "ret": 0},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines   \"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_variable_bind \"mark-modified-lines\" \"\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_variable_bind \"mark-modified-lines\" NULL", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bool-trailing-text-ignored": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set mark-modified-lines on   # comment\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set mark-modified-lines off trailing words\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bool-variable-bind-does-not-trim": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind \"mark-modified-lines\" \"on \"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "variable-name-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set Mark-Modified-Lines on\"", "ret": 0},
+      {"op": "rl_variable_value \"mark-modified-lines\"", "ret": "on"},
+      {"op": "rl_variable_value \"MARK-MODIFIED-LINES\"", "ret": "on"},
+      {"op": "rl_variable_bind \"BELL-STYLE\" \"none\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-keyword-case-insensitive": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"SET bell-style none\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"Set bell-style visible\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-extra-whitespace": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"   set    bell-style     none   \"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"},
+      {"op": "rl_parse_and_bind \"set\\tbell-style\\tvisible\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "set-colon-separator": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set: bell-style none\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "unknown-variable": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set no-such-variable on\"", "ret": 1},
+      {"op": "rl_variable_bind \"no-such-variable\" \"on\"", "ret": 0},
+      {"op": "rl_variable_value \"no-such-variable\"", "ret": null},
+      {"op": "rl_parse_and_bind \"set\"", "ret": 1},
+      {"op": "rl_parse_and_bind \"set   \"", "ret": 1}
+    ],
+    "screen": [
+      "readline: no-such-variable: unknown variable name",
+      "readline: no-such-variable: unknown variable name",
+      "readline: : unknown variable name",
+      "readline: : unknown variable name"
+    ],
+    "cursor": [4, 0]
+  },
+  "unknown-variable-in-inputrc": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"}
+    ],
+    "screen": [
+      "readline: $BASE/inputrc: line 1: no-such-variable: unknown variable name"
+    ],
+    "cursor": [1, 0]
+  },
+  "variable-bind-return-values": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind \"bell-style\" \"visible\"", "ret": 0},
+      {"op": "rl_variable_bind \"bell-style\" \"bogus\"", "ret": 1},
+      {"op": "rl_variable_bind \"editing-mode\" \"bogus\"", "ret": 1},
+      {"op": "rl_variable_bind \"keymap\" \"bogus\"", "ret": 1},
+      {"op": "rl_variable_bind \"comment-begin\" \"\"", "ret": 1},
+      {"op": "rl_variable_bind \"mark-directories\" \"bogus\"", "ret": 0},
+      {"op": "rl_variable_bind \"nonexistent\" \"x\"", "ret": 0}
+    ],
+    "screen": [
+      "readline: bell-style: could not set value to `bogus'",
+      "readline: editing-mode: could not set value to `bogus'",
+      "readline: keymap: could not set value to `bogus'",
+      "readline: comment-begin: could not set value to `'",
+      "readline: nonexistent: unknown variable name"
+    ],
+    "cursor": [5, 0]
+  },
+  "string-trailing-whitespace-trimmed": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set comment-begin //   \"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "//"},
+      {"op": "rl_parse_and_bind \"set comment-begin a b c \"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "a b c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "string-quoted-value": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set comment-begin \\\"# \\\"\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "# "},
+      {"op": "rl_parse_and_bind \"set comment-begin \\\"a\\\\\\\"b\\\" trailing\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "a\\\"b"},
+      {"op": "rl_parse_and_bind \"set comment-begin \\\"unterminated\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": "unterminated"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "string-trailing-comment-kept": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set comment-begin ;; # not a comment\"", "ret": 0},
+      {"op": "rl_variable_value \"comment-begin\"", "ret": ";; # not a comment"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefer-visible-bell-sets-bell-style": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"},
+      {"op": "rl_parse_and_bind \"set prefer-visible-bell on\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "visible"},
+      {"op": "rl_parse_and_bind \"set prefer-visible-bell off\"", "ret": 0},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "audible"},
+      {"op": "rl_parse_and_bind \"set bell-style none\"", "ret": 0},
+      {"op": "rl_variable_value \"prefer-visible-bell\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bracketed-paste-sets-active-region": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set enable-bracketed-paste off\"", "ret": 0},
+      {"op": "rl_variable_value \"enable-active-region\"", "ret": "off"},
+      {"op": "rl_parse_and_bind \"set enable-active-region on\"", "ret": 0},
+      {"op": "rl_variable_value \"enable-bracketed-paste\"", "ret": "off"},
+      {"op": "rl_parse_and_bind \"set enable-bracketed-paste on\"", "ret": 0},
+      {"op": "rl_variable_value \"enable-active-region\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set enable-active-region off\"", "ret": 0},
+      {"op": "rl_variable_value \"enable-bracketed-paste\"", "ret": "on"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "blink-matching-paren-binds-close-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_function_of_keyseq \")\" emacs", "type": "func", "value": "self-insert"},
+      {"op": "rl_parse_and_bind \"set blink-matching-paren on\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \")\" emacs", "type": "func", "value": "?unknown"},
+      {"op": "rl_function_of_keyseq \"]\" emacs", "type": "func", "value": "?unknown"},
+      {"op": "rl_function_of_keyseq \"}\" emacs", "type": "func", "value": "?unknown"},
+      {"op": "rl_function_of_keyseq \")\" vi-insert", "type": "func", "value": "?unknown"},
+      {"op": "rl_parse_and_bind \"set blink-matching-paren off\"", "ret": 0},
+      {"op": "rl_function_of_keyseq \")\" emacs", "type": "func", "value": "self-insert"},
+      {"op": "rl_function_of_keyseq \"]\" vi-insert", "type": "func", "value": "self-insert"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "meta-flag-is-input-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_parse_and_bind \"set meta-flag on\"", "ret": 0},
+      {"op": "rl_variable_value \"input-meta\"", "ret": "on"},
+      {"op": "rl_parse_and_bind \"set input-meta off\"", "ret": 0},
+      {"op": "rl_variable_value \"meta-flag\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "defaults-before-initialize": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_dumper 1", "out": "set bind-tty-special-chars on\nset blink-matching-paren off\nset byte-oriented off\nset colored-completion-prefix off\nset colored-stats off\nset completion-ignore-case off\nset completion-map-case off\nset convert-meta on\nset disable-completion off\nset echo-control-characters on\nset enable-active-region on\nset enable-bracketed-paste on\nset enable-keypad off\nset enable-meta-key on\nset expand-tilde off\nset force-meta-prefix off\nset history-preserve-point off\nset horizontal-scroll-mode off\nset input-meta off\nset mark-directories on\nset mark-modified-lines off\nset mark-symlinked-directories off\nset match-hidden-files on\nset menu-complete-display-prefix off\nset meta-flag off\nset output-meta off\nset page-completions on\nset prefer-visible-bell on\nset print-completions-horizontally off\nset revert-all-at-newline off\nset search-ignore-case off\nset show-all-if-ambiguous off\nset show-all-if-unmodified off\nset show-mode-in-prompt off\nset skip-completed-text off\nset visible-stats off\nset bell-style audible\nset comment-begin #\nset completion-display-width -1\nset completion-prefix-display-length 0\nset completion-query-items 100\nset editing-mode emacs\nset emacs-mode-string @\nset history-size -1\nset keymap emacs\nset keyseq-timeout 500\nset vi-cmd-mode-string (cmd)\nset vi-ins-mode-string (ins)\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "defaults-after-initialize-utf8": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_dumper 1", "out": "set bind-tty-special-chars on\nset blink-matching-paren off\nset byte-oriented off\nset colored-completion-prefix off\nset colored-stats off\nset completion-ignore-case off\nset completion-map-case off\nset convert-meta off\nset disable-completion off\nset echo-control-characters on\nset enable-active-region on\nset enable-bracketed-paste on\nset enable-keypad off\nset enable-meta-key on\nset expand-tilde off\nset force-meta-prefix off\nset history-preserve-point off\nset horizontal-scroll-mode off\nset input-meta on\nset mark-directories on\nset mark-modified-lines off\nset mark-symlinked-directories off\nset match-hidden-files on\nset menu-complete-display-prefix off\nset meta-flag on\nset output-meta on\nset page-completions on\nset prefer-visible-bell on\nset print-completions-horizontally off\nset revert-all-at-newline off\nset search-ignore-case off\nset show-all-if-ambiguous off\nset show-all-if-unmodified off\nset show-mode-in-prompt off\nset skip-completed-text off\nset visible-stats off\nset active-region-end-color \\e[27m\nset active-region-start-color \\e[7m\nset bell-style audible\nset comment-begin #\nset completion-display-width -1\nset completion-prefix-display-length 0\nset completion-query-items 100\nset editing-mode emacs\nset emacs-mode-string @\nset history-size -1\nset keymap emacs\nset keyseq-timeout 500\nset vi-cmd-mode-string (cmd)\nset vi-ins-mode-string (ins)\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "defaults-after-initialize-c-locale": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_dumper 1", "out": "set bind-tty-special-chars on\nset blink-matching-paren off\nset byte-oriented off\nset colored-completion-prefix off\nset colored-stats off\nset completion-ignore-case off\nset completion-map-case off\nset convert-meta on\nset disable-completion off\nset echo-control-characters on\nset enable-active-region on\nset enable-bracketed-paste on\nset enable-keypad off\nset enable-meta-key on\nset expand-tilde off\nset force-meta-prefix off\nset history-preserve-point off\nset horizontal-scroll-mode off\nset input-meta off\nset mark-directories on\nset mark-modified-lines off\nset mark-symlinked-directories off\nset match-hidden-files on\nset menu-complete-display-prefix off\nset meta-flag off\nset output-meta off\nset page-completions on\nset prefer-visible-bell on\nset print-completions-horizontally off\nset revert-all-at-newline off\nset search-ignore-case off\nset show-all-if-ambiguous off\nset show-all-if-unmodified off\nset show-mode-in-prompt off\nset skip-completed-text off\nset visible-stats off\nset active-region-end-color \\e[27m\nset active-region-start-color \\e[7m\nset bell-style audible\nset comment-begin #\nset completion-display-width -1\nset completion-prefix-display-length 0\nset completion-query-items 100\nset editing-mode emacs\nset emacs-mode-string @\nset history-size -1\nset keymap emacs\nset keyseq-timeout 500\nset vi-cmd-mode-string (cmd)\nset vi-ins-mode-string (ins)\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "defaults-latin1-locale-meta": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"input-meta\"", "ret": "on"},
+      {"op": "rl_variable_value \"output-meta\"", "ret": "on"},
+      {"op": "rl_variable_value \"convert-meta\"", "ret": "off"},
+      {"op": "rl_variable_value \"byte-oriented\"", "ret": "off"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inputrc-overrides-locale-defaults": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"input-meta\"", "ret": "off"},
+      {"op": "rl_variable_value \"output-meta\"", "ret": "off"},
+      {"op": "rl_variable_value \"convert-meta\"", "ret": "on"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "variable-dumper-after-changes": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_dumper 1", "out": "set bind-tty-special-chars on\nset blink-matching-paren off\nset byte-oriented off\nset colored-completion-prefix off\nset colored-stats off\nset completion-ignore-case off\nset completion-map-case off\nset convert-meta off\nset disable-completion off\nset echo-control-characters on\nset enable-active-region on\nset enable-bracketed-paste on\nset enable-keypad off\nset enable-meta-key on\nset expand-tilde off\nset force-meta-prefix off\nset history-preserve-point off\nset horizontal-scroll-mode off\nset input-meta on\nset mark-directories on\nset mark-modified-lines on\nset mark-symlinked-directories off\nset match-hidden-files on\nset menu-complete-display-prefix off\nset meta-flag on\nset output-meta on\nset page-completions on\nset prefer-visible-bell on\nset print-completions-horizontally off\nset revert-all-at-newline off\nset search-ignore-case off\nset show-all-if-ambiguous off\nset show-all-if-unmodified off\nset show-mode-in-prompt off\nset skip-completed-text off\nset visible-stats off\nset active-region-end-color \\e[0m\nset active-region-start-color \\e[7m\nset bell-style none\nset comment-begin //\nset completion-display-width 40\nset completion-prefix-display-length 3\nset completion-query-items 7\nset editing-mode vi\nset emacs-mode-string E>\nset history-size 12\nset isearch-terminators \\C-a\nset keymap vi-insert\nset keyseq-timeout 99\nset vi-cmd-mode-string C>\nset vi-ins-mode-string I>\n"},
+      {"op": "rl_variable_dumper 0", "out": "bind-tty-special-chars is set to `on'\nblink-matching-paren is set to `off'\nbyte-oriented is set to `off'\ncolored-completion-prefix is set to `off'\ncolored-stats is set to `off'\ncompletion-ignore-case is set to `off'\ncompletion-map-case is set to `off'\nconvert-meta is set to `off'\ndisable-completion is set to `off'\necho-control-characters is set to `on'\nenable-active-region is set to `on'\nenable-bracketed-paste is set to `on'\nenable-keypad is set to `off'\nenable-meta-key is set to `on'\nexpand-tilde is set to `off'\nforce-meta-prefix is set to `off'\nhistory-preserve-point is set to `off'\nhorizontal-scroll-mode is set to `off'\ninput-meta is set to `on'\nmark-directories is set to `on'\nmark-modified-lines is set to `on'\nmark-symlinked-directories is set to `off'\nmatch-hidden-files is set to `on'\nmenu-complete-display-prefix is set to `off'\nmeta-flag is set to `on'\noutput-meta is set to `on'\npage-completions is set to `on'\nprefer-visible-bell is set to `on'\nprint-completions-horizontally is set to `off'\nrevert-all-at-newline is set to `off'\nsearch-ignore-case is set to `off'\nshow-all-if-ambiguous is set to `off'\nshow-all-if-unmodified is set to `off'\nshow-mode-in-prompt is set to `off'\nskip-completed-text is set to `off'\nvisible-stats is set to `off'\nactive-region-end-color is set to `\\e[0m'\nactive-region-start-color is set to `\\e[7m'\nbell-style is set to `none'\ncomment-begin is set to `//'\ncompletion-display-width is set to `40'\ncompletion-prefix-display-length is set to `3'\ncompletion-query-items is set to `7'\nediting-mode is set to `vi'\nemacs-mode-string is set to `E>'\nhistory-size is set to `12'\nisearch-terminators is set to `\\C-a'\nkeymap is set to `vi-insert'\nkeyseq-timeout is set to `99'\nvi-cmd-mode-string is set to `C>'\nvi-ins-mode-string is set to `I>'\n"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bind-from-script-before-initialize": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_variable_bind \"completion-query-items\" \"9\"", "ret": 0},
+      {"op": "rl_variable_bind \"bell-style\" \"none\"", "ret": 0},
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_variable_value \"completion-query-items\"", "ret": "5"},
+      {"op": "rl_variable_value \"bell-style\"", "ret": "none"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

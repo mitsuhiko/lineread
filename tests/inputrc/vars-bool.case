@@ -1,0 +1,472 @@
+# Readline variables: every boolean variable accepts on/off via `set` and
+# rl_variable_bind; rl_variable_value reports it.  Defaults are checked
+# after rl_initialize (some depend on the locale).
+tags: inputrc vars bool
+
+=== bind-tty-special-chars
+--- script
+rl_initialize
+rl_variable_value "bind-tty-special-chars"
+rl_parse_and_bind "set bind-tty-special-chars on"
+rl_variable_value "bind-tty-special-chars"
+rl_parse_and_bind "set bind-tty-special-chars off"
+rl_variable_value "bind-tty-special-chars"
+rl_variable_bind "bind-tty-special-chars" "1"
+rl_variable_value "bind-tty-special-chars"
+rl_variable_bind "bind-tty-special-chars" "0"
+rl_variable_value "bind-tty-special-chars"
+
+=== blink-matching-paren
+--- script
+rl_initialize
+rl_variable_value "blink-matching-paren"
+rl_parse_and_bind "set blink-matching-paren on"
+rl_variable_value "blink-matching-paren"
+rl_parse_and_bind "set blink-matching-paren off"
+rl_variable_value "blink-matching-paren"
+rl_variable_bind "blink-matching-paren" "1"
+rl_variable_value "blink-matching-paren"
+rl_variable_bind "blink-matching-paren" "0"
+rl_variable_value "blink-matching-paren"
+
+=== byte-oriented
+--- script
+rl_initialize
+rl_variable_value "byte-oriented"
+rl_parse_and_bind "set byte-oriented on"
+rl_variable_value "byte-oriented"
+rl_parse_and_bind "set byte-oriented off"
+rl_variable_value "byte-oriented"
+rl_variable_bind "byte-oriented" "1"
+rl_variable_value "byte-oriented"
+rl_variable_bind "byte-oriented" "0"
+rl_variable_value "byte-oriented"
+
+=== colored-completion-prefix
+--- script
+rl_initialize
+rl_variable_value "colored-completion-prefix"
+rl_parse_and_bind "set colored-completion-prefix on"
+rl_variable_value "colored-completion-prefix"
+rl_parse_and_bind "set colored-completion-prefix off"
+rl_variable_value "colored-completion-prefix"
+rl_variable_bind "colored-completion-prefix" "1"
+rl_variable_value "colored-completion-prefix"
+rl_variable_bind "colored-completion-prefix" "0"
+rl_variable_value "colored-completion-prefix"
+
+=== colored-stats
+--- script
+rl_initialize
+rl_variable_value "colored-stats"
+rl_parse_and_bind "set colored-stats on"
+rl_variable_value "colored-stats"
+rl_parse_and_bind "set colored-stats off"
+rl_variable_value "colored-stats"
+rl_variable_bind "colored-stats" "1"
+rl_variable_value "colored-stats"
+rl_variable_bind "colored-stats" "0"
+rl_variable_value "colored-stats"
+
+=== completion-ignore-case
+--- script
+rl_initialize
+rl_variable_value "completion-ignore-case"
+rl_parse_and_bind "set completion-ignore-case on"
+rl_variable_value "completion-ignore-case"
+rl_parse_and_bind "set completion-ignore-case off"
+rl_variable_value "completion-ignore-case"
+rl_variable_bind "completion-ignore-case" "1"
+rl_variable_value "completion-ignore-case"
+rl_variable_bind "completion-ignore-case" "0"
+rl_variable_value "completion-ignore-case"
+
+=== completion-map-case
+--- script
+rl_initialize
+rl_variable_value "completion-map-case"
+rl_parse_and_bind "set completion-map-case on"
+rl_variable_value "completion-map-case"
+rl_parse_and_bind "set completion-map-case off"
+rl_variable_value "completion-map-case"
+rl_variable_bind "completion-map-case" "1"
+rl_variable_value "completion-map-case"
+rl_variable_bind "completion-map-case" "0"
+rl_variable_value "completion-map-case"
+
+=== convert-meta
+--- script
+rl_initialize
+rl_variable_value "convert-meta"
+rl_parse_and_bind "set convert-meta on"
+rl_variable_value "convert-meta"
+rl_parse_and_bind "set convert-meta off"
+rl_variable_value "convert-meta"
+rl_variable_bind "convert-meta" "1"
+rl_variable_value "convert-meta"
+rl_variable_bind "convert-meta" "0"
+rl_variable_value "convert-meta"
+
+=== disable-completion
+--- script
+rl_initialize
+rl_variable_value "disable-completion"
+rl_parse_and_bind "set disable-completion on"
+rl_variable_value "disable-completion"
+rl_parse_and_bind "set disable-completion off"
+rl_variable_value "disable-completion"
+rl_variable_bind "disable-completion" "1"
+rl_variable_value "disable-completion"
+rl_variable_bind "disable-completion" "0"
+rl_variable_value "disable-completion"
+
+=== echo-control-characters
+--- script
+rl_initialize
+rl_variable_value "echo-control-characters"
+rl_parse_and_bind "set echo-control-characters on"
+rl_variable_value "echo-control-characters"
+rl_parse_and_bind "set echo-control-characters off"
+rl_variable_value "echo-control-characters"
+rl_variable_bind "echo-control-characters" "1"
+rl_variable_value "echo-control-characters"
+rl_variable_bind "echo-control-characters" "0"
+rl_variable_value "echo-control-characters"
+
+=== enable-active-region
+--- script
+rl_initialize
+rl_variable_value "enable-active-region"
+rl_parse_and_bind "set enable-active-region on"
+rl_variable_value "enable-active-region"
+rl_parse_and_bind "set enable-active-region off"
+rl_variable_value "enable-active-region"
+rl_variable_bind "enable-active-region" "1"
+rl_variable_value "enable-active-region"
+rl_variable_bind "enable-active-region" "0"
+rl_variable_value "enable-active-region"
+
+=== enable-bracketed-paste
+--- script
+rl_initialize
+rl_variable_value "enable-bracketed-paste"
+rl_parse_and_bind "set enable-bracketed-paste on"
+rl_variable_value "enable-bracketed-paste"
+rl_parse_and_bind "set enable-bracketed-paste off"
+rl_variable_value "enable-bracketed-paste"
+rl_variable_bind "enable-bracketed-paste" "1"
+rl_variable_value "enable-bracketed-paste"
+rl_variable_bind "enable-bracketed-paste" "0"
+rl_variable_value "enable-bracketed-paste"
+
+=== enable-keypad
+--- script
+rl_initialize
+rl_variable_value "enable-keypad"
+rl_parse_and_bind "set enable-keypad on"
+rl_variable_value "enable-keypad"
+rl_parse_and_bind "set enable-keypad off"
+rl_variable_value "enable-keypad"
+rl_variable_bind "enable-keypad" "1"
+rl_variable_value "enable-keypad"
+rl_variable_bind "enable-keypad" "0"
+rl_variable_value "enable-keypad"
+
+=== enable-meta-key
+--- script
+rl_initialize
+rl_variable_value "enable-meta-key"
+rl_parse_and_bind "set enable-meta-key on"
+rl_variable_value "enable-meta-key"
+rl_parse_and_bind "set enable-meta-key off"
+rl_variable_value "enable-meta-key"
+rl_variable_bind "enable-meta-key" "1"
+rl_variable_value "enable-meta-key"
+rl_variable_bind "enable-meta-key" "0"
+rl_variable_value "enable-meta-key"
+
+=== expand-tilde
+--- script
+rl_initialize
+rl_variable_value "expand-tilde"
+rl_parse_and_bind "set expand-tilde on"
+rl_variable_value "expand-tilde"
+rl_parse_and_bind "set expand-tilde off"
+rl_variable_value "expand-tilde"
+rl_variable_bind "expand-tilde" "1"
+rl_variable_value "expand-tilde"
+rl_variable_bind "expand-tilde" "0"
+rl_variable_value "expand-tilde"
+
+=== force-meta-prefix
+--- script
+rl_initialize
+rl_variable_value "force-meta-prefix"
+rl_parse_and_bind "set force-meta-prefix on"
+rl_variable_value "force-meta-prefix"
+rl_parse_and_bind "set force-meta-prefix off"
+rl_variable_value "force-meta-prefix"
+rl_variable_bind "force-meta-prefix" "1"
+rl_variable_value "force-meta-prefix"
+rl_variable_bind "force-meta-prefix" "0"
+rl_variable_value "force-meta-prefix"
+
+=== history-preserve-point
+--- script
+rl_initialize
+rl_variable_value "history-preserve-point"
+rl_parse_and_bind "set history-preserve-point on"
+rl_variable_value "history-preserve-point"
+rl_parse_and_bind "set history-preserve-point off"
+rl_variable_value "history-preserve-point"
+rl_variable_bind "history-preserve-point" "1"
+rl_variable_value "history-preserve-point"
+rl_variable_bind "history-preserve-point" "0"
+rl_variable_value "history-preserve-point"
+
+=== horizontal-scroll-mode
+--- script
+rl_initialize
+rl_variable_value "horizontal-scroll-mode"
+rl_parse_and_bind "set horizontal-scroll-mode on"
+rl_variable_value "horizontal-scroll-mode"
+rl_parse_and_bind "set horizontal-scroll-mode off"
+rl_variable_value "horizontal-scroll-mode"
+rl_variable_bind "horizontal-scroll-mode" "1"
+rl_variable_value "horizontal-scroll-mode"
+rl_variable_bind "horizontal-scroll-mode" "0"
+rl_variable_value "horizontal-scroll-mode"
+
+=== input-meta
+--- script
+rl_initialize
+rl_variable_value "input-meta"
+rl_parse_and_bind "set input-meta on"
+rl_variable_value "input-meta"
+rl_parse_and_bind "set input-meta off"
+rl_variable_value "input-meta"
+rl_variable_bind "input-meta" "1"
+rl_variable_value "input-meta"
+rl_variable_bind "input-meta" "0"
+rl_variable_value "input-meta"
+
+=== mark-directories
+--- script
+rl_initialize
+rl_variable_value "mark-directories"
+rl_parse_and_bind "set mark-directories on"
+rl_variable_value "mark-directories"
+rl_parse_and_bind "set mark-directories off"
+rl_variable_value "mark-directories"
+rl_variable_bind "mark-directories" "1"
+rl_variable_value "mark-directories"
+rl_variable_bind "mark-directories" "0"
+rl_variable_value "mark-directories"
+
+=== mark-modified-lines
+--- script
+rl_initialize
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines on"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines off"
+rl_variable_value "mark-modified-lines"
+rl_variable_bind "mark-modified-lines" "1"
+rl_variable_value "mark-modified-lines"
+rl_variable_bind "mark-modified-lines" "0"
+rl_variable_value "mark-modified-lines"
+
+=== mark-symlinked-directories
+--- script
+rl_initialize
+rl_variable_value "mark-symlinked-directories"
+rl_parse_and_bind "set mark-symlinked-directories on"
+rl_variable_value "mark-symlinked-directories"
+rl_parse_and_bind "set mark-symlinked-directories off"
+rl_variable_value "mark-symlinked-directories"
+rl_variable_bind "mark-symlinked-directories" "1"
+rl_variable_value "mark-symlinked-directories"
+rl_variable_bind "mark-symlinked-directories" "0"
+rl_variable_value "mark-symlinked-directories"
+
+=== match-hidden-files
+--- script
+rl_initialize
+rl_variable_value "match-hidden-files"
+rl_parse_and_bind "set match-hidden-files on"
+rl_variable_value "match-hidden-files"
+rl_parse_and_bind "set match-hidden-files off"
+rl_variable_value "match-hidden-files"
+rl_variable_bind "match-hidden-files" "1"
+rl_variable_value "match-hidden-files"
+rl_variable_bind "match-hidden-files" "0"
+rl_variable_value "match-hidden-files"
+
+=== menu-complete-display-prefix
+--- script
+rl_initialize
+rl_variable_value "menu-complete-display-prefix"
+rl_parse_and_bind "set menu-complete-display-prefix on"
+rl_variable_value "menu-complete-display-prefix"
+rl_parse_and_bind "set menu-complete-display-prefix off"
+rl_variable_value "menu-complete-display-prefix"
+rl_variable_bind "menu-complete-display-prefix" "1"
+rl_variable_value "menu-complete-display-prefix"
+rl_variable_bind "menu-complete-display-prefix" "0"
+rl_variable_value "menu-complete-display-prefix"
+
+=== meta-flag
+--- script
+rl_initialize
+rl_variable_value "meta-flag"
+rl_parse_and_bind "set meta-flag on"
+rl_variable_value "meta-flag"
+rl_parse_and_bind "set meta-flag off"
+rl_variable_value "meta-flag"
+rl_variable_bind "meta-flag" "1"
+rl_variable_value "meta-flag"
+rl_variable_bind "meta-flag" "0"
+rl_variable_value "meta-flag"
+
+=== output-meta
+--- script
+rl_initialize
+rl_variable_value "output-meta"
+rl_parse_and_bind "set output-meta on"
+rl_variable_value "output-meta"
+rl_parse_and_bind "set output-meta off"
+rl_variable_value "output-meta"
+rl_variable_bind "output-meta" "1"
+rl_variable_value "output-meta"
+rl_variable_bind "output-meta" "0"
+rl_variable_value "output-meta"
+
+=== page-completions
+--- script
+rl_initialize
+rl_variable_value "page-completions"
+rl_parse_and_bind "set page-completions on"
+rl_variable_value "page-completions"
+rl_parse_and_bind "set page-completions off"
+rl_variable_value "page-completions"
+rl_variable_bind "page-completions" "1"
+rl_variable_value "page-completions"
+rl_variable_bind "page-completions" "0"
+rl_variable_value "page-completions"
+
+=== prefer-visible-bell
+--- script
+rl_initialize
+rl_variable_value "prefer-visible-bell"
+rl_parse_and_bind "set prefer-visible-bell on"
+rl_variable_value "prefer-visible-bell"
+rl_parse_and_bind "set prefer-visible-bell off"
+rl_variable_value "prefer-visible-bell"
+rl_variable_bind "prefer-visible-bell" "1"
+rl_variable_value "prefer-visible-bell"
+rl_variable_bind "prefer-visible-bell" "0"
+rl_variable_value "prefer-visible-bell"
+
+=== print-completions-horizontally
+--- script
+rl_initialize
+rl_variable_value "print-completions-horizontally"
+rl_parse_and_bind "set print-completions-horizontally on"
+rl_variable_value "print-completions-horizontally"
+rl_parse_and_bind "set print-completions-horizontally off"
+rl_variable_value "print-completions-horizontally"
+rl_variable_bind "print-completions-horizontally" "1"
+rl_variable_value "print-completions-horizontally"
+rl_variable_bind "print-completions-horizontally" "0"
+rl_variable_value "print-completions-horizontally"
+
+=== revert-all-at-newline
+--- script
+rl_initialize
+rl_variable_value "revert-all-at-newline"
+rl_parse_and_bind "set revert-all-at-newline on"
+rl_variable_value "revert-all-at-newline"
+rl_parse_and_bind "set revert-all-at-newline off"
+rl_variable_value "revert-all-at-newline"
+rl_variable_bind "revert-all-at-newline" "1"
+rl_variable_value "revert-all-at-newline"
+rl_variable_bind "revert-all-at-newline" "0"
+rl_variable_value "revert-all-at-newline"
+
+=== search-ignore-case
+--- script
+rl_initialize
+rl_variable_value "search-ignore-case"
+rl_parse_and_bind "set search-ignore-case on"
+rl_variable_value "search-ignore-case"
+rl_parse_and_bind "set search-ignore-case off"
+rl_variable_value "search-ignore-case"
+rl_variable_bind "search-ignore-case" "1"
+rl_variable_value "search-ignore-case"
+rl_variable_bind "search-ignore-case" "0"
+rl_variable_value "search-ignore-case"
+
+=== show-all-if-ambiguous
+--- script
+rl_initialize
+rl_variable_value "show-all-if-ambiguous"
+rl_parse_and_bind "set show-all-if-ambiguous on"
+rl_variable_value "show-all-if-ambiguous"
+rl_parse_and_bind "set show-all-if-ambiguous off"
+rl_variable_value "show-all-if-ambiguous"
+rl_variable_bind "show-all-if-ambiguous" "1"
+rl_variable_value "show-all-if-ambiguous"
+rl_variable_bind "show-all-if-ambiguous" "0"
+rl_variable_value "show-all-if-ambiguous"
+
+=== show-all-if-unmodified
+--- script
+rl_initialize
+rl_variable_value "show-all-if-unmodified"
+rl_parse_and_bind "set show-all-if-unmodified on"
+rl_variable_value "show-all-if-unmodified"
+rl_parse_and_bind "set show-all-if-unmodified off"
+rl_variable_value "show-all-if-unmodified"
+rl_variable_bind "show-all-if-unmodified" "1"
+rl_variable_value "show-all-if-unmodified"
+rl_variable_bind "show-all-if-unmodified" "0"
+rl_variable_value "show-all-if-unmodified"
+
+=== show-mode-in-prompt
+--- script
+rl_initialize
+rl_variable_value "show-mode-in-prompt"
+rl_parse_and_bind "set show-mode-in-prompt on"
+rl_variable_value "show-mode-in-prompt"
+rl_parse_and_bind "set show-mode-in-prompt off"
+rl_variable_value "show-mode-in-prompt"
+rl_variable_bind "show-mode-in-prompt" "1"
+rl_variable_value "show-mode-in-prompt"
+rl_variable_bind "show-mode-in-prompt" "0"
+rl_variable_value "show-mode-in-prompt"
+
+=== skip-completed-text
+--- script
+rl_initialize
+rl_variable_value "skip-completed-text"
+rl_parse_and_bind "set skip-completed-text on"
+rl_variable_value "skip-completed-text"
+rl_parse_and_bind "set skip-completed-text off"
+rl_variable_value "skip-completed-text"
+rl_variable_bind "skip-completed-text" "1"
+rl_variable_value "skip-completed-text"
+rl_variable_bind "skip-completed-text" "0"
+rl_variable_value "skip-completed-text"
+
+=== visible-stats
+--- script
+rl_initialize
+rl_variable_value "visible-stats"
+rl_parse_and_bind "set visible-stats on"
+rl_variable_value "visible-stats"
+rl_parse_and_bind "set visible-stats off"
+rl_variable_value "visible-stats"
+rl_variable_bind "visible-stats" "1"
+rl_variable_value "visible-stats"
+rl_variable_bind "visible-stats" "0"
+rl_variable_value "visible-stats"

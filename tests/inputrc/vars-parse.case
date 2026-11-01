@@ -1,0 +1,235 @@
+# Parsing of `set` lines and variable values: boolean value rules, case
+# insensitivity, trailing text, quoting, unknown variables, special
+# boolean side effects and locale dependent defaults.
+tags: inputrc vars
+screen: 160x24
+
+=== bool-value-rules
+--- script
+rl_parse_and_bind "set mark-modified-lines on"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines yes"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines ON"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines true"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines oN"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines 2"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines 1"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines 10"
+rl_variable_value "mark-modified-lines"
+
+=== bool-empty-value-is-on
+--- script
+rl_parse_and_bind "set mark-modified-lines"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines off"
+rl_parse_and_bind "set mark-modified-lines   "
+rl_variable_value "mark-modified-lines"
+rl_variable_bind "mark-modified-lines" ""
+rl_variable_value "mark-modified-lines"
+rl_variable_bind "mark-modified-lines" NULL
+rl_variable_value "mark-modified-lines"
+
+=== bool-trailing-text-ignored
+--- script
+rl_parse_and_bind "set mark-modified-lines on   # comment"
+rl_variable_value "mark-modified-lines"
+rl_parse_and_bind "set mark-modified-lines off trailing words"
+rl_variable_value "mark-modified-lines"
+
+=== bool-variable-bind-does-not-trim
+--- script
+rl_variable_bind "mark-modified-lines" "on "
+rl_variable_value "mark-modified-lines"
+
+=== variable-name-case-insensitive
+--- script
+rl_parse_and_bind "set Mark-Modified-Lines on"
+rl_variable_value "mark-modified-lines"
+rl_variable_value "MARK-MODIFIED-LINES"
+rl_variable_bind "BELL-STYLE" "none"
+rl_variable_value "bell-style"
+
+=== set-keyword-case-insensitive
+--- script
+rl_parse_and_bind "SET bell-style none"
+rl_variable_value "bell-style"
+rl_parse_and_bind "Set bell-style visible"
+rl_variable_value "bell-style"
+
+=== set-extra-whitespace
+--- script
+rl_parse_and_bind "   set    bell-style     none   "
+rl_variable_value "bell-style"
+rl_parse_and_bind "set\tbell-style\tvisible"
+rl_variable_value "bell-style"
+
+=== set-colon-separator
+# "set:" is not the set keyword
+--- script
+rl_parse_and_bind "set: bell-style none"
+rl_variable_value "bell-style"
+
+=== unknown-variable
+--- script
+rl_parse_and_bind "set no-such-variable on"
+rl_variable_bind "no-such-variable" "on"
+rl_variable_value "no-such-variable"
+rl_parse_and_bind "set"
+rl_parse_and_bind "set   "
+
+=== unknown-variable-in-inputrc
+--- inputrc
+set no-such-variable on
+set bell-style none
+--- script
+rl_initialize
+rl_variable_value "bell-style"
+
+=== variable-bind-return-values
+--- script
+rl_variable_bind "bell-style" "visible"
+rl_variable_bind "bell-style" "bogus"
+rl_variable_bind "editing-mode" "bogus"
+rl_variable_bind "keymap" "bogus"
+rl_variable_bind "comment-begin" ""
+rl_variable_bind "mark-directories" "bogus"
+rl_variable_bind "nonexistent" "x"
+
+=== string-trailing-whitespace-trimmed
+--- script
+rl_parse_and_bind "set comment-begin //   "
+rl_variable_value "comment-begin"
+rl_parse_and_bind "set comment-begin a b c "
+rl_variable_value "comment-begin"
+
+=== string-quoted-value
+--- script
+rl_parse_and_bind "set comment-begin \"# \""
+rl_variable_value "comment-begin"
+rl_parse_and_bind "set comment-begin \"a\\\"b\" trailing"
+rl_variable_value "comment-begin"
+rl_parse_and_bind "set comment-begin \"unterminated"
+rl_variable_value "comment-begin"
+
+=== string-trailing-comment-kept
+--- script
+rl_parse_and_bind "set comment-begin ;; # not a comment"
+rl_variable_value "comment-begin"
+
+=== prefer-visible-bell-sets-bell-style
+--- script
+rl_variable_value "bell-style"
+rl_parse_and_bind "set prefer-visible-bell on"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set prefer-visible-bell off"
+rl_variable_value "bell-style"
+rl_parse_and_bind "set bell-style none"
+rl_variable_value "prefer-visible-bell"
+
+=== bracketed-paste-sets-active-region
+--- script
+rl_parse_and_bind "set enable-bracketed-paste off"
+rl_variable_value "enable-active-region"
+rl_parse_and_bind "set enable-active-region on"
+rl_variable_value "enable-bracketed-paste"
+rl_parse_and_bind "set enable-bracketed-paste on"
+rl_variable_value "enable-active-region"
+rl_parse_and_bind "set enable-active-region off"
+rl_variable_value "enable-bracketed-paste"
+
+=== blink-matching-paren-binds-close-chars
+--- script
+rl_initialize
+rl_function_of_keyseq ")" emacs
+rl_parse_and_bind "set blink-matching-paren on"
+rl_function_of_keyseq ")" emacs
+rl_function_of_keyseq "]" emacs
+rl_function_of_keyseq "}" emacs
+rl_function_of_keyseq ")" vi-insert
+rl_parse_and_bind "set blink-matching-paren off"
+rl_function_of_keyseq ")" emacs
+rl_function_of_keyseq "]" vi-insert
+
+=== meta-flag-is-input-meta
+--- script
+rl_parse_and_bind "set meta-flag on"
+rl_variable_value "input-meta"
+rl_parse_and_bind "set input-meta off"
+rl_variable_value "meta-flag"
+
+=== defaults-before-initialize
+--- script
+rl_variable_dumper 1
+
+=== defaults-after-initialize-utf8
+--- script
+rl_initialize
+rl_variable_dumper 1
+
+=== defaults-after-initialize-c-locale
+env: LC_ALL=C
+env: LC_CTYPE=C
+--- script
+rl_initialize
+rl_variable_dumper 1
+
+=== defaults-latin1-locale-meta
+# an 8-bit locale enables the meta variables like UTF-8 does
+env: LC_CTYPE=en_US.ISO8859-1
+platforms: darwin
+--- script
+rl_initialize
+rl_variable_value "input-meta"
+rl_variable_value "output-meta"
+rl_variable_value "convert-meta"
+rl_variable_value "byte-oriented"
+
+=== inputrc-overrides-locale-defaults
+--- inputrc
+set input-meta off
+set output-meta off
+set convert-meta on
+--- script
+rl_initialize
+rl_variable_value "input-meta"
+rl_variable_value "output-meta"
+rl_variable_value "convert-meta"
+
+=== variable-dumper-after-changes
+--- inputrc
+set bell-style none
+set comment-begin //
+set completion-display-width 40
+set completion-prefix-display-length 3
+set completion-query-items 7
+set editing-mode vi
+set emacs-mode-string E>
+set history-size 12
+set keyseq-timeout 99
+set vi-cmd-mode-string C>
+set vi-ins-mode-string I>
+set isearch-terminators "\C-a"
+set active-region-start-color "\e[7m"
+set active-region-end-color "\e[0m"
+set mark-modified-lines on
+--- script
+rl_initialize
+rl_variable_dumper 1
+rl_variable_dumper 0
+
+=== bind-from-script-before-initialize
+# variables set before rl_initialize are kept, the inputrc is read after
+--- inputrc
+set completion-query-items 5
+--- script
+rl_variable_bind "completion-query-items" "9"
+rl_variable_bind "bell-style" "none"
+rl_initialize
+rl_variable_value "completion-query-items"
+rl_variable_value "bell-style"
