@@ -900,8 +900,10 @@ pub unsafe extern "C" fn rl_export_completions(_count: c_int, key: c_int) -> c_i
 /// Write the matches for export-completions: count, text, start:end, then
 /// the matches, one per line.
 unsafe fn export_matches(m: &[Vec<u8>], text: &[u8], start: usize, end: usize) {
-    crate::display::move_to_end_for_output();
-    crate::terminal::rl_crlf();
+    if crate::readline::in_readline() {
+        crate::display::move_to_end_for_output();
+        crate::terminal::rl_crlf();
+    }
     let mut out = Vec::new();
     out.extend_from_slice(m.len().to_string().as_bytes());
     out.push(b'\n');
