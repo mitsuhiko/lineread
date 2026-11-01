@@ -246,3 +246,34 @@ With a fifth agent, split **V** (vi.rs, area vi) off **E**.  Shared
 helpers that several streams need (e.g. `mb.rs`) are extended additively;
 announce changes to `readline.rs`, `dispatch.rs`, `buffer.rs`, `display.rs`
 signatures to the other streams.
+
+### Starting points (state at hand-off)
+
+`grep -rn 'todo_stub!' impl/src` lists the unimplemented functions.  Beyond
+those:
+
+* **H**: history files, `history_search*`, history expansion, tilde are
+  stubs.  Timestamps: `add_history` stores "NUL + decimal time" (reads as
+  "" but `history_get_time` sees it while `history_comment_char` is NUL) —
+  verify against tests.  isearch / non-incremental / prefix and substring
+  search, operate-and-get-next, fetch-history, yank-nth/last-arg.
+  `stifle_history` sets `history_base` to the number of removed entries
+  (observed), verify.
+* **B**: dumpers (`rl_function_dumper`, `rl_macro_dumper`,
+  `rl_print_keybinding`, `rl_invoking_keyseqs*`), `rl_trim_arg_from_keyseq`,
+  signals (all stubs), tty special-character bindings, `input-meta` /
+  `convert-meta` on input, locale changes between calls (tests/utf8/locale),
+  timeouts and event-hook state flags (tests/input), callback state
+  emulation between calls (tests/callback/interface.case), init-file corner
+  cases.
+* **E**: vi mode (all stubs), transpose-words, insert-comment, overwrite
+  mode details, keyboard macro counts/printing, execute-named-command,
+  arrow-key-prefix, numeric-argument corner cases (the `(arg: N)` message
+  after EOF differs between digit-argument and universal-argument),
+  tilde-expand (needs H's tilde), previous/next-screen-line (needs D's
+  layout: use `display::layout()`), bracketed-paste undo/mark,
+  recursive macro nesting limit (currently loops: test times out).
+* **D**: completion (all), `rl_message` with newlines, horizontal scrolling,
+  dumb terminals, lines taller than the screen, resize re-layout,
+  mark-modified-lines, active-region highlighting, paren blinking,
+  echo of signal characters (with B), LS_COLORS, `rl_change_environment`.
