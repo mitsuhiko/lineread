@@ -246,6 +246,7 @@ struct Isearch {
 
 impl Isearch {
     unsafe fn new(dir: isize) -> Isearch {
+        histcmds::commit_entry_edits();
         let len = history_length.get().max(0) as usize;
         let mut lines: Vec<Vec<u8>> = (0..len).map(|i| history::line_at(i as c_int).unwrap_or(&[]).to_vec()).collect();
         let cur = buffer::line().to_vec();
@@ -581,9 +582,10 @@ unsafe fn noninc_read() -> Result<Vec<u8>, bool> {
         }
     };
     // the search string is edited in the line buffer
+    let mark = buffer::rl_mark.get();
     buffer::set_line(b"");
     buffer::rl_point.set(0);
-    buffer::rl_mark.set(0);
+    buffer::rl_mark.set(mark);
     display::set_message(&prompt);
     let ins = |b: &[u8]| {
         buffer::rl_point.set(buffer::rl_end.get());

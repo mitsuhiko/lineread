@@ -1,0 +1,38 @@
+# History search/navigation details found by the differential fuzzer.
+tags: history search fuzz
+
+=== noninc-minibuffer-keeps-mark
+tags: non-incremental-reverse-search-history
+description: the mark is not reset while the search string is read
+screen: 40x8
+--- script
+readline "a much longer prompt string> "
+--- keys
+2\M-0\C-k\M-p<dump>\C-g\r
+
+=== end-of-history-at-end-keeps-undo
+tags: end-of-history undo
+--- script
+readline "> " 2
+--- keys
+wy\M-><dump>\C-_<dump>\r!r\M->\C-_<dump>\r
+
+=== isearch-from-edited-entry-commits-edits
+tags: reverse-search-history undo
+--- script
+add_history "a.b"
+add_history "zz"
+readline "> " 2 addhist
+history_dump
+--- keys
+\C-p\C-pofk\C-rzz<dumpfull>\C-g<dumpfull>\C-n\C-p<dumpfull>\r\C-p\C-p\C-p<dumpfull>\r
+
+=== isearch-from-edited-entry-accept
+tags: reverse-search-history undo
+--- script
+add_history "a.b"
+add_history "zz"
+readline "> " 2 addhist
+history_dump
+--- keys
+\C-p\C-pofk\C-rzz\C-j<dumpfull>\C-p<dumpfull>\r\r

@@ -1,0 +1,60 @@
+{
+  "noninc-minibuffer-keeps-mark": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 1, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "2"}
+    ],
+    "screen": [
+      "a much longer prompt string> 2"
+    ],
+    "cursor": [1, 0]
+  },
+  "end-of-history-at-end-keeps-undo": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "wy", "point": 2, "end": 2, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""},
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">",
+      ">"
+    ],
+    "cursor": [2, 0]
+  },
+  "isearch-from-edited-entry-commits-edits": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "a.bofk", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "MOREINPUT", "ISEARCH", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "(failed reverse-i-search)`zz': ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 2, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "a.bofk", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "reverse-search-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 2, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "a.bofk", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "previous-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 16, "executing_keyseq": "", "executing_macro": null, "history_length": 2, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "a.bofk"},
+      {"op": "dumpfull", "line": "a.bofk", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "previous-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 16, "executing_keyseq": "", "executing_macro": null, "history_length": 3, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "a.bofk"},
+      {"op": "history_dump", "base": 1, "length": 4, "max": 0, "stifled": 0, "pos": 0, "entries": [{"line": "a.bofk", "timestamp": "", "data": 0}, {"line": "zz", "timestamp": "", "data": 0}, {"line": "a.bofk", "timestamp": "", "data": 0}, {"line": "a.bofk", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> a.bofk",
+      "> a.bofk"
+    ],
+    "cursor": [2, 0]
+  },
+  "isearch-from-edited-entry-accept": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "a.bofk", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "reverse-search-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 18, "executing_keyseq": "", "executing_macro": null, "history_length": 2, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "a.bofk", "point": 0, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "previous-history", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 16, "executing_keyseq": "", "executing_macro": null, "history_length": 2, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "a.bofk"},
+      {"op": "readline", "ret": ""},
+      {"op": "history_dump", "base": 1, "length": 3, "max": 0, "stifled": 0, "pos": 3, "entries": [{"line": "a.bofk", "timestamp": "", "data": 0}, {"line": "zz", "timestamp": "", "data": 0}, {"line": "a.bofk", "timestamp": "", "data": 0}]}
+    ],
+    "screen": [
+      "> a.bofk",
+      ">"
+    ],
+    "cursor": [2, 0]
+  }
+}

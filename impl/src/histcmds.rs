@@ -184,6 +184,24 @@ pub unsafe extern "C" fn rl_maybe_replace_line() -> c_int {
     0
 }
 
+/// Starting a search on an edited history entry: the entry takes the
+/// edited text, the edits can no longer be undone.
+pub unsafe fn commit_entry_edits() {
+    let o = history_offset.get();
+    let e = history::entry_at(o);
+    let l = rl_undo_list.get();
+    if e.is_null() || l.is_null() {
+        return;
+    }
+    rl_undo_list.set(null_mut());
+    let c = c_strdup(buffer::line());
+    let old = history::replace_history_entry(o, c, null_mut());
+    cfree(c);
+    history::free_history_entry(old);
+    forget_undo_list(l);
+    crate::undo::free_list(l);
+}
+
 /// The text of the line saved when moving into the history, if any.
 pub fn saved_line_text() -> Option<Vec<u8>> {
     SAVED.get_mut().as_ref().map(|s| s.text.clone())
