@@ -369,7 +369,7 @@ def main(argv=None) -> int:
             "tags": {k: dict(v) for k, v in sorted(tags.items())},
             "cases": [rep for _, rep, _ in case_reports],
         }
-        json.dump(summary, sys.stdout, indent=1, ensure_ascii=False, default=str)
+        json.dump(summary, sys.stdout, indent=1, ensure_ascii=True, default=str)
         sys.stdout.write("\n")
     else:
         for c, rep, runs in case_reports:
