@@ -1,0 +1,36 @@
+# vi mode with convert-meta on: an 8-bit key whose ESC-prefixed form is
+# unbound runs the plain key in the current keymap (insert: self-insert,
+# command: the command), not the ESC prefix's own binding.
+tags: vi convert-meta
+--- inputrc
+set keyseq-timeout 50
+set editing-mode vi
+set convert-meta on
+--- script
+readline "> "
+
+=== insert-meta-bytes-stripped
+keys: \xe8<pause><dumpfull>\xaa<pause><dumpfull>\x9e<pause><dumpfull>\r
+
+=== insert-typeahead-raw
+keys: x\xe8<pause><dumpfull>\r
+
+=== insert-meta-bound-sequence
+--- inputrc
+set keyseq-timeout 50
+set editing-mode vi
+set convert-meta on
+set keymap vi-insert
+"\eh": "ZZ"
+--- keys
+\xe8<pause><dumpfull>\r
+
+=== command-meta-runs-plain-key
+keys: abc\e<pause>\xe8<pause><dumpfull>\r
+
+=== emacs-meta-unbound
+--- inputrc
+set keyseq-timeout 50
+set convert-meta on
+--- keys
+\xe8<pause><dumpfull>\r

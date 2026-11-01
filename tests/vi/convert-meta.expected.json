@@ -1,0 +1,59 @@
+{
+  "insert-meta-bytes-stripped": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "h", "point": 1, "end": 1, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 1, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 104, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "h*", "point": 2, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 42, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "dumpfull", "line": "h*\u001e", "point": 3, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 3, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 30, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "h*\u001e"}
+    ],
+    "screen": [
+      "> h*^^"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-typeahead-raw": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "x\udce8", "point": 2, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 120, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "x\udce8"}
+    ],
+    "screen": [
+      "> x�"
+    ],
+    "cursor": [1, 0]
+  },
+  "insert-meta-bound-sequence": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "ZZ", "point": 2, "end": 2, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [["insert", 0, 2, null]], "prompt": "> ", "display_prompt": "> ", "last_func": "self-insert", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 90, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "ZZ"}
+    ],
+    "screen": [
+      "> ZZ"
+    ],
+    "cursor": [1, 0]
+  },
+  "command-meta-runs-plain-key": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "abc", "point": 1, "end": 3, "mark": 0, "mode": "vi", "keymap": "vi", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED", "VICMDONCE"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": "backward-char", "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 104, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "emacs-meta-unbound": {
+    "exit": 0,
+    "results": [
+      {"op": "dumpfull", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1, "state": ["INITIALIZED", "TERMPREPPED", "READCMD", "TTYCSAVED"], "undo": [], "prompt": "> ", "display_prompt": "> ", "last_func": null, "done": 0, "eof_found": 0, "pending_input": 0, "mark_active": 0, "executing_key": 0, "executing_keyseq": "", "executing_macro": null, "history_length": 0, "history_base": 1, "history_pos": 0},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  }
+}
