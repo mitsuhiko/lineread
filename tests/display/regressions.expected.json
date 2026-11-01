@@ -246,5 +246,32 @@
         "cursor": [0, 10]
       }
     ]
+  },
+  "no-xenl-cursor-stays-in-last-column": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmnopqrstuvwxyz"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopqrstuvwxyz"
+        ],
+        "cursor": [1, 18]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
   }
 }

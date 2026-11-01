@@ -86,3 +86,12 @@ set rl_redisplay_function script:rd
 readline "> "
 --- keys
 0123456789abcdefg<snap>h<snap>i<snap>\C-a<snap>\C-e<snap>\C-b<snap>\r
+
+=== no-xenl-cursor-stays-in-last-column
+tags: terminal wrap
+env: TERM=ansi
+screen: 20x6
+--- script
+readline "> "
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz<snap>\C-a<snap>\r

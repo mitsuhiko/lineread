@@ -284,6 +284,12 @@ pub fn init_file_read() {
     }
 }
 
+/// Does the cursor go to the next row when a row is filled (the terminal
+/// has `am` and `xenl`, i.e. readline uses all columns)?
+pub fn wraps_at_margin() -> bool {
+    AUTOWRAP.get() != Some(false)
+}
+
 /// Does the terminal wrap automatically (`am`)?
 pub fn has_auto_margins() -> bool {
     term().auto_wrap

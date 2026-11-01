@@ -351,8 +351,9 @@ fn layout_line(lay: &mut Lay, line: &[u8], point: usize) -> (usize, usize) {
     if let Some(c) = cursor {
         return c;
     }
-    // point at the end
-    if lay.col >= lay.width {
+    // point at the end of a full row: on the next row, unless the
+    // terminal keeps a spare last column (no xenl), where it stays
+    if lay.col >= lay.width && terminal::wraps_at_margin() {
         lay.rows.push(Vec::new());
         lay.col = 0;
     }
