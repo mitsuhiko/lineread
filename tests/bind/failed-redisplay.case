@@ -1,0 +1,20 @@
+# Failed prefix sequences redisplay before the next command. Terminal Insert
+# is bound only when that capability was loaded during initialization.
+tags: keymap redisplay
+--- script
+def rd
+rl_redisplay
+echo point
+get rl_point
+end
+set rl_redisplay_function script:rd
+readline "> "
+
+=== custom-redisplay-no-insert-capability
+keys: ab<pause>\C-b<pause><ins>)<pause><dumpfull>\r
+
+=== failed-nested-csi
+keys: a<pause>\e[20Q<pause><dumpfull>\r
+
+=== ordinary-arrow
+keys: ab<pause>\e[D<pause><dumpfull>\r
