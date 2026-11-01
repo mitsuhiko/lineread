@@ -25,3 +25,13 @@ tags: complete
 readline ""
 --- keys
 \M-?<snap>\r
+
+=== mode-string-not-shown-for-empty-prompt
+tags: show-mode-in-prompt
+--- inputrc
+set show-mode-in-prompt on
+--- script
+readline ""
+callback "" 1
+--- keys
+ab<snap>\r<snap>

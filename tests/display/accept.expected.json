@@ -50,5 +50,30 @@
         "cursor": [2, 0]
       }
     ]
+  },
+  "mode-string-not-shown-for-empty-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "ab"},
+      {"op": "callback", "ret": null}
+    ],
+    "screen": [
+      "ab"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "ab"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "ab"
+        ],
+        "cursor": [1, 0]
+      }
+    ]
   }
 }

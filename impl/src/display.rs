@@ -130,7 +130,8 @@ pub fn display_prompt_bytes() -> Vec<u8> {
         {
             p.push(b'*');
         }
-        if !MSG_SAVED.get() && crate::vars::show_mode_in_prompt.get() != 0 {
+        // (an empty prompt is not expanded: no mode string)
+        if !MSG_SAVED.get() && crate::vars::show_mode_in_prompt.get() != 0 && LOCAL_PROMPT.get_mut().is_some() {
             p.extend_from_slice(&mode_string());
         }
         let full = full_prompt();
