@@ -63,6 +63,15 @@ fn keyseq_push(k: c_int) {
     }
 }
 
+/// A key read by the numeric-argument loop.  The reference's callback
+/// interface dispatches such keys one by one, so they show up in
+/// rl_executing_keyseq there (not in readline()).
+pub fn callback_arg_key(k: c_int) {
+    if is_state(RL_STATE_CALLBACK) && k >= 0 {
+        keyseq_push(k);
+    }
+}
+
 /// The keys of the current sequence.
 pub fn keyseq() -> Vec<u8> {
     unsafe {
@@ -103,13 +112,19 @@ pub fn is_arg_command(f: rl_command_func_t) -> bool {
 pub unsafe fn call_command(f: rl_command_func_t, key: c_int, map: Keymap) -> c_int {
     rl_executing_keymap.set(map);
     rl_executing_key.set(key);
+    // (commands dispatched from inside a command, e.g. by the numeric
+    // argument loop, leave the outer dispatch state alone)
+    let outer = is_state(RL_STATE_DISPATCHING);
+    let outer_disp = rl_dispatching.get();
     set_state(RL_STATE_DISPATCHING);
     rl_dispatching.set(1);
     CMD_STACK.get_mut().push(f);
     let r = f(crate::numarg::count(), key);
     CMD_STACK.get_mut().pop();
-    rl_dispatching.set(0);
-    unset_state(RL_STATE_DISPATCHING);
+    rl_dispatching.set(outer_disp);
+    if !outer {
+        unset_state(RL_STATE_DISPATCHING);
+    }
     if !is_arg_func(f) {
         rl_last_func.set(Some(f));
     }

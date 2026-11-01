@@ -206,7 +206,13 @@ pub unsafe extern "C" fn rl_reset_after_signal() {
 #[no_mangle]
 pub unsafe extern "C" fn rl_free_line_state() {
     crate::undo::rl_free_undo_list();
-    crate::numarg::reset();
+    // the argument's value is gone (the state flag stays until the
+    // argument loop ends)
+    crate::numarg::rl_numeric_arg.set(1);
+    crate::numarg::rl_explicit_arg.set(0);
+    crate::numarg::ARG_SIGN.set(1);
+    // a message such as "(arg: 3) " goes away
+    crate::display::clear_arg_message();
     if is_state(RL_STATE_MACRODEF) {
         unset_state(RL_STATE_MACRODEF);
     }

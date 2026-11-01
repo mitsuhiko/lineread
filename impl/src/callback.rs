@@ -63,11 +63,12 @@ unsafe fn suspend(st: WState) {
 /// next call, so between calls the command is not "dispatching" and it
 /// already counts as the last function: show that state while suspended.
 unsafe fn suspend_in_command() {
-    let bits = (RL_STATE_DISPATCHING | RL_STATE_MOREINPUT) as c_ulong;
+    // (a key sequence leading to the command is complete by then)
+    let bits = (RL_STATE_DISPATCHING | RL_STATE_MOREINPUT | RL_STATE_MULTIKEY) as c_ulong;
     let saved_bits = crate::readline::rl_readline_state.get() & bits;
     let saved_disp = crate::dispatch::rl_dispatching.get();
     let saved_last = crate::dispatch::rl_last_func.get();
-    unset_state(RL_STATE_DISPATCHING | RL_STATE_MOREINPUT);
+    unset_state(RL_STATE_DISPATCHING | RL_STATE_MOREINPUT | RL_STATE_MULTIKEY);
     crate::dispatch::rl_dispatching.set(0);
     if let Some(f) = crate::dispatch::current_command() {
         if !crate::dispatch::is_arg_command(f) {
