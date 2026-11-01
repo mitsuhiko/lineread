@@ -5,7 +5,7 @@ use crate::types::rl_command_func_t;
 pub static DEFAULT_FUNMAP: &[(&core::ffi::CStr, rl_command_func_t)] = &[
     (c"abort", crate::commands::misc::rl_abort),
     (c"accept-line", crate::readline::rl_newline),
-    (c"arrow-key-prefix", crate::dispatch::rl_arrow_keys),
+    (c"arrow-key-prefix", crate::commands::movement::rl_arrow_keys),
     (c"backward-byte", crate::commands::movement::rl_backward_byte),
     (c"backward-char", crate::commands::movement::rl_backward_char),
     (c"backward-delete-char", crate::commands::text::rl_rubout),

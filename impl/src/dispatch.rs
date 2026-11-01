@@ -240,12 +240,6 @@ pub unsafe extern "C" fn rl_do_lowercase_version(_count: c_int, key: c_int) -> c
     dispatch_key(lower, map)
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn rl_arrow_keys(_count: c_int, _key: c_int) -> c_int {
-    todo_stub!("rl_arrow_keys");
-    0
-}
-
 /// Skip a CSI sequence's parameters and final byte.
 #[no_mangle]
 pub unsafe extern "C" fn rl_skip_csi_sequence(_count: c_int, _key: c_int) -> c_int {

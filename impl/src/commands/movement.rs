@@ -182,3 +182,25 @@ pub unsafe extern "C" fn rl_backward_word(count: c_int, key: c_int) -> c_int {
     let _ = buffer::end();
     0
 }
+
+/// arrow-key-prefix: the next key selects the direction (A up, B down,
+/// C right, D left; either case).
+#[no_mangle]
+pub unsafe extern "C" fn rl_arrow_keys(count: c_int, _key: c_int) -> c_int {
+    crate::input::set_state(RL_STATE_MOREINPUT);
+    let c = crate::input::rl_read_key();
+    crate::input::unset_state(RL_STATE_MOREINPUT);
+    if c < 0 {
+        return -1;
+    }
+    match (c as u8).to_ascii_uppercase() {
+        b'A' => crate::histcmds::rl_get_previous_history(count, c),
+        b'B' => crate::histcmds::rl_get_next_history(count, c),
+        b'C' => rl_forward_char(count, c),
+        b'D' => rl_backward_char(count, c),
+        _ => {
+            rl_ding();
+            0
+        }
+    }
+}
