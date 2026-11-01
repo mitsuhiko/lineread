@@ -20,7 +20,13 @@ static LAST_YANK: CVar<bool> = CVar::new(false);
 
 /// Called after every command by the key loop.
 pub fn after_command() {
-    LAST_KILL.set(THIS_KILL.replace(false));
+    // the kill sequence survives a command run while input is pushed back
+    // (e.g. typeahead inserted by self-insert)
+    if THIS_KILL.replace(false) {
+        LAST_KILL.set(true);
+    } else if crate::input::rl_pending_input.get() == 0 {
+        LAST_KILL.set(false);
+    }
     LAST_YANK.set(THIS_YANK.replace(false));
 }
 
@@ -214,11 +220,19 @@ pub unsafe extern "C" fn rl_unix_line_discard(_count: c_int, _key: c_int) -> c_i
     0
 }
 
+/// Copy `[a, b)` to the kill ring (appending to an ongoing kill).
+fn copy_to_kill(a: usize, b: usize) {
+    let (a, b) = (a.min(b).min(end()), b.max(a).min(end()));
+    if a == b {
+        return;
+    }
+    let text = line()[a..b].to_vec();
+    add_kill(&text, false);
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_copy_region_to_kill(_count: c_int, _key: c_int) -> c_int {
-    let (a, b) = (buffer::mark().min(point()), buffer::mark().max(point()));
-    let text = line()[a..b].to_vec();
-    add_kill(&text, buffer::mark() > point() && false);
+    copy_to_kill(buffer::mark(), point());
     0
 }
 
@@ -227,7 +241,6 @@ pub unsafe extern "C" fn rl_kill_region(_count: c_int, _key: c_int) -> c_int {
     let (a, b) = (buffer::mark().min(point()), buffer::mark().max(point()));
     rl_kill_text(a as c_int, b as c_int);
     set_point(a);
-    buffer::set_mark(a);
     0
 }
 
@@ -236,10 +249,9 @@ pub unsafe extern "C" fn rl_copy_forward_word(count: c_int, key: c_int) -> c_int
     if count < 0 {
         return rl_copy_backward_word(-count, key);
     }
-    let p = point();
-    let to = forward_word_pos(p, count as usize);
-    let text = line()[p..to].to_vec();
-    add_kill(&text, false);
+    let n = count as usize;
+    let to = forward_word_pos(point(), n);
+    copy_to_kill(backward_word_pos(to, n), to);
     0
 }
 
@@ -248,10 +260,9 @@ pub unsafe extern "C" fn rl_copy_backward_word(count: c_int, key: c_int) -> c_in
     if count < 0 {
         return rl_copy_forward_word(-count, key);
     }
-    let p = point();
-    let from = backward_word_pos(p, count as usize);
-    let text = line()[from..p].to_vec();
-    add_kill(&text, true);
+    let n = count as usize;
+    let from = backward_word_pos(point(), n);
+    copy_to_kill(from, forward_word_pos(from, n));
     0
 }
 

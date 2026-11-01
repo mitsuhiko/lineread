@@ -18,6 +18,8 @@ static PAREN_BLINK_TIMEOUT: CVar<c_int> = CVar::new(500_000);
 
 /// Called by rl_initialize for every new line.
 pub fn reset_per_line() {
+    rl_insert_mode.set(1);
+    unset_state(RL_STATE_OVERWRITE);
     MARK_ACTIVE.set(false);
     KEEP_MARK_ACTIVE.set(false);
 }
@@ -31,7 +33,7 @@ pub fn after_command() {
     MARK_ACTIVE.set(false);
 }
 
-/// Insert `count` copies of `bytes` honouring overwrite mode.
+/// Insert `count` copies of `bytes` (always inserting).
 pub fn insert_chars(bytes: &[u8], count: usize) {
     if count == 0 || bytes.is_empty() {
         return;
@@ -40,25 +42,32 @@ pub fn insert_chars(bytes: &[u8], count: usize) {
     for _ in 0..count {
         text.extend_from_slice(bytes);
     }
-    if rl_insert_mode.get() == 0 {
-        // overwrite: replace as many characters as we insert
-        let nchars = count;
+    buffer::insert(&text);
+}
+
+/// Self-insert `count` copies of `bytes`, replacing characters in
+/// overwrite mode (one undo group per command).
+fn self_insert_chars(bytes: &[u8], count: usize) {
+    if count == 0 || bytes.is_empty() {
+        return;
+    }
+    if rl_insert_mode.get() != 0 {
+        insert_chars(bytes, count);
+        return;
+    }
+    unsafe {
+        crate::undo::rl_begin_undo_group();
+    }
+    for _ in 0..count {
+        buffer::insert(bytes);
         let p = point();
-        let l = line();
-        let to = mb::forward_chars(l, p, nchars);
-        if to > p {
-            unsafe {
-                crate::undo::rl_begin_undo_group();
-            }
-            buffer::delete(p, to);
-            buffer::insert(&text);
-            unsafe {
-                crate::undo::rl_end_undo_group();
-            }
-            return;
+        if p < end() {
+            buffer::delete(p, mb::next_char(line(), p));
         }
     }
-    buffer::insert(&text);
+    unsafe {
+        crate::undo::rl_end_undo_group();
+    }
 }
 
 /// Read the rest of a multibyte character whose first byte is `first`.
@@ -97,13 +106,16 @@ pub unsafe extern "C" fn rl_insert(count: c_int, key: c_int) -> c_int {
     }
     let ch = read_mb_rest(key as u8);
     if count > 1 {
-        insert_chars(&ch, count as usize);
+        self_insert_chars(&ch, count as usize);
         return 0;
     }
-    // batch typeahead that is also self-insert
-    let mut text = ch;
+    self_insert_chars(&ch, 1);
+    // typeahead that is also self-insert is inserted right away; those
+    // keys are not recorded into a keyboard macro being defined
     if !crate::kbdmacro::macro_input_pending() && rl_insert_mode.get() == 1 {
         let map = crate::keymap::current();
+        let defining = input::is_state(RL_STATE_MACRODEF);
+        unset_state(RL_STATE_MACRODEF);
         while input::input_available(0) {
             let c = crate::input::rl_read_key();
             if c < 0 {
@@ -112,22 +124,29 @@ pub unsafe extern "C" fn rl_insert(count: c_int, key: c_int) -> c_int {
             let e = *map.add(c as usize & 0xff);
             if e.type_ == ISFUNC && crate::dispatch::same_fn(e.function.func, rl_insert) && c < 256 {
                 let more = read_mb_rest(c as u8);
-                text.extend_from_slice(&more);
+                self_insert_chars(&more, 1);
             } else {
                 crate::input::rl_execute_next(c);
                 break;
             }
         }
+        if defining {
+            set_state(RL_STATE_MACRODEF);
+        }
     }
-    insert_chars(&text, 1);
     0
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_quoted_insert(count: c_int, _key: c_int) -> c_int {
+    // the next character is taken literally, even a signal character
+    let sigs = crate::tty::set_tty_signals(false);
     set_state(RL_STATE_MOREINPUT);
     let c = crate::input::rl_read_key();
     unset_state(RL_STATE_MOREINPUT);
+    if sigs {
+        crate::tty::set_tty_signals(true);
+    }
     if c < 0 {
         return -1;
     }
@@ -157,10 +176,19 @@ pub unsafe extern "C" fn rl_rubout(count: c_int, key: c_int) -> c_int {
     }
     let l = line();
     let from = mb::backward_chars(l, p, count as usize);
+    // overwrite mode (not at the end): the characters become spaces
+    let overwrite = rl_insert_mode.get() == 0 && p < end();
+    if overwrite {
+        crate::undo::rl_begin_undo_group();
+    }
     if count > 1 || crate::numarg::rl_explicit_arg.get() != 0 {
         crate::kill::rl_kill_text(from as c_int, p as c_int);
     } else {
         buffer::delete(from, p);
+    }
+    if overwrite {
+        buffer::insert_at(from, &vec![b' '; count as usize]);
+        crate::undo::rl_end_undo_group();
     }
     set_point(from);
     0
@@ -225,9 +253,16 @@ pub unsafe extern "C" fn rl_delete_horizontal_space(_count: c_int, _key: c_int) 
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn rl_insert_comment(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_insert_comment");
-    0
+pub unsafe extern "C" fn rl_insert_comment(_count: c_int, key: c_int) -> c_int {
+    let cb = crate::vars::comment_begin_bytes();
+    set_point(0);
+    if crate::numarg::rl_explicit_arg.get() != 0 && !cb.is_empty() && line().starts_with(&cb) {
+        // with an argument the comment is toggled
+        buffer::delete(0, cb.len());
+    } else {
+        buffer::insert(&cb);
+    }
+    crate::readline::rl_newline(1, key)
 }
 
 /// Change the case of `count` words: 0 = down, 1 = up, 2 = capitalize.
@@ -303,9 +338,41 @@ pub unsafe extern "C" fn rl_capitalize_word(count: c_int, _key: c_int) -> c_int 
     change_case(count, 2)
 }
 
+/// Move `n` words from `p` (negative: backward).
+fn word_move(p: usize, n: c_int) -> usize {
+    use crate::commands::movement::{backward_word_pos, forward_word_pos};
+    if n >= 0 {
+        forward_word_pos(p, n as usize)
+    } else {
+        backward_word_pos(p, n.unsigned_abs() as usize)
+    }
+}
+
 #[no_mangle]
-pub unsafe extern "C" fn rl_transpose_words(_a0: c_int, _a1: c_int) -> c_int {
-    todo_stub!("rl_transpose_words");
+pub unsafe extern "C" fn rl_transpose_words(count: c_int, _key: c_int) -> c_int {
+    if count == 0 {
+        return 0;
+    }
+    let orig = point();
+    let w2_end = word_move(orig, count);
+    let w2_beg = word_move(w2_end, -1);
+    let w1_beg = word_move(w2_beg, -count);
+    let w1_end = word_move(w1_beg, 1);
+    if w1_beg == w2_beg || w2_beg < w1_end {
+        set_point(orig);
+        rl_ding();
+        return 1;
+    }
+    let l = line();
+    let w1 = l[w1_beg..w1_end].to_vec();
+    let w2 = l[w2_beg..w2_end].to_vec();
+    crate::undo::rl_begin_undo_group();
+    buffer::delete(w2_beg, w2_end);
+    buffer::insert_at(w2_beg, &w1);
+    buffer::delete(w1_beg, w1_end);
+    buffer::insert_at(w1_beg, &w2);
+    crate::undo::rl_end_undo_group();
+    set_point(w2_end.min(end()));
     0
 }
 
@@ -317,41 +384,38 @@ pub unsafe extern "C" fn rl_transpose_chars(count: c_int, _key: c_int) -> c_int 
     let e = end();
     if point() == 0 || e < 2 {
         rl_ding();
-        return -1;
+        return 1;
     }
     let l = line();
     let mut p = point();
     if p == e {
         p = mb::prev_char(l, p);
     }
+    // drag the character before point forward over `count` characters
     let a = mb::prev_char(l, p);
-    let b = mb::next_char(l, p);
-    let first = l[a..p].to_vec();
-    let second = l[p..b].to_vec();
+    let ch = l[a..p].to_vec();
     crate::undo::rl_begin_undo_group();
-    buffer::delete(a, b);
-    set_point(a);
-    buffer::insert(&second);
-    buffer::insert(&first);
-    crate::undo::rl_end_undo_group();
-    // with a count, drag the character further
-    let np = point();
-    if count > 1 {
-        set_point(np);
-        return rl_transpose_chars(count - 1, _key);
+    buffer::delete(a, p);
+    let l = line();
+    let mut q = a;
+    for _ in 0..count.max(0) {
+        if q >= l.len() {
+            break;
+        }
+        q = mb::next_char(l, q);
     }
+    set_point(q);
+    buffer::insert(&ch);
+    crate::undo::rl_end_undo_group();
     0
 }
 
 /// Search for the next key's character `count` times (dir 1 / -1).
 unsafe fn char_search(count: c_int, dir: i32) -> c_int {
-    set_state(RL_STATE_MOREINPUT);
-    let c = crate::input::rl_read_key();
-    unset_state(RL_STATE_MOREINPUT);
-    if c < 0 {
-        return -1;
+    let Some(target) = read_char_arg() else { return -1 };
+    if target.is_empty() {
+        return 0;
     }
-    let target = read_mb_rest(c as u8);
     let (count, dir) = if count < 0 { (-count, -dir) } else { (count, dir) };
     let l = line();
     let mut p = point();
@@ -471,9 +535,9 @@ pub unsafe extern "C" fn rl_alphabetic(c: c_int) -> c_int {
     0
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn rl_bracketed_paste_begin(_count: c_int, _key: c_int) -> c_int {
-    // read until ESC [ 2 0 1 ~
+/// Read the body of a bracketed paste (after `ESC [ 2 0 0 ~`) up to the
+/// closing `ESC [ 2 0 1 ~`; CRs become newlines.
+unsafe fn read_paste_body() -> Vec<u8> {
     const END: &[u8] = b"\x1b[201~";
     let mut buf: Vec<u8> = Vec::new();
     set_state(RL_STATE_MOREINPUT);
@@ -489,17 +553,82 @@ pub unsafe extern "C" fn rl_bracketed_paste_begin(_count: c_int, _key: c_int) ->
         }
     }
     unset_state(RL_STATE_MOREINPUT);
-    // the pasted text is inserted literally (CRs become newlines)
     for b in buf.iter_mut() {
         if *b == b'\r' {
             *b = b'\n';
         }
     }
+    buf
+}
+
+/// After an ESC: if the rest of `ESC [ 2 0 0 ~` follows, read the pasted
+/// text; otherwise push back what was read and return None.
+unsafe fn try_read_paste() -> Option<Vec<u8>> {
+    const START: &[u8] = b"[200~";
+    if crate::vars::enable_bracketed_paste.get() == 0 {
+        return None;
+    }
+    let mut got: Vec<u8> = Vec::new();
+    while got.len() < START.len() {
+        if !input::input_available(crate::input::KEYBOARD_INPUT_TIMEOUT.get() as i64) {
+            break;
+        }
+        let c = crate::input::rl_read_key();
+        if c < 0 {
+            break;
+        }
+        got.push(c as u8);
+        if START[got.len() - 1] != c as u8 {
+            break;
+        }
+    }
+    if got != START {
+        input::unread_keys(&got);
+        return None;
+    }
+    Some(read_paste_body())
+}
+
+/// After an ESC was read: the text of a bracketed paste that follows, or
+/// None (the keys read are pushed back).
+pub unsafe fn read_paste_after_esc() -> Option<Vec<u8>> {
+    try_read_paste()
+}
+
+/// Read the character argument of a command (character-search, vi
+/// replace/find, ...): one (multibyte) character.  A bracketed paste
+/// counts as its first character and the rest of the pasted text is pushed
+/// back as input.  None at end of input; an empty paste gives an empty
+/// character.
+pub unsafe fn read_char_arg() -> Option<Vec<u8>> {
+    set_state(RL_STATE_MOREINPUT);
+    let c = crate::input::rl_read_key();
+    unset_state(RL_STATE_MOREINPUT);
+    if c < 0 {
+        return None;
+    }
+    if c == 0x1b {
+        if let Some(text) = try_read_paste() {
+            if text.is_empty() {
+                return Some(text);
+            }
+            let n = mb::next_char(&text, 0).max(1);
+            input::unread_keys(&text[n..]);
+            return Some(text[..n].to_vec());
+        }
+    }
+    Some(read_mb_rest(c as u8))
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn rl_bracketed_paste_begin(_count: c_int, _key: c_int) -> c_int {
+    let buf = read_paste_body();
+    let start = point();
     if !buf.is_empty() {
         buffer::insert(&buf);
-        rl_activate_mark();
-        buffer::rl_mark.set((point() - buf.len()) as c_int);
     }
+    buffer::rl_mark.set(start as c_int);
+    rl_activate_mark();
     0
 }
 

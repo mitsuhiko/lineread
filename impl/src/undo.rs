@@ -30,7 +30,13 @@ pub fn record_insert(start: usize, end: usize) {
     }
     unsafe {
         let top = rl_undo_list.get();
-        if !top.is_null() && (*top).what == UNDO_INSERT && (*top).end == start as c_int {
+        // single-byte insertions extend the previous insertion (up to 20 bytes)
+        if end - start == 1
+            && !top.is_null()
+            && (*top).what == UNDO_INSERT
+            && (*top).end == start as c_int
+            && (*top).end - (*top).start < 20
+        {
             (*top).end = end as c_int;
             return;
         }
