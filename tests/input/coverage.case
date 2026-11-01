@@ -1,0 +1,163 @@
+# Input-layer corner cases: fatal signals interrupting a blocking read
+# (option libgetc + kill_after), the pushed-input buffer filling up and
+# wrapping, resize with a custom redisplay function.
+tags: input
+
+=== libgetc-sigterm-during-read
+tags: libgetc SIGTERM
+eof: off
+ignore: screen cursor
+--- script
+option libgetc
+signal TERM record
+kill_after 400 TERM
+readline "> "
+get rl_readline_state
+--- keys
+abc
+
+=== libgetc-sighup-during-read
+tags: libgetc SIGHUP
+eof: off
+ignore: screen cursor
+--- script
+option libgetc
+signal HUP record
+kill_after 400 HUP
+readline "> "
+--- keys
+xy
+
+=== libgetc-sigalrm-during-read
+tags: libgetc SIGALRM
+eof: off
+timeout: 15
+ignore: screen cursor
+--- script
+option libgetc
+signal ALRM record
+kill_after 300 ALRM
+readline "> "
+--- keys
+ab<sleep:1200>c\r
+
+=== libgetc-sigusr1-ignored-by-readline
+tags: libgetc
+eof: off
+timeout: 15
+--- script
+option libgetc
+signal USR1 record
+kill_after 300 USR1
+readline "> "
+--- keys
+ab<sleep:1200>c\r
+
+=== libgetc-sigusr1-signal-event-hook
+tags: libgetc rl_signal_event_hook
+eof: off
+timeout: 15
+--- script
+option libgetc
+signal USR1 record
+set rl_signal_event_hook log
+kill_after 300 USR1
+readline "> "
+--- keys
+ab<sleep:1200>c\r
+
+=== libgetc-callback-sigterm
+tags: libgetc callback SIGTERM
+eof: off
+ignore: screen cursor
+--- script
+option libgetc
+signal TERM record
+kill_after 400 TERM
+callback "> "
+get rl_readline_state
+--- keys
+abc
+
+=== stuff-char-buffer-full
+tags: rl_stuff_char
+--- script
+def s
+rl_stuff_char "x"
+end
+rl_initialize
+repeat 509 s
+rl_stuff_char "y"
+rl_stuff_char "z"
+rl_stuff_char "\r"
+readline "> "
+--- keys
+<pause>
+
+=== stuff-char-buffer-wraps
+tags: rl_stuff_char
+--- script
+def s
+rl_stuff_char "a"
+end
+def t
+rl_stuff_char "b"
+end
+rl_initialize
+repeat 300 s
+rl_stuff_char "\r"
+readline "> "
+repeat 300 t
+rl_stuff_char "\r"
+readline "> "
+
+=== stuff-char-unget-after-wrap
+tags: rl_stuff_char isearch
+--- script
+add_history "hello"
+def s
+rl_stuff_char "q"
+end
+rl_initialize
+repeat 400 s
+rl_stuff_char "\r"
+readline "> "
+rl_stuff_char "\C-r"
+rl_stuff_char "h"
+rl_stuff_char "\C-f"
+rl_stuff_char "\r"
+readline "> "
+
+=== resize-with-custom-redisplay
+tags: rl_redisplay_function SIGWINCH rl_resize_terminal
+--- script
+set rl_redisplay_function log
+readline "> "
+--- keys
+abcdef<resize:40x10>g<snap>\r
+
+=== resize-api-with-custom-redisplay
+tags: rl_redisplay_function rl_resize_terminal
+--- script
+def r
+rl_resize_terminal
+end
+defun rsz r
+rl_bind_keyseq "\C-xr" rsz
+set rl_redisplay_function tramp
+readline "> "
+--- keys
+abc<resize:50x10>\C-xr<snap>\r
+
+=== resize-same-size-no-redraw
+tags: rl_resize_terminal
+--- script
+def r
+rl_resize_terminal
+end
+defun rsz r
+rl_bind_keyseq "\C-xr" rsz
+set rl_redisplay_function log
+readline "> "
+--- keys
+abc\C-xr\r

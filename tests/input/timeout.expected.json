@@ -193,7 +193,7 @@
     "exit": 0,
     "results": [
       {"op": "signal", "sig": "INT"},
-      {"op": "callback", "ret": "make all"}
+      {"op": "callback", "ret": "qmake all"}
     ]
   },
   "libgetc-catch-signals-off": {

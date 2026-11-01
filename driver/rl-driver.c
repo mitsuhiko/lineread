@@ -2174,6 +2174,27 @@ static void c_raise(cmd_t *c) {
   kill(getpid(), s);
 }
 
+/* kill_after MS SIG: a child process sends SIG to the driver after MS
+   milliseconds (to interrupt a read that blocks inside the library, see
+   option libgetc) */
+static void c_kill_after(cmd_t *c) {
+  NEED(2, 2);
+  INTARG(1, ms);
+  int s = sig_by_name(c->v[2]);
+  if (s < 0) { rec_error(c, "unknown signal"); return; }
+  pid_t parent = getpid();
+  pid_t pid = fork();
+  if (pid < 0) { rec_error(c, strerror(errno)); return; }
+  if (pid == 0) {
+    if (sync_fd >= 0) close(sync_fd);
+    if (ctl_fd >= 0) close(ctl_fd);
+    struct timespec ts = {ms / 1000, (ms % 1000) * 1000000L};
+    while (nanosleep(&ts, &ts) != 0 && errno == EINTR) ;
+    kill(parent, s);
+    _exit(0);
+  }
+}
+
 static void c_onsig(cmd_t *c) {
   NEED(1, 1);
   free(onsig_block);
@@ -2357,6 +2378,12 @@ static void cb_handler(char *line) {
 }
 
 static void cb_read_one(void) {
+  if (lib_getc) {
+    /* let rl_callback_read_char block in the library's rl_getc */
+    rl_callback_read_char();
+    trace_dispatch();
+    return;
+  }
   in_callback_wait = 1;
   int have = wait_for_input();
   in_callback_wait = 0;
@@ -2920,7 +2947,7 @@ static const custom_t custom_table[] = {
   {"return", c_return}, {"replace_arg", c_replace_arg}, {"call", c_call},
   {"repeat", c_repeat},
   {"set", c_set}, {"get", c_get}, {"defun", c_defun}, {"signal", c_signal},
-  {"raise", c_raise}, {"onsig", c_onsig}, {"complete_words", c_complete_words},
+  {"raise", c_raise}, {"kill_after", c_kill_after}, {"onsig", c_onsig}, {"complete_words", c_complete_words},
   {"ignore_words", c_ignore_words}, {"tilde_map", c_tilde_map}, {"setenv", c_setenv},
   {"unsetenv", c_unsetenv}, {"getenv", c_getenv}, {"chdir", c_chdir},
   {"file_write", c_file_write}, {"file_append", c_file_write}, {"file_read", c_file_read},

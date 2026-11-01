@@ -91,7 +91,6 @@ tags: rl_echo_signal_char
 def e
 rl_echo_signal_char 2
 rl_echo_signal_char 3
-rl_echo_signal_char 20
 rl_echo_signal_char 15
 end
 defun echosig e
