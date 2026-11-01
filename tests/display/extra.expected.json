@@ -1,0 +1,528 @@
+{
+  "prompt-invisible-right-at-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "12345678901234567890",
+      "abc> xy"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "12345678901234567890",
+          "abc> xy"
+        ],
+        "cursor": [1, 7]
+      },
+      {
+        "screen": [
+          "12345678901234567890",
+          "abc> xy"
+        ],
+        "cursor": [1, 5]
+      }
+    ]
+  },
+  "prompt-invisible-at-second-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "12345678901234567890",
+      "12345678901234567890",
+      "ab>     xy"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "12345678901234567890",
+          "12345678901234567890",
+          "ab>     xy"
+        ],
+        "cursor": [2, 10]
+      }
+    ]
+  },
+  "prompt-c-locale-invisible": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "pr> abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "pr> abc"
+        ],
+        "cursor": [0, 7]
+      },
+      {
+        "screen": [
+          "pr> abc"
+        ],
+        "cursor": [0, 4]
+      }
+    ]
+  },
+  "prompt-c-locale-wider-than-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xyz"}
+    ],
+    "screen": [
+      "abcdefghijklmnopqrst",
+      "uvwxyz0123456789ABCD",
+      "EFGHIJKLMNO> xyz"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "abcdefghijklmnopqrst",
+          "uvwxyz0123456789ABCD",
+          "EFGHIJKLMNO> xyz"
+        ],
+        "cursor": [2, 16]
+      },
+      {
+        "screen": [
+          "abcdefghijklmnopqrst",
+          "uvwxyz0123456789ABCD",
+          "EFGHIJKLMNO> xyz"
+        ],
+        "cursor": [2, 13]
+      }
+    ]
+  },
+  "prompt-c-locale-invisible-at-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "xy"}
+    ],
+    "screen": [
+      "12345678901234567890",
+      "abc> xy"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "12345678901234567890",
+          "abc> xy"
+        ],
+        "cursor": [1, 7]
+      }
+    ]
+  },
+  "c-locale-wrap-and-edit": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "01XY23456789abcdefghijklmnopqrstuvwx"}
+    ],
+    "screen": [
+      "> 01XY23456789abcdef",
+      "ghijklmnopqrstuvwx"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 01XY23456789abcdef",
+          "ghijklmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 6]
+      },
+      {
+        "screen": [
+          "> 01XY23456789abcdef",
+          "ghijklmnopqrstuvwx"
+        ],
+        "cursor": [1, 18]
+      }
+    ]
+  },
+  "c-locale-delete-across-wrap": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "3456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "> 3456789abcdefghijk",
+      "lmnopqrstuvwxyz"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 3456789abcdefghijk",
+          "lmnopqrstuvwxyz"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "c-locale-control-chars": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "\u0001b\u007fc"}
+    ],
+    "screen": [
+      "> ^Ab^?c"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> a^Ab^?c"
+        ],
+        "cursor": [0, 9]
+      },
+      {
+        "screen": [
+          "> ^Ab^?c"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "screen-height-one-autoscroll": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [],
+    "cursor": [0, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<pqrstuvwxyz"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefg>"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  },
+  "screen-height-one-then-resize": {
+    "exit": 0,
+    "results": [
+      {"op": "signal", "sig": "WINCH"},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopX"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmnopX"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "<fghijklmnop"
+        ],
+        "cursor": [0, 12]
+      },
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmnopX"
+        ],
+        "cursor": [1, 9]
+      }
+    ]
+  },
+  "line-taller-than-screen": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz0123456789"}
+    ],
+    "screen": [
+      "stuvwxyz01",
+      "23456789"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "ijklmnopqr",
+          "stuvwxyz01",
+          "23456789"
+        ],
+        "cursor": [2, 8]
+      },
+      {
+        "screen": [
+          "> 01234567",
+          "89abcdefgh",
+          "ijklmnopqr"
+        ],
+        "cursor": [0, 2]
+      },
+      {
+        "screen": [
+          "ijklmnopqr",
+          "stuvwxyz01",
+          "23456789"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "line-taller-than-screen-active-region": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz0123456789"}
+    ],
+    "screen": [
+      "stuvwxyz01",
+      "23456789"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "ijklmnopqr",
+          "stuvwxyz01",
+          "23456789"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "line-taller-than-screen-edit-middle": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz0123456789X"}
+    ],
+    "screen": [
+      "stuvwxyz01",
+      "23456789X"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "ijklmnopqr",
+          "stuvwxyz01",
+          "23456789"
+        ],
+        "cursor": [2, 8]
+      },
+      {
+        "screen": [
+          "ijklmnopqr",
+          "stuvwxyz01",
+          "23456789X"
+        ],
+        "cursor": [2, 9]
+      }
+    ]
+  },
+  "message-with-newline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun msg m", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xm\" msg", "ret": 0},
+      {"op": "rl_message \"line one\\nmsg> \"", "ret": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "line one    > abc",
+      "msg     d"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "line one    > abc",
+          "msg"
+        ],
+        "cursor": [1, 8]
+      },
+      {
+        "screen": [
+          "line one    > abc",
+          "msg     d"
+        ],
+        "cursor": [1, 9]
+      }
+    ]
+  },
+  "message-with-newline-forced-redisplay": {
+    "exit": 0,
+    "results": [
+      {"op": "defun msg m", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xm\" msg", "ret": 0},
+      {"op": "rl_message \"line one\\nmsg> \"", "ret": 0},
+      {"op": "rl_forced_update_display", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "line one    > abc",
+      "msg     line one",
+      "msg> abc"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "line one    > abc",
+          "msg     line one",
+          "msg> abc"
+        ],
+        "cursor": [2, 8]
+      }
+    ]
+  },
+  "message-with-newline-short-first-line": {
+    "exit": 0,
+    "results": [
+      {"op": "defun msg m", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xm\" msg", "ret": 0},
+      {"op": "rl_message \"x\\n> \"", "ret": 0},
+      {"op": "rl_forced_update_display", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "x > abc",
+      "     x",
+      "> abc"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "x > abc",
+          "     x",
+          "> abc"
+        ],
+        "cursor": [2, 5]
+      }
+    ]
+  },
+  "null-display-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "abc"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "abc"
+        ],
+        "cursor": [0, 3]
+      }
+    ]
+  },
+  "many-wrapped-lines-grow": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"}
+    ],
+    "screen": [
+      "> 01234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "8901234567",
+      "89"
+    ],
+    "cursor": [31, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 01234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "8901234567",
+          "89"
+        ],
+        "cursor": [30, 2]
+      }
+    ]
+  },
+  "shrink-line-from-many-rows": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          ">"
+        ],
+        "cursor": [0, 2]
+      }
+    ]
+  }
+}
