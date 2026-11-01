@@ -33,7 +33,9 @@ endif
 
 B := build/$(PLAT)/$(IMPL)
 TERMLIB ?= -lncurses
-RUST_LIB ?= impl/target/release/liblineread.a
+# per-platform cargo target directory: macOS and Docker/Linux share the tree
+RUST_TARGET_DIR := impl/target/$(PLAT)
+RUST_LIB ?= $(RUST_TARGET_DIR)/release/liblineread.a
 
 CFLAGS_BASE := -std=c11 -g -Wall -Wextra -Wno-unused-parameter -Iinclude -I$(B)
 LDLIBS :=
@@ -90,13 +92,13 @@ $(B)/rl-driver: $(B)/rl-driver.o $(IMPL_LIBS)
 # The Rust implementation: impl/ is a cargo package whose staticlib is
 # liblineread.a (docs/IMPLEMENTING.md).  cargo decides what to rebuild.
 ifdef RUST_BUILD
-ifeq ($(RUST_LIB),impl/target/release/liblineread.a)
+ifeq ($(RUST_LIB),$(RUST_TARGET_DIR)/release/liblineread.a)
 $(RUST_LIB): rust-lib
 endif
 endif
 rust-lib:
 	@test -f impl/Cargo.toml || { echo "impl/Cargo.toml missing: see docs/IMPLEMENTING.md" >&2; exit 1; }
-	cargo build --release --manifest-path impl/Cargo.toml
+	cargo build --release --manifest-path impl/Cargo.toml --target-dir $(RUST_TARGET_DIR)
 
 # header/ABI conformance against conformance/abi.<platform>.json
 conformance:

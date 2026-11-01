@@ -31,7 +31,8 @@ impl/                       cargo package (you create it)
   build.rs                  compiles the C shim (see below)
   c/shim.c                  rl_message and anything else Rust cannot express
   src/lib.rs ...
-impl/target/release/liblineread.a   what the driver links (IMPL=rust)
+impl/target/<platform>/release/liblineread.a   what the driver links (IMPL=rust),
+                            <platform> = darwin-arm64 | linux-aarch64
 ```
 
 * One crate exports everything: the readline functions/variables, the
@@ -42,7 +43,7 @@ impl/target/release/liblineread.a   what the driver links (IMPL=rust)
   distribution you can later produce `libreadline.so` and `libhistory.so`
   from the same code (cdylib).
 * `make IMPL=rust` runs `cargo build --release --manifest-path
-  impl/Cargo.toml` and links `build/<platform>/rust/rl-driver` (our headers
+  impl/Cargo.toml --target-dir impl/target/<platform>` and links `build/<platform>/rust/rl-driver` (our headers
   + the driver + `liblineread.a` + `-lncurses`, and `-lpthread -ldl -lm` on
   Linux). To link another archive set the environment variable
   `RUST_LIB=/abs/path/lib.a` (cargo is then skipped).
@@ -56,11 +57,10 @@ impl/target/release/liblineread.a   what the driver links (IMPL=rust)
   for capabilities; `-lncurses` stays on the link line for now). Platforms:
   macOS arm64 and Linux aarch64 (`docker/run.sh` provides the Linux
   environment with the repo and `../lineread-ref-bin` mounted, clang and a
-  stable Rust toolchain; use a separate target directory there, e.g.
-  `docker/run.sh sh -c 'CARGO_TARGET_DIR=build/linux-target RUST_LIB=...'`
-  or just `docker/run.sh ./rlt --impl rust`, which builds into
-  `impl/target` — run `cargo clean` when switching platforms, or set
-  `CARGO_TARGET_DIR` and `RUST_LIB` accordingly).
+  stable Rust toolchain: `docker/run.sh ./rlt --impl rust` just works.
+  Cargo builds into a per-platform target directory
+  (`impl/target/<platform>/`, e.g. `impl/target/linux-aarch64/`), so host
+  and container builds do not clash).
 * The wiring was verified with a stand-in crate that bundles the reference
   library into `liblineread.a`: it scores 100 on Linux and 99.99 on macOS
   (the two vi ref-quirk cases, see below).

@@ -573,7 +573,7 @@ library, so the driver does not call it.
 Exit status is 1 if any case failed, errored (e.g. missing expectation) or was
 flaky. The driver binary is `build/<platform>/<impl>/rl-driver`; `IMPL=rust`
 runs `cargo build --release` in `impl/` and links
-`impl/target/release/liblineread.a` (override with the environment variable
+`impl/target/<platform>/release/liblineread.a` (override with the environment variable
 `RUST_LIB=/path/to/lib.a`, which skips cargo). Subcommands: `./rlt fuzz`
 (§16), `./rlt apps` (§17).
 
