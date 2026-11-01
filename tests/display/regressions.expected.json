@@ -273,5 +273,25 @@
         "cursor": [0, 2]
       }
     ]
+  },
+  "tab-at-wrap-point": {
+    "exit": 0,
+    "results": [
+      {"op": "readline", "ret": "0123456789abcdefgh\tx"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "        x"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "        x"
+        ],
+        "cursor": [1, 9]
+      }
+    ]
   }
 }

@@ -87,3 +87,14 @@ set rl_filename_quote_characters " "
 readline "> "
 --- keys
 "x" p\t<dump>\r
+
+=== skip-completed-text-unchanged-word-no-undo-entry
+tags: skip-completed-text undo
+--- inputrc
+set skip-completed-text on
+--- script
+complete_words apricot avocado
+set rl_attempted_completion_function words
+readline "> "
+--- keys
+a\t\C-_x<dump>\r

@@ -97,5 +97,16 @@
       "> \"x\" \"plain\""
     ],
     "cursor": [1, 0]
+  },
+  "skip-completed-text-unchanged-word-no-undo-entry": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x", "point": 1, "end": 1, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x"}
+    ],
+    "screen": [
+      "> x"
+    ],
+    "cursor": [1, 0]
   }
 }

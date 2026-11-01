@@ -297,10 +297,10 @@ fn layout_line(lay: &mut Lay, line: &[u8], point: usize) -> (usize, usize) {
         if b == b'\t' {
             // tab stops count from the start of the screen row, the
             // blanks may continue on the next row
-            let sp = 8 - lay.col % 8;
             if lay.col >= lay.width {
                 lay.newline();
             }
+            let sp = 8 - lay.col % 8;
             if i == point {
                 cursor = Some(lay.pos());
             }

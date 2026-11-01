@@ -632,12 +632,10 @@ unsafe fn insert_match(m: &[u8], start: usize, mtype: c_int, qc: &mut u8) {
             s += 1;
             r += 1;
         }
-        if s <= end || r < rep.len() {
-            if s <= end {
-                replace_text(&rep[r..], s, end);
-            } else {
-                replace_text(&rep[r..], s, s);
-            }
+        // (nothing changes, and no undo entry is made, when the rest of
+        // the match is already there)
+        if s < end || r < rep.len() {
+            replace_text(&rep[r..], s, end.max(s));
         }
         buffer::set_point(s + rep.len() - r);
     } else {
