@@ -1,0 +1,437 @@
+{
+  "expand-prompt-during-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_expand_prompt \"\\001\\e[7m\\002new\\001\\e[0m\\002$ \"", "ret": 5},
+      {"op": "rl_forced_update_display", "ret": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abcnew$ abcd"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abcnew$ abc"
+        ],
+        "cursor": [0, 13]
+      },
+      {
+        "screen": [
+          "> abcnew$ abcd"
+        ],
+        "cursor": [0, 14]
+      }
+    ]
+  },
+  "expand-prompt-multiline-and-width": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_expand_prompt \"line1\\nline2 \\001\\e[1m\\002x\\001\\e[0m\\002> \"", "ret": 6},
+      {"op": "rl_expand_prompt \"\\001\\002\"", "ret": 0},
+      {"op": "rl_expand_prompt \"tab\\there> \"", "ret": 10},
+      {"op": "rl_expand_prompt \"üñí> \"", "ret": 8}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "expand-prompt-unterminated-ignore": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_expand_prompt \"\\001\\e[1mrest> \"", "ret": 0},
+      {"op": "rl_expand_prompt \"a\\002b> \"", "ret": 5}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "on-new-line-with-prompt-after-output": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "echo", "args": ["nothing"]},
+      {"op": "capture", "out": ""},
+      {"op": "rl_on_new_line_with_prompt", "ret": 0},
+      {"op": "readline", "ret": "xyzw"}
+    ],
+    "screen": [
+      "$ xyz",
+      "xyzw"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "$ xyz",
+          "xyzw"
+        ],
+        "cursor": [1, 4]
+      }
+    ]
+  },
+  "on-new-line-with-prompt-multiline-prompt": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "rl_on_new_line_with_prompt", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "top",
+      "bottom> ab",
+      "abc"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "top",
+          "bottom> ab",
+          "abc"
+        ],
+        "cursor": [2, 3]
+      }
+    ]
+  },
+  "redraw-prompt-last-line-multiline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "first",
+      "second> ab",
+      "second> abc"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "first",
+          "second> ab",
+          "second> abc"
+        ],
+        "cursor": [2, 11]
+      }
+    ]
+  },
+  "redraw-prompt-last-line-single": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "readline", "ret": "ab"}
+    ],
+    "screen": [
+      "p> ab",
+      "p> ab"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "p> ab",
+          "p> ab"
+        ],
+        "cursor": [1, 5]
+      }
+    ]
+  },
+  "reset-line-state-redraws": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "rl_reset_line_state", "ret": 0},
+      {"op": "readline", "ret": "helloX"}
+    ],
+    "screen": [
+      "> hello",
+      "> helloX"
+    ],
+    "cursor": [2, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> hello",
+          "> hello"
+        ],
+        "cursor": [1, 7]
+      },
+      {
+        "screen": [
+          "> hello",
+          "> helloX"
+        ],
+        "cursor": [1, 8]
+      }
+    ]
+  },
+  "reset-line-state-wrapped": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_crlf", "ret": 0},
+      {"op": "rl_reset_line_state", "ret": 0},
+      {"op": "readline", "ret": "0123456789abcdefghijklmno"}
+    ],
+    "screen": [
+      "> 0123456789abcdefgh",
+      "ijklmno",
+      "> 0123456789abcdefgh",
+      "ijklmno"
+    ],
+    "cursor": [4, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefgh",
+          "ijklmno",
+          "> 0123456789abcdefgh",
+          "ijklmno"
+        ],
+        "cursor": [3, 7]
+      }
+    ]
+  },
+  "reset-line-state-outside": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_reset_line_state", "ret": 0},
+      {"op": "readline", "ret": "q"}
+    ],
+    "screen": [
+      "> q"
+    ],
+    "cursor": [1, 0]
+  },
+  "reset-screen-size-from-env": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 5, "cols": 30},
+      {"op": "rl_get_screen_size", "rows": 10, "cols": 50}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "reset-screen-size-prefer-env": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 7, "cols": 40},
+      {"op": "rl_get_screen_size", "rows": 7, "cols": 40}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "reset-screen-size-during-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_get_screen_size", "rows": 8, "cols": 30},
+      {"op": "rl_forced_update_display", "ret": 0},
+      {"op": "readline", "ret": "0123456789abcdefghijklmnopqrstuvwxyz"}
+    ],
+    "screen": [
+      "> 0123456789abcdefghijklmnopqr",
+      "stuvwxyz> 0123456789abcdefghij",
+      "klmnopqrstuvwxyz"
+    ],
+    "cursor": [3, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> 0123456789abcdefghijklmnopqr",
+          "stuvwxyz> 0123456789abcdefghij",
+          "klmnopqrstuvwxyz"
+        ],
+        "cursor": [2, 16]
+      }
+    ]
+  },
+  "reset-terminal-dumb-during-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_reset_terminal \"dumb\"", "ret": 0},
+      {"op": "get rl_terminal_name", "ret": "xterm-256color"},
+      {"op": "rl_forced_update_display", "ret": 0},
+      {"op": "readline", "ret": "abcd"}
+    ],
+    "screen": [
+      "> abc> abcd"
+    ],
+    "cursor": [1, 0],
+    "snaps": [
+      {
+        "screen": [
+          "> abc> abcd"
+        ],
+        "cursor": [0, 9]
+      }
+    ]
+  },
+  "reset-terminal-unknown": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_reset_terminal \"no-such-terminal-xyz\"", "ret": 0},
+      {"op": "get rl_terminal_name", "ret": "xterm-256color"},
+      {"op": "rl_get_termcap \"cl\"", "ret": null},
+      {"op": "readline", "ret": "aXb"}
+    ],
+    "screen": [
+      "> aXb"
+    ],
+    "cursor": [1, 0]
+  },
+  "reparse-colors-after-env-change": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[0mplain.txt\u001b[0m\u001b[K  \u001b[01;34msubdir/\u001b[0m\u001b[K/   "},
+      {"op": "capture", "out": "\u001b[01;31mplain.txt\u001b[0m\u001b[K  \u001b[01;32msubdir/\u001b[0m\u001b[K/   "}
+    ],
+    "screen": [],
+    "cursor": [4, 0]
+  },
+  "reparse-colors-extension": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "\u001b[01;35md/\u001b[0m\u001b[K/ "},
+      {"op": "capture", "out": "\u001b[00;36md/\u001b[0m\u001b[K/    \u001b[01;33ma.txt\u001b[0m\u001b[K  "}
+    ],
+    "screen": [],
+    "cursor": [4, 0]
+  },
+  "reparse-colors-invalid": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "capture", "out": "d// "}
+    ],
+    "screen": [
+      "readline: unparsable value for LS_COLORS environment variable"
+    ],
+    "cursor": [3, 0]
+  },
+  "get-termcap-more-capabilities": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_termcap \"up\"", "ret": "\u001b[A"},
+      {"op": "rl_get_termcap \"nd\"", "ret": "\u001b[C"},
+      {"op": "rl_get_termcap \"ce\"", "ret": "\u001b[K"},
+      {"op": "rl_get_termcap \"ks\"", "ret": "\u001b[?1h\u001b="},
+      {"op": "rl_get_termcap \"ke\"", "ret": "\u001b[?1l\u001b>"},
+      {"op": "rl_get_termcap \"vb\"", "ret": "\u001b[?5h$<100/>\u001b[?5l"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-termcap-before-init": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_get_termcap \"cl\"", "ret": null},
+      {"op": "rl_get_termcap \"le\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "get-termcap-dumb": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_get_termcap \"cl\"", "ret": null},
+      {"op": "rl_get_termcap \"le\"", "ret": null},
+      {"op": "rl_get_termcap \"up\"", "ret": null}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tty-set-echoing-returns-previous": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "rl_tty_set_echoing 0", "ret": 0},
+      {"op": "rl_tty_set_echoing 0", "ret": 0},
+      {"op": "rl_tty_set_echoing 5", "ret": 0},
+      {"op": "rl_tty_set_echoing 1", "ret": 5}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tty-set-echoing-during-readline": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "rl_tty_set_echoing 0", "ret": 8},
+      {"op": "readline", "ret": "abc"},
+      {"op": "readline", "ret": "xyz"}
+    ],
+    "screen": [
+      "> ab",
+      "> xyz"
+    ],
+    "cursor": [2, 0]
+  },
+  "prep-deprep-from-command": {
+    "exit": 0,
+    "results": [
+      {"op": "defun t b", "ret": 0},
+      {"op": "rl_bind_keyseq \"\\C-xt\" t", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "DISPATCHING", "TTYCSAVED"]},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "TERMPREPPED", "DISPATCHING", "TTYCSAVED"]},
+      {"op": "readline", "ret": "abc"}
+    ],
+    "screen": [
+      "> abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "prep-terminal-twice": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "TERMPREPPED", "TTYCSAVED"]},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED", "TTYCSAVED"]},
+      {"op": "readline", "ret": "ok"}
+    ],
+    "screen": [
+      "> ok"
+    ],
+    "cursor": [1, 0]
+  },
+  "deprep-without-prep": {
+    "exit": 0,
+    "results": [
+      {"op": "rl_initialize", "ret": 0},
+      {"op": "get rl_readline_state", "ret": ["INITIALIZED"]},
+      {"op": "readline", "ret": "fine"}
+    ],
+    "screen": [
+      "> fine"
+    ],
+    "cursor": [1, 0]
+  }
+}

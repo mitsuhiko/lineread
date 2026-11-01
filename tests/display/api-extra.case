@@ -1,0 +1,321 @@
+# Redisplay and terminal API functions with few cases elsewhere, called
+# from bound functions so the effect on the screen can be observed.
+tags: display api
+
+=== expand-prompt-during-readline
+tags: rl_expand_prompt
+--- script
+def b
+rl_expand_prompt "\001\e[7m\002new\001\e[0m\002$ "
+rl_forced_update_display
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-xt<snap>d<snap>\r
+
+=== expand-prompt-multiline-and-width
+tags: rl_expand_prompt
+--- script
+rl_initialize
+rl_expand_prompt "line1\nline2 \001\e[1m\002x\001\e[0m\002> "
+rl_expand_prompt "\001\002"
+rl_expand_prompt "tab\there> "
+rl_expand_prompt "üñí> "
+
+=== expand-prompt-unterminated-ignore
+tags: rl_expand_prompt
+--- script
+rl_initialize
+rl_expand_prompt "\001\e[1mrest> "
+rl_expand_prompt "a\002b> "
+
+=== on-new-line-with-prompt-after-output
+tags: rl_on_new_line_with_prompt
+--- script
+def b
+rl_crlf
+capture echo nothing
+rl_on_new_line_with_prompt
+rl_redisplay
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "$ "
+--- keys
+xyz\C-xtw<snap>\r
+
+=== on-new-line-with-prompt-multiline-prompt
+tags: rl_on_new_line_with_prompt
+--- script
+def b
+rl_crlf
+rl_on_new_line_with_prompt
+rl_redisplay
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "top\nbottom> "
+--- keys
+ab\C-xtc<snap>\r
+
+=== redraw-prompt-last-line-multiline
+tags: rl_redraw_prompt_last_line
+--- script
+def b
+rl_crlf
+rl_redraw_prompt_last_line
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "first\nsecond> "
+--- keys
+ab\C-xtc<snap>\r
+
+=== redraw-prompt-last-line-single
+tags: rl_redraw_prompt_last_line
+--- script
+def b
+rl_crlf
+rl_redraw_prompt_last_line
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "p> "
+--- keys
+ab\C-xt<snap>\r
+
+=== reset-line-state-redraws
+tags: rl_reset_line_state
+--- script
+def b
+rl_crlf
+rl_reset_line_state
+rl_redisplay
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+hello\C-xt<snap>X<snap>\r
+
+=== reset-line-state-wrapped
+tags: rl_reset_line_state
+screen: 20x8
+--- script
+def b
+rl_crlf
+rl_reset_line_state
+rl_redisplay
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+0123456789abcdefghijklmno\C-xt<snap>\r
+
+=== reset-line-state-outside
+tags: rl_reset_line_state
+--- script
+rl_initialize
+rl_reset_line_state
+readline "> "
+--- keys
+q\r
+
+=== reset-screen-size-from-env
+tags: rl_reset_screen_size rl_get_screen_size
+screen: 50x10
+--- script
+rl_initialize
+rl_set_screen_size 5 30
+rl_get_screen_size
+rl_reset_screen_size
+rl_get_screen_size
+
+=== reset-screen-size-prefer-env
+tags: rl_reset_screen_size rl_prefer_env_winsize
+screen: 50x10
+env: COLUMNS=40
+env: LINES=7
+--- script
+set rl_prefer_env_winsize 1
+rl_initialize
+rl_get_screen_size
+rl_set_screen_size 3 20
+rl_reset_screen_size
+rl_get_screen_size
+
+=== reset-screen-size-during-readline
+tags: rl_reset_screen_size
+screen: 30x8
+--- script
+def b
+rl_set_screen_size 8 10
+rl_reset_screen_size
+rl_get_screen_size
+rl_forced_update_display
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+0123456789abcdefghijklmnopqrstuvwxyz\C-xt<snap>\r
+
+=== reset-terminal-dumb-during-readline
+tags: rl_reset_terminal
+--- script
+def b
+rl_reset_terminal "dumb"
+get rl_terminal_name
+rl_forced_update_display
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+abc\C-xtd\C-b\C-b<snap>\r
+
+=== reset-terminal-unknown
+tags: rl_reset_terminal
+--- script
+rl_initialize
+rl_reset_terminal "no-such-terminal-xyz"
+get rl_terminal_name
+rl_get_termcap "cl"
+readline "> "
+--- keys
+ab\C-bX\r
+
+=== reparse-colors-after-env-change
+tags: rl_reparse_colors colored-stats
+--- inputrc
+set colored-stats on
+--- file plain.txt
+x
+--- dir subdir
+--- script
+setenv LS_COLORS "di=01;34:fi=0"
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" plain.txt subdir/
+setenv LS_COLORS "di=01;32:fi=01;31"
+rl_reparse_colors
+capture display_match_list "" plain.txt subdir/
+
+=== reparse-colors-extension
+tags: rl_reparse_colors colored-stats
+--- inputrc
+set colored-stats on
+--- dir d
+--- file a.txt
+x
+--- script
+setenv LS_COLORS "di=01;35"
+rl_initialize
+set rl_filename_completion_desired 1
+capture display_match_list "" d/
+setenv LS_COLORS "di=00;36:*.txt=01;33"
+rl_reparse_colors
+capture display_match_list "" d/ a.txt
+
+=== reparse-colors-invalid
+tags: rl_reparse_colors colored-stats
+screen: 160x24
+--- inputrc
+set colored-stats on
+--- dir d
+--- script
+rl_initialize
+setenv LS_COLORS "di=01;3x:zz"
+rl_reparse_colors
+set rl_filename_completion_desired 1
+capture display_match_list "" d/
+
+=== get-termcap-more-capabilities
+tags: rl_get_termcap
+--- script
+rl_initialize
+rl_get_termcap "up"
+rl_get_termcap "nd"
+rl_get_termcap "ce"
+rl_get_termcap "ks"
+rl_get_termcap "ke"
+rl_get_termcap "vb"
+
+=== get-termcap-before-init
+tags: rl_get_termcap
+--- script
+rl_get_termcap "cl"
+rl_get_termcap "le"
+
+=== get-termcap-dumb
+tags: rl_get_termcap
+env: TERM=dumb
+--- script
+rl_initialize
+rl_get_termcap "cl"
+rl_get_termcap "le"
+rl_get_termcap "up"
+
+=== tty-set-echoing-returns-previous
+tags: rl_tty_set_echoing
+--- script
+rl_initialize
+rl_tty_set_echoing 0
+rl_tty_set_echoing 0
+rl_tty_set_echoing 5
+rl_tty_set_echoing 1
+
+=== tty-set-echoing-during-readline
+tags: rl_tty_set_echoing
+--- script
+def b
+rl_tty_set_echoing 0
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+readline "> "
+--- keys
+ab\C-xtc\rxyz\r
+
+=== prep-deprep-from-command
+tags: rl_prep_terminal rl_deprep_terminal
+--- script
+def b
+rl_deprep_terminal
+get rl_readline_state
+rl_prep_terminal 1
+get rl_readline_state
+end
+defun t b
+rl_bind_keyseq "\C-xt" t
+readline "> "
+--- keys
+ab\C-xtc\r
+
+=== prep-terminal-twice
+tags: rl_prep_terminal rl_deprep_terminal
+--- script
+rl_initialize
+rl_prep_terminal 0
+rl_prep_terminal 0
+get rl_readline_state
+rl_deprep_terminal
+get rl_readline_state
+readline "> "
+--- keys
+ok\r
+
+=== deprep-without-prep
+tags: rl_deprep_terminal
+--- script
+rl_deprep_terminal
+rl_initialize
+rl_deprep_terminal
+get rl_readline_state
+readline "> "
+--- keys
+fine\r
