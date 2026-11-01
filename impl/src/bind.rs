@@ -63,11 +63,14 @@ pub fn translate_keyseq_bytes(seq: &[u8]) -> (Vec<u8>, bool) {
                 k = if k == b'?' { 0x7f } else { k.to_ascii_uppercase() & 0x1f };
             }
             if meta {
-                if convert && i <= seq.len() && !(i == seq.len() && k == 0 && !ctrl) {
+                // \M-x: ESC x when converting (a NUL cannot follow ESC in
+                // a C string: meta NUL stays 0x80); else the eighth bit
+                let m = k | 0x80;
+                if convert && m & 0x7f != 0 {
                     out.push(0x1b);
-                    out.push(k);
+                    out.push(m & 0x7f);
                 } else {
-                    out.push(k | 0x80);
+                    out.push(m);
                 }
             } else {
                 out.push(k);
@@ -192,6 +195,23 @@ pub unsafe extern "C" fn rl_untranslate_keyseq(key: c_int) -> *mut c_char {
 
 // ---------------------------------------------------------------- binding
 
+/// The function bound when a prefix key itself is unbound (its default
+/// action does nothing).
+unsafe extern "C" fn null_function(_count: c_int, _key: c_int) -> c_int {
+    0
+}
+
+/// High bytes are looked up / bound through the ESC map (meta prefix).
+fn meta_via_esc() -> bool {
+    crate::vars::convert_meta.get() != 0 || crate::vars::force_meta_prefix.get() != 0
+}
+
+unsafe fn free_entry(e: *mut KEYMAP_ENTRY) {
+    if (*e).type_ == ISMACR {
+        cfree((*e).function.macro_);
+    }
+}
+
 /// Bind `keys` (raw bytes) in `map` to (type, data).  The workhorse of every
 /// binding function.  Returns 0 on success.
 pub unsafe fn generic_bind_raw(type_: c_char, keys: &[u8], data: KmData, map: Keymap) -> c_int {
@@ -204,6 +224,8 @@ pub unsafe fn generic_bind_raw(type_: c_char, keys: &[u8], data: KmData, map: Ke
     let convert = crate::vars::convert_meta.get() != 0;
     let mut map = map;
     let n = keys.len();
+    // the path of (map, key) pairs leading to the final entry
+    let mut path: Vec<(Keymap, usize)> = Vec::new();
     for (i, &kb) in keys.iter().enumerate() {
         let mut k = kb as usize;
         if k >= 128 && convert && (*entry(map, ESC)).type_ == ISKMAP {
@@ -215,37 +237,53 @@ pub unsafe fn generic_bind_raw(type_: c_char, keys: &[u8], data: KmData, map: Ke
             if (*e).type_ != ISKMAP {
                 let old = *e;
                 let sub = keymap::new_bare();
-                if old.type_ == ISMACR || (old.type_ == ISFUNC && !old.is_null() && !is_func(old.function.func, crate::dispatch::rl_do_lowercase_version)) {
+                // the old binding becomes the prefix's default (not
+                // do-lowercase-version: the prefix would recurse)
+                if !(old.type_ == ISFUNC && is_func(old.function.func, crate::dispatch::rl_do_lowercase_version)) {
                     *sub.add(ANYOTHERKEY) = old;
                 }
                 *e = KEYMAP_ENTRY::keymap(sub);
             }
+            path.push((map, k));
             map = (*e).function.map;
-        } else {
-            if (*e).type_ == ISKMAP {
-                // binding a prefix: the function runs when no longer
-                // sequence matches
-                let sub = (*e).function.map;
-                let a = sub.add(ANYOTHERKEY);
-                if (*a).type_ == ISMACR {
-                    cfree((*a).function.macro_);
-                }
-                *a = KEYMAP_ENTRY { type_, function: data };
-            } else {
-                if (*e).type_ == ISMACR {
-                    cfree((*e).function.macro_);
-                }
-                *e = KEYMAP_ENTRY { type_, function: data };
+        } else if (*e).type_ == ISKMAP {
+            // binding a prefix: the function runs when no longer
+            // sequence matches
+            let sub = (*e).function.map;
+            let a = sub.add(ANYOTHERKEY);
+            free_entry(a);
+            let mut d = data;
+            if type_ == ISFUNC && d.func.is_none() {
+                d = KmData { func: Some(null_function) };
             }
+            *a = KEYMAP_ENTRY { type_, function: d };
+        } else {
+            free_entry(e);
+            *e = KEYMAP_ENTRY { type_, function: data };
         }
     }
     rl_binding_keymap.set(map);
+    // unbinding the last key of a submap restores the shadowed binding
+    if type_ == ISFUNC && data.func.is_none() {
+        while let Some((pm, pk)) = path.pop() {
+            let pe = entry(pm, pk);
+            let sub = (*pe).function.map;
+            if keymap::is_static_keymap(sub) || keymap::rl_empty_keymap(sub) == 0 {
+                break;
+            }
+            *pe = *sub.add(ANYOTHERKEY);
+            cfree(sub);
+        }
+    }
     0
 }
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_generic_bind(type_: c_int, keyseq: *const c_char, data: *mut c_char, map: Keymap) -> c_int {
-    if keyseq.is_null() {
+    if keyseq.is_null() || *keyseq == 0 {
+        if type_ as c_char == ISMACR {
+            cfree(data);
+        }
         return -1;
     }
     let (keys, _) = translate_keyseq_bytes(cstr(keyseq));
@@ -253,34 +291,57 @@ pub unsafe extern "C" fn rl_generic_bind(type_: c_int, keyseq: *const c_char, da
     generic_bind_raw(type_ as c_char, &keys, d, map)
 }
 
-/// Function bound to raw `keys` in `map` (NULL map = current keymap),
-/// with the entry type.
+/// Entry bound to the full key sequence `keys` in `map` (NULL map =
+/// current keymap).  None when the sequence leads nowhere (too long, or a
+/// meta byte without an ESC map).
 pub unsafe fn lookup_raw(keys: &[u8], map: Keymap) -> Option<KEYMAP_ENTRY> {
     let mut map = if map.is_null() { current() } else { map };
-    let convert = crate::vars::convert_meta.get() != 0;
+    let meta = meta_via_esc();
     for (i, &kb) in keys.iter().enumerate() {
         let mut k = kb as usize;
-        if k >= 128 && convert && (*entry(map, ESC)).type_ == ISKMAP {
-            map = (*entry(map, ESC)).function.map;
+        if k >= 128 && meta {
+            let esc = *entry(map, ESC);
+            if esc.type_ != ISKMAP {
+                return None;
+            }
+            map = esc.function.map;
             k &= 0x7f;
         }
         let e = *entry(map, k);
-        if e.type_ == ISKMAP && i + 1 < keys.len() {
-            map = e.function.map;
-            continue;
+        if i + 1 == keys.len() {
+            return Some(e);
         }
-        return Some(e);
+        if e.type_ != ISKMAP {
+            return None;
+        }
+        map = e.function.map;
     }
     None
+}
+
+/// Does `e` count as unbound for the *_if_unbound functions?
+unsafe fn counts_as_unbound(e: Option<KEYMAP_ENTRY>) -> bool {
+    match e {
+        None => true,
+        Some(e) => {
+            if e.type_ != ISFUNC {
+                return e.is_null();
+            }
+            match e.function.func {
+                None => true,
+                Some(f) => {
+                    is_func(Some(f), crate::dispatch::rl_do_lowercase_version) || is_func(Some(f), crate::vi::rl_vi_movement_mode)
+                }
+            }
+        }
+    }
 }
 
 /// Bind if the full sequence is unbound (raw bytes).
 pub fn bind_keyseq_if_unbound_raw(keys: &[u8], f: rl_command_func_t, map: Keymap) -> c_int {
     unsafe {
-        if let Some(e) = lookup_raw(keys, map) {
-            if !(e.is_null() || (e.type_ == ISFUNC && is_func(e.function.func, crate::dispatch::rl_do_lowercase_version))) {
-                return 1;
-            }
+        if !counts_as_unbound(lookup_raw(keys, map)) {
+            return 1;
         }
         generic_bind_raw(ISFUNC, keys, KmData { func: Some(f) }, map)
     }
@@ -295,24 +356,26 @@ pub unsafe extern "C" fn rl_add_defun(name: *const c_char, f: Option<rl_command_
     0
 }
 
+/// The key sequence (raw bytes) `rl_bind_key` uses for a single key.
+fn single_key_seq(key: c_int) -> Vec<u8> {
+    let k = key as u8;
+    if k >= 128 && meta_via_esc() && k != 128 {
+        vec![ESC as u8, k & 0x7f]
+    } else {
+        vec![k]
+    }
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_bind_key_in_map(key: c_int, f: Option<rl_command_func_t>, map: Keymap) -> c_int {
-    if !(0..=255).contains(&key) || map.is_null() {
+    if !(0..=255).contains(&key) {
+        return key;
+    }
+    if map.is_null() {
         return -1;
     }
-    let mut map = map;
-    let mut k = key as usize;
-    if k >= 128 && crate::vars::convert_meta.get() != 0 && (*entry(map, ESC)).type_ == ISKMAP {
-        map = (*entry(map, ESC)).function.map;
-        k &= 0x7f;
-    }
-    let e = entry(map, k);
-    if (*e).type_ == ISMACR {
-        cfree((*e).function.macro_);
-    }
-    *e = KEYMAP_ENTRY { type_: ISFUNC, function: KmData { func: f } };
-    rl_binding_keymap.set(map);
-    0
+    let keys = single_key_seq(key);
+    generic_bind_raw(ISFUNC, &keys, KmData { func: f }, map)
 }
 
 #[no_mangle]
@@ -322,16 +385,17 @@ pub unsafe extern "C" fn rl_bind_key(key: c_int, f: Option<rl_command_func_t>) -
 
 #[no_mangle]
 pub unsafe extern "C" fn rl_bind_key_if_unbound_in_map(key: c_int, f: Option<rl_command_func_t>, map: Keymap) -> c_int {
-    if !(0..=255).contains(&key) || map.is_null() {
+    if !(0..=255).contains(&key) {
+        return key;
+    }
+    if map.is_null() {
         return -1;
     }
-    let keys = [key as u8];
-    if let Some(e) = lookup_raw(&keys, map) {
-        if !e.is_null() && !(e.type_ == ISFUNC && is_func(e.function.func, crate::dispatch::rl_do_lowercase_version)) {
-            return 1;
-        }
+    let keys = single_key_seq(key);
+    if !counts_as_unbound(lookup_raw(&keys, map)) {
+        return 1;
     }
-    rl_bind_key_in_map(key, f, map)
+    generic_bind_raw(ISFUNC, &keys, KmData { func: f }, map)
 }
 
 #[no_mangle]
@@ -367,13 +431,11 @@ pub unsafe extern "C" fn rl_set_key(seq: *const c_char, f: Option<rl_command_fun
 #[no_mangle]
 pub unsafe extern "C" fn rl_bind_keyseq_if_unbound_in_map(seq: *const c_char, f: Option<rl_command_func_t>, map: Keymap) -> c_int {
     if seq.is_null() {
-        return -1;
+        return 0;
     }
     let (keys, _) = translate_keyseq_bytes(cstr(seq));
-    if let Some(e) = lookup_raw(&keys, map) {
-        if !(e.is_null() || (e.type_ == ISFUNC && is_func(e.function.func, crate::dispatch::rl_do_lowercase_version))) {
-            return 1;
-        }
+    if !counts_as_unbound(lookup_raw(&keys, map)) {
+        return 1;
     }
     generic_bind_raw(ISFUNC, &keys, KmData { func: f }, map)
 }
@@ -389,23 +451,27 @@ pub unsafe extern "C" fn rl_macro_bind(seq: *const c_char, macro_: *const c_char
     rl_generic_bind(ISMACR as c_int, seq, c_strdup(&m), map)
 }
 
+unsafe fn unbind_function(f: rl_command_func_t, map: Keymap) -> bool {
+    let mut any = false;
+    for i in 0..KEYMAP_SIZE {
+        let e = entry(map, i);
+        if (*e).type_ == ISFUNC && is_func((*e).function.func, f) {
+            *e = KEYMAP_ENTRY::EMPTY;
+            any = true;
+        } else if (*e).type_ == ISKMAP && !(*e).function.map.is_null() {
+            any |= unbind_function(f, (*e).function.map);
+        }
+    }
+    any
+}
+
 #[no_mangle]
 pub unsafe extern "C" fn rl_unbind_function_in_map(f: Option<rl_command_func_t>, map: Keymap) -> c_int {
     let Some(f) = f else { return 0 };
     if map.is_null() {
         return 0;
     }
-    let mut n = 0;
-    for i in 0..KEYMAP_SIZE {
-        let e = entry(map, i);
-        if (*e).type_ == ISFUNC && is_func((*e).function.func, f) {
-            *e = KEYMAP_ENTRY::EMPTY;
-            n += 1;
-        } else if (*e).type_ == ISKMAP {
-            n += rl_unbind_function_in_map(Some(f), (*e).function.map);
-        }
-    }
-    n
+    unbind_function(f, map) as c_int
 }
 
 #[no_mangle]
@@ -417,31 +483,19 @@ pub unsafe extern "C" fn rl_unbind_command_in_map(cmd: *const c_char, map: Keyma
 }
 
 unsafe fn function_of(keys: &[u8], map: Keymap, type_: *mut c_int) -> Option<rl_command_func_t> {
-    let mut map = if map.is_null() { current() } else { map };
-    let convert = crate::vars::convert_meta.get() != 0;
-    for (i, &kb) in keys.iter().enumerate() {
-        let mut k = kb as usize;
-        if k >= 128 && convert && (*entry(map, ESC)).type_ == ISKMAP {
-            map = (*entry(map, ESC)).function.map;
-            k &= 0x7f;
-        }
-        let e = *entry(map, k);
-        if e.type_ == ISKMAP {
-            if i + 1 == keys.len() {
-                if !type_.is_null() {
-                    *type_ = ISKMAP as c_int;
-                }
-                return core::mem::transmute::<Keymap, Option<rl_command_func_t>>(e.function.map);
+    match lookup_raw(keys, map) {
+        Some(e) => {
+            if !type_.is_null() {
+                *type_ = e.type_ as c_int;
             }
-            map = e.function.map;
-            continue;
+            if e.type_ == ISKMAP {
+                core::mem::transmute::<Keymap, Option<rl_command_func_t>>(e.function.map)
+            } else {
+                e.function.func
+            }
         }
-        if !type_.is_null() {
-            *type_ = e.type_ as c_int;
-        }
-        return e.function.func;
+        None => None,
     }
-    None
 }
 
 #[no_mangle]
