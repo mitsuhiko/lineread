@@ -1,0 +1,39 @@
+# Utility paths: aborting inside macros, tilde-expand edges, error messages.
+tags: emacs
+--- script
+readline "> "
+
+=== abort-inside-macro-discards-rest
+tags: abort macro
+--- inputrc
+"\C-xm": "ab\C-gcd"
+--- keys
+xy\C-xm<dump>z\r
+
+=== abort-inside-nested-macro
+tags: abort macro
+--- inputrc
+"\C-xn": "12\C-g34"
+"\C-xm": "ab\C-xncd"
+--- keys
+\C-xm<dump>z\r
+
+=== recursive-macro-nesting-limit
+tags: macro
+--- inputrc
+"\C-xr": "a\C-xr"
+--- keys
+\C-xr<snap><dump>\r
+
+=== tilde-expand-at-line-start
+tags: tilde-expand
+keys: ~/x\C-a\M-&<dump>\r
+
+=== tilde-expand-after-word
+tags: tilde-expand
+keys: ls ~\M-&<dump>\r
+
+=== tilde-expand-not-tilde-word
+tags: tilde-expand
+keys: ls abc\M-&<dump>\r
+
