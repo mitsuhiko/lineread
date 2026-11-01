@@ -1,0 +1,227 @@
+# Tilde expansion details (tilde.c) and the tilde-expand bindable command
+# (util.c): word boundaries, prefixes/suffixes, hooks, ~+ and ~-, HOME
+# edge cases, expand-tilde during completion.
+tags: tilde
+
+=== tilde-only-at-word-start
+tags: api
+--- script
+tilde_expand "a~"
+tilde_expand "~a~"
+tilde_expand "x ~"
+tilde_expand "x\t~/y"
+tilde_expand "~~"
+
+=== tilde-in-middle-of-string
+tags: api
+--- script
+tilde_expand "pre ~/a mid ~/b post"
+tilde_expand "~/a~/b"
+
+=== tilde-plus-minus-are-users
+tags: api
+--- script
+tilde_expand_word "~+"
+tilde_expand_word "~-"
+tilde_expand_word "~+/x"
+
+=== tilde-trailing-slashes
+tags: api
+--- script
+tilde_expand_word "~//"
+tilde_expand_word "~/./x"
+
+=== home-trailing-slash
+tags: api
+env: HOME=/custom/home/
+--- script
+tilde_expand_word "~"
+tilde_expand_word "~/x"
+
+=== home-empty
+tags: api
+env: HOME=
+--- script
+tilde_expand_word "~"
+tilde_expand_word "~/x"
+
+=== home-root
+tags: api
+env: HOME=/
+--- script
+tilde_expand_word "~"
+tilde_expand_word "~/x"
+
+=== word-null-and-empty
+tags: api
+--- script
+tilde_expand_word ""
+tilde_expand_word "plain"
+tilde_expand ""
+
+=== prefixes-only-tilde-start
+tags: api
+--- script
+set tilde_additional_prefixes "=~"
+tilde_expand "a=~/x"
+tilde_expand "a=x~/y"
+tilde_expand "=~"
+set tilde_additional_prefixes NULL
+tilde_expand "a=~/x"
+
+=== prefix-longer
+tags: api
+--- script
+set tilde_additional_prefixes "--home=~"
+tilde_expand "--home=~/x"
+tilde_expand "--hom=~/x"
+
+=== suffixes-end-username
+tags: api
+--- script
+set tilde_additional_suffixes ":"
+tilde_expand "~:rest"
+tilde_expand "~nosuchuser_lineread:rest"
+set tilde_additional_suffixes NULL
+tilde_expand "~:rest"
+
+=== suffixes-multiple
+tags: api
+--- script
+set tilde_additional_suffixes ":" ","
+tilde_expand "~,x"
+tilde_expand "~:x"
+
+=== preexpansion-hook-sees-username
+tags: api hook
+--- script
+set tilde_expansion_preexpansion_hook log
+tilde_expand_word "~someone/dir"
+tilde_expand_word "~/dir"
+tilde_expand_word "~"
+
+=== preexpansion-hook-overrides-home
+tags: api hook
+--- script
+def pre
+return "/hooked"
+end
+set tilde_expansion_preexpansion_hook script:pre
+tilde_expand "~/a ~b/c"
+
+=== failure-hook-args
+tags: api hook
+--- script
+set tilde_expansion_failure_hook log
+tilde_expand_word "~nosuchuser_lineread/x"
+tilde_expand_word "~/x"
+
+=== failure-hook-returns
+tags: api hook
+--- script
+def fail
+return "/failed"
+end
+set tilde_expansion_failure_hook script:fail
+tilde_expand_word "~nosuchuser_lineread"
+tilde_expand_word "~nosuchuser_lineread/sub"
+tilde_expand "a ~nosuchuser_lineread/sub b"
+
+=== failure-hook-not-called-when-preexpanded
+tags: api hook
+--- script
+def pre
+return "/pre"
+end
+set tilde_expansion_preexpansion_hook script:pre
+set tilde_expansion_failure_hook log
+tilde_expand_word "~nosuchuser_lineread/x"
+
+=== long-username
+tags: api
+--- script
+tilde_expand_word "~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/x"
+
+=== many-expansions
+tags: api
+--- script
+tilde_expand "~/1 ~/2 ~/3 ~/4 ~/5 ~/6 ~/7 ~/8 ~/9 ~/10 ~/11 ~/12 ~/13 ~/14 ~/15 ~/16 ~/17 ~/18 ~/19 ~/20"
+
+=== bindable-tilde-expand-word
+tags: readline
+--- script
+readline "> "
+--- keys
+cd ~/x\e&<dump>\r
+
+=== bindable-tilde-expand-lone-tilde-at-end
+tags: readline
+--- script
+readline "> "
+--- keys
+cd ~\e&<dump>\r
+
+=== bindable-tilde-expand-point-inside-word
+tags: readline
+--- script
+readline "> "
+--- keys
+cd ~/abc rest\C-a\ef\C-f\C-f\C-f\e&<dump>\r
+
+=== bindable-tilde-expand-no-tilde
+tags: readline
+--- script
+readline "> "
+--- keys
+cd abc\e&<dump>\r
+
+=== bindable-tilde-expand-at-start
+tags: readline
+--- script
+readline "> "
+--- keys
+~/x\C-a\e&<dump>\r
+
+=== bindable-tilde-expand-unknown-user
+tags: readline
+--- script
+readline "> "
+--- keys
+ls ~nosuchuser_lineread\e&<dump>\r
+
+=== bindable-tilde-expand-with-hook
+tags: readline hook
+--- script
+tilde_map "proj" "/srv/proj"
+set tilde_expansion_preexpansion_hook table
+readline "> "
+--- keys
+cd ~proj/src\e&<dump>\r
+
+=== bindable-tilde-expand-empty-line
+tags: readline
+--- script
+readline "> "
+--- keys
+\e&<dump>\r
+
+=== bindable-vi-tilde-expand
+tags: readline vi
+--- inputrc
+set editing-mode vi
+set keyseq-timeout 50
+--- script
+readline "> "
+--- keys
+cd ~/x\e<pause>\e&<dump>\r
+
+=== complete-expand-tilde-listing
+tags: complete
+--- inputrc
+set expand-tilde on
+--- file sub1/a
+--- file sub2/b
+--- script
+readline "> "
+--- keys
+x ~/su\t<dump>\r

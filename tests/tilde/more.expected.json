@@ -1,0 +1,291 @@
+{
+  "tilde-only-at-word-start": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"a~\"", "ret": "a~"},
+      {"op": "tilde_expand \"~a~\"", "ret": "~a~"},
+      {"op": "tilde_expand \"x ~\"", "ret": "x $HOME"},
+      {"op": "tilde_expand \"x\\t~/y\"", "ret": "x\t$HOME/y"},
+      {"op": "tilde_expand \"~~\"", "ret": "~~"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tilde-in-middle-of-string": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"pre ~/a mid ~/b post\"", "ret": "pre $HOME/a mid $HOME/b post"},
+      {"op": "tilde_expand \"~/a~/b\"", "ret": "$HOME/a~/b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tilde-plus-minus-are-users": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~+\"", "ret": "~+"},
+      {"op": "tilde_expand_word \"~-\"", "ret": "~-"},
+      {"op": "tilde_expand_word \"~+/x\"", "ret": "~+/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tilde-trailing-slashes": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~//\"", "ret": "$HOME//"},
+      {"op": "tilde_expand_word \"~/./x\"", "ret": "$HOME/./x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "home-trailing-slash": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~\"", "ret": "/custom/home/"},
+      {"op": "tilde_expand_word \"~/x\"", "ret": "/custom/home//x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "home-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~\"", "ret": ""},
+      {"op": "tilde_expand_word \"~/x\"", "ret": "/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "home-root": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~\"", "ret": "/"},
+      {"op": "tilde_expand_word \"~/x\"", "ret": "//x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "word-null-and-empty": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"\"", "ret": ""},
+      {"op": "tilde_expand_word \"plain\"", "ret": "plain"},
+      {"op": "tilde_expand \"\"", "ret": ""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefixes-only-tilde-start": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"a=~/x\"", "ret": "a=$HOME/x"},
+      {"op": "tilde_expand \"a=x~/y\"", "ret": "a=x~/y"},
+      {"op": "tilde_expand \"=~\"", "ret": "=$HOME"},
+      {"op": "tilde_expand \"a=~/x\"", "ret": "a=~/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "prefix-longer": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"--home=~/x\"", "ret": "--home=$HOME/x"},
+      {"op": "tilde_expand \"--hom=~/x\"", "ret": "--hom=~/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "suffixes-end-username": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~:rest\"", "ret": "$HOME:rest"},
+      {"op": "tilde_expand \"~nosuchuser_lineread:rest\"", "ret": "~nosuchuser_lineread:rest"},
+      {"op": "tilde_expand \"~:rest\"", "ret": "~:rest"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "suffixes-multiple": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~,x\"", "ret": "$HOME,x"},
+      {"op": "tilde_expand \"~:x\"", "ret": "$HOME:x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "preexpansion-hook-sees-username": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "tilde_expansion_preexpansion_hook", "word": "someone"},
+      {"op": "tilde_expand_word \"~someone/dir\"", "ret": "~someone/dir"},
+      {"op": "tilde_expand_word \"~/dir\"", "ret": "$HOME/dir"},
+      {"op": "tilde_expand_word \"~\"", "ret": "$HOME"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "preexpansion-hook-overrides-home": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~/a ~b/c\"", "ret": "$HOME/a /hooked/c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "failure-hook-args": {
+    "exit": 0,
+    "results": [
+      {"op": "hook", "hook": "tilde_expansion_failure_hook", "word": "nosuchuser_lineread"},
+      {"op": "tilde_expand_word \"~nosuchuser_lineread/x\"", "ret": "~nosuchuser_lineread/x"},
+      {"op": "tilde_expand_word \"~/x\"", "ret": "$HOME/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "failure-hook-returns": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~nosuchuser_lineread\"", "ret": "/failed"},
+      {"op": "tilde_expand_word \"~nosuchuser_lineread/sub\"", "ret": "/failed/sub"},
+      {"op": "tilde_expand \"a ~nosuchuser_lineread/sub b\"", "ret": "a /failed/sub b"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "failure-hook-not-called-when-preexpanded": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~nosuchuser_lineread/x\"", "ret": "/pre/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "long-username": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand_word \"~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/x\"", "ret": "~aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/x"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "many-expansions": {
+    "exit": 0,
+    "results": [
+      {"op": "tilde_expand \"~/1 ~/2 ~/3 ~/4 ~/5 ~/6 ~/7 ~/8 ~/9 ~/10 ~/11 ~/12 ~/13 ~/14 ~/15 ~/16 ~/17 ~/18 ~/19 ~/20\"", "ret": "$HOME/1 $HOME/2 $HOME/3 $HOME/4 $HOME/5 $HOME/6 $HOME/7 $HOME/8 $HOME/9 $HOME/10 $HOME/11 $HOME/12 $HOME/13 $HOME/14 $HOME/15 $HOME/16 $HOME/17 $HOME/18 $HOME/19 $HOME/20"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "bindable-tilde-expand-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd $HOME/x", "point": 27, "end": 27, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd $HOME/x"}
+    ],
+    "screen": [
+      "> cd $HOME/x"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-lone-tilde-at-end": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd $HOME", "point": 25, "end": 25, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd $HOME"}
+    ],
+    "screen": [
+      "> cd $HOME"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-point-inside-word": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd $HOME/abc rest", "point": 29, "end": 34, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd $HOME/abc rest"}
+    ],
+    "screen": [
+      "> cd $HOME/abc rest"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-no-tilde": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd abc", "point": 6, "end": 6, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd abc"}
+    ],
+    "screen": [
+      "> cd abc"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-at-start": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "$HOME/x", "point": 24, "end": 24, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "$HOME/x"}
+    ],
+    "screen": [
+      "> $HOME/x"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-unknown-user": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "ls ~nosuchuser_lineread", "point": 23, "end": 23, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "ls ~nosuchuser_lineread"}
+    ],
+    "screen": [
+      "> ls ~nosuchuser_lineread"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-with-hook": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd /srv/proj/src", "point": 16, "end": 16, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd /srv/proj/src"}
+    ],
+    "screen": [
+      "> cd /srv/proj/src"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-tilde-expand-empty-line": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "", "point": 0, "end": 0, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": ""}
+    ],
+    "screen": [
+      ">"
+    ],
+    "cursor": [1, 0]
+  },
+  "bindable-vi-tilde-expand": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "cd $HOME/x", "point": 27, "end": 27, "mark": 0, "mode": "vi", "keymap": "vi-insert", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "cd $HOME/x"}
+    ],
+    "screen": [
+      "> cd $HOME/x"
+    ],
+    "cursor": [1, 0]
+  },
+  "complete-expand-tilde-listing": {
+    "exit": 0,
+    "results": [
+      {"op": "dump", "line": "x $HOME/sub", "point": 28, "end": 28, "mark": 0, "mode": "emacs", "keymap": "emacs", "explicit_arg": 0, "numeric_arg": 1, "insert_mode": 1},
+      {"op": "readline", "ret": "x $HOME/sub"}
+    ],
+    "screen": [
+      "> x $HOME/sub"
+    ],
+    "cursor": [1, 0]
+  }
+}
