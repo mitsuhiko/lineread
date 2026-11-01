@@ -261,7 +261,7 @@ pub unsafe extern "C" fn rl_newline(_count: c_int, _key: c_int) -> c_int {
     if rl_editing_mode.get() == VI_MODE {
         crate::vi::newline_hook();
     }
-    display::redisplay();
+    // (no redisplay: the line is already up to date)
     display::update_final();
     0
 }
