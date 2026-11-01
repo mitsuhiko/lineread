@@ -1,0 +1,143 @@
+{
+  "tokenize-redirect-operators": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"9<(\"", "ret": ["9<("]},
+      {"op": "history_tokenize \"x>(\"", "ret": ["x>", "("]},
+      {"op": "history_tokenize \"x<(a\"", "ret": ["x<(a"]},
+      {"op": "history_tokenize \"9<(a) b\"", "ret": ["9<(a)", "b"]},
+      {"op": "history_tokenize \"x$(\"", "ret": ["x$", "("]},
+      {"op": "history_tokenize \"9<>a\"", "ret": ["9<", ">", "a"]},
+      {"op": "history_tokenize \"9>|a\"", "ret": ["9>|", "a"]},
+      {"op": "history_tokenize \"9<&a\"", "ret": ["9<&", "a"]},
+      {"op": "history_tokenize \"9<<<a\"", "ret": ["9<<<", "a"]},
+      {"op": "history_tokenize \"9&>a\"", "ret": ["9", "&>", "a"]},
+      {"op": "history_tokenize \"9>&1a\"", "ret": ["9>&1", "a"]},
+      {"op": "history_tokenize \">&-a\"", "ret": [">&-", "a"]},
+      {"op": "history_tokenize \"<<<<\"", "ret": ["<<<", "<"]},
+      {"op": "history_tokenize \"((a))\"", "ret": ["(", "(", "a", ")", ")"]},
+      {"op": "history_tokenize \"a;;;b\"", "ret": ["a", ";;", ";", "b"]},
+      {"op": "history_tokenize \" <(\"", "ret": ["<("]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tokenize-paren-group-ignores-quotes": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"echo $(a ')' b) c\"", "ret": ["echo", "$(a ')' b) c"]},
+      {"op": "history_tokenize \"echo $(a \\\\) b) c\"", "ret": ["echo", "$(a \\) b)", "c"]},
+      {"op": "history_tokenize \"$(\\\" ') x\"", "ret": ["$(\" ')", "x"]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "tokenize-custom-delimiters-keep-operators": {
+    "exit": 0,
+    "results": [
+      {"op": "history_tokenize \"2>w\"", "ret": ["2>", "w"]},
+      {"op": "history_tokenize \">>p\"", "ret": [">>", "p"]},
+      {"op": "history_tokenize \")*x\"", "ret": [")", "*x"]},
+      {"op": "history_tokenize \"a>b<c\"", "ret": ["a>b<c"]},
+      {"op": "history_tokenize \"!(\"", "ret": ["!", "("]}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "quote-words-fields": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'' 'a' '' 'b' ''"},
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'a'\t''\n'b'"},
+      {"op": "history_expand \"!!:x\"", "ret": 1, "out": "'a' ''"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-bywords-uses-tokens": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Gs/b//\"", "ret": 1, "out": "!#<($(x:s/a//"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "percent-is-matched-word": {
+    "exit": 0,
+    "results": [
+      {"op": "history_set_pos 0", "ret": 1},
+      {"op": "history_expand \"!?bet?\"", "ret": 1, "out": "alpha beta"},
+      {"op": "history_expand \"!!:%\"", "ret": 1, "out": "beta"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "no-words-dollar-is-line": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "   "},
+      {"op": "history_expand \"!^\"", "ret": -1, "out": "^: bad word specifier"},
+      {"op": "history_expand \"!*\"", "ret": 1, "out": ""},
+      {"op": "history_expand \"!:0-$\"", "ret": -1, "out": ":0-$: bad word specifier"},
+      {"op": "history_expand \"!$\"", "ret": 1, "out": "#a b"},
+      {"op": "history_expand \"!:0\"", "ret": -1, "out": ":0: bad word specifier"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "modifier-flag-before-other-modifier": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Ge\"", "ret": 1, "out": ".b c"},
+      {"op": "history_expand \"!!:gh\"", "ret": 1, "out": "a.b c"},
+      {"op": "history_expand \"!^^\"", "ret": 1, "out": "c"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "inhibit-backslash-before-bang": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\\\\\\!!\"", "ret": 1, "out": "\\\\prev"},
+      {"op": "history_expand \"\\\\\\\\'!!'\"", "ret": 1, "out": "\\\\'prev'"},
+      {"op": "history_expand \"\\\\\\\\!!\"", "ret": 0, "out": "\\\\!!"},
+      {"op": "history_expand \"x\\\\\\\\!!\"", "ret": 0, "out": "x\\\\!!"},
+      {"op": "history_expand \"\\\\x!!\"", "ret": 1, "out": "\\xprev"},
+      {"op": "history_expand \"\\\\\\\\'!!'\"", "ret": 0, "out": "\\\\'!!'"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "comment-in-double-quotes-needs-inhibit": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"\\\"a #!!\\\"\"", "ret": 0, "out": "\"a #!!\""},
+      {"op": "history_expand \"\\\"a #!!\\\"\"", "ret": 1, "out": "\"a #prev\""}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "single-quote-delimits-search": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"'!pr' x\"", "ret": 1, "out": "'prev' x"},
+      {"op": "history_expand \"\\\"'\\\" !pr' x\"", "ret": -1, "out": "!pr': event not found"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  },
+  "subst-bywords-word-tracking": {
+    "exit": 0,
+    "results": [
+      {"op": "history_expand \"!!:Gs/b/X/\"", "ret": 1, "out": "XXb Xbb Xbb"},
+      {"op": "history_expand \"!!:Gs/b/X/\"", "ret": 1, "out": "xXxb xXxb"},
+      {"op": "history_expand \"!!:Gs/b/X/\"", "ret": 1, "out": "XaX Xab"},
+      {"op": "history_expand \"!!:Gs/a/X/\"", "ret": 1, "out": "XXa X;Xa (X)X\tX"},
+      {"op": "history_expand \"!!:Gs/a/aa/\"", "ret": 1, "out": "aaaaa aa;aaaa (aaa)aaa\taa"},
+      {"op": "history_expand \"!!:Gs/aa/a/\"", "ret": 1, "out": "aa a;a (a)a\ta"},
+      {"op": "history_expand \"!!:Gs/a/X/\"", "ret": 1, "out": "XXa a;aa (a)a\ta"}
+    ],
+    "screen": [],
+    "cursor": [0, 0]
+  }
+}

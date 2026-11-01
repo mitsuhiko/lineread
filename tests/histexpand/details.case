@@ -1,0 +1,135 @@
+# Expansion and tokenizer details found by differential probing: shell
+# operators after digits, process substitution at the end of the string,
+# fields of :x, :G per token, % keeps the matched word, lines without
+# words, backslashes and comments with history_quotes_inhibit_expansion.
+tags: histexpand
+
+=== tokenize-redirect-operators
+tags: history_tokenize
+--- script
+history_tokenize "9<("
+history_tokenize "x>("
+history_tokenize "x<(a"
+history_tokenize "9<(a) b"
+history_tokenize "x$("
+history_tokenize "9<>a"
+history_tokenize "9>|a"
+history_tokenize "9<&a"
+history_tokenize "9<<<a"
+history_tokenize "9&>a"
+history_tokenize "9>&1a"
+history_tokenize ">&-a"
+history_tokenize "<<<<"
+history_tokenize "((a))"
+history_tokenize "a;;;b"
+history_tokenize " <("
+
+=== tokenize-paren-group-ignores-quotes
+tags: history_tokenize
+--- script
+history_tokenize "echo $(a ')' b) c"
+history_tokenize "echo $(a \\) b) c"
+history_tokenize "$(\" ') x"
+
+=== tokenize-custom-delimiters-keep-operators
+tags: history_tokenize history_word_delimiters
+--- script
+set history_word_delimiters " ,"
+history_tokenize "2>w"
+history_tokenize ">>p"
+history_tokenize ")*x"
+history_tokenize "a>b<c"
+history_tokenize "!("
+
+=== quote-words-fields
+tags: modifiers
+--- script
+add_history " a  b "
+history_expand "!!:x"
+add_history "a\t\nb"
+history_expand "!!:x"
+add_history "a "
+history_expand "!!:x"
+
+=== subst-bywords-uses-tokens
+tags: modifiers
+--- script
+add_history "b!#<($(x:s/a/b/"
+history_expand "!!:Gs/b//"
+
+=== percent-is-matched-word
+tags: events
+--- script
+add_history "alpha beta"
+add_history "gamma delta"
+history_set_pos 0
+history_expand "!?bet?"
+using_history
+history_expand "!!:%"
+
+=== no-words-dollar-is-line
+tags: words
+--- script
+add_history "   "
+history_expand "!$"
+history_expand "!^"
+history_expand "!*"
+history_expand "!:0-$"
+set history_comment_char "#"
+add_history "#a b"
+history_expand "!$"
+history_expand "!:0"
+
+=== modifier-flag-before-other-modifier
+tags: modifiers
+--- script
+add_history "a.b c"
+history_expand "!!:Ge"
+history_expand "!!:gh"
+history_expand "!^^"
+
+=== inhibit-backslash-before-bang
+tags: quoting
+--- script
+add_history "prev"
+history_expand "\\\\!!"
+history_expand "\\\\'!!'"
+set history_quotes_inhibit_expansion 1
+history_expand "\\\\!!"
+history_expand "x\\\\!!"
+history_expand "\\x!!"
+history_expand "\\\\'!!'"
+
+=== comment-in-double-quotes-needs-inhibit
+tags: quoting
+--- script
+add_history "prev"
+set history_comment_char "#"
+history_expand "\"a #!!\""
+set history_quotes_inhibit_expansion 1
+history_expand "\"a #!!\""
+
+=== single-quote-delimits-search
+tags: quoting events
+--- script
+add_history "prev"
+using_history
+history_expand "'!pr' x"
+history_expand "\"'\" !pr' x"
+
+=== subst-bywords-word-tracking
+tags: modifiers
+description: after a :G replacement the scan continues after the end of the word; a match at the very start leaves the first word open for a second replacement
+--- script
+add_history "bbb bbb bbb"
+history_expand "!!:Gs/b/X/"
+add_history "xbxb xbxb"
+history_expand "!!:Gs/b/X/"
+add_history "bab bab"
+history_expand "!!:Gs/b/X/"
+add_history "aaa a;aa (a)a\ta"
+history_expand "!!:Gs/a/X/"
+history_expand "!!:Gs/a/aa/"
+history_expand "!!:Gs/aa/a/"
+set history_word_delimiters ","
+history_expand "!!:Gs/a/X/"

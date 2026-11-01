@@ -39,8 +39,8 @@ struct State {
     lhs: Option<Vec<u8>>,
     rhs: Vec<u8>,
     search: Option<Vec<u8>>,
-    /// word index of the last substring search match (-1: not in a word)
-    search_match: Option<i32>,
+    /// the word containing the last substring search match
+    search_match: Option<Vec<u8>>,
 }
 static ST: CVar<State> = CVar::new(State { lhs: None, rhs: Vec::new(), search: None, search_match: None });
 
@@ -71,28 +71,20 @@ fn char_len(s: &[u8], i: usize) -> usize {
 // ---------------------------------------------------------------- tokenizer
 
 /// Skip a balanced `( ... )` group starting at `i` (`s[i] == '('`).
+/// Quotes are not special inside; backslash escapes.
 fn skip_parens(s: &[u8], mut i: usize) -> usize {
     let mut depth = 0;
-    let mut quote = 0u8;
     while i < s.len() {
-        let c = s[i];
-        if quote != 0 {
-            if c == quote {
-                quote = 0;
-            } else if c == b'\\' && quote != b'\'' {
-                i += 1;
+        match s[i] {
+            b'\\' => i += 1,
+            b'(' => depth += 1,
+            b')' => {
+                depth -= 1;
+                if depth == 0 {
+                    return i + 1;
+                }
             }
-        } else if c == b'\\' {
-            i += 1;
-        } else if c == b'\'' || c == b'"' || c == b'`' {
-            quote = c;
-        } else if c == b'(' {
-            depth += 1;
-        } else if c == b')' {
-            depth -= 1;
-            if depth == 0 {
-                return i + 1;
-            }
+            _ => {}
         }
         i += 1;
     }
@@ -101,30 +93,45 @@ fn skip_parens(s: &[u8], mut i: usize) -> usize {
 
 /// End of the token starting at `i0` (not whitespace).
 fn token_end(s: &[u8], i0: usize) -> usize {
+    let c = s[i0];
+    if b"()<>;&|".contains(&c) || (is_word_delim(c) && !is_white(c)) {
+        return operator_end(s, i0, i0);
+    }
+    word_scan(s, i0, i0)
+}
+
+/// End of the shell operator at `s[i]` (part of the token from `i0`).
+fn operator_end(s: &[u8], i0: usize, i: usize) -> usize {
     let len = s.len();
-    let mut i = i0;
     let c = s[i];
     let peek = s.get(i + 1).copied().unwrap_or(0);
-    if is_word_delim(c) && !is_white(c) {
-        if (c == b'<' || c == b'>') && peek == b'(' && i + 2 < len {
-            i = skip_parens(s, i + 1);
-            return word_scan(s, i0, i);
+    if (c == b'<' || c == b'>') && peek == b'(' {
+        if i + 2 >= len {
+            return len;
         }
-        if peek == c && c != b'(' && c != b')' {
-            if c == b'<' && (s.get(i + 2) == Some(&b'-') || s.get(i + 2) == Some(&b'<')) {
-                return i + 3;
-            }
-            return i + 2;
-        }
-        if (c == b'&' && peek == b'>') || (c == b'>' && peek == b'|') {
-            return i + 2;
-        }
-        if (c == b'<' || c == b'>') && peek == b'&' {
-            return word_scan(s, i0, i + 2);
-        }
-        return i + 1;
+        return word_scan(s, i0, skip_parens(s, i + 1));
     }
-    word_scan(s, i0, i)
+    if peek == c && c != b'(' && c != b')' {
+        if c == b'<' && (s.get(i + 2) == Some(&b'-') || s.get(i + 2) == Some(&b'<')) {
+            return i + 3;
+        }
+        return i + 2;
+    }
+    if (c == b'&' && peek == b'>') || (c == b'>' && peek == b'|') {
+        return i + 2;
+    }
+    if (c == b'<' || c == b'>') && peek == b'&' {
+        return dup_target(s, i + 2);
+    }
+    i + 1
+}
+
+/// After `>&` / `<&`: an fd number or `-`.
+fn dup_target(s: &[u8], mut i: usize) -> usize {
+    while i < s.len() && (s[i].is_ascii_digit() || s[i] == b'-') {
+        i += 1;
+    }
+    i
 }
 
 fn word_scan(s: &[u8], i0: usize, mut i: usize) -> usize {
@@ -150,22 +157,17 @@ fn word_scan(s: &[u8], i0: usize, mut i: usize) -> usize {
             i += 1;
             continue;
         }
-        if b"$@!+?*<>".contains(&c) && s.get(i + 1) == Some(&b'(') && i + 2 < len {
+        if (c == b'<' || c == b'>') && i > i0 && s[i0..i].iter().all(|d| d.is_ascii_digit()) {
+            return operator_end(s, i0, i);
+        }
+        if b"$@!+?*<>".contains(&c) && s.get(i + 1) == Some(&b'(') {
+            if i + 2 >= len {
+                return i + 1;
+            }
             i = skip_parens(s, i + 1);
             continue;
         }
         if is_word_delim(c) {
-            if (c == b'<' || c == b'>') && i > i0 && s[i0..i].iter().all(|d| d.is_ascii_digit()) {
-                i += 1;
-                if s.get(i) == Some(&c) {
-                    i += 1;
-                }
-                if s.get(i) == Some(&b'&') {
-                    i += 1;
-                    continue;
-                }
-                return i;
-            }
             break;
         }
         i += char_len(s, i);
@@ -197,14 +199,9 @@ pub fn tokenize(s: &[u8]) -> Vec<Vec<u8>> {
     tokenize_spans(s).into_iter().map(|(a, b)| s[a..b].to_vec()).collect()
 }
 
-/// Index of the token containing byte `ind`, -1 if none.
-fn find_word(s: &[u8], ind: usize) -> i32 {
-    for (n, (a, b)) in tokenize_spans(s).into_iter().enumerate() {
-        if ind >= a && ind < b {
-            return n as i32;
-        }
-    }
-    -1
+/// The token containing byte `ind`.
+fn find_word(s: &[u8], ind: usize) -> Option<Vec<u8>> {
+    tokenize_spans(s).into_iter().find(|&(a, b)| ind >= a && ind < b).map(|(a, b)| s[a..b].to_vec())
 }
 
 #[no_mangle]
@@ -338,7 +335,7 @@ fn event(s: &[u8], idx: &mut usize, qc: u8) -> Option<c_int> {
     }
     if substring {
         let line = super::line_at(found).unwrap_or(&[]);
-        st().search_match = Some(find_word(line, r as usize));
+        st().search_match = find_word(line, r as usize);
         st().search = Some(text);
     }
     Some(found)
@@ -455,7 +452,7 @@ fn word_spec(s: &[u8], i: &mut usize) -> Words {
             *i = j + 1;
             Words::Range(first, -1)
         }
-        b'^' if c != b'^' => {
+        b'^' => {
             *i = j + 1;
             Words::Range(first, 1)
         }
@@ -497,17 +494,15 @@ fn select_words(line: &[u8], w: &Words) -> Option<Vec<u8>> {
     };
     match *w {
         Words::All => Some(line.to_vec()),
-        Words::Percent => match st().search_match {
-            Some(m) if m >= 0 && m < n => Some(words[m as usize].clone()),
-            _ => Some(Vec::new()),
-        },
+        Words::Percent => Some(st().search_match.clone().unwrap_or_default()),
         Words::Args => Some(if n > 1 { join(1, last_ix) } else { Vec::new() }),
         Words::ToPenultimate(f) => {
-            if f > last_ix + 1 || n == 0 {
+            if f > last_ix || n == 0 {
                 return None;
             }
             Some(join(f, last_ix - 1))
         }
+        Words::Range(-1, -1) if n == 0 => Some(line.to_vec()),
         Words::Range(f, l) => {
             let f = if f < 0 { last_ix } else { f };
             let l = if l < 0 { last_ix } else { l };
@@ -534,18 +529,13 @@ fn quote(s: &[u8]) -> Vec<u8> {
 
 fn quote_words(s: &[u8]) -> Vec<u8> {
     let mut v = Vec::new();
-    let mut i = 0;
-    while i < s.len() {
-        if is_white(s[i]) {
-            v.push(s[i]);
-            i += 1;
-            continue;
+    for (n, field) in s.split(|&c| is_white(c)).enumerate() {
+        if n > 0 {
+            // the separator that ended the previous field
+            let pos: usize = s.split(|&c| is_white(c)).take(n).map(|f| f.len() + 1).sum::<usize>() - 1;
+            v.push(s[pos]);
         }
-        let st = i;
-        while i < s.len() && !is_white(s[i]) {
-            i += 1;
-        }
-        v.extend_from_slice(&quote(&s[st..i]));
+        v.extend_from_slice(&quote(field));
     }
     v
 }
@@ -580,30 +570,31 @@ fn replacement(rhs: &[u8], lhs: &[u8]) -> Vec<u8> {
 fn substitute(text: &[u8], lhs: &[u8], rhs: &[u8], global: bool, bywords: bool) -> Option<Vec<u8>> {
     let rep = replacement(rhs, lhs);
     if bywords {
-        let mut out = Vec::new();
+        // after a replacement, continue after the end of the word (the
+        // reference's word bookkeeping starts at the second character,
+        // so a match at 0 leaves the rest of the first word open)
+        let mut t = text.to_vec();
         let mut any = false;
-        let mut i = 0;
-        while i < text.len() {
-            if is_white(text[i]) {
-                out.push(text[i]);
-                i += 1;
-                continue;
-            }
-            let s0 = i;
-            while i < text.len() && !is_white(text[i]) {
-                i += 1;
-            }
-            let w = &text[s0..i];
-            match find(w, lhs, 0) {
-                Some(p) => {
-                    any = true;
-                    out.extend_from_slice(&w[..p]);
-                    out.extend_from_slice(&rep);
-                    out.extend_from_slice(&w[p + lhs.len()..]);
+        let mut we = 0usize;
+        let mut si = 0usize;
+        while si < t.len() {
+            if si > we {
+                while si < t.len() && is_white(t[si]) {
+                    si += 1;
                 }
-                None => out.extend_from_slice(w),
+                if si >= t.len() {
+                    break;
+                }
+                we = token_end(&t, si);
             }
+            if t[si..].starts_with(lhs) {
+                any = true;
+                t.splice(si..si + lhs.len(), rep.iter().copied());
+                si = we;
+            }
+            si += 1;
         }
+        let out = t;
         return if any { Some(out) } else { None };
     }
     let mut out = Vec::new();
@@ -707,39 +698,39 @@ fn expand_one(s: &[u8], start: usize, qc: u8, so_far: &[u8], print: &mut bool) -
             c = s.get(j).copied().unwrap_or(0);
         }
         match c {
-            b'h' if !global && !bywords => {
+            b'h' => {
                 if let Some(p) = text.iter().rposition(|&c| c == b'/') {
                     text.truncate(p);
                 }
                 i = j + 1;
             }
-            b't' if !global && !bywords => {
+            b't' => {
                 if let Some(p) = text.iter().rposition(|&c| c == b'/') {
                     text = text[p + 1..].to_vec();
                 }
                 i = j + 1;
             }
-            b'r' if !global && !bywords => {
+            b'r' => {
                 if let Some(p) = text.iter().rposition(|&c| c == b'.') {
                     text.truncate(p);
                 }
                 i = j + 1;
             }
-            b'e' if !global && !bywords => {
+            b'e' => {
                 if let Some(p) = text.iter().rposition(|&c| c == b'.') {
                     text = text[p..].to_vec();
                 }
                 i = j + 1;
             }
-            b'p' if !global && !bywords => {
+            b'p' => {
                 *print = true;
                 i = j + 1;
             }
-            b'q' if !global && !bywords => {
+            b'q' => {
                 quoting = b'q';
                 i = j + 1;
             }
-            b'x' if !global && !bywords => {
+            b'x' => {
                 quoting = b'x';
                 i = j + 1;
             }
@@ -821,6 +812,7 @@ fn needs_expansion(s: &[u8]) -> bool {
     let cc = history_comment_char.get() as u8;
     let inhibit = history_quotes_inhibit_expansion.get() != 0;
     let mut dquote = history_quoting_state.get() == b'"' as c_int;
+    let mut squote = history_quoting_state.get() == b'\'' as c_int && !inhibit;
     let mut i = 0;
     if history_quoting_state.get() == b'\'' as c_int && inhibit {
         i = squote_close(s, 0, false);
@@ -835,19 +827,21 @@ fn needs_expansion(s: &[u8]) -> bool {
             i += 2;
             continue;
         }
-        if c == b'"' {
+        if c == b'"' && !squote {
             dquote = !dquote;
+        } else if c == b'\'' && !inhibit && !dquote {
+            squote = !squote;
         } else if c == b'\'' && inhibit && !dquote {
             let esc = i > 0 && s[i - 1] == b'$';
             i = squote_close(s, i + 1, esc);
             if i >= s.len() {
                 return false;
             }
-        } else if cc != 0 && c == cc && !dquote && (i == 0 || is_word_delim(s[i - 1])) {
+        } else if cc != 0 && c == cc && !(dquote && inhibit) && (i == 0 || is_word_delim(s[i - 1])) {
             return false;
         } else if c == ec {
             let n = s.get(i + 1).copied().unwrap_or(0);
-            if n != 0 && !in_set(n, history_no_expand_chars.get()) && !(dquote && n == b'"') && !call_inhibit(s, i) {
+            if n != 0 && !in_set(n, history_no_expand_chars.get()) && !(dquote && n == b'"') && !(inhibit && i > 0 && s[i - 1] == b'\\') && !call_inhibit(s, i) {
                 return true;
             }
         }
@@ -880,6 +874,7 @@ pub fn expand(input: &[u8]) -> (c_int, Vec<u8>) {
     let cc = history_comment_char.get() as u8;
     let mut out = Vec::new();
     let mut dquote = history_quoting_state.get() == b'"' as c_int;
+    let mut squote = squote_state && !inhibit;
     let mut print = false;
     let mut changed = false;
     let mut i = 0;
@@ -897,8 +892,10 @@ pub fn expand(input: &[u8]) -> (c_int, Vec<u8>) {
             i = e;
             continue;
         }
-        if c == b'"' {
+        if c == b'"' && !squote {
             dquote = !dquote;
+        } else if c == b'\'' && !inhibit && !dquote {
+            squote = !squote;
         } else if c == b'\'' && inhibit && !dquote {
             let esc = i > 0 && s[i - 1] == b'$';
             let e = squote_close(s, i + 1, esc);
@@ -906,19 +903,19 @@ pub fn expand(input: &[u8]) -> (c_int, Vec<u8>) {
             out.extend_from_slice(&s[i..e]);
             i = e;
             continue;
-        } else if cc != 0 && c == cc && !dquote && (i == 0 || is_word_delim(s[i - 1])) {
+        } else if cc != 0 && c == cc && !(dquote && inhibit) && (i == 0 || is_word_delim(s[i - 1])) {
             out.extend_from_slice(&s[i..]);
             break;
         } else if c == ec {
             let n = s.get(i + 1).copied().unwrap_or(0);
-            if n != 0 && !in_set(n, history_no_expand_chars.get()) && !(dquote && n == b'"') {
+            if n != 0 && !in_set(n, history_no_expand_chars.get()) && !(dquote && n == b'"') && !(inhibit && i > 0 && s[i - 1] == b'\\') {
                 let mut probe = out.clone();
                 probe.push(c);
                 probe.push(n);
                 if !call_inhibit(&probe, out.len()) {
                     let qc = if dquote {
                         b'"'
-                    } else if squote_state {
+                    } else if squote {
                         b'\''
                     } else {
                         0
